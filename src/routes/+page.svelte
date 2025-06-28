@@ -1,2 +1,14 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://svelte.dev/docs/kit">svelte.dev/docs/kit</a> to read the documentation</p>
+<script lang="ts">
+    import TemperatureMain from '$lib/TemperatureMain.svelte';
+
+	import type { PageProps } from './$types';
+
+	let { data }: PageProps = $props();
+</script>
+
+<h1>{data.location.name}</h1>
+<p>{data.location.country}</p>
+
+<TemperatureMain temperature={data.temperature} feelsLike={data.feelsLike} />
+
+<h3>L: {data.dailyRange.min}°C - {data.condition.text} - {data.dailyRange.max}°C</h3>
