@@ -1,4 +1,3 @@
-import type { MainWeather } from "$lib/types/weather";
 
 export const WEATHER_API_URL = "https://api.weatherapi.com/v1/forecast.json";
 export const WEATHER_API_KEY = import.meta.env.VITE_WEATHER_API_KEY;
@@ -16,7 +15,7 @@ export function getFetchUrl(apiKey: string, location: string, days: number): str
 
 
 type Fetch = typeof fetch
-export async function fetchFromWeatherApi(fetch: Fetch, location: string): Promise<MainWeather> {    
+export async function fetchFromWeatherApi(fetch: Fetch, location: string) {    
     const fetchUrl = getFetchUrl(WEATHER_API_KEY, location, WEATHER_API_DAYS);
     const response = await fetch(fetchUrl);
 
@@ -31,15 +30,15 @@ export async function fetchFromWeatherApi(fetch: Fetch, location: string): Promi
             name: data.location.name,
             country: data.location.country
         },
-        temperature: data.current.temp_c,
-        feelsLike: data.current.feelslike_c,
+        temperature_c: data.current.temp_c,
+        feelsLike_c: data.current.feelslike_c,
         condition: {
             text: data.current.condition.text,
             code: data.current.condition.code
         },
         dailyRange: {
-            min: data.forecast.forecastday[0].day.mintemp_c,
-            max: data.forecast.forecastday[0].day.maxtemp_c
+            min_c: data.forecast.forecastday[0].day.mintemp_c,
+            max_c: data.forecast.forecastday[0].day.maxtemp_c
         },
         lastUpdated: data.current.last_updated
     };

@@ -1,6 +1,5 @@
-import { test, expect, describe, vi } from 'vitest';
+import { describe, expect, test, vi } from 'vitest';
 import { fetchFromWeatherApi, getFetchUrl, WEATHER_API_URL } from './weatherapi';
-import type { MainWeather } from '$lib/types/weather';
 
 describe('Weather service', () => {
     describe('getFetchUrl()', () => {
@@ -37,20 +36,20 @@ describe('Weather service', () => {
                 }]
             }
         };
-        const resultMock: MainWeather = {
+        const resultMock = {
             location: {
                 name: 'London',
                 country: 'United Kingdom'
             },
-            temperature: 15,
-            feelsLike: 13,
+            temperature_c: 15,
+            feelsLike_c: 13,
             condition: {
                 text: 'Partly cloudy',
                 code: 1003
             },
             dailyRange: {
-                min: 10,
-                max: 20
+                min_c: 10,
+                max_c: 20
             },
             lastUpdated: '2023-10-01 12:00'
         };

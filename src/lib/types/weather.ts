@@ -7,8 +7,8 @@ interface Condition {
     code: number;
 }
 interface DailyRange {
-    min: number;
-    max: number;
+    min: string;
+    max: string;
 }
 
 interface MainWeather{
