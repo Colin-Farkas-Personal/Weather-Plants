@@ -17,6 +17,7 @@ interface MainWeather{
     feelsLike: number;
     condition: Condition;
     dailyRange: DailyRange;
+    lastUpdated?: string;
 }
 
 export type { MainWeather, Location, Condition, DailyRange };

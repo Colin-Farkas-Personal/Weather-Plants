@@ -6,6 +6,7 @@
 	let { data }: PageProps = $props();
 </script>
 
+<span>{data.lastUpdated}</span>
 <h1>{data.location.name}</h1>
 <p>{data.location.country}</p>
 
