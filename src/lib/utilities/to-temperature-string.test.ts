@@ -26,4 +26,29 @@ describe("toTemperatureString()", () => {
         console.warn("Result:", result);
         expect(result).toEqual(expected);
     });
+
+    test("given fahrenheit, returns an object with temperature values as strings with °F", () => {
+        const data = {
+            temperature_f: 20,
+            feelsLike_f: 18,
+            dailyRange: {
+                min_f: 15,
+                max_f: 25
+            }
+        };
+
+        const expected = {
+            temperature: "20°F",
+            feelsLike: "18°F",
+            dailyRange: {
+                min: "15°F",
+                max: "25°F"
+            }
+        };
+
+        const result = toTemperatureString(data, 'fahrenheit');
+        console.warn("Expected:", expected);
+        console.warn("Result:", result);
+        expect(result).toEqual(expected);
+    });
 });
