@@ -29,20 +29,20 @@ describe("toTemperatureString()", () => {
 
     test("given fahrenheit, returns an object with temperature values as strings with °F", () => {
         const data = {
-            temperature_f: 20,
-            feelsLike_f: 18,
+            temperature_f: 68,
+            feelsLike_f: 64,
             dailyRange: {
-                min_f: 15,
-                max_f: 25
+            min_f: 59,
+            max_f: 77
             }
         };
 
         const expected = {
-            temperature: "20°F",
-            feelsLike: "18°F",
+            temperature: "68°F",
+            feelsLike: "64°F",
             dailyRange: {
-                min: "15°F",
-                max: "25°F"
+            min: "59°F",
+            max: "77°F"
             }
         };
 
