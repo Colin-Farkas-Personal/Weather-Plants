@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Condition, DailyRange } from '$lib/types/weather';
-	import CloudLigtningBold from '$lib/components/Icons/CloudLigtningBold.svelte';
+	import CloudLigtningBold from '$lib/components/Icons/Bold/CloudLigtningBold.svelte';
 	import WeatherConditionIcon from '../Icons/WeatherConditionIcon.svelte';
 
 	interface Props {

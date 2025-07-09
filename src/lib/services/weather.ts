@@ -7,8 +7,5 @@ export async function getWeatherOverview(
   fetch: Fetch,
   location: string = WEATHER_API_LOCATION_CITY
 ) {
-  const a = 2;
-  const b = 'wfdsf';
-
   return fetchFromWeatherApi(fetch, location);
 }
