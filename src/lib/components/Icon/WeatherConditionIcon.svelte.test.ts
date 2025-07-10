@@ -3,7 +3,7 @@ import { afterEach, describe, expect, test } from 'vitest';
 import { cleanup, render } from '@testing-library/svelte';
 import WeatherConditionIcon, {
   weatherConditionIcons,
-} from '$lib/components/Icons/WeatherConditionIcon.svelte';
+} from '$lib/components/Icon/WeatherConditionIcon.svelte';
 import { transformToTestId } from './SvgIcon.svelte';
 
 afterEach(() => {
