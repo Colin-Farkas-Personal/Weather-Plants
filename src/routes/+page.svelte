@@ -72,7 +72,7 @@
 </script>
 
 <!-- Mount point for Three.js canvas -->
-<!-- <div id="three-container" style="width: 100vw; height: 100vh;"></div> -->
+<div id="three-container" style="width: 100vw; height: 100vh;"></div>
 
 <!-- UI content -->
 <h1>{data.location.name}</h1>

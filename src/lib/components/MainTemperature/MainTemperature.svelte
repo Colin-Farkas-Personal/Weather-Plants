@@ -1,5 +1,5 @@
 <script lang="ts">
-    let { temperature, feelsLike}: { temperature: number, feelsLike: number} = $props();
+    let { temperature, feelsLike}: { temperature: string, feelsLike: string} = $props();
 </script>
 
 <h2 data-testid="main-temperature-temperature">{temperature}</h2>

@@ -13,8 +13,8 @@ interface DailyRange {
 
 interface MainWeather{
     location: Location;
-    temperature: number;
-    feelsLike: number;
+    temperature: string;
+    feelsLike: string;
     condition: Condition;
     dailyRange: DailyRange;
     lastUpdated?: string;
