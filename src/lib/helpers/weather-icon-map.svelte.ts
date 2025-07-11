@@ -10,6 +10,7 @@ import CloudLigtningBold from '$lib/components/Icon/Bold/CloudLigtningBold.svelt
 import SnowflakeBold from '$lib/components/Icon/Bold/SnowflakeBold.svelte';
 
 const weatherConditionIcons: Record<WeatherCondition, Component> = {
+  Clear: SunBold,
   Sunny: SunBold,
   'Partly cloudy': CloudSunBold,
   Cloudy: CloudBold,
