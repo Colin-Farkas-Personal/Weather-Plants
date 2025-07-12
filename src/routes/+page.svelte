@@ -9,6 +9,7 @@
 	// 3D
 	import * as THREE from 'three';
 	import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+	import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 	onMount(() => {
 		if (typeof window !== 'undefined') {
@@ -28,7 +29,7 @@
 				1,
 				1000
 			);
-			camera.position.set(0, 1, 2);
+			camera.position.set(1.2, 1, 1.2);
 			camera.lookAt(0, 0, 0);
 
 			const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
@@ -43,8 +44,8 @@
 			scene.add(hemishphere);
 
 			// Area light
-			const light = new THREE.DirectionalLight(0xffffff, 2);
-			light.position.set(0.5, 0.6, 0.5);
+			const light = new THREE.DirectionalLight(0xffffff, 3.5);
+			light.position.set(1.6, 0.8, 0);
 			light.castShadow = true;
 			scene.add(light);
 
@@ -88,10 +89,20 @@
 			}
 			window.addEventListener('resize', onResize);
 
+			// Orbital controls
+			const controls = new OrbitControls( camera, renderer.domElement );
+			controls.enableDamping = true;
+			// Disable vertical rotation
+			controls.maxPolarAngle = 0;
+			controls.minPolarAngle = 1;
+			controls.enableZoom = false;
+			
+			
 			// --- Start render loop ---
 			function animate() {
 				requestAnimationFrame(animate);
 				renderer.render(scene, camera);
+				controls.update();
 			}
 			onResize()
 			animate();
