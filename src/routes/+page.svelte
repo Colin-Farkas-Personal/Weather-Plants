@@ -2,7 +2,6 @@
 	import MainCondition from '$lib/components/MainCondition/MainCondition.svelte';
 	import MainTemperature from '$lib/components/MainTemperature/MainTemperature.svelte';
 	import { onMount } from 'svelte';
-	import { OrbitControls } from 'three/examples/jsm/Addons.js';
 
 	// Props
 	let { data } = $props();
@@ -12,7 +11,7 @@
 	import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
 	onMount(() => {
-		if (typeof window !== 'undefined') {			
+		if (typeof window !== 'undefined') {
 			const container = document.getElementById('three-container');
 			if (!container) return;
 
@@ -21,13 +20,16 @@
 			// Create scene, camera, and renderer first
 			const scene = new THREE.Scene();
 			scene.background = new THREE.Color(colorBeige);
+			scene.fog = new THREE.Fog(colorBeige, 3, 4.5);
 
 			const camera = new THREE.PerspectiveCamera(
-				30,
+				45,
 				window.innerWidth / window.innerHeight,
-				0.1,
+				1,
 				1000
 			);
+			camera.position.set(0, 1, 2);
+			camera.lookAt(0, 0, 0);
 
 			const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 			renderer.setSize(window.innerWidth, window.innerHeight);
@@ -35,14 +37,9 @@
 			renderer.shadowMap.enabled = true;
 			renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
-			const controls = new OrbitControls(camera, renderer.domElement);
-			camera.position.set(0, 3.2, 0);
-			controls.target.set(0, 0, 0);
-			controls.update();
-
 			// Heisphere
 			const hemishphere = new THREE.HemisphereLight(0xeeeeee);
-			hemishphere.intensity = 4;
+			hemishphere.intensity = 3.7;
 			scene.add(hemishphere);
 
 			// Area light
@@ -52,7 +49,7 @@
 			scene.add(light);
 
 			// Circle Plane (for shadows)
-			const planeGeometry = new THREE.CircleGeometry(3, 64);
+			const planeGeometry = new THREE.CircleGeometry(5, 64);
 			const planeMaterial = new THREE.MeshStandardMaterial({ color: colorBeige });
 			const plane = new THREE.Mesh(planeGeometry, planeMaterial);
 			plane.rotation.x = -Math.PI / 2;
@@ -81,18 +78,29 @@
 				}
 			);
 
+			// Resize handler
+			function onResize() {
+				const width = container.clientWidth;
+				const height = container.clientHeight;
+				renderer.setSize(width, height);
+				camera.aspect = width / height;
+				camera.updateProjectionMatrix();
+			}
+			window.addEventListener('resize', onResize);
+
 			// --- Start render loop ---
 			function animate() {
 				requestAnimationFrame(animate);
 				renderer.render(scene, camera);
 			}
+			onResize()
 			animate();
 		}
 	});
 </script>
 
 <!-- Mount point for Three.js canvas -->
-<div id="three-container" style="width: 100vw; height: 100vh;"></div>
+<div id="three-container"></div>
 
 <!-- UI content -->
 <h1>{data.location.name}</h1>
