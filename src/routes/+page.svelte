@@ -61,7 +61,7 @@
 			// Blender Model
 			const loader = new GLTFLoader();
 			loader.load(
-				'/models/cactus_day.glb',
+				'/models/sunflower_day-test2.glb',
 				(gltf) => {
 					gltf.scene.position.set(0, 0, 0);
 					scene.add(gltf.scene);
