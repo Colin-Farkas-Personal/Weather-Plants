@@ -1,24 +1,21 @@
 import { describe, expect, test } from "vitest";
 import { render } from '@testing-library/svelte';
-import MainTemperature from './MainTemperature.svelte';
+import MainTemperature from './OverviewTemperature.svelte';
     
     
     describe('<MainTemperature />', () => {
         test('renders "temperature" and "feels like" values', () => {
-            const temperatureMock = '20°C';
-            const feelsLikeMock = '18°C';
-
             const renderView = render(MainTemperature, {
                 props: {
-                    temperature: temperatureMock,
-                    feelsLike: feelsLikeMock,
+                    temperature: 20.3,
+                    feelsLike: 21.7,
                 }
             });
     
             const temperatureElement = renderView.getByTestId('main-temperature-temperature');
             const feelsLikeElement = renderView.getByTestId('main-temperature-feels-like');
     
-            expect(temperatureElement.textContent).toBe(temperatureMock);
-            expect(feelsLikeElement.textContent).toBe(`Feels like ${feelsLikeMock}`); 
+            expect(temperatureElement.textContent).toBe('20.3°C');
+            expect(feelsLikeElement.textContent).toBe(`Feels like 21.7°C`); 
         });
     });

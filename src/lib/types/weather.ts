@@ -13,8 +13,8 @@ interface DailyRangeRaw {
 }
 
 interface DailyRange {
-    min: string;
-    max: string;
+    min: number;
+    max: number;
 }
 
 type WeatherOverviewRaw = {
@@ -28,8 +28,8 @@ type WeatherOverviewRaw = {
 
 type WeatherOverview = {
     location: Location;
-    temperature: string;
-    feelsLike: string;
+    temperature: number;
+    feelsLike: number;
     condition: Condition;
     dailyRange: DailyRange;
     lastUpdated?: string;

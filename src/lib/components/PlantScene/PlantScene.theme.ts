@@ -29,9 +29,14 @@ const temperatureSceneThemes: Record<TemperatureRange, SceneTheme> = {
 };
 
 function getSceneThemeLabel(tempC: number): 'cold' | 'pleasant' | 'hot' {
-  if (tempC <= TEMPERATURE_COLD) return 'cold';
-  if (tempC < TEMPERATURE_HOT) return 'pleasant';
-  return 'hot';
+  console.error("TEMP C", tempC);
+  if (tempC <= TEMPERATURE_COLD) {
+    return 'cold';
+  } else if (tempC < TEMPERATURE_HOT) {
+    return 'pleasant'; 
+  } else {
+    return 'hot';
+  }
 }
 
 export const TEMPERATURE_HOT = 30;

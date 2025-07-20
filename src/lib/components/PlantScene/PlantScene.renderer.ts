@@ -60,7 +60,6 @@ function initScene(
 function loadModel(path: string, scene: THREE.Scene) {
   const loader = new GLTFLoader();
 
-  console.warn('MODEL NAME???', path);
   loader.load(
     path,
     (gltf) => {

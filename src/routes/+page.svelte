@@ -1,6 +1,8 @@
 <script lang="ts">
-	import MainCondition from '$lib/components/MainCondition/MainCondition.svelte';
-	import MainTemperature from '$lib/components/MainTemperature/MainTemperature.svelte';
+	import OverviewCondition from '$lib/components/OverviewCondition/OverviewCondition.svelte';
+	import OverviewMax from '$lib/components/OverviewMax/OverviewMax.svelte';
+	import OverviewMin from '$lib/components/OverviewMin/OverviewMin.svelte';
+	import OverviewTemperature from '$lib/components/OverviewTemperature/OverviewTemperature.svelte';
 	import PlantScene from '$lib/components/PlantScene/PlantScene.svelte';
 
 	// Props
@@ -8,15 +10,13 @@
 </script>
 
 <!-- Mount point for Three.js canvas -->
-<PlantScene temperature={data.temperature}/>
+<PlantScene temperature={data.temperature} />
 
 <!-- UI content -->
 <h1>{data.location.name}</h1>
 <p>{data.location.country}</p>
 
-<MainTemperature temperature={data.temperature} feelsLike={data.feelsLike} />
-<MainCondition
-	condition={data.condition.text}
-	min={data.dailyRange.min}
-	max={data.dailyRange.max}
-/>
+<OverviewTemperature temperature={data.temperature} feelsLike={data.feelsLike} />
+<OverviewMin minTemp={data.dailyRange.min} />
+<OverviewCondition condition={data.condition.text} />
+<OverviewMax maxTemp={data.dailyRange.max} />

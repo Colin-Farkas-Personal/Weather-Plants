@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { onDestroy, onMount } from 'svelte';
 	import * as THREE from 'three';
-	import { animate, initScene, loadModel, onResize } from './PlantScene.helpers';
-	import { getSceneThemeByTemperature } from '$lib/helpers/scene-theme';
+	import { animate, initScene, loadModel, onResize } from './PlantScene.renderer';
+	import { getSceneThemeByTemperature } from '$lib/components/PlantScene/PlantScene.theme';
 
 	// Props
 	let { temperature } = $props();

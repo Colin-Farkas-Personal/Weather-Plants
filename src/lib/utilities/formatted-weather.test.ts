@@ -1,8 +1,22 @@
 import { describe, expect, test } from 'vitest';
-import { toFormattedWeatherData } from './to-formatted-weather-data';
+import { toFormattedWeatherData, toTemperatureUnit } from './formatted-weather';
 
 describe('toFormattedWeatherData()', () => {
-  test('given celcius, returns an object with temperature values as strings with °C', () => {
+  test('Returns an object where "tempC" is removed from object keys', () => {
+    const data = {
+      temperature_tempC: 20.2,
+    };
+
+    const expected = {
+      temperature: 20.2,
+    };
+
+    const result = toFormattedWeatherData(data);
+    expect(Object.keys(result)).toContain('temperature');
+    expect(result).toEqual(expected);
+  });
+  
+  test('Given celcius, returns an object with temperature values unchanged', () => {
     const data = {
       temperature_tempC: 20.2,
       feelsLike_tempC: 18.8,
@@ -13,11 +27,11 @@ describe('toFormattedWeatherData()', () => {
     };
 
     const expected = {
-      temperature: '20.2°C',
-      feelsLike: '18.8°C',
+      temperature: 20.2,
+      feelsLike: 18.8,
       dailyRange: {
-        min: '15.5°C',
-        max: '25.5°C',
+        min: 15.5,
+        max: 25.5,
       },
     };
 
@@ -25,7 +39,7 @@ describe('toFormattedWeatherData()', () => {
     expect(result).toEqual(expected);
   });
 
-  test('given fahrenheit, returns an object with temperature values as strings with °F', () => {
+  test('Given fahrenheit, returns an object with temperature values in fahrenheit', () => {
     const data = {
       temperature_tempC: 68.8,
       feelsLike_tempC: 64.4,
@@ -36,11 +50,11 @@ describe('toFormattedWeatherData()', () => {
     };
 
     const expected = {
-      temperature: '68.8°F',
-      feelsLike: '64.4°F',
+      temperature: 68.8,
+      feelsLike: 64.4,
       dailyRange: {
-        min: '59.9°F',
-        max: '77.7°F',
+        min: 59.9,
+        max: 77.7,
       },
     };
 
@@ -48,7 +62,7 @@ describe('toFormattedWeatherData()', () => {
     expect(result).toEqual(expected);
   });
 
-  test('given roundValues, returns an object with rounded temperature values', () => {
+  test('Given roundValues is true, returns an object with rounded temperature values', () => {
     const dataCelsius = {
       temperature_tempC: 20.2,
       feelsLike_tempC: 18.8,
@@ -67,19 +81,19 @@ describe('toFormattedWeatherData()', () => {
     };
 
     const expectedCelsius = {
-      temperature: '20°C',
-      feelsLike: '19°C',
+      temperature: 20,
+      feelsLike: 19,
       dailyRange: {
-        min: '16°C',
-        max: '26°C',
+      min: 16,
+      max: 26,
       },
     };
     const expectedFahrenheit = {
-      temperature: '69°F',
-      feelsLike: '64°F',
+      temperature: 69,
+      feelsLike: 64,
       dailyRange: {
-        min: '60°F',
-        max: '78°F',
+      min: 60,
+      max: 78,
       },
     };
 
@@ -88,4 +102,16 @@ describe('toFormattedWeatherData()', () => {
     expect(resultCelsius).toEqual(expectedCelsius);
     expect(resultFahrenheit).toEqual(expectedFahrenheit);
   });
+});
+
+describe('toTemperatureUnit()', () => {
+  test('Given celsius, returns temperature string with celsius symbol', () => {
+    const result = toTemperatureUnit(20, 'celsius');
+    expect(result).toBe('20°C');
+  })
+
+  test('Given fahrenheit, returns temperature string with celsius symbol', () => {
+    const result = toTemperatureUnit(20, 'fahrenheit');
+    expect(result).toBe('20°F');
+  })
 });

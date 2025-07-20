@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { getSceneThemeByTemperature, modelPathCactus, modelPathSappling, modelPathSunflower } from './scene-theme';
+import { getSceneThemeByTemperature, modelPathCactus, modelPathSappling, modelPathSunflower } from './PlantScene.theme';
 
 describe('getSceneThemeByTemperature()', () => {
   it('returns cold theme for temperatures <= 10', () => {

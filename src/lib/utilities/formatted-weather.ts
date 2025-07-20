@@ -1,7 +1,6 @@
-import type { TemperatureUnit } from "$lib/types/temperature";
+import type { TemperatureUnit, TemperatureUnitString } from "$lib/types/temperature";
 
 type GenericObject = Record<string, unknown>;
-type TemperatureUnitString = '°C' | '°F' | '°';
 
 const TEMPERATURE_DATA_UNIT_KEY = '_tempC';
 
@@ -22,9 +21,8 @@ function toFormattedWeatherData<T extends GenericObject>(
     if (key.includes(TEMPERATURE_DATA_UNIT_KEY) && typeof value === 'number') {
       const newKeyName = key.replace(TEMPERATURE_DATA_UNIT_KEY, '');
       const valuePart = roundValues ? Math.round(value) : value;
-      const unitString = unit ? getTemperatureUnitString(unit) : '°';
 
-      formattedData[newKeyName] = `${valuePart}${unitString}`;
+      formattedData[newKeyName] = valuePart;
       continue;
     }
 
@@ -34,6 +32,7 @@ function toFormattedWeatherData<T extends GenericObject>(
   return formattedData as T;
 }
 
+
 function getTemperatureUnitString(unit: TemperatureUnit): TemperatureUnitString {
   if (unit === 'fahrenheit') {
     return '°F';
@@ -42,4 +41,10 @@ function getTemperatureUnitString(unit: TemperatureUnit): TemperatureUnitString 
   return '°C';
 }
 
-export { toFormattedWeatherData };
+function toTemperatureUnit(temp: number, unit: TemperatureUnit) {
+    const temperatureUnitString = getTemperatureUnitString(unit);
+
+    return temp + temperatureUnitString;
+}
+
+export { toFormattedWeatherData, toTemperatureUnit };
