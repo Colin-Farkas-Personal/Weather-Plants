@@ -8,7 +8,7 @@
 </script>
 
 <!-- Mount point for Three.js canvas -->
-<PlantScene />
+<PlantScene temperature={data.temperature}/>
 
 <!-- UI content -->
 <h1>{data.location.name}</h1>

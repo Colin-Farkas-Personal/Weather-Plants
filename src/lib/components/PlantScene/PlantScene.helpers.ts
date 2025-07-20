@@ -1,13 +1,14 @@
 import * as THREE from 'three';
 import { GLTFLoader, OrbitControls } from 'three/examples/jsm/Addons.js';
 
-function initScene(sceneContainer: HTMLElement) {
-  const colorBeige = new THREE.Color(0xf2d784);
-
+function initScene(
+  sceneContainer: HTMLElement,
+  settings: { backgroundColor: number; groundColor: number }
+) {
   // Scene
   const scene = new THREE.Scene();
-  scene.background = new THREE.Color(colorBeige);
-  scene.fog = new THREE.Fog(colorBeige, 3, 4.5);
+  scene.background = new THREE.Color(settings.backgroundColor);
+  scene.fog = new THREE.Fog(settings.backgroundColor, 3, 4.5);
 
   // Camera
   const camera = new THREE.PerspectiveCamera(
@@ -39,7 +40,7 @@ function initScene(sceneContainer: HTMLElement) {
   // Plane
   const plane = new THREE.Mesh(
     new THREE.CircleGeometry(5, 64),
-    new THREE.MeshStandardMaterial({ color: colorBeige })
+    new THREE.MeshStandardMaterial({ color: settings.groundColor })
   );
   plane.rotation.x = -Math.PI / 2;
   plane.position.y = -0.28;
@@ -59,6 +60,7 @@ function initScene(sceneContainer: HTMLElement) {
 function loadModel(path: string, scene: THREE.Scene) {
   const loader = new GLTFLoader();
 
+  console.warn('MODEL NAME???', path);
   loader.load(
     path,
     (gltf) => {
@@ -104,4 +106,5 @@ function onResize(
   camera.updateProjectionMatrix();
 }
 
-export { initScene, loadModel, animate, onResize };
+export { animate, initScene, loadModel, onResize };
+
