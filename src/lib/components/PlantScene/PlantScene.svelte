@@ -47,7 +47,19 @@
 <div id="three-container"></div>
 
 <style lang="scss">
-	:global(#three-container > canvas) {
-		touch-action: pan-y !important;
-	};
+	:global {
+		#three-container {
+			width: 100%;
+			height: 100vh; // or 100%
+			overflow: hidden;
+			position: relative;
+
+			canvas {
+				touch-action: pan-y !important;
+				display: block;
+				width: 100%;
+				height: 100%;
+			}
+		}
+	}
 </style>

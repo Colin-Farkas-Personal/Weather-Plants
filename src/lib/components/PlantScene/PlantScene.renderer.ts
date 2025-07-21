@@ -109,14 +109,18 @@ function onResize(
   const width = container.clientWidth;
   const height = container.clientHeight;
 
-  // Adjust camera position based on aspect ratio
+  // #1 Update camera aspect
+  camera.aspect = width / height;
+  camera.updateProjectionMatrix();
+
+  // #2 Adjust camera position if needed
   if (camera.aspect > 1) {
     camera.position.z = cameraOriginPosition.z / camera.aspect;
   } else {
     camera.position.z = cameraOriginPosition.z;
-    camera.position.x = cameraOriginPosition.x / camera.aspect;
   }
 
+  // #3 Update renderer size
   renderer.setSize(width, height);
   camera.aspect = width / height;
   camera.updateProjectionMatrix();
