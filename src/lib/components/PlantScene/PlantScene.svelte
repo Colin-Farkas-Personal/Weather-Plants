@@ -45,3 +45,9 @@
 </script>
 
 <div id="three-container"></div>
+
+<style lang="scss">
+	:global(#three-container > canvas) {
+		touch-action: pan-y !important;
+	};
+</style>

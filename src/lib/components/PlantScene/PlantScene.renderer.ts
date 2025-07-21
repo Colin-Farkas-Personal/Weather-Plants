@@ -1,5 +1,12 @@
 import * as THREE from 'three';
+import { BoxHelper } from 'three';
 import { GLTFLoader, OrbitControls } from 'three/examples/jsm/Addons.js';
+
+const cameraOriginPosition = {
+  x: 1.2,
+  y: 1.6,
+  z: 1.2,
+};
 
 function initScene(
   sceneContainer: HTMLElement,
@@ -17,7 +24,7 @@ function initScene(
     1,
     1000
   );
-  camera.position.set(1.2, 1, 1.2);
+  camera.position.set(cameraOriginPosition.x, cameraOriginPosition.y, cameraOriginPosition.z);
   camera.lookAt(0, 0, 0);
 
   // Renderer
@@ -70,6 +77,7 @@ function loadModel(path: string, scene: THREE.Scene) {
         }
       });
       scene.add(gltf.scene);
+      scene.add(new BoxHelper(gltf.scene, 0xff0000));
     },
     undefined,
     (error) => {
@@ -100,10 +108,18 @@ function onResize(
 ) {
   const width = container.clientWidth;
   const height = container.clientHeight;
+
+  // Adjust camera position based on aspect ratio
+  if (camera.aspect > 1) {
+    camera.position.z = cameraOriginPosition.z / camera.aspect;
+  } else {
+    camera.position.z = cameraOriginPosition.z;
+    camera.position.x = cameraOriginPosition.x / camera.aspect;
+  }
+
   renderer.setSize(width, height);
   camera.aspect = width / height;
   camera.updateProjectionMatrix();
 }
 
 export { animate, initScene, loadModel, onResize };
-
