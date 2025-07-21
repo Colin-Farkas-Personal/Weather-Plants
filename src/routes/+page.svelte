@@ -1,22 +1,30 @@
 <script lang="ts">
-	import OverviewCondition from '$lib/components/OverviewCondition/OverviewCondition.svelte';
-	import OverviewMax from '$lib/components/OverviewMax/OverviewMax.svelte';
-	import OverviewMin from '$lib/components/OverviewMin/OverviewMin.svelte';
-	import OverviewTemperature from '$lib/components/OverviewTemperature/OverviewTemperature.svelte';
-	import PlantScene from '$lib/components/PlantScene/PlantScene.svelte';
+	import DesktopOverview from '$lib/components/pages/Overview/DesktopOverview.svelte';
+	import MobileOverview from '$lib/components/pages/Overview/MobileOverview.svelte';
+
+
+	import type { WeatherOverview } from '$lib/types/weather.js';
 
 	// Props
-	let { data } = $props();
+	interface PageProps {
+		data: WeatherOverview;
+	}
+	let { data }: PageProps = $props();
+
+	// States & logic
+	let isDesktop = $state(false);
+
+	function onresize(event: UIEvent) {
+		const currentTarget = event.currentTarget as Window;
+
+		isDesktop = currentTarget.innerWidth >= 750;
+	}
 </script>
 
-<!-- Mount point for Three.js canvas -->
-<PlantScene temperature={data.temperature} />
+<svelte:window {onresize} />
 
-<!-- UI content -->
-<h1>{data.location.name}</h1>
-<p>{data.location.country}</p>
-
-<OverviewTemperature temperature={data.temperature} feelsLike={data.feelsLike} />
-<OverviewMin minTemp={data.dailyRange.min} />
-<OverviewCondition condition={data.condition.text} />
-<OverviewMax maxTemp={data.dailyRange.max} />
+{#if isDesktop}
+	<DesktopOverview {data} />
+{:else}
+	<MobileOverview {data} />
+{/if}

@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest';
-import { toFormattedWeatherData, toTemperatureUnit } from './formatted-weather';
+import { toFormattedWeatherData, toTemperatureUnit } from './formatted-temperature';
 
 describe('toFormattedWeatherData()', () => {
   test('Returns an object where "tempC" is removed from object keys', () => {

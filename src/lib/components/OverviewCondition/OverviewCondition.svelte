@@ -9,6 +9,4 @@
 	let { condition }: Props = $props();
 </script>
 
-<div>
-  <span><WeatherConditionIcon condition={condition} />{condition}</span>
-</div>
+<span><WeatherConditionIcon condition={condition} />{condition}</span>

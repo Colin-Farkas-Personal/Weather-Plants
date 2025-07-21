@@ -1,7 +1,7 @@
 // src/routes/+page.server.ts
 import type { TemperatureUnit } from "$lib/types/temperature";
 import type { WeatherOverview } from "$lib/types/weather";
-import { toFormattedWeatherData } from "$lib/utilities/formatted-weather";
+import { toFormattedWeatherData } from "$lib/utilities/formatted-temperature";
 import { error } from "@sveltejs/kit";
 import type { PageServerLoad } from "./$types";
 import { fetchFromWeatherApi } from "$lib/adapters/weatherapi";
