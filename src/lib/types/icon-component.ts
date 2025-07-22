@@ -7,6 +7,7 @@ interface IconProps {
 interface SVGIconProps extends IconProps {
     children: Snippet;
     parentName: string;
+    ariaLabel: string;
 }
 
 export type { IconProps, SVGIconProps };

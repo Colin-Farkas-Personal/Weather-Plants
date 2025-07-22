@@ -60,6 +60,9 @@ function initScene(
   controls.enableZoom = false;
   controls.maxPolarAngle = 0;
   controls.minPolarAngle = 1;
+  controls.enablePan = false;
+  controls.keyRotateSpeed = 15;
+  controls.listenToKeyEvents(window);
 
   return { scene, camera, renderer, controls };
 }

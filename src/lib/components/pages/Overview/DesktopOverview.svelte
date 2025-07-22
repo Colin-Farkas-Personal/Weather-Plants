@@ -20,13 +20,10 @@
 	<section>
 		<OverviewLocation locationName={data.location.name} countryName={data.location.country} />
 
-		<hgroup>
-			<OverviewCondition condition={data.condition.text} />
-			<h2>Condition</h2>
-		</hgroup>
+		<OverviewCondition condition={data.condition.text} />
 
+		<hr>
 		<OverviewTemperature temperature={data.temperature} feelsLike={data.feelsLike} />
-
 		<dl>
 			<OverviewRangeDescriptive Icon={ThermometerCold} label="Lowest" temp={data.dailyRange.min} />
 			<OverviewRangeDescriptive Icon={ThermometerHot} label="Highest" temp={data.dailyRange.max} />

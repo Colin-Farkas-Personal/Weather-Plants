@@ -20,7 +20,7 @@
 	import type { SVGIconProps } from '$lib/types/icon-component';
 
 	// Props
-	let { children, parentName, size = '24' }: SVGIconProps = $props()
+	let { children, parentName, size = '24', ariaLabel }: SVGIconProps = $props()
 	const testId = parentName && ("svg-icon-" + transformToTestId(parentName));
 </script>
 
@@ -31,6 +31,8 @@
 	viewBox="0 0 256 256"
 	fill="currentColor"
 	data-testid={testId}
+	aria-hidden={!ariaLabel}
+	aria-label={ariaLabel}
 >
 	{@render children?.()}
 </svg>
