@@ -2,9 +2,9 @@ import * as THREE from 'three';
 import { GLTFLoader, OrbitControls } from 'three/examples/jsm/Addons.js';
 
 const cameraOriginPosition = {
-  x: 1.2,
-  y: 1.6,
-  z: 1.2,
+  x: 1,
+  y: 1,
+  z: 1,
 };
 
 function initScene(
@@ -55,6 +55,8 @@ function initScene(
 
   // Controls
   const controls = new OrbitControls(camera, renderer.domElement);
+  controls.target.set(0, 0.1, 0); // Shift gaze upward
+
   controls.enableDamping = true;
   controls.enableZoom = false;
   controls.maxPolarAngle = 0;
