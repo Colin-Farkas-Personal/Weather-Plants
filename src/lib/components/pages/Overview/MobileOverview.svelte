@@ -16,11 +16,19 @@
 	let { data }: MobileOverviewProps = $props();
 </script>
 
-<main class="overview-main-mobile">
-	<PlantScene temperature={data.temperature} />
-	<OverviewLocation locationName={data.location.name} countryName={data.location.country} />
+<main class="mobile-overview">
+	<section id="mobile-overview-top-column" class="top-column">
+		<OverviewLocation
+			locationName={data.location.name}
+			countryName={data.location.country}
+			variant="mobile"
+		/>
+		<div class="size-container">
+			<PlantScene temperature={data.temperature} variant="mobile"/>
+		</div>
+	</section>
 
-	<section>
+	<section class="bottom-column">
 		<OverviewTemperature temperature={data.temperature} feelsLike={data.feelsLike} />
 
 		<OverviewRangeMinimal Icon={ThermometerCold} temp={data.dailyRange.min} />
@@ -28,3 +36,28 @@
 		<OverviewRangeMinimal Icon={ThermometerHot} temp={data.dailyRange.max} />
 	</section>
 </main>
+
+<style lang="scss">
+	.mobile-overview {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		height: 100vh;
+
+		.top-column {
+			display: flex;
+			flex-direction: column;
+			flex: 2;
+
+			.size-container {
+				position: relative;
+				min-height: auto;
+				flex: 1;
+			}
+		}
+
+		.bottom-column {
+			flex: 1;
+		}
+	}
+</style>

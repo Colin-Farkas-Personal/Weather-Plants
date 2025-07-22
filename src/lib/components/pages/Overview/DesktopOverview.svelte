@@ -17,12 +17,11 @@
 </script>
 
 <main class="overview-main-desktop">
-	<section>
-		<OverviewLocation locationName={data.location.name} countryName={data.location.country} />
+	<section class="left-column">
+		<OverviewLocation locationName={data.location.name} countryName={data.location.country} variant="desktop" />
 
 		<OverviewCondition condition={data.condition.text} />
-
-		<hr>
+		<hr />
 		<OverviewTemperature temperature={data.temperature} feelsLike={data.feelsLike} />
 		<dl>
 			<OverviewRangeDescriptive Icon={ThermometerCold} label="Lowest" temp={data.dailyRange.min} />
@@ -30,5 +29,23 @@
 		</dl>
 	</section>
 
-	<PlantScene temperature={data.temperature} />
+	<aside class="right-column">
+		<PlantScene temperature={data.temperature} variant="desktop" />
+	</aside>
 </main>
+
+<style lang="scss">
+	.overview-main-desktop {
+		display: flex;
+		height: 100%;
+		background-color: orange;
+
+		.left-column {
+			flex: 1;
+		}
+
+		.right-column {
+			flex: 2;
+		}
+	}
+</style>

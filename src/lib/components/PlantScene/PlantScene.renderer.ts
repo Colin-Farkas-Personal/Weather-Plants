@@ -1,5 +1,4 @@
 import * as THREE from 'three';
-import { BoxHelper } from 'three';
 import { GLTFLoader, OrbitControls } from 'three/examples/jsm/Addons.js';
 
 const cameraOriginPosition = {
@@ -64,6 +63,8 @@ function initScene(
   controls.keyRotateSpeed = 15;
   controls.listenToKeyEvents(window);
 
+  onResize(sceneContainer, renderer, camera);
+
   return { scene, camera, renderer, controls };
 }
 
@@ -80,7 +81,6 @@ function loadModel(path: string, scene: THREE.Scene) {
         }
       });
       scene.add(gltf.scene);
-      scene.add(new BoxHelper(gltf.scene, 0xff0000));
     },
     undefined,
     (error) => {
@@ -125,7 +125,6 @@ function onResize(
 
   // #3 Update renderer size
   renderer.setSize(width, height);
-  camera.aspect = width / height;
   camera.updateProjectionMatrix();
 }
 

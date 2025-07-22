@@ -20,7 +20,7 @@
 	})
 
 	function checkScreenSize(size: number) {
-		return size >= 750;
+		return size >= 850;
 	}
 
 	function onresize(event: UIEvent) {
@@ -32,8 +32,16 @@
 
 <svelte:window {onresize} />
 
-{#if isDesktop}
-	<DesktopOverview {data} />
-{:else}
-	<MobileOverview {data} />
-{/if}
+<article class="overview">
+	{#if isDesktop}
+		<DesktopOverview {data} />
+		{:else}
+		<MobileOverview {data} />
+	{/if}
+</article>
+
+<style lang="scss">
+	.overview {
+		height: 100vh;
+	}
+</style>

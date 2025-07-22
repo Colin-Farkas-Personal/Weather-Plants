@@ -6,7 +6,11 @@
 	import { animate, initScene, loadModel, onResize } from './PlantScene.renderer';
 
 	// Props
-	let { temperature } = $props();
+	interface PlantSceneProps {
+		temperature: number;
+		variant: 'mobile' | 'desktop';
+	}
+	let { temperature, variant }: PlantSceneProps = $props();
 
 	// 3D
 	let _container: HTMLElement;
@@ -48,21 +52,32 @@
 <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
 <figure
 	id="plant-scene"
+	class={`plant-scene-${variant}`}
 	tabindex="0"
 	aria-label="3D plant representing current weather in Athens"
 ></figure>
 
 <style lang="scss">
 	:global {
-		#plant-scene {
+		.plant-scene-mobile {
+			position: absolute;
+			inset: 0;
 			width: 100%;
-			height: 100vh; // or 100%
-			overflow: hidden;
-			position: relative;
+			height: 100%;
 
 			canvas {
 				touch-action: pan-y !important;
-				display: block;
+				width: 100%;
+				height: 100%;
+			}
+		}
+
+		.plant-scene-desktop {
+			width: 100%;
+			height: 100%;
+
+			canvas {
+				touch-action: pan-y !important;
 				width: 100%;
 				height: 100%;
 			}

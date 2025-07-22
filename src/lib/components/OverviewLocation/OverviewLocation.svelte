@@ -1,13 +1,21 @@
 <script lang="ts">
-	import type { Component } from 'svelte';
-
 	interface OverviewRangeDescriptiveProps {
-        locationName: string;
-        countryName: string;
+		locationName: string;
+		countryName: string;
+		variant: 'mobile' | 'desktop';
 	}
 
-	let { locationName, countryName } = $props();
+	let { locationName, countryName, variant }: OverviewRangeDescriptiveProps = $props();
 </script>
 
-<h1>{locationName}</h1>
-<p>{countryName}</p>
+<hgroup class={`overview-location ${variant}`}>
+	<h1>{locationName}</h1>
+	<p>{countryName}</p>
+</hgroup>
+
+<style lang="scss">
+	.overview-location {
+		background-color: #F2D784;
+		text-align: center;
+	}
+</style>
