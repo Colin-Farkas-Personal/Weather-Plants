@@ -16,7 +16,7 @@
 </script>
 
 <main class="mobile-overview">
-	<section id="mobile-overview-top-column" class="top-column">
+	<section class="top-row">
 		<OverviewLocation
 			locationName={data.location.name}
 			countryName={data.location.country}
@@ -27,12 +27,14 @@
 		</div>
 	</section>
 
-	<section class="bottom-column">
+	<section class="bottom-row">
 		<OverviewTemperature temperature={data.temperature} feelsLike={data.feelsLike} />
 
-		<OverviewRangeMinimal Icon={ThermometerCold} temp={data.dailyRange.min} />
-		<OverviewCondition condition={data.condition.text} />
-		<OverviewRangeMinimal Icon={ThermometerHot} temp={data.dailyRange.max} />
+		<div class="overview-details">
+			<OverviewRangeMinimal Icon={ThermometerCold} temp={data.dailyRange.min} />
+			<OverviewCondition condition={data.condition.text} />
+			<OverviewRangeMinimal Icon={ThermometerHot} temp={data.dailyRange.max} />
+		</div>
 	</section>
 </main>
 
@@ -43,7 +45,9 @@
 		flex-direction: column;
 		height: 100vh;
 
-		.top-column {
+		background-color: orange;
+
+		.top-row {
 			display: flex;
 			flex-direction: column;
 			flex: 2;
@@ -54,8 +58,19 @@
 			}
 		}
 
-		.bottom-column {
+		.bottom-row {
 			flex: 1;
+
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			margin: 0 auto;
+			gap: 1.875rem;
+		}
+
+		.overview-details {
+			display: flex;
+			gap: 1.5rem;		
 		}
 	}
 </style>

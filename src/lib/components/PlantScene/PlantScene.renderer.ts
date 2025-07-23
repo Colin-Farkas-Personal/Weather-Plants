@@ -2,9 +2,9 @@ import * as THREE from 'three';
 import { GLTFLoader, OrbitControls } from 'three/examples/jsm/Addons.js';
 
 const cameraOriginPosition = {
-  x: 1.1,
-  y: 1.1,
-  z: 1.1,
+  x: 1,
+  y: 1,
+  z: 1,
 };
 
 function initScene(
@@ -66,7 +66,7 @@ function initScene(
   controls.maxPolarAngle = Math.PI / 2.4;
 
   // Adjust vertical framing
-  controls.target.set(0, 0.2, 0);
+  controls.target.set(0, 0.15, 0);
   controls.update(); // Recalculate orbit based on new target
   // Rotate camera toward the new target
   camera.lookAt(controls.target);

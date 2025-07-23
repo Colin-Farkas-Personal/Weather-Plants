@@ -7,7 +7,13 @@
 	let unitC: TemperatureUnit = 'celsius';
 </script>
 
-<hgroup>
-	<h2 data-testid="main-temperature-temperature">{toTemperatureUnit(temperature, unitC)}</h2>
-	<p data-testid="main-temperature-feels-like">Feels like {toTemperatureUnit(feelsLike, unitC)}</p>
+<hgroup class="overview-temperature">
+	<p data-testid="main-temperature-temperature">{toTemperatureUnit(temperature, unitC)}</p>
+	<h2 data-testid="main-temperature-feels-like">Feels like {toTemperatureUnit(feelsLike, unitC)}</h2>
 </hgroup>
+
+<style lang="scss">
+	.overview-temperature {
+		text-align: center;
+	}
+</style>

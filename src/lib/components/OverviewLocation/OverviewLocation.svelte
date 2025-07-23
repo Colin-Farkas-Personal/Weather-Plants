@@ -19,6 +19,7 @@
 	}
 	
 	.mobile {
+		padding-top: 3rem;
 		background-color: #F2D784;
 	}
 
