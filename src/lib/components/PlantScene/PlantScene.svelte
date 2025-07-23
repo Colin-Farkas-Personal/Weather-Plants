@@ -29,6 +29,7 @@
 				groundColor
 			});
 			loadModel(modelPath, scene);
+			onResize(container as HTMLElement, renderer, camera);
 			const animationFrameId = animate(scene, camera, renderer, controls);
 
 			_renderer = renderer;
