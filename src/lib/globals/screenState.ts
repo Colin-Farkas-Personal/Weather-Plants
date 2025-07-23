@@ -1,7 +1,9 @@
 import { readable } from 'svelte/store';
 
 function getIsDesktop() {
-  return window.innerWidth >= 850;
+  const breakpointMobile = getComputedStyle(document.documentElement).getPropertyValue('--breakpoint-mobile');
+
+  return window.innerWidth >= parseInt(breakpointMobile);
 }
 
 export const screenSize = readable({ isDesktop: false }, (set) => {

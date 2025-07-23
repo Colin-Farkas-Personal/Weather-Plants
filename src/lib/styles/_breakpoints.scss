@@ -1,12 +1,33 @@
-// Define SCSS variables
-$breakpoint-mobile: 640px;
-$breakpoint-tablet: 768px;
-$breakpoint-laptop: 1024px;
-$breakpoint-desktop: 1440px;
+@use 'sass:map';
 
-// Mixin for min-width media queries
-@mixin respond-to($breakpoint) {
-  @media screen and (min-width: $breakpoint) {
-    @content;
+:root {
+  --breakpoint-mobile: 640px;
+  --breakpoint-tablet: 768px;
+  --breakpoint-laptop: 1024px;
+  --breakpoint-desktop: 1440px;
+}
+
+$breakpoints: (
+  'mobile': var(--breakpoint-mobile),
+  'tablet': var(--breakpoint-tablet),
+  'laptop': var(--breakpoint-laptop),
+  'desktop': var(--breakpoint-desktop),
+) !default;
+
+/// Mixin to manage responsive breakpoints
+/// @link https://css-tricks.com/snippets/sass/mixin-manage-breakpoints/
+@mixin media-query($breakpoint) {
+  // If the key exists in the map
+  @if map.has-key($breakpoints, $breakpoint) {
+    // Prints a media query based on the value
+    @media (min-width: map.get($breakpoints, $breakpoint)) {
+      @content;
+    }
+  }
+
+  // If the key doesn't exist in the map
+  @else {
+    @warn "Unfortunately, no value could be retrieved from `#{$breakpoint}`. "
+        + "Available breakpoints are: #{map.keys($breakpoints)}.";
   }
 }
