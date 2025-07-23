@@ -2,9 +2,9 @@ import * as THREE from 'three';
 import { GLTFLoader, OrbitControls } from 'three/examples/jsm/Addons.js';
 
 const cameraOriginPosition = {
-  x: 1,
-  y: 1,
-  z: 1,
+  x: 1.1,
+  y: 1.1,
+  z: 1.1,
 };
 
 function initScene(
@@ -24,7 +24,6 @@ function initScene(
     1000
   );
   camera.position.set(cameraOriginPosition.x, cameraOriginPosition.y, cameraOriginPosition.z);
-  camera.lookAt(0, 0, 0);
 
   // Renderer
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
@@ -55,15 +54,22 @@ function initScene(
 
   // Controls
   const controls = new OrbitControls(camera, renderer.domElement);
-  controls.target.set(0, 0.1, 0); // Shift gaze upward
-
   controls.enableDamping = true;
   controls.enableZoom = false;
-  controls.maxPolarAngle = 0;
-  controls.minPolarAngle = 1;
+
   controls.enablePan = false;
   controls.keyRotateSpeed = 15;
   controls.listenToKeyEvents(window);
+
+  // Fix polar angle restrictions
+  controls.minPolarAngle = Math.PI / 2.4;
+  controls.maxPolarAngle = Math.PI / 2.4;
+
+  // Adjust vertical framing
+  controls.target.set(0, 0.2, 0);
+  controls.update(); // Recalculate orbit based on new target
+  // Rotate camera toward the new target
+  camera.lookAt(controls.target);
 
   onResize(sceneContainer, renderer, camera);
 

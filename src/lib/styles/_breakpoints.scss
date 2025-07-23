@@ -1,7 +1,12 @@
-:root {
-  --BREAKPOINT-MOBILE: 640px; // up to 639px
-  --BREAKPOINT-TABLET: 768px; // up to 1023px
-  --BREAKPOINT-LAPTOP: 1024px; // up to 1439px
-  --BREAKPOINT-DESKTOP: 1440px; // up to 1919px
-  --BREAKPOINT-LARGE_DESKTOP: 1920px; // 2K screens and up
+// Define SCSS variables
+$breakpoint-mobile: 640px;
+$breakpoint-tablet: 768px;
+$breakpoint-laptop: 1024px;
+$breakpoint-desktop: 1440px;
+
+// Mixin for min-width media queries
+@mixin respond-to($breakpoint) {
+  @media screen and (min-width: $breakpoint) {
+    @content;
+  }
 }

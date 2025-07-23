@@ -3,7 +3,6 @@
 	import ThermometerHot from '$lib/components/Icon/Bold/ThermometerHot.svelte';
 	import OverviewCondition from '$lib/components/OverviewCondition/OverviewCondition.svelte';
 	import OverviewLocation from '$lib/components/OverviewLocation/OverviewLocation.svelte';
-	import OverviewRange from '$lib/components/OverviewRange/OverviewRange.svelte';
 	import OverviewRangeMinimal from '$lib/components/OverviewRange/OverviewRangeMinimal.svelte';
 	import OverviewTemperature from '$lib/components/OverviewTemperature/OverviewTemperature.svelte';
 	import PlantScene from '$lib/components/PlantScene/PlantScene.svelte';
@@ -51,7 +50,6 @@
 
 			.size-container {
 				position: relative;
-				min-height: auto;
 				flex: 1;
 			}
 		}

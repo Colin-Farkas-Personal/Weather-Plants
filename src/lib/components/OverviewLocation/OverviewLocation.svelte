@@ -15,7 +15,14 @@
 
 <style lang="scss">
 	.overview-location {
-		background-color: #F2D784;
 		text-align: center;
+	}
+	
+	.mobile {
+		background-color: #F2D784;
+	}
+
+	.desktop {
+		// Somthing
 	}
 </style>

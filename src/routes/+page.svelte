@@ -4,36 +4,26 @@
 
 
 	import type { WeatherOverview } from '$lib/types/weather.js';
-	import { onMount } from 'svelte';
+	import { screenSize } from '$lib/globals/screenState';
+	import { onDestroy } from 'svelte';
 
 	// Props
 	interface PageProps {
 		data: WeatherOverview;
 	}
 	let { data }: PageProps = $props();
+	
+	// Logic
+	let _isDesktop = $state(false);
 
-	// States & logic
-	let isDesktop = $state(false);
+	let unsubscribe = screenSize.subscribe((value) => _isDesktop = value.isDesktop);
 
-	onMount(() => {
-		isDesktop = checkScreenSize(window.innerWidth);
-	})
-
-	function checkScreenSize(size: number) {
-		return size >= 850;
-	}
-
-	function onresize(event: UIEvent) {
-		const currentTarget = event.currentTarget as Window;
-
-		isDesktop = checkScreenSize(currentTarget.innerWidth)
-	}
+	onDestroy(unsubscribe)
 </script>
 
-<svelte:window {onresize} />
 
 <article class="overview">
-	{#if isDesktop}
+	{#if _isDesktop}
 		<DesktopOverview {data} />
 		{:else}
 		<MobileOverview {data} />
@@ -41,7 +31,4 @@
 </article>
 
 <style lang="scss">
-	.overview {
-		height: 100vh;
-	}
 </style>
