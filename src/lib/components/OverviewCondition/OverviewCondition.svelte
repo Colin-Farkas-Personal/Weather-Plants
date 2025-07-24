@@ -26,7 +26,7 @@
 		gap: 0.5rem;
 		align-items: center;
 		justify-content: center;
-		padding: 6px 20px;
+		padding: .125rem 1.25rem;
 		max-width: 100%;
 
 		border-radius: 3rem;
@@ -39,13 +39,9 @@
 		}
 
 		.label {
-			flex: 1;
-
 			text-wrap: balance;
 			text-align: left;
-			font-size: 0.875rem;
 			font-weight: bold;
-			line-height: 1.4;
 		}
 	}
 

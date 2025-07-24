@@ -26,21 +26,21 @@
 	<section class="details">
 		<OverviewCondition condition={data.condition.text} />
 
-		<OverviewTemperature temperature={data.temperature} feelsLike={data.feelsLike} />
-
-		<OverviewRange>
-			<OverviewRangeMinimal
-				Icon={ThermometerCold}
-				temp={data.dailyRange.min}
-				ariaLabel="Lowest temperature today"
-			/>
-			<Divider type="bull" />
-			<OverviewRangeMinimal
-				Icon={ThermometerHot}
-				temp={data.dailyRange.max}
-				ariaLabel="Highest temperature today"
-			/>
-		</OverviewRange>
+			<OverviewTemperature temperature={data.temperature} feelsLike={data.feelsLike} />
+	
+			<OverviewRange>
+				<OverviewRangeMinimal
+					Icon={ThermometerCold}
+					temp={data.dailyRange.min}
+					ariaLabel="Lowest temperature today"
+				/>
+				<Divider type="bull" />
+				<OverviewRangeMinimal
+					Icon={ThermometerHot}
+					temp={data.dailyRange.max}
+					ariaLabel="Highest temperature today"
+				/>
+			</OverviewRange>
 	</section>
 </main>
 
@@ -65,12 +65,35 @@
 			flex-direction: column;
 			align-items: center;
 			justify-content: center;
-			gap: 1rem;
+			gap: 1.75rem;
 		}
 
-		:global(.overview-location) {
-			padding-top: 2rem;
-			background-color: #f2d784;
+		:global {
+			.overview-location {
+				padding-top: 2rem;
+				background-color: #f2d784;
+			}
+
+			.overview-condition {
+				.icon svg {
+					width: 1.5rem;
+					height: 1.5rem;
+				}
+
+				.label {
+					font-size: 1.25rem;
+				}
+			}
+
+			.overview-temperature {
+				.value {
+					font-size: 2.5rem;
+					line-height: 1.2;
+				}
+				.label {
+					font-size: 1.25rem;
+				}
+			}
 		}
 	}
 </style>

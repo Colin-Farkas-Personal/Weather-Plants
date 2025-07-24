@@ -17,13 +17,11 @@
 		text-align: center;
 		
 		.value {
-			font-size: 2.5rem;
 			font-weight: bold;
 			color: white;
 		}
 
 		.label {
-			font-size: 20px;
 			font-weight: 500;
 			color: #FFCD9B;
 		}

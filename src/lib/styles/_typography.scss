@@ -42,20 +42,3 @@ h3 {
 p {
   font-size: 1.25rem;
 }
-
-@media screen and (width > breakpoints.$tablet) {
-  h1 {
-    font-size: 3rem;
-  }
-
-  h2 {
-    font-size: 2rem;
-  }
-  h3 {
-    font-size: 1.5rem;
-  }
-
-  p {
-    font-size: 2rem;
-  }
-}
