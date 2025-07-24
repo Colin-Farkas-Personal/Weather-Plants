@@ -1,8 +1,10 @@
 <script lang="ts">
+	import Divider from '$lib/components/Divider/Divider.svelte';
 	import ThermometerCold from '$lib/components/Icon/Bold/ThermometerCold.svelte';
 	import ThermometerHot from '$lib/components/Icon/Bold/ThermometerHot.svelte';
 	import OverviewCondition from '$lib/components/OverviewCondition/OverviewCondition.svelte';
 	import OverviewLocation from '$lib/components/OverviewLocation/OverviewLocation.svelte';
+	import OverviewRange from '$lib/components/OverviewRange/OverviewRange.svelte';
 	import OverviewRangeMinimal from '$lib/components/OverviewRange/OverviewRangeMinimal.svelte';
 	import OverviewTemperature from '$lib/components/OverviewTemperature/OverviewTemperature.svelte';
 	import PlantScene from '$lib/components/PlantScene/PlantScene.svelte';
@@ -16,61 +18,59 @@
 </script>
 
 <main class="mobile-overview">
-	<section class="top-row">
-		<OverviewLocation
-			locationName={data.location.name}
-			countryName={data.location.country}
-			variant="mobile"
-		/>
-		<div class="size-container">
-			<PlantScene temperature={data.temperature} variant="mobile"/>
-		</div>
+	<section class="display">
+		<OverviewLocation locationName={data.location.name} countryName={data.location.country} />
+		<PlantScene temperature={data.temperature} variant="mobile" />
 	</section>
 
-	<section class="bottom-row">
+	<section class="details">
+		<OverviewCondition condition={data.condition.text} />
+
 		<OverviewTemperature temperature={data.temperature} feelsLike={data.feelsLike} />
 
-		<div class="overview-details">
-			<OverviewRangeMinimal Icon={ThermometerCold} temp={data.dailyRange.min} />
-			<OverviewCondition condition={data.condition.text} />
-			<OverviewRangeMinimal Icon={ThermometerHot} temp={data.dailyRange.max} />
-		</div>
+		<OverviewRange>
+			<OverviewRangeMinimal
+				Icon={ThermometerCold}
+				temp={data.dailyRange.min}
+				ariaHidden="Lowest temperature today"
+			/>
+			<Divider type="bull" />
+			<OverviewRangeMinimal
+				Icon={ThermometerHot}
+				temp={data.dailyRange.max}
+				ariaHidden="Highest temperature today"
+			/>
+		</OverviewRange>
 	</section>
 </main>
 
 <style lang="scss">
 	.mobile-overview {
-		position: relative;
 		display: flex;
 		flex-direction: column;
 		height: 100vh;
 
-		background-color: orange;
+		background-color: #e28439;
 
-		.top-row {
+		.display {
 			display: flex;
 			flex-direction: column;
 			flex: 2;
-
-			.size-container {
-				position: relative;
-				flex: 1;
-			}
 		}
 
-		.bottom-row {
+		.details {
 			flex: 1;
 
 			display: flex;
 			flex-direction: column;
 			justify-content: center;
 			margin: 0 auto;
-			gap: 1.875rem;
+			gap: 1rem;
 		}
 
-		.overview-details {
-			display: flex;
-			gap: 1.5rem;		
+		:global(.overview-location) {
+			padding-top: 3rem;
+			background-color: #f2d784;
 		}
 	}
 </style>

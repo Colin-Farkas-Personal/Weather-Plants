@@ -5,12 +5,32 @@
 	interface OverviewRangeMinimalProps {
 		Icon: Component;
 		temp: number;
+		ariaHidden: string;
 	}
 
-	let { Icon, temp }: OverviewRangeMinimalProps = $props();
+	let { Icon, temp, ariaHidden }: OverviewRangeMinimalProps = $props();
 </script>
 
 <div class="overview-range-minimal">
-    <dt><Icon /></dt>
-    <dd>{toTemperatureUnit(temp, 'celsius')}</dd>
+    <dt class="term"><Icon /></dt>
+	<span class="visually-hidden">{ariaHidden}</span>
+    <dd class="description">{toTemperatureUnit(temp, 'celsius')}</dd>
 </div>
+
+<style lang="scss">
+	.overview-range-minimal {
+		display: flex;
+		gap: .25rem;
+		align-items: center;
+
+		.term {
+			color: #FFCD9B;
+		}
+
+		.description {
+			font-size: 1.25rem;
+			font-weight: bold;
+			color: #FFCD9B;
+		}
+	}
+</style>

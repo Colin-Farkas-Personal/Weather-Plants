@@ -1,7 +1,7 @@
 import { readable } from 'svelte/store';
 
 function getIsDesktop() {
-  const breakpointMobile = getComputedStyle(document.documentElement).getPropertyValue('--breakpoint-mobile');
+  const breakpointMobile = getComputedStyle(document.documentElement).getPropertyValue('--breakpoint-laptop');
 
   return window.innerWidth >= parseInt(breakpointMobile);
 }

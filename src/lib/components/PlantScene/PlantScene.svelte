@@ -51,37 +51,31 @@
 <svelte:window on:resize={() => onResize(_container, _renderer, _camera)} />
 
 <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
-<figure
-	id="plant-scene"
-	class={`plant-scene-${variant}`}
-	tabindex="0"
-	aria-label="3D plant representing current weather in Athens"
-></figure>
+<div class="size-container">
+	<figure
+		id="plant-scene"
+		class={`plant-scene`}
+		tabindex="0"
+		aria-label="3D plant representing current weather in Athens"
+	></figure>
+</div>
 
 <style lang="scss">
-	:global {
-		.plant-scene-mobile {
-			position: absolute;
-			inset: 0;
+	.size-container {
+		position: relative;
+		flex: 1;
+	}
+
+	.plant-scene {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+
+		canvas {
+			touch-action: pan-y !important;
 			width: 100%;
 			height: 100%;
-
-			canvas {
-				touch-action: pan-y !important;
-				width: 100%;
-				height: 100%;
-			}
-		}
-
-		.plant-scene-desktop {
-			width: 100%;
-			height: 100%;
-
-			canvas {
-				touch-action: pan-y !important;
-				width: 100%;
-				height: 100%;
-			}
 		}
 	}
 </style>

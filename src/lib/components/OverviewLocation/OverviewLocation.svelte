@@ -2,13 +2,12 @@
 	interface OverviewRangeDescriptiveProps {
 		locationName: string;
 		countryName: string;
-		variant: 'mobile' | 'desktop';
 	}
 
-	let { locationName, countryName, variant }: OverviewRangeDescriptiveProps = $props();
+	let { locationName, countryName }: OverviewRangeDescriptiveProps = $props();
 </script>
 
-<hgroup class={`overview-location ${variant}`}>
+<hgroup class={`overview-location`}>
 	<h1>{locationName}</h1>
 	<p>{countryName}</p>
 </hgroup>
@@ -16,14 +15,5 @@
 <style lang="scss">
 	.overview-location {
 		text-align: center;
-	}
-	
-	.mobile {
-		padding-top: 3rem;
-		background-color: #F2D784;
-	}
-
-	.desktop {
-		// Somthing
 	}
 </style>

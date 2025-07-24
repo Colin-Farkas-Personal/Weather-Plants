@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Divider from '$lib/components/Divider/Divider.svelte';
 	import ThermometerCold from '$lib/components/Icon/Bold/ThermometerCold.svelte';
 	import ThermometerHot from '$lib/components/Icon/Bold/ThermometerHot.svelte';
 	import OverviewCondition from '$lib/components/OverviewCondition/OverviewCondition.svelte';
@@ -16,11 +17,11 @@
 </script>
 
 <main class="overview-main-desktop">
-	<section class="left-column">
-		<OverviewLocation locationName={data.location.name} countryName={data.location.country} variant="desktop" />
+	<section class="details">
+		<OverviewLocation locationName={data.location.name} countryName={data.location.country} />
 
 		<OverviewCondition condition={data.condition.text} />
-		<hr />
+		<Divider type="line" />
 		<OverviewTemperature temperature={data.temperature} feelsLike={data.feelsLike} />
 		<dl>
 			<OverviewRangeDescriptive Icon={ThermometerCold} label="Lowest" temp={data.dailyRange.min} />
@@ -28,7 +29,7 @@
 		</dl>
 	</section>
 
-	<aside class="right-column">
+	<aside class="display">
 		<PlantScene temperature={data.temperature} variant="desktop" />
 	</aside>
 </main>
@@ -36,15 +37,27 @@
 <style lang="scss">
 	.overview-main-desktop {
 		display: flex;
-		height: 100%;
-		background-color: orange;
+		height: 100vh;
 
-		.left-column {
+		background-color: #e28439;
+
+		.details {
 			flex: 1;
+
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			margin: 0 auto;
+			gap: 1rem;
 		}
 
-		.right-column {
+		.display {
+			display: flex;
 			flex: 2;
+		}
+
+		:global(.overview-location) {
+			padding-top: 0rem;
 		}
 	}
 </style>
