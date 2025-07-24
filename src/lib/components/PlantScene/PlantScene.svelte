@@ -54,7 +54,7 @@
 <div class="size-container">
 	<figure
 		id="plant-scene"
-		class={`plant-scene`}
+		class="plant-scene"
 		tabindex="0"
 		aria-label="3D plant representing current weather in Athens"
 	></figure>
@@ -66,16 +66,19 @@
 		flex: 1;
 	}
 
-	.plant-scene {
-		position: absolute;
-		inset: 0;
-		width: 100%;
-		height: 100%;
-
-		canvas {
-			touch-action: pan-y !important;
+	:global {
+		.plant-scene {
+			position: absolute;
+			inset: 0;
 			width: 100%;
 			height: 100%;
+		
+			canvas {
+				touch-action: pan-y !important;
+				width: 100%;
+				height: 100%;
+			}
 		}
 	}
 </style>
+

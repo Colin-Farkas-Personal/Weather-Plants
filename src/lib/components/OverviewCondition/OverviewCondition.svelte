@@ -9,21 +9,49 @@
 	let { condition }: Props = $props();
 </script>
 
-<div class="overview-condition"><WeatherConditionIcon condition={condition} />{condition}</div>
+<div class="overview-condition" role="status" aria-live="polite">
+	<span class="icon" aria-hidden="true">
+		<WeatherConditionIcon {condition} />
+	</span>
+	<span class="label" aria-label={`Weather condition: ${condition}`}>
+		{condition}
+	</span>
+</div>
 
 <style lang="scss">
+	@use '/src/lib/styles/breakpoints';
+
 	.overview-condition {
-		display: flex;
-		gap: .25rem;
+		display: inline-flex;
+		gap: 0.5rem;
 		align-items: center;
-		padding: 2px 12px;
+		justify-content: center;
+		padding: 6px 20px;
+		max-width: 100%;
 
-		border-radius: 1.875rem;
-		border: .125rem solid #AE652C;
-		background-color: #CA7B3C;
-		color: #FFFCF9;
+		border-radius: 3rem;
+		border: 0.125rem solid #ae652c;
+		background-color: #ca7b3c;
+		color: #fffcf9;
 
-		font-size: 1.25rem;
-		font-weight: bold;
+		.icon {
+			flex-shrink: 0;
+		}
+
+		.label {
+			flex: 1;
+
+			text-wrap: balance;
+			text-align: left;
+			font-size: 0.875rem;
+			font-weight: bold;
+			line-height: 1.4;
+		}
+	}
+
+	@media screen and (width > breakpoints.$mobile) {
+		.overview-condition .label {
+			font-size: 1.25rem;
+		}
 	}
 </style>

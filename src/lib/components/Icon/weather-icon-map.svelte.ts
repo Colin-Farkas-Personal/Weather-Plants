@@ -38,6 +38,7 @@ const weatherConditionIcons: Record<WeatherCondition, Component> = {
   'Moderate rain at times': CloudRainBold,
   'Moderate rain': CloudRainBold,
   'Moderate snow': CloudSnowBold,
+  'Partly Cloudy': CloudSunBold,
   'Partly cloudy': CloudSunBold,
   'Patchy freezing drizzle possible': CloudBold,
   'Patchy heavy snow': CloudSnowBold,

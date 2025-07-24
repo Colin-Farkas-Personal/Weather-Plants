@@ -32,13 +32,13 @@
 			<OverviewRangeMinimal
 				Icon={ThermometerCold}
 				temp={data.dailyRange.min}
-				ariaHidden="Lowest temperature today"
+				ariaLabel="Lowest temperature today"
 			/>
 			<Divider type="bull" />
 			<OverviewRangeMinimal
 				Icon={ThermometerHot}
 				temp={data.dailyRange.max}
-				ariaHidden="Highest temperature today"
+				ariaLabel="Highest temperature today"
 			/>
 		</OverviewRange>
 	</section>
@@ -63,13 +63,13 @@
 
 			display: flex;
 			flex-direction: column;
+			align-items: center;
 			justify-content: center;
-			margin: 0 auto;
 			gap: 1rem;
 		}
 
 		:global(.overview-location) {
-			padding-top: 3rem;
+			padding-top: 2rem;
 			background-color: #f2d784;
 		}
 	}

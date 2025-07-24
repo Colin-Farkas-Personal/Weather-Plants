@@ -5,16 +5,17 @@
 	interface OverviewRangeMinimalProps {
 		Icon: Component;
 		temp: number;
-		ariaHidden: string;
+		ariaLabel: string;
 	}
 
-	let { Icon, temp, ariaHidden }: OverviewRangeMinimalProps = $props();
+	let { Icon, temp, ariaLabel }: OverviewRangeMinimalProps = $props();
+
+	const temperatureString = toTemperatureUnit(temp, 'celsius');
 </script>
 
 <div class="overview-range-minimal">
-    <dt class="term"><Icon /></dt>
-	<span class="visually-hidden">{ariaHidden}</span>
-    <dd class="description">{toTemperatureUnit(temp, 'celsius')}</dd>
+    <dt class="term" aria-hidden="true"><Icon /></dt>
+    <dd class="description" aria-label={`${ariaLabel}: ${temperatureString}`}>{temperatureString}</dd>
 </div>
 
 <style lang="scss">

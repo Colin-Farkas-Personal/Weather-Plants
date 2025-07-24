@@ -43,7 +43,7 @@ p {
   font-size: 1.25rem;
 }
 
-@include breakpoints.media-query('mobile') {
+@media screen and (width > breakpoints.$tablet) {
   h1 {
     font-size: 3rem;
   }

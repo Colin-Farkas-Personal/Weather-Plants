@@ -7,27 +7,34 @@
   --breakpoint-desktop: 1440px;
 }
 
-$breakpoints: (
-  'mobile': var(--breakpoint-mobile),
-  'tablet': var(--breakpoint-tablet),
-  'laptop': var(--breakpoint-laptop),
-  'desktop': var(--breakpoint-desktop),
-) !default;
+$mobile: 375px;
+$tablet: 768px;
+$laptop: 1024px;
+$desktop: 1440px;
+
+// $breakpoints: (
+//   'mobile': var(--breakpoint-mobile),
+//   'tablet': var(--breakpoint-tablet),
+//   'laptop': var(--breakpoint-laptop),
+//   'desktop': var(--breakpoint-desktop),
+// ) !default;
 
 /// Mixin to manage responsive breakpoints
 /// @link https://css-tricks.com/snippets/sass/mixin-manage-breakpoints/
-@mixin media-query($breakpoint) {
-  // If the key exists in the map
-  @if map.has-key($breakpoints, $breakpoint) {
-    // Prints a media query based on the value
-    @media (min-width: map.get($breakpoints, $breakpoint)) {
-      @content;
-    }
-  }
 
-  // If the key doesn't exist in the map
-  @else {
-    @warn "Unfortunately, no value could be retrieved from `#{$breakpoint}`. "
-        + "Available breakpoints are: #{map.keys($breakpoints)}.";
-  }
-}
+// Not working at the moment
+// @mixin media-query($breakpoint) {
+//   // If the key exists in the map
+//   @if map.has-key($breakpoints, $breakpoint) {
+//     // Prints a media query based on the value
+//     @media (min-width: map.get($breakpoints, $breakpoint)) {
+//       @content;
+//     }
+//   }
+
+//   // If the key doesn't exist in the map
+//   @else {
+//     @warn "Unfortunately, no value could be retrieved from `#{$breakpoint}`. "
+//         + "Available breakpoints are: #{map.keys($breakpoints)}.";
+//   }
+// }
