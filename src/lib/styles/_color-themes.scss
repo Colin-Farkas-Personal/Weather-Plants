@@ -1,4 +1,80 @@
 // Variables for Termperature Based Colors
 :root {
-    --
+  /// Hot - Sunburn
+  --sunburn-50: #fff4eb;
+  --sunburn-100: #ffe1c8;
+  --sunburn-200: #ffc39a;
+  --sunburn-300: #ffa368;
+  --sunburn-400: #f9843f;
+  --sunburn-500: #db8038;
+  --sunburn-600: #bb6c2f;
+  --sunburn-700: #9d5724;
+  --sunburn-800: #733d18;
+  --sunburn-900: #3e210c;
+
+  /// Pleasant - Clear Sky
+  --clear-sky-50: #f3fafe;
+  --clear-sky-100: #def2fc;
+  --clear-sky-200: #bde5f9;
+  --clear-sky-300: #96d4f4;
+  --clear-sky-400: #7ec6f0;
+  --clear-sky-500: #70bdef;
+  --clear-sky-600: #56a1d2;
+  --clear-sky-700: #3f85b1;
+  --clear-sky-800: #2c648b;
+  --clear-sky-900: #1b405c;
+
+  /// Cold - Snow White
+  --snow-white-50: #fcfaff;
+  --snow-white-100: #f7f5fb;
+  --snow-white-200: #eceaf4;
+  --snow-white-300: #dedceb;
+  --snow-white-400: #cdcadb;
+  --snow-white-500: #b9b5c8;
+  --snow-white-600: #9893a9;
+  --snow-white-700: #767089;
+  --snow-white-800: #534d64;
+  --snow-white-900: #2f2a3c;
+}
+
+:root[data-theme='hot'] {
+  --theme-primary: var(--sunburn-500);
+  --theme-50: var(--sunburn-50);
+  --theme-100: var(--sunburn-100);
+  --theme-200: var(--sunburn-200);
+  --theme-300: var(--sunburn-300);
+  --theme-400: var(--sunburn-400);
+  --theme-500: var(--sunburn-500);
+  --theme-600: var(--sunburn-600);
+  --theme-700: var(--sunburn-700);
+  --theme-800: var(--sunburn-800);
+  --theme-900: var(--sunburn-900);
+}
+
+:root[data-theme='pleasant'] {
+  --theme-primary: var(--clear-sky-500);
+  --theme-50: var(--clear-sky-50);
+  --theme-100: var(--clear-sky-100);
+  --theme-200: var(--clear-sky-200);
+  --theme-300: var(--clear-sky-300);
+  --theme-400: var(--clear-sky-400);
+  --theme-500: var(--clear-sky-500);
+  --theme-600: var(--clear-sky-600);
+  --theme-700: var(--clear-sky-700);
+  --theme-800: var(--clear-sky-800);
+  --theme-900: var(--clear-sky-900);
+}
+
+:root[data-theme='cold'] {
+  --theme-primary: var(--sunburn-50);
+  --theme-50: var(--snow-white-50);
+  --theme-100: var(--snow-white-100);
+  --theme-200: var(--snow-white-200);
+  --theme-300: var(--snow-white-300);
+  --theme-400: var(--snow-white-400);
+  --theme-500: var(--snow-white-500);
+  --theme-600: var(--snow-white-600);
+  --theme-700: var(--snow-white-700);
+  --theme-800: var(--snow-white-800);
+  --theme-900: var(--snow-white-900);
 }

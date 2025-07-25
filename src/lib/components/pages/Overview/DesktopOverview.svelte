@@ -63,6 +63,8 @@
 			margin: 0 auto;
 			gap: 10rem;
 
+			border-right: 4px solid #ae652c;
+
 			.details-values {
 				display: inherit;
 				flex-direction: inherit;

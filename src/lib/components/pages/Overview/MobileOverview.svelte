@@ -26,31 +26,33 @@
 	<section class="details">
 		<OverviewCondition condition={data.condition.text} />
 
-			<OverviewTemperature temperature={data.temperature} feelsLike={data.feelsLike} />
-	
-			<OverviewRange>
-				<OverviewRangeMinimal
-					Icon={ThermometerCold}
-					temp={data.dailyRange.min}
-					ariaLabel="Lowest temperature today"
-				/>
-				<Divider type="bull" />
-				<OverviewRangeMinimal
-					Icon={ThermometerHot}
-					temp={data.dailyRange.max}
-					ariaLabel="Highest temperature today"
-				/>
-			</OverviewRange>
+		<OverviewTemperature temperature={data.temperature} feelsLike={data.feelsLike} />
+
+		<OverviewRange>
+			<OverviewRangeMinimal
+				Icon={ThermometerCold}
+				temp={data.dailyRange.min}
+				ariaLabel="Lowest temperature today"
+			/>
+			<Divider type="bull" />
+			<OverviewRangeMinimal
+				Icon={ThermometerHot}
+				temp={data.dailyRange.max}
+				ariaLabel="Highest temperature today"
+			/>
+		</OverviewRange>
 	</section>
 </main>
 
 <style lang="scss">
+	:root {
+		--details-color-bg: var(--theme-primary);
+	}
+
 	.mobile-overview {
 		display: flex;
 		flex-direction: column;
 		height: 100vh;
-
-		background-color: #e28439;
 
 		.display {
 			display: flex;
@@ -61,17 +63,29 @@
 		.details {
 			flex: 1;
 
+			position: relative;
 			display: flex;
 			flex-direction: column;
 			align-items: center;
 			justify-content: center;
 			gap: 1.75rem;
+
+			background-color: var(--details-color-bg);
+			border-top: 2px solid var(--border-color);
 		}
 
 		:global {
 			.overview-location {
 				padding-top: 2rem;
 				background-color: #f2d784;
+
+				.header {
+					color: #473A12;
+				}
+
+				.description {
+					color: #5E4F20;
+				}
 			}
 
 			.overview-condition {

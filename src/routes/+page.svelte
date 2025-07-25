@@ -3,7 +3,7 @@
 	import MobileOverview from '$lib/components/Pages/Overview/MobileOverview.svelte';
 
 	import type { WeatherOverview } from '$lib/types/weather.js';
-	import { screenSize } from '$lib/globals/screenState';
+	import { screenSize } from '$lib/globals/screenSizeStore';
 	import { onDestroy } from 'svelte';
 
 	// Props
