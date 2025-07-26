@@ -18,12 +18,12 @@
 		
 		.value {
 			font-weight: bold;
-			color: white;
+			color: var(--theme-text-primary);
 		}
 
 		.label {
 			font-weight: 500;
-			color: #FFCD9B;
+			color: var(--theme-text-secondary);
 		}
 	}
 </style>

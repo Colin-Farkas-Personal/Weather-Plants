@@ -8,9 +8,8 @@
 	// Props
 	interface PlantSceneProps {
 		temperature: number;
-		variant: 'mobile' | 'desktop';
 	}
-	let { temperature, variant }: PlantSceneProps = $props();
+	let { temperature }: PlantSceneProps = $props();
 
 	// 3D
 	let _container: HTMLElement;

@@ -31,7 +31,7 @@
         gap: 18px;
 
         .description {
-            color: #FFD7AE;
+            color: var(--theme-text-secondary);
 
             // TODO: Set via <Icon size="32" /> ???
             :global(svg) {
@@ -46,7 +46,7 @@
             text-align: center;
 
             .value {
-                color: #ffcd9b;
+                color: var(--theme-text-secondary);
                 font-size: 2rem;
                 font-weight: bold;
                 line-height: 1;
@@ -55,7 +55,7 @@
             .label {
                 font-size: 1.5rem;
                 font-weight: 500;
-                color: #ffcd9b;
+                color: var(--theme-text-secondary);
                 line-height: 1.2;
             }
 

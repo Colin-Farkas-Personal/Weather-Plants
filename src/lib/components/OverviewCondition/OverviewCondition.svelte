@@ -30,9 +30,9 @@
 		max-width: 100%;
 
 		border-radius: 3rem;
-		border: 0.125rem solid #ae652c;
-		background-color: #ca7b3c;
-		color: #fffcf9;
+		border: 0.125rem solid var(--theme-border-primary);
+		background-color: var(--theme-bg-secondary);
+		color: var(--theme-text-primary);
 
 		.icon {
 			flex-shrink: 0;

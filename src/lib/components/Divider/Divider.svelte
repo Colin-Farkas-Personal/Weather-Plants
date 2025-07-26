@@ -13,7 +13,7 @@
 
 <style lang="scss">
 	.bull {
-        background-color: #F4BD92;
+        background-color: var(--theme-text-tertiary);
         width: 6px;
         height: 6px;
         border-radius: 50%;

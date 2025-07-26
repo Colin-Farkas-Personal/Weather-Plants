@@ -42,7 +42,7 @@
 	</section>
 
 	<aside class="display">
-		<PlantScene temperature={data.temperature} variant="desktop" />
+		<PlantScene temperature={data.temperature} />
 	</aside>
 </main>
 
@@ -51,7 +51,7 @@
 		display: flex;
 		height: 100vh;
 
-		background-color: #e28439;
+		background-color: var(--theme-bg-primary);
 
 		.details {
 			flex: 1;
@@ -63,7 +63,7 @@
 			margin: 0 auto;
 			gap: 10rem;
 
-			border-right: 4px solid #ae652c;
+			border-right: 4px solid var(--theme-border-primary);
 
 			.details-values {
 				display: inherit;
@@ -83,19 +83,21 @@
 				padding-top: 0rem;
 
 				.header {
-					color: white;
+					color: var(--theme-text-primary);
 					font-size: 3rem;
 					font-weight: bold;
 				}
 
 				.description {
-					color: #ffd7ae;
+					color: var(--theme-text-secondary);
 					font-size: 2rem;
 					font-weight: 500;
 				}
 			}
 
 			.overview-condition {
+				border-width: 4px;
+
 				.icon svg {
 					width: 32px;
 					height: 32px;

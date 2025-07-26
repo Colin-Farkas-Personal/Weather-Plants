@@ -2,9 +2,9 @@ import * as THREE from 'three';
 import { GLTFLoader, OrbitControls } from 'three/examples/jsm/Addons.js';
 
 const cameraOriginPosition = {
-  x: 1,
-  y: 1,
-  z: 1,
+  x: 1.1,
+  y: 1.1,
+  z: 1.1,
 };
 
 function initScene(
@@ -34,13 +34,18 @@ function initScene(
 
   // Lights
   const hemi = new THREE.HemisphereLight(0xeeeeee);
-  hemi.intensity = 3.7;
+  hemi.position.set(0, 0.8, 0);
+  hemi.intensity = 2.6;
   scene.add(hemi);
 
-  const dirLight = new THREE.DirectionalLight(0xffffff, 3.5);
+  const dirLight = new THREE.DirectionalLight(0xffffff, 1);
   dirLight.position.set(1.6, 0.8, 0);
   dirLight.castShadow = true;
   scene.add(dirLight);
+
+  // const topLight = new THREE.DirectionalLight(0xffffff, 0.4);
+  // topLight.position.set(0, 1, 0);
+  // scene.add(topLight);
 
   // Plane
   const plane = new THREE.Mesh(
@@ -62,8 +67,8 @@ function initScene(
   controls.listenToKeyEvents(window);
 
   // Fix polar angle restrictions
-  controls.minPolarAngle = Math.PI / 2.4;
-  controls.maxPolarAngle = Math.PI / 2.4;
+  controls.minPolarAngle = Math.PI / 2.8;
+  controls.maxPolarAngle = Math.PI / 2.8;
 
   // Adjust vertical framing
   controls.target.set(0, 0.15, 0);

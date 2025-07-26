@@ -25,13 +25,13 @@
 		align-items: center;
 
 		.term {
-			color: #FFCD9B;
+			color: var(--theme-icon-secondary);
 		}
 
 		.description {
 			font-size: 1.25rem;
 			font-weight: bold;
-			color: #FFCD9B;
+			color: var(--theme-text-secondary);
 		}
 	}
 </style>
