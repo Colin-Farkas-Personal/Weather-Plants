@@ -11,7 +11,7 @@
 
 <div class="overview-condition" role="status" aria-live="polite">
 	<span class="icon" aria-hidden="true">
-		<WeatherConditionIcon {condition} />
+		<WeatherConditionIcon />
 	</span>
 	<span class="label" aria-label={`Weather condition: ${condition}`}>
 		{condition}

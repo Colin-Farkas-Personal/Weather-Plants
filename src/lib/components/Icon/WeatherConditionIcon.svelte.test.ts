@@ -1,4 +1,4 @@
-import { dayWeatherConditions, type WeatherCondition } from '$lib/types/weather-condition';
+import { dayWeatherConditions, type WeatherCondition } from '$lib/types/condition';
 import { afterEach, describe, expect, test } from 'vitest';
 import { cleanup, render } from '@testing-library/svelte';
 import WeatherConditionIcon from '$lib/components/Icon/WeatherConditionIcon.svelte';

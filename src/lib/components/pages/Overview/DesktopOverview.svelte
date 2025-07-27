@@ -63,8 +63,6 @@
 			margin: 0 auto;
 			gap: 10rem;
 
-			border-right: 4px solid var(--theme-border-primary);
-
 			.details-values {
 				display: inherit;
 				flex-direction: inherit;
@@ -75,7 +73,7 @@
 
 		.display {
 			display: flex;
-			flex: 1.5;
+			flex: 1.75;
 		}
 
 		:global {
@@ -120,6 +118,15 @@
 
 			.overview-range {
 				gap: 42px;
+			}
+
+			.size-container { 
+				canvas {
+					border-top: .25rem solid var(--theme-border-primary);
+					border-left: .25rem solid var(--theme-border-primary);
+					border-bottom: .25rem solid var(--theme-border-primary);
+					border-radius: 120px 0 0 120px;
+				}
 			}
 		}
 	}

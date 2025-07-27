@@ -2,9 +2,9 @@ import * as THREE from 'three';
 import { GLTFLoader, OrbitControls } from 'three/examples/jsm/Addons.js';
 
 const cameraOriginPosition = {
-  x: 1.1,
-  y: 1.1,
-  z: 1.1,
+  x: 1.2,
+  y: 1.2,
+  z: 1.2,
 };
 
 function initScene(
@@ -35,7 +35,7 @@ function initScene(
   // Lights
   const hemi = new THREE.HemisphereLight(0xeeeeee);
   hemi.position.set(0, 0.8, 0);
-  hemi.intensity = 2.6;
+  hemi.intensity = 2.8;
   scene.add(hemi);
 
   const dirLight = new THREE.DirectionalLight(0xffffff, 1);

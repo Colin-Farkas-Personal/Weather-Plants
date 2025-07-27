@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { temperatureTheme } from '$lib/globals/temperatureThemeStore.svelte.js';
+	import conditionStatusStore from '$lib/globals/conditionStatusStore.svelte.js';
+	import temperatureThemeStore from '$lib/globals/temperatureThemeStore.svelte.js';
 	import '$lib/styles/styles.scss';
 	import type { TemperatureRange } from '$lib/types/temperature.js';
 	import { temperatureToRange } from '$lib/utilities/temperature-to-range';
@@ -7,17 +8,18 @@
 
 	let { data, children } = $props();
 
-	temperatureTheme.set(temperatureToRange(data.temperature));
+	temperatureThemeStore.setTheme(data.temperature);
+	conditionStatusStore.setCondition(data.condition.text);
 
 	onMount(() => {
-		const unsubscribe = temperatureTheme.subscribe((t) => {
+		const unsubscribeTheme = temperatureThemeStore.subscribe((t) => {
 			if (t) {
 				setThemeAttributeName(t as TemperatureRange);
 			}
 		});
 
 		return () => {
-			unsubscribe;
+			unsubscribeTheme;
 		}
 	})
 

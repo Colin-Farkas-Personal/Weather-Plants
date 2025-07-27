@@ -20,7 +20,7 @@
 <main class="mobile-overview">
 	<section class="display">
 		<OverviewLocation locationName={data.location.name} countryName={data.location.country} />
-		<PlantScene temperature={data.temperature}/>
+		<PlantScene temperature={data.temperature} />
 	</section>
 
 	<section class="details">
@@ -50,6 +50,8 @@
 		flex-direction: column;
 		height: 100vh;
 
+		background-color: var(--theme-bg-primary);
+
 		.display {
 			display: flex;
 			flex-direction: column;
@@ -67,10 +69,19 @@
 			gap: 1.75rem;
 
 			background-color: var(--theme-bg-primary);
-			border-top: 2px solid var(--theme-border-primary);
 		}
 
 		:global {
+			.display {
+				.size-container {
+					canvas {
+						border-left: .125rem solid var(--theme-border-primary);
+						border-bottom: .125rem solid var(--theme-border-primary);
+						border-right: .125rem solid var(--theme-border-primary);
+						border-radius: 0 0 140px 140px;
+					}
+				}
+			}
 			.overview-location {
 				padding-top: 2rem;
 				background-color: var(--theme-text-bg-inversed);
