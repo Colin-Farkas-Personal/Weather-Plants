@@ -26,7 +26,7 @@
 		gap: 0.5rem;
 		align-items: center;
 		justify-content: center;
-		padding: .125rem 1.25rem;
+		padding: 0.125rem 1.25rem;
 		max-width: 100%;
 
 		border-radius: 3rem;
@@ -42,12 +42,14 @@
 			text-wrap: balance;
 			text-align: left;
 			font-weight: bold;
+			font-size: clamp(18px, var(--typography-font-size-vmin), 32px);
 		}
-	}
 
-	@media screen and (width > breakpoints.$mobile) {
-		.overview-condition .label {
-			font-size: 1.25rem;
+		:global {
+			.icon svg {
+				width: clamp(16px, var(--typography-font-size-vmin), 32px);
+				height: clamp(16px, var(--typography-font-size-vmin), 32px);
+			}
 		}
 	}
 </style>

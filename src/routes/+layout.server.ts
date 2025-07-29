@@ -6,7 +6,7 @@ import { error } from "@sveltejs/kit";
 import { fetchFromWeatherApi } from "$lib/adapters/weatherapi";
 
 const selectedTemperatureUnit: TemperatureUnit = 'celsius';
-const WEATHER_API_LOCATION_CITY = 'Gothenburg'; // Default city while testing
+const WEATHER_API_LOCATION_CITY = 'Stockholm'; // Default city while testing
 
 export async function load({ fetch }): Promise<WeatherOverview> {
 	try {

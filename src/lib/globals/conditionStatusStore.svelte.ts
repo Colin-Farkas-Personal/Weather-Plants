@@ -55,7 +55,7 @@ const weatherConditionStatuses: Record<WeatherCondition, ConditionStatus> = {
   fog: 'FOGGY',
   mist: 'FOGGY',
   overcast: 'CLOUDY',
-  sunny: 'SNOWY',
+  sunny: 'SUNNY',
 };
 
 

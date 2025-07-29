@@ -61,7 +61,14 @@
 			justify-content: center;
 			align-items: center;
 			margin: 0 auto;
-			gap: 10rem;
+			gap: clamp(4rem, var(--typography-font-size-vmin), 10rem);
+
+			overflow-y: scroll;
+
+			@media screen and (height <= 650px) {
+				justify-content: start;
+				padding: 2rem 0;
+			}
 
 			.details-values {
 				display: inherit;
@@ -79,55 +86,28 @@
 		:global {
 			.overview-location {
 				padding-top: 0rem;
-
+	
 				.header {
 					color: var(--theme-text-primary);
-					font-size: 3rem;
 					font-weight: bold;
 				}
-
+	
 				.description {
 					color: var(--theme-text-secondary);
-					font-size: 2rem;
 					font-weight: 500;
 				}
 			}
 
 			.overview-condition {
-				border-width: 4px;
-
-				.icon svg {
-					width: 32px;
-					height: 32px;
-				}
-
-				.label {
-					font-size: 32px;
-				}
+				border-width: clamp(2px, 0.5vmin, 4px);
+				border-style: solid;
+				border-color: var(--theme-border-primary);
 			}
-
-			.overview-temperature {
-				.value {
-					font-size: 48px;
-					line-height: 1.2;
-				}
-				.label {
-					font-size: 2rem;
-				}
-			}
-
+	
 			.overview-range {
-				gap: 42px;
-			}
-
-			.size-container { 
-				canvas {
-					border-top: .25rem solid var(--theme-border-primary);
-					border-left: .25rem solid var(--theme-border-primary);
-					border-bottom: .25rem solid var(--theme-border-primary);
-					border-radius: 120px 0 0 120px;
-				}
+				gap: 48px;
 			}
 		}
 	}
+
 </style>

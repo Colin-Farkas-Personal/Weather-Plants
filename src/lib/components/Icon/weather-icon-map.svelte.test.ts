@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { getWeatherIcon } from "./weather-icon-map.svelte";
+import { getWeatherIcon } from "./WeatherConditionIcon.parseWeatherIcon";
 
 describe("getWeatherIcon", () => {
     test('Returns an icon for a known weather condition', () => {

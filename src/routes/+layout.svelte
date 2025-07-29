@@ -3,7 +3,6 @@
 	import temperatureThemeStore from '$lib/globals/temperatureThemeStore.svelte.js';
 	import '$lib/styles/styles.scss';
 	import type { TemperatureRange } from '$lib/types/temperature.js';
-	import { temperatureToRange } from '$lib/utilities/temperature-to-range';
 	import { onMount } from 'svelte';
 
 	let { data, children } = $props();

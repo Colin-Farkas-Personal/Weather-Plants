@@ -2,8 +2,9 @@
 	import DesktopOverview from '$lib/components/Pages/Overview/DesktopOverview.svelte';
 	import MobileOverview from '$lib/components/Pages/Overview/MobileOverview.svelte';
 
+	import { windowOrientation } from '$lib/globals/windowStore';
 	import type { WeatherOverview } from '$lib/types/weather.js';
-	import { screenSize } from '$lib/globals/screenSizeStore';
+	import type { WindowOrientation } from '$lib/types/window';
 	import { onDestroy } from 'svelte';
 
 	// Props
@@ -13,17 +14,17 @@
 	let { data }: PageProps = $props();
 
 	// Logic
-	let _isDesktop = $state(false);
+	let _orientation = $state<WindowOrientation>('portrait');
 
-	let unsubscribe = screenSize.subscribe((value) => (_isDesktop = value.isDesktop));
+	let unsubscribe = windowOrientation.subscribe((orientation) => _orientation = orientation);
 
 	onDestroy(unsubscribe);
 </script>
 
 <article class="overview">
-	{#if _isDesktop}
+	{#if _orientation === 'landscape'}
 		<DesktopOverview {data} />
-	{:else}
+	{:else if _orientation === 'portrait'}
 		<MobileOverview {data} />
 	{/if}
 </article>

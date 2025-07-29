@@ -1,0 +1,1 @@
+export type WindowOrientation = 'portrait' | 'landscape';

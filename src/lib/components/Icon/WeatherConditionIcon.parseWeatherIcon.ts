@@ -27,11 +27,6 @@ const weatherConditionIcons: Record<ConditionStatus, Component> = {
 function parseWeatherIcon(condition: ConditionStatus): Component | null {
   const icon = weatherConditionIcons[condition];
 
-  if (!icon) {
-    console.warn(`No icon found for weather condition: ${condition}`);
-    return null;
-  }
-
   return icon;
 }
 

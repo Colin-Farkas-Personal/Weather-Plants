@@ -27,18 +27,22 @@ p {
   font-weight: normal;
 }
 
+:root {
+  --typography-font-size-vmin: 5vmin;
+}
+
 // Type Scale
 h1 {
-  font-size: 2.5rem;
+  font-size: clamp(24px, var(--typography-font-size-vmin), 48px);
 }
 
 h2 {
-  font-size: 1.25rem;
+  font-size: clamp(20px, var(--typography-font-size-vmin), 40px);
 }
 h3 {
-  font-size: 2rem;
+  font-size: clamp(18px, var(--typography-font-size-vmin), 36px);
 }
 
 p {
-  font-size: 1.25rem;
+  font-size: clamp(16px, var(--typography-font-size-vmin), 32px);
 }

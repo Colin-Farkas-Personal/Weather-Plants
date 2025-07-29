@@ -1,9 +1,9 @@
 <script module lang="ts">
 	export function getComponentName(pathString: string): string {
 		if (!pathString.endsWith('.svelte')) {
-			return '';			
+			return '';
 		}
-		
+
 		const pathParts = pathString.split('/');
 		const fileName = pathParts[pathParts.length - 1];
 		return fileName.replace('.svelte', '') || '';
@@ -17,11 +17,18 @@
 </script>
 
 <script lang="ts">
-	import type { SVGIconProps } from '$lib/types/icon-component';
+	import type { IconProps } from '$lib/types/icon-component';
+	import type { Snippet } from 'svelte';
+
+	interface SVGIconProps extends IconProps {
+		children: Snippet;
+		parentName: string;
+		ariaLabel?: string;
+	}
 
 	// Props
-	let { children, parentName, size = '24', ariaLabel }: SVGIconProps = $props()
-	const testId = parentName && ("svg-icon-" + transformToTestId(parentName));
+	let { children, parentName, size = '24', ariaLabel }: SVGIconProps = $props();
+	const testId = parentName && 'svg-icon-' + transformToTestId(parentName);
 </script>
 
 <svg

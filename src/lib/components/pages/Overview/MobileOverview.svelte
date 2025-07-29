@@ -69,19 +69,13 @@
 			gap: 1.75rem;
 
 			background-color: var(--theme-bg-primary);
+
+			.overview-condition {
+				border: 2px solid var(--theme-border-primary);
+			}
 		}
 
 		:global {
-			.display {
-				.size-container {
-					canvas {
-						border-left: .125rem solid var(--theme-border-primary);
-						border-bottom: .125rem solid var(--theme-border-primary);
-						border-right: .125rem solid var(--theme-border-primary);
-						border-radius: 0 0 140px 140px;
-					}
-				}
-			}
 			.overview-location {
 				padding-top: 2rem;
 				background-color: var(--theme-text-bg-inversed);
@@ -97,14 +91,9 @@
 			}
 
 			.overview-condition {
-				.icon svg {
-					width: 1.5rem;
-					height: 1.5rem;
-				}
-
-				.label {
-					font-size: 1.25rem;
-				}
+				border-width: clamp(2px, 0.5vmin, 4px);
+				border-style: solid;
+				border-color: var(--theme-border-primary);
 			}
 
 			.overview-temperature {
@@ -115,6 +104,10 @@
 				.label {
 					font-size: 1.25rem;
 				}
+			}
+
+			.overview-range {
+				gap: 16px;
 			}
 		}
 	}
