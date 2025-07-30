@@ -20,10 +20,12 @@
 <main class="mobile-overview">
 	<section class="display">
 		<OverviewLocation locationName={data.location.name} countryName={data.location.country} />
-		<PlantScene temperature={data.temperature} />
+		<PlantScene />
 	</section>
 
-	<section class="details">
+	<section class="details isolate">
+		<div class="noise"></div>
+		<div class="overlay"></div>
 		<OverviewCondition condition={data.condition.text} />
 
 		<OverviewTemperature temperature={data.temperature} feelsLike={data.feelsLike} />
@@ -67,8 +69,6 @@
 			align-items: center;
 			justify-content: center;
 			gap: clamp(1rem, var(--typography-font-size-vmin), 1.75rem);
-
-			background-color: var(--theme-bg-primary);
 		}
 
 		:global {

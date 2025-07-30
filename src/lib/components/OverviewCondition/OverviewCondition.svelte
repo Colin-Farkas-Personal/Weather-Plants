@@ -26,7 +26,7 @@
 		gap: 0.5rem;
 		align-items: center;
 		justify-content: center;
-		padding: 8px 20px;
+		padding: clamp(4px, 1vmin, 8px) clamp(12px, 2vmin, 20px);
 		max-width: 100%;
 
 		border-radius: 3rem;

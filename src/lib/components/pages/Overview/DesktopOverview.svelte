@@ -18,7 +18,10 @@
 </script>
 
 <main class="desktop-overview">
-	<section class="details">
+	<section class="details isolate">
+		<div class="noise"></div>
+		<div class="overlay"></div>
+
 		<OverviewLocation locationName={data.location.name} countryName={data.location.country} />
 
 		<div class="details-values">
@@ -42,7 +45,7 @@
 	</section>
 
 	<aside class="display">
-		<PlantScene temperature={data.temperature} />
+		<PlantScene />
 	</aside>
 </main>
 
@@ -61,7 +64,7 @@
 			justify-content: center;
 			align-items: center;
 			margin: 0 auto;
-			gap: clamp(4rem, var(--typography-font-size-vmin), 10rem);
+			gap: clamp(4rem, 30vmin, 10rem);
 
 			overflow-y: scroll;
 
@@ -86,22 +89,21 @@
 		:global {
 			.overview-location {
 				padding-top: 0rem;
-	
+
 				.header {
 					color: var(--theme-text-primary);
 					font-weight: bold;
 				}
-	
+
 				.description {
 					color: var(--theme-text-secondary);
 					font-weight: 500;
 				}
 			}
-	
+
 			.overview-range {
 				gap: clamp(24px, var(--typography-font-size-vmin), 48px);
 			}
 		}
 	}
-
 </style>
