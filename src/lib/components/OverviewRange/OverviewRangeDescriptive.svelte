@@ -35,8 +35,8 @@
 
 			// TODO: Set via <Icon size="32" /> ???
 			:global(svg) {
-				width: 2rem;
-				height: 2rem;
+				width: clamp(24px, var(--typography-font-size-vmin), 2rem);
+				height: auto;
 			}
 		}
 

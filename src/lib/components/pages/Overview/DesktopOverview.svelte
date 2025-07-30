@@ -97,15 +97,9 @@
 					font-weight: 500;
 				}
 			}
-
-			.overview-condition {
-				border-width: clamp(2px, 0.5vmin, 4px);
-				border-style: solid;
-				border-color: var(--theme-border-primary);
-			}
 	
 			.overview-range {
-				gap: 48px;
+				gap: clamp(24px, var(--typography-font-size-vmin), 48px);
 			}
 		}
 	}

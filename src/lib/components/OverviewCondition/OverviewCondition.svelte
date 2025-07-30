@@ -26,11 +26,13 @@
 		gap: 0.5rem;
 		align-items: center;
 		justify-content: center;
-		padding: 0.125rem 1.25rem;
+		padding: 8px 20px;
 		max-width: 100%;
 
 		border-radius: 3rem;
-		border: 0.125rem solid var(--theme-border-primary);
+		border-width: clamp(2px, 0.5vmin, 4px);
+		border-style: solid;
+		border-color: var(--theme-border-primary);
 		background-color: var(--theme-bg-secondary);
 		color: var(--theme-text-primary);
 
@@ -42,13 +44,13 @@
 			text-wrap: balance;
 			text-align: left;
 			font-weight: bold;
-			font-size: clamp(18px, var(--typography-font-size-vmin), 32px);
+			font-size: clamp(18px, 5vmin, 24px);
 		}
 
 		:global {
 			.icon svg {
-				width: clamp(16px, var(--typography-font-size-vmin), 32px);
-				height: clamp(16px, var(--typography-font-size-vmin), 32px);
+				width: clamp(24px, var(--typography-font-size-vmin), 32px);
+				height: clamp(24px, var(--typography-font-size-vmin), 32px);
 			}
 		}
 	}

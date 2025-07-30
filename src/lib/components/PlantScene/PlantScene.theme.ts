@@ -1,5 +1,4 @@
 import type { TemperatureRange } from "$lib/types/temperature";
-import { temperatureToRange } from "$lib/utilities/temperature-to-range";
 
 type SceneTheme = {
   modelPath: string;
@@ -30,11 +29,9 @@ const temperatureSceneThemes: Record<TemperatureRange, SceneTheme> = {
   },
 };
 
-export const TEMPERATURE_HOT = 30;
-export const TEMPERATURE_COLD = 10;
-function getSceneThemeByTemperature(tempC: number): SceneTheme {
-  const sceneThemeRange = temperatureToRange(tempC);
-  return temperatureSceneThemes[sceneThemeRange];
+function getSceneTheme(range: TemperatureRange): SceneTheme {
+  console.warn("range ??? ", range);
+  return temperatureSceneThemes[range];
 }
 
-export { getSceneThemeByTemperature };
+export { getSceneTheme };

@@ -10,6 +10,7 @@
 <style lang="scss">
 	.overview-range {
         display: flex;
+        flex-flow: wrap;
         align-items: center;
         justify-content: center;
 	}

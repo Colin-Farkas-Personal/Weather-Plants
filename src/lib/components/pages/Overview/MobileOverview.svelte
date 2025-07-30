@@ -66,13 +66,9 @@
 			flex-direction: column;
 			align-items: center;
 			justify-content: center;
-			gap: 1.75rem;
+			gap: clamp(1rem, var(--typography-font-size-vmin), 1.75rem);
 
 			background-color: var(--theme-bg-primary);
-
-			.overview-condition {
-				border: 2px solid var(--theme-border-primary);
-			}
 		}
 
 		:global {
@@ -88,12 +84,6 @@
 					color: var(--theme-text-secondary-inversed);
 					font-weight: 500;
 				}
-			}
-
-			.overview-condition {
-				border-width: clamp(2px, 0.5vmin, 4px);
-				border-style: solid;
-				border-color: var(--theme-border-primary);
 			}
 
 			.overview-temperature {

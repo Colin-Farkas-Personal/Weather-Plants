@@ -1,15 +1,14 @@
 <script lang="ts">
-	import { getSceneThemeByTemperature } from '$lib/components/PlantScene/PlantScene.theme';
 	import { onDestroy, onMount } from 'svelte';
 	import * as THREE from 'three';
 	import type { OrbitControls } from 'three/examples/jsm/Addons.js';
 	import { animate, initScene, loadModel, onResize } from './PlantScene.renderer';
+	import temperatureThemeStore from '$lib/globals/temperatureThemeStore.svelte';
+	import { getSceneTheme } from './PlantScene.theme';
+	import type { TemperatureRange } from '$lib/types/temperature';
 
 	// Props
-	interface PlantSceneProps {
-		temperature: number;
-	}
-	let { temperature }: PlantSceneProps = $props();
+	let temperatureRange = $state<TemperatureRange | null>("Hot");
 
 	// 3D
 	let _container: HTMLElement;
@@ -18,11 +17,18 @@
 	let _animationFramerId: number;
 	let _controls: OrbitControls;
 
+	
 	onMount(() => {
-		if (typeof window !== 'undefined') {
+		const unsubscribe = temperatureThemeStore.subscribe((t) => {
+			if (t) {
+				temperatureRange = t;
+			}
+		});
+
+		if (typeof window !== 'undefined' && temperatureRange) {
 			const container = document.getElementById('plant-scene');
 
-			const { modelPath, backgroundColor, groundColor } = getSceneThemeByTemperature(temperature);
+			const { modelPath, backgroundColor, groundColor } = getSceneTheme(temperatureRange);
 			const { scene, camera, renderer, controls } = initScene(container as HTMLElement, {
 				backgroundColor,
 				groundColor
@@ -72,8 +78,7 @@
 			width: 100%;
 			height: 100%;
 			overflow: hidden;
-			
-			
+
 			canvas {
 				position: relative;
 				touch-action: pan-y !important;

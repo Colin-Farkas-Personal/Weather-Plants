@@ -4,8 +4,6 @@ import { readable } from 'svelte/store';
 
 function getCurrentOrientation(): WindowOrientation {
   const isPortrait = window.matchMedia('(orientation: portrait)');
-  console.warn("ORIENTATION ???", isPortrait);
-
   return isPortrait.matches ? 'portrait': 'landscape';
 }
 
