@@ -84,7 +84,6 @@
 				touch-action: pan-y !important;
 				width: 100%;
 				height: 100%;
-				aspect-ratio: 1/3;
 			}
 		}
 	}

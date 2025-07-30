@@ -48,6 +48,7 @@
 
 <style lang="scss">
 	.mobile-overview {
+		overflow-x: hidden;
 		display: flex;
 		flex-direction: column;
 		height: 100vh;
@@ -55,9 +56,19 @@
 		background-color: var(--theme-bg-primary);
 
 		.display {
+			overflow: hidden;
+
 			display: flex;
 			flex-direction: column;
 			flex: 2;
+
+			border-radius: 0 0 clamp(60px, 20vmin, 140px) clamp(60px, 20vmin, 140px);
+			border-left: clamp(2px, 0.5vmin, 4px) solid var(--theme-border-primary);
+			border-bottom: clamp(2px, 0.5vmin, 4px) solid var(--theme-border-primary);
+			border-right: clamp(2px, 0.5vmin, 4px) solid var(--theme-border-primary);
+
+			width: 110%;
+			margin-left: -5%;
 		}
 
 		.details {
@@ -72,6 +83,11 @@
 		}
 
 		:global {
+			.display {
+				.size-container {
+					width: 100%;
+				}
+			}
 			.overview-location {
 				padding-top: 2rem;
 				background-color: var(--theme-text-bg-inversed);

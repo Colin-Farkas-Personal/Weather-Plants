@@ -50,7 +50,11 @@
 </main>
 
 <style lang="scss">
+	:root {
+		--desktop-overview-display-scale: calc(1.1 - 2);
+	}
 	.desktop-overview {
+		overflow: hidden;
 		display: flex;
 		height: 100vh;
 
@@ -82,8 +86,20 @@
 		}
 
 		.display {
+			z-index: 0;
+			position: relative;
+			overflow: hidden;
+
+			box-sizing: border-box;
 			display: flex;
 			flex: 1.75;
+
+			border-radius: clamp(60px, 20vmin, 140px) 0 0 clamp(60px, 20vmin, 140px);
+			border-top: clamp(2px, 0.5vmin, 4px) solid var(--theme-border-primary);
+			border-left: clamp(2px, 0.5vmin, 4px) solid var(--theme-border-primary);
+			border-bottom: clamp(2px, 0.5vmin, 4px) solid var(--theme-border-primary);
+			height: 110%;
+			top: -5%;
 		}
 
 		:global {
@@ -103,6 +119,13 @@
 
 			.overview-range {
 				gap: clamp(24px, var(--typography-font-size-vmin), 48px);
+			}
+
+			.display {
+				.size-container {
+					top: 0;
+					height: 100%;
+				}
 			}
 		}
 	}
