@@ -1,5 +1,4 @@
 <script lang="ts">
-	import Divider from '$lib/components/Divider/Divider.svelte';
 	import ThermometerCold from '$lib/components/Icon/Bold/ThermometerCold.svelte';
 	import ThermometerHot from '$lib/components/Icon/Bold/ThermometerHot.svelte';
 	import OverviewCondition from '$lib/components/OverviewCondition/OverviewCondition.svelte';

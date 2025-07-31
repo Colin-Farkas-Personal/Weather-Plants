@@ -4,11 +4,12 @@ import type { WeatherOverview } from "$lib/types/weather";
 import { toFormattedWeatherData } from "$lib/utilities/formatted-temperature";
 import { error } from "@sveltejs/kit";
 import { fetchFromWeatherApi } from "$lib/adapters/weatherapi";
+import type { Fetch } from "$lib/types/fetch";
 
 const selectedTemperatureUnit: TemperatureUnit = 'celsius';
 const WEATHER_API_LOCATION_CITY = 'Stockholm'; // Default city while testing
 
-export async function load({ fetch }): Promise<WeatherOverview> {
+export async function load({ fetch }: { fetch: Fetch}): Promise<WeatherOverview> {
 	try {
 		const data = await fetchFromWeatherApi(fetch, WEATHER_API_LOCATION_CITY);
 		const dataFormatted = toFormattedWeatherData<WeatherOverview>(data, selectedTemperatureUnit, true);

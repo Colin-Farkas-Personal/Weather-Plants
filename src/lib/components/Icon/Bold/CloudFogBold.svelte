@@ -4,7 +4,9 @@
 
 <script lang="ts">
 	import type { IconProps } from "$lib/types/icon-component";
-	import SvgIcon, { getComponentName } from "../SvgIcon.svelte";
+		import { getComponentName } from '../SvgIcon.helper';
+
+	import SvgIcon from "../SvgIcon.svelte";
 
 	let props: IconProps = $props();
 </script>

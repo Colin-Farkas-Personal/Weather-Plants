@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest';
-import { getComponentName, transformToTestId } from './SvgIcon.svelte';
+import { getComponentName, transformToTestId } from './SvgIcon.helper';
 
 describe('<SvgIcon />', () => {
   describe('getComponentName()', () => {
