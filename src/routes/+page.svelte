@@ -1,7 +1,6 @@
 <script lang="ts">
-	import DesktopOverview from '$lib/components/Pages/Overview/DesktopOverview.svelte';
-	import MobileOverview from '$lib/components/Pages/Overview/MobileOverview.svelte';
-
+	import DesktopOverview from '$lib/components/Pages/DesktopOverview.svelte';
+	import MobileOverview from '$lib/components/Pages/MobileOverview.svelte';
 	import { windowOrientation } from '$lib/globals/windowStore';
 	import type { WeatherOverview } from '$lib/types/weather.js';
 	import type { WindowOrientation } from '$lib/types/window';
