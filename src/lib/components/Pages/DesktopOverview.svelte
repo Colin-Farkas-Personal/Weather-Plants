@@ -55,7 +55,7 @@
 	.desktop-overview {
 		overflow: hidden;
 		display: flex;
-		height: 100vh;
+		height: 100dvh;
 
 		background-color: var(--theme-bg-primary);
 
