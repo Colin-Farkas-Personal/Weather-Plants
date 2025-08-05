@@ -35,13 +35,17 @@ function initScene(
   // Lights
   const hemi = new THREE.HemisphereLight(0xeeeeee);
   hemi.position.set(0, 0.8, 0);
-  hemi.intensity = 2.8;
+  hemi.intensity = 1.6;
   scene.add(hemi);
 
-  const dirLight = new THREE.DirectionalLight(0xffffff, 1);
+  const dirLight = new THREE.DirectionalLight(0xffffff, 1.5);
   dirLight.position.set(1.6, 0.8, 0);
   dirLight.castShadow = true;
   scene.add(dirLight);
+
+  const dirLight2 = new THREE.DirectionalLight(0xffffff, 1.5);
+  dirLight2.position.set(-1.6, 0.8, -1.6);
+  scene.add(dirLight2);
 
   // const topLight = new THREE.DirectionalLight(0xffffff, 0.4);
   // topLight.position.set(0, 1, 0);

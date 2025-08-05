@@ -8,7 +8,7 @@ type SceneTheme = {
 
 // Variables
 export const modelPathCactus = '/models/cactus_day.glb'; 
-export const modelPathSunflower = '/models/sunflower_day-test2.glb'; 
+export const modelPathSunflower = '/models/sunflower_day.glb'; 
 export const modelPathSappling = '/models/cactus_day.glb'; 
 
 const temperatureSceneThemes: Record<TemperatureRange, SceneTheme> = {
