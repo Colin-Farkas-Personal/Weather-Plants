@@ -62,13 +62,13 @@
 			flex-direction: column;
 			flex: 2;
 
-			border-radius: 0 0 clamp(60px, 20vmin, 140px) clamp(60px, 20vmin, 140px);
+			border-radius: 0 0 180px 180px;
 			border-left: clamp(2px, 0.5vmin, 4px) solid var(--theme-border-primary);
 			border-bottom: clamp(2px, 0.5vmin, 4px) solid var(--theme-border-primary);
 			border-right: clamp(2px, 0.5vmin, 4px) solid var(--theme-border-primary);
 
-			width: 110%;
-			margin-left: -5%;
+			width: 130%;
+			margin-left: -15%;
 		}
 
 		.details {

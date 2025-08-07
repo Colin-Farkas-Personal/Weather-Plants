@@ -35,7 +35,7 @@ const weatherConditionStatuses: Record<WeatherCondition, ConditionStatus> = {
   'moderate rain at times': 'RAINY',
   'moderate rain': 'RAINY',
   'moderate snow': 'SNOWY',
-  'partly cloudy': 'CLOUDY',
+  'partly cloudy': 'SUNNY_CLOUDY',
   'patchy freezing drizzle possible': 'FREEZING',
   'patchy heavy snow': 'SNOWY',
   'patchy light drizzle': 'RAINY',
