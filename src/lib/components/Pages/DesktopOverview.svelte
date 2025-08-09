@@ -71,6 +71,8 @@
 			gap: clamp(4rem, 30vmin, 10rem);
 
 			overflow-y: auto;
+			scrollbar-color: var(--theme-border-primary) var(--theme-bg-primary);
+			scrollbar-width: thin;
 
 			@media screen and (height <= 650px) {
 				justify-content: start;

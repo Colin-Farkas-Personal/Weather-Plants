@@ -15,16 +15,14 @@ interface LoadParams {
 }
 export async function load({ params, fetch }: LoadParams): Promise<WeatherOverview> {
 	const location = params.slug;
-	console.warn("LOCATION: ", location);
 
 	try {
 		const data = await fetchFromWeatherApi(fetch, location);
-		console.error("DATA:", data);
 		const dataFormatted = toFormattedWeatherData<WeatherOverview>(data, selectedTemperatureUnit, true);
 		
 		return dataFormatted;
 	} catch (e: unknown) {
-		console.error("Weather load failed:", e);
-		throw error(500, "Failed to load weather data");
+		console.warn("Weather load failed:", e);
+		error(500, "Not found");
 	}
 }; 

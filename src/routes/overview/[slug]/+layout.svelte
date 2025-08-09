@@ -1,7 +1,6 @@
 <script lang="ts">
 	import conditionStatusStore from '$lib/globals/conditionStatusStore.svelte.js';
 	import temperatureThemeStore from '$lib/globals/temperatureThemeStore.svelte.js';
-	import '$lib/styles/styles.scss';
 	import type { TemperatureRange } from '$lib/types/temperature.js';
 	import { onMount } from 'svelte';
 

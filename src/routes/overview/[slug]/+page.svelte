@@ -27,6 +27,3 @@
 		<MobileOverview {data} />
 	{/if}
 </article>
-
-<style lang="scss">
-</style>
