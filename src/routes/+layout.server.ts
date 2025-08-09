@@ -7,7 +7,7 @@ import { fetchFromWeatherApi } from "$lib/adapters/weatherapi";
 import type { Fetch } from "$lib/types/fetch";
 
 const selectedTemperatureUnit: TemperatureUnit = 'celsius';
-const WEATHER_API_LOCATION_CITY = 'Miami'; // Default city while testing
+const WEATHER_API_LOCATION_CITY = 'Texas'; // Default city while testing
 
 export async function load({ fetch }: { fetch: Fetch}): Promise<WeatherOverview> {
 	try {

@@ -16,10 +16,11 @@
 	let { data }: DesktopOverviewProps = $props();
 </script>
 
-<main class="desktop-overview">
-	<section class="details isolate">
-		<div class="noise"></div>
-		<div class="overlay"></div>
+<main class="desktop-overview isolate">
+	<div class="noise"></div>
+	<div class="overlay"></div>
+	
+	<section class="details">
 
 		<OverviewLocation locationName={data.location.name} countryName={data.location.country} />
 
@@ -70,7 +71,7 @@
 			margin: 0 auto;
 			gap: clamp(4rem, 30vmin, 10rem);
 
-			overflow-y: scroll;
+			overflow-y: auto;
 
 			@media screen and (height <= 650px) {
 				justify-content: start;
