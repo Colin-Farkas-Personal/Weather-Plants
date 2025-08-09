@@ -7,11 +7,19 @@ import { fetchFromWeatherApi } from "$lib/adapters/weatherapi";
 import type { Fetch } from "$lib/types/fetch";
 
 const selectedTemperatureUnit: TemperatureUnit = 'celsius';
-const WEATHER_API_LOCATION_CITY = 'Texas'; // Default city while testing
+// const WEATHER_API_LOCATION_CITY = 'Gothenburg'; // Default city while testing
 
-export async function load({ fetch }: { fetch: Fetch}): Promise<WeatherOverview> {
+interface LoadParams {
+	params: { slug: string };
+	fetch: Fetch;
+}
+export async function load({ params, fetch }: LoadParams): Promise<WeatherOverview> {
+	const location = params.slug;
+	console.warn("LOCATION: ", location);
+
 	try {
-		const data = await fetchFromWeatherApi(fetch, WEATHER_API_LOCATION_CITY);
+		const data = await fetchFromWeatherApi(fetch, location);
+		console.error("DATA:", data);
 		const dataFormatted = toFormattedWeatherData<WeatherOverview>(data, selectedTemperatureUnit, true);
 		
 		return dataFormatted;

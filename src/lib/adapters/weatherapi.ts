@@ -25,6 +25,8 @@ export async function fetchFromWeatherApi(fetch: Fetch, location: string): Promi
 
   const data = await response.json();
 
+  console.log("Fetched weather data:", data);
+
   return {
     location: {
       name: data.location.name,

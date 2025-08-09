@@ -41,6 +41,7 @@ const weatherConditionStatuses: Record<WeatherCondition, ConditionStatus> = {
   'patchy light drizzle': 'RAINY',
   'patchy light rain with thunder': 'THUNDER',
   'patchy light rain': 'RAINY',
+  'patchy rain nearby': 'RAINY',
   'patchy light snow with thunder': 'THUNDER',
   'patchy light snow': 'SNOWY',
   'patchy moderate snow': 'SNOWY',

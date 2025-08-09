@@ -7,5 +7,5 @@
 <p>{error.message}</p>
 
 {#if status === 500}
-	<p>Something went wrong loading the weather data. Please try again later.</p>
+	<p>There seems to be no temperature for {error.message}</p>
 {/if}
