@@ -8,11 +8,7 @@
   inset: 0;
 
   background: url('/src/lib/components/Noise/noise.svg');
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-clip: border-box;
-  filter: contrast(200%) brightness(100%);
+  filter: contrast(400%) brightness(100%);
 }
 
 .overlay {
@@ -21,5 +17,5 @@
   inset: 0;
 
   background-color: var(--theme-bg-primary);
-  mix-blend-mode: darken;
+  mix-blend-mode: multiply;
 }

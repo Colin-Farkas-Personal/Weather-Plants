@@ -58,7 +58,6 @@
 		display: flex;
 		height: 100dvh;
 
-		background-color: var(--theme-bg-primary);
 
 		.details {
 			flex: 1;
