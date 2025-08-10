@@ -4,25 +4,34 @@ import type { WeatherOverview } from "$lib/types/weather";
 import { toFormattedWeatherData } from "$lib/utilities/formatted-temperature";
 import { error } from "@sveltejs/kit";
 import { fetchFromWeatherApi } from "$lib/adapters/weatherapi";
-import type { Fetch } from "$lib/types/fetch";
+import type { LayoutServerLoad } from './$types';
+import { transformWeatherData } from "$lib/adapters/weatherapi.transformer";
 
-const selectedTemperatureUnit: TemperatureUnit = 'celsius';
-// const WEATHER_API_LOCATION_CITY = 'Gothenburg'; // Default city while testing
+const selectedRoundValues: boolean = true; // TODO: implement rounding switch
+const selectedTemperatureUnit: TemperatureUnit = 'celsius'; // TODO: implement temperature unit selection
 
-interface LoadParams {
-	params: { slug: string };
-	fetch: Fetch;
-}
-export async function load({ params, fetch }: LoadParams): Promise<WeatherOverview> {
+export const load: LayoutServerLoad = async ({ params, fetch, setHeaders }) => {
 	const location = params.slug;
 
 	try {
-		const data = await fetchFromWeatherApi(fetch, location);
-		const dataFormatted = toFormattedWeatherData<WeatherOverview>(data, selectedTemperatureUnit, true);
+		const response = await fetchFromWeatherApi({ fetch, location });
 		
+		// Set headers for caching
+		setHeaders({
+			age: response.headers.get('age') ?? '',
+			'cache-control': response.headers.get('cache-control') ?? '',
+		});
+
+		const dataRaw = await transformWeatherData(response);
+		const dataFormatted = toFormattedWeatherData<WeatherOverview>(
+			dataRaw,
+			selectedTemperatureUnit,
+			selectedRoundValues
+		);
+
 		return dataFormatted;
-	} catch (e: unknown) {
-		console.warn("Weather load failed:", e);
-		error(500, "Not found");
+	} catch (e) {
+		console.warn('Weather load failed:', e);
+		throw error(500, 'Not found');
 	}
-}; 
+};
