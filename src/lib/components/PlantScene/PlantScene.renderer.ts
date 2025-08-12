@@ -30,6 +30,7 @@ function initScene(
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  renderer.setPixelRatio(window.devicePixelRatio);
   sceneContainer.appendChild(renderer.domElement);
 
   // Lights
