@@ -29,7 +29,7 @@ function initScene(
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 1.5;
+  renderer.toneMappingExposure = 1.75;
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   renderer.setPixelRatio(window.devicePixelRatio);
@@ -37,8 +37,8 @@ function initScene(
 
   // Light to simulate sunlight
   const hemi = new THREE.HemisphereLight(0xeeeeee);
-  hemi.position.set(0, 1.8, 0);
-  hemi.intensity = 0.45;
+  hemi.position.set(-3, 1.8, -3);
+  hemi.intensity = 0.25;
   scene.add(hemi);
 
   const dirLight = new THREE.DirectionalLight(0xffffff, 1);
@@ -47,6 +47,11 @@ function initScene(
   dirLight.shadow.bias = -0.0001;
   dirLight.shadow.normalBias = 0.02;
   scene.add(dirLight);
+
+  // Add pointer light behind plant to light up backside
+  const pointLight = new THREE.PointLight(0xffffff, 0.5, 10);
+  pointLight.position.set(0, 1, 1);
+  scene.add(pointLight);
 
   // Rect light top left
   // const width1 = 1;
