@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { GLTFLoader, OrbitControls } from 'three/examples/jsm/Addons.js';
+import { GLTFLoader, OrbitControls, RectAreaLightHelper } from 'three/examples/jsm/Addons.js';
 
 const cameraOriginPosition = {
   x: 1.2,
@@ -28,29 +28,37 @@ function initScene(
   // Renderer
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
   renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.5;
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   renderer.setPixelRatio(window.devicePixelRatio);
   sceneContainer.appendChild(renderer.domElement);
 
-  // Lights
+  // Light to simulate sunlight
   const hemi = new THREE.HemisphereLight(0xeeeeee);
-  hemi.position.set(0, 0.8, 0);
-  hemi.intensity = 1.6;
+  hemi.position.set(0, 1.8, 0);
+  hemi.intensity = 0.45;
   scene.add(hemi);
 
-  const dirLight = new THREE.DirectionalLight(0xffffff, 1.5);
+  const dirLight = new THREE.DirectionalLight(0xffffff, 1);
   dirLight.position.set(1.6, 0.8, 0);
   dirLight.castShadow = true;
+  dirLight.shadow.bias = -0.0001;
+  dirLight.shadow.normalBias = 0.02;
   scene.add(dirLight);
 
-  const dirLight2 = new THREE.DirectionalLight(0xffffff, 1.5);
-  dirLight2.position.set(-1.6, 0.8, -1.6);
-  scene.add(dirLight2);
+  // Rect light top left
+  // const width1 = 1;
+  // const height1 = 1;
+  // const intensity1 = 0.5;
+  // const rectLight = new THREE.RectAreaLight(0xfffbe5, intensity1, width1, height1); // Soft white with slight warmth
+  // rectLight.position.set(0.45, 0.4, 1);
+  // rectLight.rotation.x = -Math.PI / 2.2;
+  // rectLight.lookAt(0, 0, 0);
+  // scene.add(rectLight);
 
-  // const topLight = new THREE.DirectionalLight(0xffffff, 0.4);
-  // topLight.position.set(0, 1, 0);
-  // scene.add(topLight);
+  // Rect light behind plant
 
   // Plane
   const plane = new THREE.Mesh(
@@ -92,9 +100,9 @@ function loadModel(path: string, scene: THREE.Scene) {
   loader.load(
     path,
     (gltf) => {
-      gltf.scene.position.set(0, 0, 0);
       gltf.scene.traverse((child) => {
         if ((child as THREE.Mesh).isMesh) {
+          child.receiveShadow = true;
           child.castShadow = true;
         }
       });

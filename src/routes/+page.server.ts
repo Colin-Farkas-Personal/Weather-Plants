@@ -1,7 +1,7 @@
 import { redirect } from '@sveltejs/kit';
 
 function getRandomLocation() {
-	const locations = [
+    const locations = [
         'Athens', 
         'Gothenburg', 
         'Oslo', 
@@ -15,7 +15,13 @@ function getRandomLocation() {
         'Lisbon',
         'Copenhagen',
         'Helsinki',
-        'Reykjavik'
+        'Reykjavik',
+        'Miami',
+        'Bangkok',
+        'Dubai',
+        'Cairo',
+        'Sydney',
+        'Honolulu',
     ];
 	return locations[Math.floor(Math.random() * locations.length)];
 }

@@ -8,8 +8,8 @@ type SceneTheme = {
 
 // Variables
 export const modelPathCactus = '/models/cactus_day.glb'; 
-export const modelPathSunflower = '/models/y.glb'; 
-export const modelPathSappling = '/models/cactus_day.glb'; 
+export const modelPathSunflower = '/models/sunflower_soft.glb'; 
+export const modelPathSappling = '/models/cactus_vanilla.glb'; 
 
 const temperatureSceneThemes: Record<TemperatureRange, SceneTheme> = {
   Cold: {
@@ -19,13 +19,13 @@ const temperatureSceneThemes: Record<TemperatureRange, SceneTheme> = {
   },
   Pleasant: {
     modelPath: modelPathSunflower,
-    backgroundColor: 0x96d4f4,
-    groundColor: 0xbde5f9,
+    backgroundColor: 0xA3DFFD,
+    groundColor: 0xA3DFFD,
   },
   Hot: {
     modelPath: modelPathCactus,
     backgroundColor: 0xF0D783,
-    groundColor: 0xFFFA9B,
+    groundColor: 0xF0D783,
   },
 };
 
