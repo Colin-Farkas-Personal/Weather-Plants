@@ -36,10 +36,10 @@ function initScene(
   // Light to simulate sunlight
   const hemi = new THREE.HemisphereLight(0xeeeeee);
   hemi.position.set(-3, 1.8, -3);
-  hemi.intensity = 1.75;
+  hemi.intensity = 1.25;
   scene.add(hemi);
 
-  const dirLight = new THREE.DirectionalLight(0xffffff, 1.5);
+  const dirLight = new THREE.DirectionalLight(0xF3FFA8, 2.5);
   dirLight.position.set(1.6, 0.8, 0.45);
   dirLight.position.z = 1.2;
   dirLight.castShadow = true;
@@ -47,11 +47,10 @@ function initScene(
   dirLight.shadow.normalBias = 0.02;
   scene.add(dirLight);
 
-  // Add pointer light behind plant to light up backside
-  // const pointLight = new THREE.PointLight(0xffffff, 2, 20); // (color, intensity, distance)
-  // pointLight.position.set(0, 3, 0);
-  // pointLight.position.x = -0.5;
-  // scene.add(pointLight);
+  // Add light to light up backside of plant
+  const backLight = new THREE.DirectionalLight(0xFFF2D0, 1);
+  backLight.position.set(-1, 0, -1);
+  scene.add(backLight);
 
   // Plane
   const plane = new THREE.Mesh(
