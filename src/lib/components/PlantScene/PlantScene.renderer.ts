@@ -48,8 +48,9 @@ function initScene(
   scene.add(dirLight);
 
   // Add light to light up backside of plant
-  const backLight = new THREE.DirectionalLight(0xFFF2D0, 1);
-  backLight.position.set(-1, 0, -1);
+  const backLight = new THREE.DirectionalLight(0xF9FFD3, 1);
+  backLight.position.set(-0.4, 1, -0.4);
+  backLight.position.z = -1.6;
   scene.add(backLight);
 
   // Plane
