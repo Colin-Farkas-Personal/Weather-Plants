@@ -28,20 +28,18 @@ function initScene(
   // Renderer
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
   renderer.setSize(window.innerWidth, window.innerHeight);
-  renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 1.75;
-  renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  renderer.shadowMap.enabled = true;
   renderer.setPixelRatio(window.devicePixelRatio);
   sceneContainer.appendChild(renderer.domElement);
 
   // Light to simulate sunlight
   const hemi = new THREE.HemisphereLight(0xeeeeee);
   hemi.position.set(-3, 1.8, -3);
-  hemi.intensity = 0.45;
+  hemi.intensity = 1.75;
   scene.add(hemi);
 
-  const dirLight = new THREE.DirectionalLight(0xffffff, 0.45);
+  const dirLight = new THREE.DirectionalLight(0xffffff, 1.5);
   dirLight.position.set(1.6, 0.8, 0.45);
   dirLight.position.z = 1.2;
   dirLight.castShadow = true;
@@ -50,10 +48,10 @@ function initScene(
   scene.add(dirLight);
 
   // Add pointer light behind plant to light up backside
-  const pointLight = new THREE.PointLight(0xffffff, 6, 20); // (color, intensity, distance)
-  pointLight.position.set(0, 3, 0);
-  pointLight.position.x = -0.5;
-  scene.add(pointLight);
+  // const pointLight = new THREE.PointLight(0xffffff, 2, 20); // (color, intensity, distance)
+  // pointLight.position.set(0, 3, 0);
+  // pointLight.position.x = -0.5;
+  // scene.add(pointLight);
 
   // Plane
   const plane = new THREE.Mesh(
