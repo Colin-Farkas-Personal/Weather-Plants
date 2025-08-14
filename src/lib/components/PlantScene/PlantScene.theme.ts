@@ -19,8 +19,8 @@ const temperatureSceneThemes: Record<TemperatureRange, SceneTheme> = {
   },
   Pleasant: {
     modelPath: modelPathSunflower,
-    backgroundColor: 0xA3DFFD,
-    groundColor: 0xA3DFFD,
+    backgroundColor: 0x7FCFEA,
+    groundColor: 0x7FCFEA,
   },
   Hot: {
     modelPath: modelPathCactus,

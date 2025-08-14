@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { GLTFLoader, OrbitControls, RectAreaLightHelper } from 'three/examples/jsm/Addons.js';
+import { GLTFLoader, OrbitControls } from 'three/examples/jsm/Addons.js';
 
 const cameraOriginPosition = {
   x: 1.2,
@@ -38,32 +38,22 @@ function initScene(
   // Light to simulate sunlight
   const hemi = new THREE.HemisphereLight(0xeeeeee);
   hemi.position.set(-3, 1.8, -3);
-  hemi.intensity = 0.25;
+  hemi.intensity = 0.45;
   scene.add(hemi);
 
-  const dirLight = new THREE.DirectionalLight(0xffffff, 1);
-  dirLight.position.set(1.6, 0.8, 0);
+  const dirLight = new THREE.DirectionalLight(0xffffff, 0.45);
+  dirLight.position.set(1.6, 0.8, 0.45);
+  dirLight.position.z = 1.2;
   dirLight.castShadow = true;
   dirLight.shadow.bias = -0.0001;
   dirLight.shadow.normalBias = 0.02;
   scene.add(dirLight);
 
   // Add pointer light behind plant to light up backside
-  const pointLight = new THREE.PointLight(0xffffff, 0.5, 10);
-  pointLight.position.set(0, 1, 1);
+  const pointLight = new THREE.PointLight(0xffffff, 6, 20); // (color, intensity, distance)
+  pointLight.position.set(0, 3, 0);
+  pointLight.position.x = -0.5;
   scene.add(pointLight);
-
-  // Rect light top left
-  // const width1 = 1;
-  // const height1 = 1;
-  // const intensity1 = 0.5;
-  // const rectLight = new THREE.RectAreaLight(0xfffbe5, intensity1, width1, height1); // Soft white with slight warmth
-  // rectLight.position.set(0.45, 0.4, 1);
-  // rectLight.rotation.x = -Math.PI / 2.2;
-  // rectLight.lookAt(0, 0, 0);
-  // scene.add(rectLight);
-
-  // Rect light behind plant
 
   // Plane
   const plane = new THREE.Mesh(
