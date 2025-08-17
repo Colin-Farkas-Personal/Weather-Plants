@@ -122,13 +122,6 @@
 			.overview-range {
 				gap: clamp(24px, var(--typography-font-size-vmin), 48px);
 			}
-
-			.display {
-				.size-container {
-					top: 0;
-					height: 100%;
-				}
-			}
 		}
 	}
 </style>

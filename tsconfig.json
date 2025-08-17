@@ -8,6 +8,7 @@
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "sourceMap": true,
+    "inlineSources": true,
     "strict": true,
     "moduleResolution": "bundler",
     "target": "ES2020",

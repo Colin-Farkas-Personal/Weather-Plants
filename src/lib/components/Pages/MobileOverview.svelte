@@ -83,11 +83,6 @@
 		}
 
 		:global {
-			.display {
-				.size-container {
-					width: 100%;
-				}
-			}
 			.overview-location {
 				padding-top: 2rem;
 				background-color: var(--theme-text-bg-inversed);
