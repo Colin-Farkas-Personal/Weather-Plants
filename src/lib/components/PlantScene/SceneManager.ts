@@ -2,15 +2,17 @@ import type { Scene } from "three";
 import * as THREE from "three";
 import { GeneralLights } from "./subjects/GeneralLights";
 import { GroundPlane } from "./subjects/GroundPlane";
-import type { SceneSubject } from "./subjects/Subject";
+import type { SceneSubject } from "./subjects/subject";
 import { Fog } from "./subjects/Fog";
 import { Sky } from "./subjects/Sky";
 import { Model } from "./subjects/Model";
 import { OrbitControls } from "three/examples/jsm/Addons.js";
+import type { SceneTheme } from "./themes/theme";
 
 interface ISceneManager {
     update: () => void;
     dispose: () => void;
+    setTheme: (theme: SceneTheme) => void;
     onWindowResize: () => void;
 }
 
@@ -20,9 +22,8 @@ type ScreenDimensions = {
 };
 
 export class SceneManager implements ISceneManager {
-    private clock: THREE.Clock;
-
     private _canvas: HTMLCanvasElement;
+    private _theme: SceneTheme;
     private scene: Scene;
     private renderer: THREE.WebGLRenderer;
     private camera: THREE.PerspectiveCamera;
@@ -36,9 +37,9 @@ export class SceneManager implements ISceneManager {
         };
     }
 
-    constructor(canvas: HTMLCanvasElement) {
-        this.clock = new THREE.Clock();
+    constructor(canvas: HTMLCanvasElement, theme: SceneTheme) {
         this._canvas = canvas;
+        this._theme = theme;
 
         this.scene = this.buildScene();
 
@@ -46,9 +47,11 @@ export class SceneManager implements ISceneManager {
         this.renderer = this.buildRenderer(dimensions);
         this.camera = this.buildCamera(dimensions);
         this.controls = this.buildOrbitControls();
-        this.sceneSubjects = this.createSceneSubjects(this.scene);
+        this.sceneSubjects = this.createSceneSubjects(this.scene, this._theme);
     }
-    
+
+    // ---- PUBLIC METHODS ----
+
     update() {
         // for(const subject of this.sceneSubjects) {
         //     Subjects currently do not implement update logic
@@ -75,6 +78,13 @@ export class SceneManager implements ISceneManager {
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
     }
 
+    setTheme(theme: SceneTheme) {
+        this.createSceneSubjects(this.scene, theme);
+        this.update();
+    }
+
+    // ---- PRIVATE METHODS ----
+
     private buildScene(): Scene {
         const scene = new THREE.Scene();
         return scene;
@@ -89,6 +99,7 @@ export class SceneManager implements ISceneManager {
             powerPreference: "high-performance"
         });
 
+        renderer.shadowMap.enabled = true;
         renderer.shadowMap.type = THREE.PCFSoftShadowMap;
         renderer.outputColorSpace = THREE.SRGBColorSpace;
         renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -101,8 +112,8 @@ export class SceneManager implements ISceneManager {
     }
 
     private buildCamera({ width, height }: ScreenDimensions): THREE.PerspectiveCamera {
-        const fieldOfView = 50;
         const aspectRatio = width / height;
+        const fieldOfView = aspectRatio > 1 ? 40 : 50;
         const nearPlane = 1;
         const farPlane = 1000;
         const camera = new THREE.PerspectiveCamera(fieldOfView, aspectRatio, nearPlane, farPlane);
@@ -132,23 +143,25 @@ export class SceneManager implements ISceneManager {
         return controls;
     }
 
-    private createSceneSubjects(scene: Scene): SceneSubject[] {
+    private createSceneSubjects(scene: Scene, theme: SceneTheme): SceneSubject[] {
+        const { modelPath, skyColor, fogColor, groundColor } = theme;
+
         const generalLights = new GeneralLights(scene);
         const groundPlane = new GroundPlane({ 
             scene: scene,
-            color: new THREE.Color(0xF3FFA8),
+            color: new THREE.Color(groundColor),
         });
         const sky = new Sky({ 
             scene: scene, 
-            color: new THREE.Color(0xD3D97A)
+            color: new THREE.Color(skyColor)
         });
         const fog = new Fog({ 
             scene: scene, 
-            color: new THREE.Color(0xD3D97A), 
+            color: new THREE.Color(fogColor), 
         });
         const model = new Model({
             scene: scene,
-            path: '/models/sunflower_soft.glb'
+            path: modelPath
         })
 
         const sceneSubjects: SceneSubject[] = [

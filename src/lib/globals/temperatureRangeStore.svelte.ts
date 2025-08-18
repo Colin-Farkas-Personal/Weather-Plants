@@ -2,18 +2,18 @@ import type { TemperatureRange } from "$lib/types/temperature";
 import { temperatureToRange } from "$lib/utilities/temperature-to-range";
 import { writable } from "svelte/store";
 
-function createTemperatureThemeStore() {
+function createTemperatureRangeStore() {
     const { update, subscribe } = writable<TemperatureRange | null>();
 
-    function setTheme(temp: number) {
+    function setRange(temp: number) {
         const themeRange = temperatureToRange(temp);
 
         update(() => themeRange);
     }
 
-    return { subscribe, setTheme };
+    return { subscribe, setRange };
 }
 
-const temperatureThemeStore = createTemperatureThemeStore();
+const temperatureRangeStore = createTemperatureRangeStore();
 
-export default temperatureThemeStore;
+export default temperatureRangeStore;

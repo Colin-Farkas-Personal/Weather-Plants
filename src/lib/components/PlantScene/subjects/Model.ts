@@ -1,5 +1,5 @@
 import { GLTFLoader, type GLTF } from "three/examples/jsm/loaders/GLTFLoader.js";
-import type { SceneSubject } from "./Subject";
+import type { SceneSubject } from "./subject";
 import * as THREE from "three";
 
 interface ConstructorParams {

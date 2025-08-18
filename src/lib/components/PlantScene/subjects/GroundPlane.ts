@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import type { SceneSubject } from "./Subject";
+import type { SceneSubject } from "./subject";
 
 interface Constructor {
     scene: THREE.Scene;
