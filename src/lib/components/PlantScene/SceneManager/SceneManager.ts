@@ -1,13 +1,14 @@
 import type { Scene } from "three";
 import * as THREE from "three";
-import { GeneralLights } from "./subjects/GeneralLights";
-import { GroundPlane } from "./subjects/GroundPlane";
-import type { SceneSubject } from "./subjects/subject";
-import { Fog } from "./subjects/Fog";
-import { Sky } from "./subjects/Sky";
-import { Model } from "./subjects/Model";
+import { GeneralLights } from "../subjects/GeneralLights";
+import { GroundPlane } from "../subjects/GroundPlane";
+import type { SceneSubject } from "../subjects/subject";
+import { Fog } from "../subjects/Fog";
+import { Sky } from "../subjects/Sky";
+import { Model } from "../subjects/Model";
 import { OrbitControls } from "three/examples/jsm/Addons.js";
-import type { SceneTheme } from "./themes/theme";
+import type { SceneTheme } from "../themes/theme";
+import { getScreenOrientation } from "./aspect-ration";
 
 interface ISceneManager {
     update: () => void;
@@ -16,7 +17,7 @@ interface ISceneManager {
     onWindowResize: () => void;
 }
 
-type ScreenDimensions = {
+type CanvasDimensions = {
     width: number;
     height: number;
 };
@@ -30,7 +31,7 @@ export class SceneManager implements ISceneManager {
     private controls: OrbitControls;
     private sceneSubjects: SceneSubject[];
 
-    private get screenDimensions(): ScreenDimensions {
+    private get canvasDimensions(): CanvasDimensions {
         return {
             width: this._canvas.clientWidth,
             height: this._canvas.clientHeight
@@ -43,9 +44,9 @@ export class SceneManager implements ISceneManager {
 
         this.scene = this.buildScene();
 
-        const dimensions = this.screenDimensions;
-        this.renderer = this.buildRenderer(dimensions);
-        this.camera = this.buildCamera(dimensions);
+        const canvasdimensions = this.canvasDimensions;
+        this.renderer = this.buildRenderer(canvasdimensions);
+        this.camera = this.buildCamera(canvasdimensions);
         this.controls = this.buildOrbitControls();
         this.sceneSubjects = this.createSceneSubjects(this.scene, this._theme);
     }
@@ -68,14 +69,14 @@ export class SceneManager implements ISceneManager {
     }
 
     onWindowResize() {
-    const w = this._canvas.clientWidth;
-    const h = Math.max(1, this._canvas.clientHeight);
+        const width = this.canvasDimensions.width;
+        const height = Math.max(1, this.canvasDimensions.height);
 
-    this.camera.aspect = w / h;
-    this.camera.updateProjectionMatrix();
+        this.camera.aspect = width / height;
+        this.camera.updateProjectionMatrix();
 
-    this.renderer.setSize(w, h, false);
-    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+        this.renderer.setSize(width, height, false);
+        this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
     }
 
     setTheme(theme: SceneTheme) {
@@ -90,7 +91,7 @@ export class SceneManager implements ISceneManager {
         return scene;
     }
 
-    private buildRenderer({ width, height }: ScreenDimensions): THREE.WebGLRenderer {
+    private buildRenderer({ width, height }: CanvasDimensions): THREE.WebGLRenderer {
         const antialias = (window.devicePixelRatio || 1) < 1.5;
         const renderer = new THREE.WebGLRenderer({
             canvas: this._canvas,
@@ -111,9 +112,13 @@ export class SceneManager implements ISceneManager {
         return renderer;
     }
 
-    private buildCamera({ width, height }: ScreenDimensions): THREE.PerspectiveCamera {
+    private buildCamera({ width, height }: CanvasDimensions): THREE.PerspectiveCamera {
+        const { orientation } = getScreenOrientation();
+        const fieldOfViewMobile = 42.5;
+        const fieldOfViewDesktop = 50;
+        const fieldOfView = orientation === 'portrait' ? fieldOfViewMobile : fieldOfViewDesktop;
+
         const aspectRatio = width / height;
-        const fieldOfView = aspectRatio > 1 ? 40 : 50;
         const nearPlane = 1;
         const farPlane = 1000;
         const camera = new THREE.PerspectiveCamera(fieldOfView, aspectRatio, nearPlane, farPlane);

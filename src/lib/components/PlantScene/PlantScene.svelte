@@ -1,27 +1,31 @@
 <script lang="ts">
+	import conditionStatusStore from '$lib/globals/conditionStatusStore.svelte';
+	import temperatureRangeStore from '$lib/globals/temperatureRangeStore.svelte';
+	import type { ConditionStatus } from '$lib/types/condition';
 	import type { TemperatureRange } from '$lib/types/temperature';
 	import { onDestroy, onMount } from 'svelte';
-	import { SceneManager } from './SceneManager';
-	import temperatureRangeStore from '$lib/globals/temperatureRangeStore.svelte';
 	import { getSceneTheme } from './parseTheme';
-	import conditionStatusStore from '$lib/globals/conditionStatusStore.svelte';
-	import type { ConditionStatus } from '$lib/types/condition';
+	import { SceneManager } from './SceneManager/SceneManager';
 
 	// Props
-	let temperatureRange = $state<TemperatureRange>('Hot');
-	let conditionStatus = $state<ConditionStatus>('SUNNY');
+	let temperatureRange = $state<TemperatureRange | null>(null);
+	let conditionStatus = $state<ConditionStatus | null>(null);
 	let currentSceneTheme = $derived(() => {
 		return getSceneTheme(temperatureRange, conditionStatus);
 	});
+
+	// Store Subscriptions
+	temperatureRange = $temperatureRangeStore;
+	conditionStatus = $conditionStatusStore;
 
 	// Update Scene Theme
 	$effect(() => {
 		if (!plantSceneManager) {
 			return;
 		}
-
-		console.error("currentSceneTheme:", currentSceneTheme(), "plantsceneManager:", plantSceneManager);
-		plantSceneManager.setTheme(currentSceneTheme());
+		
+		const theme = currentSceneTheme();
+		plantSceneManager.setTheme(theme);
 	});
 
 	// Variables
@@ -30,30 +34,21 @@
 	let plantSceneManager: SceneManager;
 	
 	function render() {
-		plantSceneManager.update();
 		raf = requestAnimationFrame(render);
+		plantSceneManager.update();
 	}
 
 	function onResizeHandler() {
-		plantSceneManager?.onWindowResize();
+		plantSceneManager.onWindowResize();
 	}
 
 	onMount(() => {
 		if (canvas) {
-			plantSceneManager = new SceneManager(canvas, currentSceneTheme());
+			const theme = currentSceneTheme();
+			plantSceneManager = new SceneManager(canvas, theme);
+
 			render();
 		}
-
-		temperatureRangeStore.subscribe((range) => {
-			if (range) {
-				temperatureRange = range;
-			}
-		});
-		conditionStatusStore.subscribe((condition) => {
-			if (condition) {
-				conditionStatus = condition;
-			}
-		})
 	});
 
 	onDestroy(() => {

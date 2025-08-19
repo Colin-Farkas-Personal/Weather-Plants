@@ -1,5 +1,7 @@
 import type { ConditionStatus } from "$lib/types/condition";
 import type { TemperatureRange } from "$lib/types/temperature";
+import { pleasantTheme } from "./themes/cold";
+import { defaultTheme } from "./themes/default";
 import { hotTheme } from "./themes/hot";
 import type { SceneTheme, TemperatureThemeMap } from "./themes/theme";
 
@@ -12,20 +14,19 @@ const temperatureSceneThemes: TemperatureThemeMap = {
     ...hotTheme
   },
   Pleasant: {
-    ...hotTheme
+    ...pleasantTheme
   },
   Hot: {
     ...hotTheme
   },
 };
 
-function getSceneTheme(range: TemperatureRange, condition: ConditionStatus): SceneTheme {
-  const sceneTheme = temperatureSceneThemes[range][condition];
-
-  if (!sceneTheme) {
-    throw new Error(`No scene theme found for ${range} and ${condition}`);
+function getSceneTheme(range: TemperatureRange | null, condition: ConditionStatus | null): SceneTheme {
+  if (!range || !condition) {
+    return defaultTheme;
   }
-  return sceneTheme;
+
+  return temperatureSceneThemes[range][condition] ?? defaultTheme;
 }
 
 export { getSceneTheme };

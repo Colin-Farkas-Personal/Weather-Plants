@@ -24,7 +24,7 @@ export class GeneralLights implements SceneSubject {
 
     private createDirectionalLight(): THREE.DirectionalLight {
         const color = 0xF3FFA8;
-        const intensity = 1;
+        const intensity = 2;
         const directionalLight = new THREE.DirectionalLight(color, intensity);
         
         directionalLight.position.set(1.6, 0.8, 0.45);
@@ -37,7 +37,7 @@ export class GeneralLights implements SceneSubject {
 
     private createBackLight(): THREE.DirectionalLight {
         const color = 0xF3FFA8;
-        const intensity = 0.5;
+        const intensity = 0.75;
         const backLight = new THREE.DirectionalLight(color, intensity);
 
         backLight.position.set(-1.6, 0.8, -0.45);
