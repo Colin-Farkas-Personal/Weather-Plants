@@ -13,7 +13,7 @@ import { getScreenOrientation } from "./aspect-ration";
 interface ISceneManager {
     update: () => void;
     dispose: () => void;
-    setTheme: (theme: SceneTheme) => void;
+    updateTheme: (theme: SceneTheme) => void;
     onWindowResize: () => void;
 }
 
@@ -30,6 +30,7 @@ export class SceneManager implements ISceneManager {
     private camera: THREE.PerspectiveCamera;
     private controls: OrbitControls;
     private sceneSubjects: SceneSubject[];
+    private model: Model | null = null;
 
     private get canvasDimensions(): CanvasDimensions {
         return {
@@ -79,9 +80,18 @@ export class SceneManager implements ISceneManager {
         this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
     }
 
-    setTheme(theme: SceneTheme) {
-        this.createSceneSubjects(this.scene, theme);
-        this.update();
+    updateTheme(theme: SceneTheme) {
+        console.log("UPDATE!")
+        // 1. Remove existing model
+        if (this.model) {
+            this.model.dispose();
+        }
+
+        console.log("SCENE UPDATED!", theme)
+        this.model = new Model({
+            scene: this.scene,
+            path: theme.modelPath
+        });
     }
 
     // ---- PRIVATE METHODS ----
@@ -168,6 +178,7 @@ export class SceneManager implements ISceneManager {
             scene: scene,
             path: modelPath
         })
+        this.model = model;
 
         const sceneSubjects: SceneSubject[] = [
             generalLights,

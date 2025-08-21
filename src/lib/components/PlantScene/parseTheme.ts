@@ -5,10 +5,6 @@ import { defaultTheme } from "./themes/default";
 import { hotTheme } from "./themes/hot";
 import type { SceneTheme, TemperatureThemeMap } from "./themes/theme";
 
-// Variables
-export const modelPathSunflower = '/models/sunflower_soft.glb'; 
-export const modelPathSappling = '/models/cactus_vanilla.glb'; 
-
 const temperatureSceneThemes: TemperatureThemeMap = {
   Cold: {
     ...hotTheme
@@ -30,11 +26,6 @@ function getSceneTheme(range: TemperatureRange | null, condition: ConditionStatu
 }
 
 export { getSceneTheme };
-
-// PLEASANT
-// modelPath: modelPathSunflower,
-// backgroundColor: 0x73D4EF,
-// groundColor: 0xC8F3FF,
 
 // COLD
 // modelPath: modelPathSappling,

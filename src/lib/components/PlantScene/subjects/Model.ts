@@ -9,15 +9,26 @@ interface ConstructorParams {
 
 export class Model implements SceneSubject {
 
+    private scene: THREE.Scene;
+    private model: THREE.Group;
+
     constructor ({ scene, path }: ConstructorParams) {
+        this.scene = scene;
+        this.model = this.buildModel(path);
+
         if (path) {
-            scene.add(this.buildModel(path));
+            scene.add(this.model);
         }
     }
 
     update(): void {
         console.warn("Method not implemented.", this);
     }
+
+    dispose(): void {
+        this.scene.remove(this.model);
+    }
+    
 
     private buildModel(path: string): THREE.Group {
         const loader = new GLTFLoader();
@@ -48,5 +59,4 @@ export class Model implements SceneSubject {
             });
         };
     }
-
 }

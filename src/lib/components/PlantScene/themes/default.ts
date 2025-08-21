@@ -1,6 +1,6 @@
 import type { SceneTheme } from "./theme";
 
-const modelPathEmptyPot = '/models/y.glb';
+const modelPathEmptyPot = '/models/cactus_day.glb';
 
 const defaultTheme: SceneTheme = {
 	modelPath: modelPathEmptyPot,

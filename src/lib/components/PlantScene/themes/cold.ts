@@ -1,6 +1,6 @@
 import type { ThemeMap } from "./theme";
 
-export const modelPathSunflower = '/models/sunflower_soft.glb'; 
+export const modelPathSunflower = '/models/sunflower_vanilla.glb'; 
 
 // If you only want to specify a subset of ThemeMap keys, you can use Partial<ThemeMap>:
 const pleasantTheme: ThemeMap = {

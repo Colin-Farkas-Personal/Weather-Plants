@@ -1,65 +1,68 @@
 <script lang="ts">
 	import conditionStatusStore from '$lib/globals/conditionStatusStore.svelte';
 	import temperatureRangeStore from '$lib/globals/temperatureRangeStore.svelte';
-	import type { ConditionStatus } from '$lib/types/condition';
-	import type { TemperatureRange } from '$lib/types/temperature';
-	import { onDestroy, onMount } from 'svelte';
 	import { getSceneTheme } from './parseTheme';
 	import { SceneManager } from './SceneManager/SceneManager';
+	import { defaultTheme } from './themes/default';
 
-	// Props
-	let temperatureRange = $state<TemperatureRange | null>(null);
-	let conditionStatus = $state<ConditionStatus | null>(null);
-	let currentSceneTheme = $derived(() => {
-		return getSceneTheme(temperatureRange, conditionStatus);
+	// State
+	let currentSceneTheme = $derived(() => getSceneTheme($temperatureRangeStore, $conditionStatusStore));
+
+	// Variables
+	let raf: number = 0;
+	let canvas: HTMLCanvasElement;
+	let plantSceneManager: SceneManager | null = null;
+	
+	// Initialize Scene Manager
+	$effect(() => {
+		if (!canvas) {
+			return;
+		}
+
+		console.warn("Initializing Scene Manager");
+		const defaultSceneTheme = defaultTheme;
+		plantSceneManager = new SceneManager(canvas, defaultSceneTheme);
+		render();
+
+		// Cleanup
+		return () => {
+			if (raf) {
+				cancelAnimationFrame(raf);
+				raf = 0;
+			}
+			
+			if (plantSceneManager) {
+				plantSceneManager.dispose();
+				plantSceneManager = null;
+			}
+		}
 	});
-
-	// Store Subscriptions
-	temperatureRange = $temperatureRangeStore;
-	conditionStatus = $conditionStatusStore;
 
 	// Update Scene Theme
 	$effect(() => {
-		if (!plantSceneManager) {
+		if (!canvas || !plantSceneManager) {
 			return;
 		}
 		
+		console.warn("Current theme");
 		const theme = currentSceneTheme();
-		plantSceneManager.setTheme(theme);
+		plantSceneManager.updateTheme(theme);
 	});
 
-	// Variables
-	let raf = 0;
-	let canvas: HTMLCanvasElement;
-	let plantSceneManager: SceneManager;
-	
+	// Functions
 	function render() {
 		raf = requestAnimationFrame(render);
-		plantSceneManager.update();
+
+		if (plantSceneManager) {
+			plantSceneManager.update();
+		}
 	}
 
 	function onResizeHandler() {
-		plantSceneManager.onWindowResize();
-	}
-
-	onMount(() => {
-		if (canvas) {
-			const theme = currentSceneTheme();
-			plantSceneManager = new SceneManager(canvas, theme);
-
-			render();
-		}
-	});
-
-	onDestroy(() => {
-		if (raf) {
-			cancelAnimationFrame(raf);
-		}
-		
 		if (plantSceneManager) {
-			plantSceneManager.dispose();
+			plantSceneManager.onWindowResize();
 		}
-	});
+	}
 </script>
 
 <svelte:window on:resize={onResizeHandler} />

@@ -17,14 +17,14 @@ export class GeneralLights implements SceneSubject {
 
     private createAmbientLight(): THREE.AmbientLight {
         const color = 0xFFFFFF;
-        const intensity = 1.35;
+        const intensity = 1;
         const ambientLight = new THREE.AmbientLight(color, intensity);
         return ambientLight;
     }
 
     private createDirectionalLight(): THREE.DirectionalLight {
         const color = 0xF3FFA8;
-        const intensity = 2;
+        const intensity = 1.75;
         const directionalLight = new THREE.DirectionalLight(color, intensity);
         
         directionalLight.position.set(1.6, 0.8, 0.45);
