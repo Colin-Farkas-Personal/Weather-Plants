@@ -1,52 +1,38 @@
 <script lang="ts">
 	import conditionStatusStore from '$lib/globals/conditionStatusStore.svelte';
 	import temperatureRangeStore from '$lib/globals/temperatureRangeStore.svelte';
+	import { onMount } from 'svelte';
 	import { getSceneTheme } from './parseTheme';
 	import { SceneManager } from './SceneManager/SceneManager';
 	import { defaultTheme } from './themes/default';
 
 	// State
 	let currentSceneTheme = $derived(() => getSceneTheme($temperatureRangeStore, $conditionStatusStore));
-
+	
 	// Variables
+	let plantSceneManager: SceneManager | null = null;
 	let raf: number = 0;
 	let canvas: HTMLCanvasElement;
-	let plantSceneManager: SceneManager | null = null;
 	
 	// Initialize Scene Manager
-	$effect(() => {
-		if (!canvas) {
-			return;
-		}
-
-		console.warn("Initializing Scene Manager");
-		const defaultSceneTheme = defaultTheme;
-		plantSceneManager = new SceneManager(canvas, defaultSceneTheme);
+	onMount(() => {
+		plantSceneManager = new SceneManager(canvas, defaultTheme);
 		render();
 
 		// Cleanup
 		return () => {
-			if (raf) {
-				cancelAnimationFrame(raf);
-				raf = 0;
-			}
-			
-			if (plantSceneManager) {
-				plantSceneManager.dispose();
-				plantSceneManager = null;
-			}
+			stopRender();
+			removeSceneManager();
 		}
 	});
 
 	// Update Scene Theme
 	$effect(() => {
-		if (!canvas || !plantSceneManager) {
-			return;
+		if (plantSceneManager) {
+			console.log("LOG LOG LOG")
+			const theme = currentSceneTheme();
+			plantSceneManager.updateTheme(theme);
 		}
-		
-		console.warn("Current theme");
-		const theme = currentSceneTheme();
-		plantSceneManager.updateTheme(theme);
 	});
 
 	// Functions
@@ -55,6 +41,20 @@
 
 		if (plantSceneManager) {
 			plantSceneManager.update();
+		}
+	}
+
+	function stopRender() {
+		if (raf) {
+			cancelAnimationFrame(raf);
+			raf = 0;
+		}
+	}
+
+	function removeSceneManager() {
+		if (plantSceneManager) {
+			plantSceneManager.dispose();
+			plantSceneManager = null;
 		}
 	}
 

@@ -81,17 +81,7 @@ export class SceneManager implements ISceneManager {
     }
 
     updateTheme(theme: SceneTheme) {
-        console.log("UPDATE!")
-        // 1. Remove existing model
-        if (this.model) {
-            this.model.dispose();
-        }
-
-        console.log("SCENE UPDATED!", theme)
-        this.model = new Model({
-            scene: this.scene,
-            path: theme.modelPath
-        });
+        this.updateModel(theme.modelPath);
     }
 
     // ---- PRIVATE METHODS ----
@@ -117,6 +107,7 @@ export class SceneManager implements ISceneManager {
 
         const DPR = (window.devicePixelRatio) ? window.devicePixelRatio : 2;
         renderer.setPixelRatio(DPR);
+        renderer.setPixelRatio(window.devicePixelRatio);
         renderer.setSize(width, height, false);
 
         return renderer;
@@ -125,7 +116,7 @@ export class SceneManager implements ISceneManager {
     private buildCamera({ width, height }: CanvasDimensions): THREE.PerspectiveCamera {
         const { orientation } = getScreenOrientation();
         const fieldOfViewMobile = 42.5;
-        const fieldOfViewDesktop = 50;
+        const fieldOfViewDesktop = 60;
         const fieldOfView = orientation === 'portrait' ? fieldOfViewMobile : fieldOfViewDesktop;
 
         const aspectRatio = width / height;
@@ -189,5 +180,16 @@ export class SceneManager implements ISceneManager {
         ];
 
         return sceneSubjects;
+    }
+
+    private updateModel(modelPath: string) {
+        if (this.model) {
+            this.model.dispose();
+        }
+
+        this.model = new Model({
+            scene: this.scene,
+            path: modelPath
+        });
     }
 }
