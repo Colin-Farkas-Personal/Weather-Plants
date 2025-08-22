@@ -10,9 +10,9 @@
 	let currentSceneTheme = $derived(() => getSceneTheme($temperatureRangeStore, $conditionStatusStore));
 	
 	// Variables
-	let plantSceneManager: SceneManager | null = null;
-	let raf: number = 0;
 	let canvas: HTMLCanvasElement;
+	let plantSceneManager: SceneManager | null;
+	let rafID: number | null;
 	
 	// Initialize Scene Manager
 	onMount(() => {
@@ -29,7 +29,6 @@
 	// Update Scene Theme
 	$effect(() => {
 		if (plantSceneManager) {
-			console.log("LOG LOG LOG")
 			const theme = currentSceneTheme();
 			plantSceneManager.updateTheme(theme);
 		}
@@ -37,7 +36,7 @@
 
 	// Functions
 	function render() {
-		raf = requestAnimationFrame(render);
+		rafID = requestAnimationFrame(render);
 
 		if (plantSceneManager) {
 			plantSceneManager.update();
@@ -45,9 +44,9 @@
 	}
 
 	function stopRender() {
-		if (raf) {
-			cancelAnimationFrame(raf);
-			raf = 0;
+		if (rafID) {
+			cancelAnimationFrame(rafID);
+			rafID = null;
 		}
 	}
 

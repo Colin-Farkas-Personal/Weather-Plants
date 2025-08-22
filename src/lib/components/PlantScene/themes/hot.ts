@@ -1,26 +1,45 @@
-import type { ThemeMap } from "./theme";
+import type { SceneTheme, ThemeMap } from "./theme";
 
-export const modelPathCactus = '/models/cactus_vanilla.glb'; 
+export const modelPathCactus = '/models/cactus_day.glb'; 
 
-// If you only want to specify a subset of ThemeMap keys, you can use Partial<ThemeMap>:
-const hotTheme: ThemeMap = {
+const basePlesantTheme: SceneTheme = {
+    model: {
+        path: modelPathCactus
+    },
+    fog: {
+        color: '#F0D783'
+    },
+    ground: {
+        color: '#F0D783'
+    },
+    	lights: {
+		ambient: {
+			color: '#fcffbcff',
+			intensity: 1
+		},
+		front: {
+			color: '#f6ff00ff',
+			intensity: 3
+		},
+		back: {
+			color: '#F3FFA8',
+			intensity: 0.75
+		}
+	}
+};
+
+const hotTheme: Partial<ThemeMap> = {
     SUNNY: {
-        modelPath: modelPathCactus,
-        skyColor: 0xF0D783,
-        fogColor: 0xF0D783,
-        groundColor: 0xF0D783,
+        ...basePlesantTheme
+    },
+    SUNNY_CLOUDY: {
+        ...basePlesantTheme
     },
     CLOUDY: {
-        modelPath: modelPathCactus,
-        skyColor: 0xF0D783,
-        fogColor: 0xF0D783,
-        groundColor: 0xF0D783,
+        ...basePlesantTheme
     },
     RAINY: {
-        modelPath: modelPathCactus,
-        skyColor: 0xF0D783,
-        fogColor: 0xF0D783,
-        groundColor: 0xF0D783,
+        ...basePlesantTheme,
     }
 };
 

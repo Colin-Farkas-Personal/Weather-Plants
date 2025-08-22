@@ -1,18 +1,24 @@
 import * as THREE from "three";
 import type { SceneSubject } from "./subject";
+import type { HexColor } from "../themes/theme";
+import { toThreeColor } from "../SceneManager/to-three-color";
 
 interface Constructor {
     scene: THREE.Scene;
-    color: THREE.Color;
+    color: HexColor;
 }
 
-export class GroundPlane implements SceneSubject {
+export class Ground implements SceneSubject {
+    private circlePlane: THREE.Mesh;
 
     constructor({ scene, color }: Constructor) {
-        scene.add(this.createCirclePlane(color));
+        const { color: threeColor } = toThreeColor(color);
+        this.circlePlane = this.createCirclePlane(threeColor);
+        scene.add(this.circlePlane);
     }
-    update(): void {
-        console.warn("Method not implemented.", this);
+
+    update({ color }: { color: HexColor }): void {
+        (this.circlePlane.material as THREE.MeshStandardMaterial).color = toThreeColor(color).color;
     }
 
     private createCirclePlane(color: THREE.Color): THREE.Mesh {

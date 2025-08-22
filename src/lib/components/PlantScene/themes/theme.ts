@@ -1,13 +1,22 @@
 import type { ConditionStatus } from "$lib/types/condition";
 import type { TemperatureRange } from "$lib/types/temperature";
+import type { LightNames, LightSourceAttributes } from "../subjects/general-lights";
 
-type TemperatureThemeMap = Record<TemperatureRange, ThemeMap>;
-type ThemeMap = Partial<Record<ConditionStatus, SceneTheme>>;
-type SceneTheme = {
-  readonly modelPath: string;
-  readonly skyColor: number;
-  readonly fogColor: number;
-  readonly groundColor: number;
+type HexColor = `#${string}`;
+type MeshAttributes = {
+  color: HexColor;
 };
 
-export type { TemperatureThemeMap, ThemeMap, SceneTheme };
+type TemperatureThemeMap = Record<TemperatureRange, ThemeMap>;
+type ThemeMap = Record<ConditionStatus, SceneTheme>;
+
+type SceneTheme = {
+  readonly model: {
+    path: string;
+  };
+  readonly fog: MeshAttributes;
+  readonly ground: MeshAttributes;
+  readonly lights: Record<LightNames, LightSourceAttributes>;
+};
+
+export type { TemperatureThemeMap, ThemeMap, SceneTheme, HexColor, MeshAttributes, LightSourceAttributes };

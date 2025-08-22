@@ -1,12 +1,12 @@
 import type { Scene } from "three";
 import * as THREE from "three";
-import { GeneralLights } from "../subjects/GeneralLights";
-import { GroundPlane } from "../subjects/GroundPlane";
-import type { SceneSubject } from "../subjects/subject";
-import { Fog } from "../subjects/Fog";
-import { Sky } from "../subjects/Sky";
-import { Model } from "../subjects/Model";
 import { OrbitControls } from "three/examples/jsm/Addons.js";
+import { Fog } from "../subjects/Fog";
+import { GeneralLights } from "../subjects/GeneralLights";
+import { Ground } from "../subjects/Ground";
+import { Model } from "../subjects/Model";
+import { Sky } from "../subjects/Sky";
+import type { SceneSubject } from "../subjects/subject";
 import type { SceneTheme } from "../themes/theme";
 import { getScreenOrientation } from "./aspect-ration";
 
@@ -81,7 +81,25 @@ export class SceneManager implements ISceneManager {
     }
 
     updateTheme(theme: SceneTheme) {
-        this.updateModel(theme.modelPath);
+        const { model, fog, ground, lights } = theme;
+
+        // Model
+        this.updateModel(model.path);
+
+        // Meshes & Lights
+        for(const subject of this.sceneSubjects) {
+            if (subject instanceof GeneralLights) {
+                subject.update({ lights: lights });
+            }
+
+            if (subject instanceof Fog) {
+                subject.update({ color: fog.color });
+            }
+
+            if (subject instanceof Ground) {
+                subject.update({ color: ground.color });
+            }
+        }
     }
 
     // ---- PRIVATE METHODS ----
@@ -150,33 +168,32 @@ export class SceneManager implements ISceneManager {
     }
 
     private createSceneSubjects(scene: Scene, theme: SceneTheme): SceneSubject[] {
-        const { modelPath, skyColor, fogColor, groundColor } = theme;
+        const { fog, ground, model } = theme;
 
-        const generalLights = new GeneralLights(scene);
-        const groundPlane = new GroundPlane({ 
+        const generalLightsSubject = new GeneralLights(scene);
+        const groundSubject = new Ground({ 
             scene: scene,
-            color: new THREE.Color(groundColor),
+            color: ground.color,
         });
-        const sky = new Sky({ 
+        const skySubject = new Sky({ 
+            scene: scene
+        });
+        const fogSubject = new Fog({ 
             scene: scene, 
-            color: new THREE.Color(skyColor)
+            color: fog.color
         });
-        const fog = new Fog({ 
-            scene: scene, 
-            color: new THREE.Color(fogColor), 
-        });
-        const model = new Model({
+        const modelSubject = new Model({
             scene: scene,
-            path: modelPath
-        })
-        this.model = model;
+            path: model.path
+        });
+        this.model = modelSubject;
 
         const sceneSubjects: SceneSubject[] = [
-            generalLights,
-            groundPlane,
-            sky,
-            fog,
-            model
+            generalLightsSubject,
+            groundSubject,
+            skySubject,
+            fogSubject,
+            modelSubject
         ];
 
         return sceneSubjects;
