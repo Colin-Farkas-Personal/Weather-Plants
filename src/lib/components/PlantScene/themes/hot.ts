@@ -12,14 +12,14 @@ const basePlesantTheme: SceneTheme = {
     ground: {
         color: '#F0D783'
     },
-    	lights: {
+    lights: {
 		ambient: {
 			color: '#fcffbcff',
 			intensity: 1
 		},
 		front: {
-			color: '#f6ff00ff',
-			intensity: 3
+			color: '#f1fbffff',
+			intensity: 2
 		},
 		back: {
 			color: '#F3FFA8',

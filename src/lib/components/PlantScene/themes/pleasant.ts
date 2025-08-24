@@ -1,25 +1,26 @@
 import type { SceneTheme, ThemeMap } from "./theme";
 
-export const modelPathSunflower = '/models/sunflower_soft.glb'; 
 
+
+export const modelPathSunflower = '/models/sunflower_soft.glb'; 
 const basePlesantTheme: SceneTheme = {
     model: {
         path: modelPathSunflower
     },
     fog: {
-        color: '#9bc8ffff'
+        color: '#d1dbeaff'
     },
     ground: {
-        color: '#ffffffff'
+        color: '#f7faffff'
     },
     	lights: {
 		ambient: {
-			color: '#fcffbcff',
-			intensity: 1
+			color: '#cdbcffff',
+			intensity: 2
 		},
 		front: {
-			color: '#f6ff00ff',
-			intensity: 3
+			color: '#fff2afff',
+			intensity: 3.5
 		},
 		back: {
 			color: '#F3FFA8',

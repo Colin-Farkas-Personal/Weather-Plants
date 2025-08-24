@@ -7,7 +7,7 @@ type MeshAttributes = {
   color: HexColor;
 };
 
-type TemperatureThemeMap = Record<TemperatureRange, ThemeMap>;
+type TemperatureThemeMap = Record<TemperatureRange, Partial<ThemeMap>>;
 type ThemeMap = Record<ConditionStatus, SceneTheme>;
 
 type SceneTheme = {

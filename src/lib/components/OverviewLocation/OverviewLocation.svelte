@@ -7,7 +7,7 @@
 	let { locationName, countryName }: OverviewRangeDescriptiveProps = $props();
 </script>
 
-<hgroup class="overview-location">
+<hgroup id="overview-location" class="overview-location">
 	<h1 class="header">{locationName}</h1>
 	<p class="description">{countryName}</p>
 </hgroup>

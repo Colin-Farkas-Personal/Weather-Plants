@@ -4,6 +4,17 @@ import { pleasantTheme } from "./themes/pleasant";
 import { defaultTheme } from "./themes/default";
 import { hotTheme } from "./themes/hot";
 import type { SceneTheme, TemperatureThemeMap } from "./themes/theme";
+import { getScreenOrientation } from "./SceneManager/aspect-ration";
+
+function setOverviewLocationBackgroundColor(color: string): void {
+  const locationElement = document.getElementById("overview-location");
+
+  const { orientation } = getScreenOrientation();
+
+  if (locationElement && orientation === 'portrait') {
+    locationElement.style.backgroundColor = color;
+  }
+}
 
 const temperatureSceneThemes: TemperatureThemeMap = {
   Cold: {
@@ -27,6 +38,9 @@ function getSceneTheme(range: TemperatureRange | null, condition: ConditionStatu
     console.warn(`No scene theme implemented for range: "${range}" with condition: "${condition}"`);
     return defaultTheme;
   }
+
+  // Set background color for location on mobile
+  setOverviewLocationBackgroundColor(sceneTheme.fog.color);
 
   return sceneTheme;
 }
