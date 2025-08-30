@@ -1,10 +1,12 @@
-import type { SceneTheme } from "./theme";
+import type { SceneTheme } from "./theme.types";
 
-const modelPathEmptyPot = '/models/sunflower_vanilla.glb';
+const modelPathPot = '/models/pot/pot-classic.glb';
 
 const defaultTheme: SceneTheme = {
 	model: {
-		path: modelPathEmptyPot
+		pot: {
+			path: modelPathPot
+		},
 	},
 	fog: {
 		color: '#3c00ffff'
@@ -27,10 +29,5 @@ const defaultTheme: SceneTheme = {
 		}
 	}
 }
-// const defaultTheme: SceneTheme = {
-// 	modelPath: modelPathEmptyPot,
-//     fogColor: '#3c00ffff',
-// 	groundColor: '#C8F3FF',
-// };
 
 export { defaultTheme };

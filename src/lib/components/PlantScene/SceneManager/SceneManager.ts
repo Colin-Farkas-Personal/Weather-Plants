@@ -4,10 +4,10 @@ import { OrbitControls } from "three/examples/jsm/Addons.js";
 import { Fog } from "../subjects/Fog";
 import { GeneralLights } from "../subjects/GeneralLights";
 import { Ground } from "../subjects/Ground";
-import { Model } from "../subjects/Model";
+import { Models } from "../subjects/models/Models";
 import { Sky } from "../subjects/Sky";
 import type { SceneSubject } from "../subjects/subject";
-import type { SceneTheme } from "../themes/theme";
+import type { SceneTheme } from "../themes/theme.types";
 import { getScreenOrientation } from "./aspect-ration";
 
 interface ISceneManager {
@@ -30,7 +30,7 @@ export class SceneManager implements ISceneManager {
     private camera: THREE.PerspectiveCamera;
     private controls: OrbitControls;
     private sceneSubjects: SceneSubject[];
-    private model: Model | null = null;
+    private model: Models | null = null;
 
     private get canvasDimensions(): CanvasDimensions {
         return {
@@ -84,7 +84,8 @@ export class SceneManager implements ISceneManager {
         const { model, fog, ground, lights } = theme;
 
         // Model
-        this.updateModel(model.path);
+        if (model.plant) this.updateModel(model.plant.path, 'plant');
+        if (model.pot) this.updateModel(model.pot.path, 'pot');
 
         // Meshes & Lights
         for(const subject of this.sceneSubjects) {
@@ -106,14 +107,15 @@ export class SceneManager implements ISceneManager {
 
     private buildScene(): Scene {
         const scene = new THREE.Scene();
+        scene.environment = null;
+        
         return scene;
     }
 
     private buildRenderer({ width, height }: CanvasDimensions): THREE.WebGLRenderer {
-        const antialias = (window.devicePixelRatio || 1) < 1.5;
         const renderer = new THREE.WebGLRenderer({
             canvas: this._canvas,
-            antialias: antialias,
+            antialias: true,
             alpha: false,
             powerPreference: "high-performance"
         });
@@ -182,9 +184,9 @@ export class SceneManager implements ISceneManager {
             scene: scene, 
             color: fog.color
         });
-        const modelSubject = new Model({
+        const modelSubject = new Models({
             scene: scene,
-            path: model.path
+            potModelPath: model?.pot?.path as string,
         });
         this.model = modelSubject;
 
@@ -199,14 +201,10 @@ export class SceneManager implements ISceneManager {
         return sceneSubjects;
     }
 
-    private updateModel(modelPath: string) {
+    private updateModel(plantModelPath: string, modelType: 'plant' | 'pot') {
         if (this.model) {
-            this.model.dispose();
+            this.model.dispose(modelType);
+            this.model.create(plantModelPath, modelType);
         }
-
-        this.model = new Model({
-            scene: this.scene,
-            path: modelPath
-        });
     }
 }

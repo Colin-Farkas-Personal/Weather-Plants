@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import type { SceneSubject } from "./subject";
-import type { HexColor } from "../themes/theme";
+import type { HexColor } from "../themes/theme.types";
 import { toThreeColor } from "../SceneManager/to-three-color";
 
 interface Constructor {

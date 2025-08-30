@@ -3,7 +3,7 @@ import type { TemperatureRange } from "$lib/types/temperature";
 import { pleasantTheme } from "./themes/pleasant";
 import { defaultTheme } from "./themes/default";
 import { hotTheme } from "./themes/hot";
-import type { SceneTheme, TemperatureThemeMap } from "./themes/theme";
+import type { SceneTheme, TemperatureThemeMap } from "./themes/theme.types";
 import { getScreenOrientation } from "./SceneManager/aspect-ration";
 
 function setOverviewLocationBackgroundColor(color: string): void {

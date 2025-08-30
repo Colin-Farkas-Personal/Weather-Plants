@@ -1,4 +1,4 @@
-import type { HexColor } from "../themes/theme";
+import type { HexColor } from "../themes/theme.types";
 import * as THREE from "three";
 
 type  ToThreeColor = {

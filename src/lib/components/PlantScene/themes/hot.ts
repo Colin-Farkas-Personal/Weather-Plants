@@ -1,10 +1,12 @@
-import type { SceneTheme, ThemeMap } from "./theme";
+import type { SceneTheme, ThemeMap } from "./theme.types";
 
-export const modelPathCactus = '/models/cactus_day.glb'; 
+export const modelPathCactus = '/models/cactus/cactus.glb'; 
 
 const basePlesantTheme: SceneTheme = {
     model: {
-        path: modelPathCactus
+        plant: {
+            path: modelPathCactus
+        }
     },
     fog: {
         color: '#F0D783'
