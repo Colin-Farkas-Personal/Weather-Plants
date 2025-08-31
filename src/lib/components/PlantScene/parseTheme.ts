@@ -7,12 +7,19 @@ import type { SceneTheme, TemperatureThemeMap } from "./themes/theme.types";
 import { getScreenOrientation } from "./SceneManager/aspect-ration";
 
 function setOverviewLocationBackgroundColor(color: string): void {
+  const bodyElement = document.body as HTMLElement;
   const locationElement = document.getElementById("overview-location");
 
   const { orientation } = getScreenOrientation();
 
-  if (locationElement && orientation === 'portrait') {
-    locationElement.style.backgroundColor = color;
+  if (orientation === 'portrait') {
+    if (bodyElement) {
+      bodyElement.style.backgroundColor = color;
+    }
+
+    if (locationElement) {
+      locationElement.style.backgroundColor = color;
+    }
   }
 }
 

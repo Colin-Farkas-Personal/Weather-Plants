@@ -21,8 +21,8 @@ const basePlesantTheme: SceneTheme = {
 			intensity: 2
 		},
 		front: {
-			color: '#fff2afff',
-			intensity: 2.5
+			color: '#ffeb89ff',
+			intensity: 3
 		},
 		back: {
 			color: '#F3FFA8',

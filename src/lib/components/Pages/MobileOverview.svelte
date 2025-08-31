@@ -85,7 +85,6 @@
 		:global {
 			.overview-location {
 				padding-top: 2rem;
-				background-color: var(--theme-text-bg-inversed);
 
 				.header {
 					color: var(--theme-text-primary-inversed);

@@ -136,7 +136,7 @@ export class SceneManager implements ISceneManager {
     private buildCamera({ width, height }: CanvasDimensions): THREE.PerspectiveCamera {
         const { orientation } = getScreenOrientation();
         const fieldOfViewMobile = 42.5;
-        const fieldOfViewDesktop = 60;
+        const fieldOfViewDesktop = 55;
         const fieldOfView = orientation === 'portrait' ? fieldOfViewMobile : fieldOfViewDesktop;
 
         const aspectRatio = width / height;
