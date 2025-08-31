@@ -3,8 +3,8 @@ import { toThreeColor } from "../SceneManager/to-three-color";
 import type { SceneSubject, UpdateParams } from "./subject";
 
 export class GeneralLights implements SceneSubject {
+    public frontLight: THREE.DirectionalLight = this.createFrontLight();
     private ambientLight: THREE.AmbientLight = this.createAmbientLight();
-    private frontLight: THREE.DirectionalLight = this.createFrontLight();
     private backLight: THREE.DirectionalLight = this.createBackLight();
 
     constructor(scene: THREE.Scene) {
@@ -46,18 +46,8 @@ export class GeneralLights implements SceneSubject {
         const directionalLight = new THREE.DirectionalLight(color, intensity);
         
         directionalLight.position.set(1.6, 0.8, 0.45);
-        directionalLight.shadow.mapSize.set(10000, 10000);
-        directionalLight.shadow.bias = -0.000002;
-        directionalLight.shadow.normalBias = 0.002;
-
+        directionalLight.shadow.mapSize.set(2048, 2048)
         directionalLight.castShadow = true;
-
-        directionalLight.shadow.camera.near = 0.1;
-        directionalLight.shadow.camera.far = 100;
-        directionalLight.shadow.camera.left = -5;
-        directionalLight.shadow.camera.right = 5;
-        directionalLight.shadow.camera.top = 5;
-        directionalLight.shadow.camera.bottom = -5;
 
         return directionalLight;
     }

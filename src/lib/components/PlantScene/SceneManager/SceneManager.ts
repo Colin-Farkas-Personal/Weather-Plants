@@ -183,6 +183,7 @@ export class SceneManager implements ISceneManager {
         });
         const modelSubject = new Models({
             scene: scene,
+            light: generalLightsSubject.frontLight,
             potModelPath: model?.pot?.path as string,
         });
         this.model = modelSubject;

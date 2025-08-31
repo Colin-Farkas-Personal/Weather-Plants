@@ -5,6 +5,7 @@ import { Pot } from "./Pot";
 
 interface ConstructorParams {
     scene: THREE.Scene;
+    light: THREE.DirectionalLight;
     potModelPath: string;
 }
 
@@ -14,9 +15,9 @@ export class Models implements SceneSubject {
     private potModel: Pot;
     private plantModel: Plant | null = null;
 
-    constructor ({ scene, potModelPath }: ConstructorParams) {
+    constructor ({ scene, light, potModelPath }: ConstructorParams) {
         this.scene = scene;
-        this.potModel = new Pot({ scene, modelPath: potModelPath });
+        this.potModel = new Pot({ scene, light, modelPath: potModelPath });
     }
 
     create(plantModelPath: string, modelType: 'pot' | 'plant'): void {
