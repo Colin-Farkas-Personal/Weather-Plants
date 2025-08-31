@@ -64,7 +64,8 @@ function createConditionStatusStore() {
   const { update, subscribe } = writable<ConditionStatus | null>();
 
   function setCondition(condition: Condition['text']) {
-    const status = parseConditionStatus(condition);
+    // const status = parseConditionStatus(condition);
+    const status: ConditionStatus = 'SUNNY'; // TODO: Remove after testing
 
     update(() => status);
   }

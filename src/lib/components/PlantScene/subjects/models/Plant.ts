@@ -1,6 +1,6 @@
+import * as THREE from 'three';
 import { GLTFLoader, type GLTF } from "three/examples/jsm/loaders/GLTFLoader.js";
 import type { SceneSubject } from "../subject";
-import * as THREE from 'three';
 
 interface ConstructorParams {
     scene: THREE.Scene;
@@ -42,7 +42,7 @@ export class Plant implements SceneSubject {
 
         loader.load(
             path,
-            function(gltf: GLTF) {
+            function(gltf: GLTF) {                
                 buildModelOptions(gltf);
                 model.add(gltf.scene);
             },
@@ -58,9 +58,25 @@ export class Plant implements SceneSubject {
             // Set the model's options based on the loaded GLTF
             const model = gltf.scene;
             model.traverse((child) => {
+                // shadows
+                child.receiveShadow = true;
+                child.castShadow = true;
+                
                 if (child instanceof THREE.Mesh) {
-                    child.castShadow = true;
-                    child.receiveShadow = true;
+                    const m = child.material as THREE.MeshStandardMaterial;
+
+                    // keep the original maps; just make it matte
+                    if ('metalness' in m) {
+                        m.metalness = 0.0;
+                    }
+
+                    if ('roughness' in m) {
+                        m.roughness = 1;
+                    }
+
+                    if ('envMapIntensity' in m) {
+                        m.envMapIntensity = 0.3;
+                    }
                 }
             });
         };

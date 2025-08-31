@@ -63,8 +63,6 @@ export class Pot implements SceneSubject {
                     child.receiveShadow = true;
                     child.material = new THREE.MeshStandardMaterial({
                         color: child.material.color,
-                        emissive: child.material.emissive,
-                        side: THREE.DoubleSide
                     });
                 }
             });

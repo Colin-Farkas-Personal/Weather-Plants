@@ -116,18 +116,15 @@ export class SceneManager implements ISceneManager {
         const renderer = new THREE.WebGLRenderer({
             canvas: this._canvas,
             antialias: true,
-            alpha: false,
-            powerPreference: "high-performance"
+            powerPreference: "high-performance",
         });
-
-        renderer.shadowMap.enabled = true;
-        renderer.shadowMap.type = THREE.PCFSoftShadowMap;
         renderer.outputColorSpace = THREE.SRGBColorSpace;
         renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        renderer.toneMappingExposure = 1;
+        renderer.shadowMap.enabled = true;
+        renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
-        const DPR = (window.devicePixelRatio) ? window.devicePixelRatio : 2;
-        renderer.setPixelRatio(DPR);
-        renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
         renderer.setSize(width, height, false);
 
         return renderer;

@@ -9,7 +9,7 @@ const basePlesantTheme: SceneTheme = {
         }
     },
     fog: {
-        color: '#F0D783'
+        color: '#ddc577ff'
     },
     ground: {
         color: '#F0D783'
@@ -17,15 +17,15 @@ const basePlesantTheme: SceneTheme = {
     lights: {
 		ambient: {
 			color: '#fcffbcff',
-			intensity: 1
+			intensity: 0.2
 		},
 		front: {
-			color: '#f1fbffff',
-			intensity: 2
+			color: '#fcffbcff',
+			intensity: 3.5
 		},
 		back: {
 			color: '#F3FFA8',
-			intensity: 0.75
+			intensity: 0.4
 		}
 	}
 };
@@ -38,7 +38,27 @@ const hotTheme: Partial<ThemeMap> = {
         ...basePlesantTheme
     },
     CLOUDY: {
-        ...basePlesantTheme
+        ...basePlesantTheme,
+        fog: {
+            color: '#9a8e66ff'
+        },
+        ground: {
+            color: '#d3cdbbff'
+        },
+        lights: {
+            ambient: {
+                color: '#ced392ff',
+                intensity: 1.25
+            },
+            front: {
+                color: '#aab07fff',
+                intensity: 2
+            },
+            back: {
+                color: '#a4acd1ff',
+                intensity: 0.3
+            }
+        }
     },
     RAINY: {
         ...basePlesantTheme,
