@@ -17,15 +17,15 @@ const basePlesantTheme: SceneTheme = {
     lights: {
 		ambient: {
 			color: '#fcffbcff',
-			intensity: 0.2
+			intensity: 0.5
 		},
 		front: {
-			color: '#fcffbcff',
-			intensity: 3.5
+			color: '#f5fff3ff',
+			intensity: 25
 		},
 		back: {
 			color: '#F3FFA8',
-			intensity: 0.4
+			intensity: 0.25
 		}
 	}
 };

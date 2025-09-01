@@ -3,7 +3,7 @@ import { toThreeColor } from "../SceneManager/to-three-color";
 import type { SceneSubject, UpdateParams } from "./subject";
 
 export class GeneralLights implements SceneSubject {
-    public frontLight: THREE.DirectionalLight = this.createFrontLight();
+    public frontLight: THREE.SpotLight = this.createFrontLight();
     private ambientLight: THREE.AmbientLight = this.createAmbientLight();
     private backLight: THREE.DirectionalLight = this.createBackLight();
 
@@ -40,16 +40,17 @@ export class GeneralLights implements SceneSubject {
         return ambientLight;
     }
 
-    private createFrontLight(): THREE.DirectionalLight {
+    private createFrontLight(): THREE.SpotLight {
         const color = 0xF3FFA8;
-        const intensity = 1.75;
-        const directionalLight = new THREE.DirectionalLight(color, intensity);
+        const intensity = 10;
         
-        directionalLight.position.set(1.6, 0.8, 0.45);
-        directionalLight.shadow.mapSize.set(2048, 2048)
-        directionalLight.castShadow = true;
+        const spotLight = new THREE.SpotLight(0xffffff, color, intensity, Math.PI/6, 0.3, 1.5);
+        spotLight.position.set(4, 2.5, 2);
+        
+        spotLight.castShadow = true;
+        spotLight.shadow.mapSize.set(1024, 1024);
 
-        return directionalLight;
+        return spotLight;
     }
 
     private createBackLight(): THREE.DirectionalLight {
@@ -57,7 +58,7 @@ export class GeneralLights implements SceneSubject {
         const intensity = 0.75;
         const backLight = new THREE.DirectionalLight(color, intensity);
 
-        backLight.position.set(-1.6, 0.8, -0.45);
+        backLight.position.set(-2.6, 0.8, -1.45);
 
         return backLight;
     }

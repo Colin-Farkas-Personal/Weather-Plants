@@ -18,11 +18,11 @@ const basePlesantTheme: SceneTheme = {
     	lights: {
 		ambient: {
 			color: '#cdbcffff',
-			intensity: 2
+			intensity: 1
 		},
 		front: {
 			color: '#ffeb89ff',
-			intensity: 3
+			intensity: 30
 		},
 		back: {
 			color: '#F3FFA8',

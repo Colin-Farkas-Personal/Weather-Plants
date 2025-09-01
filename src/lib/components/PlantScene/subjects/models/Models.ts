@@ -12,22 +12,24 @@ interface ConstructorParams {
 export class Models implements SceneSubject {
 
     private scene: THREE.Scene;
+    private _light: THREE.DirectionalLight;
     private potModel: Pot;
     private plantModel: Plant | null = null;
 
     constructor ({ scene, light, potModelPath }: ConstructorParams) {
         this.scene = scene;
-        this.potModel = new Pot({ scene, light, modelPath: potModelPath });
+        this._light = light
+        this.potModel = new Pot({ scene, modelPath: potModelPath });
     }
 
-    create(plantModelPath: string, modelType: 'pot' | 'plant'): void {
+    create(modelPath: string, modelType: 'pot' | 'plant'): void {
         switch (modelType) {
             case 'pot':
-                this.potModel.create(plantModelPath);
+                this.potModel.create(modelPath);
                 break;
 
             case 'plant':
-                this.plantModel = new Plant({ scene: this.scene, modelPath: plantModelPath });
+                this.plantModel = new Plant({ scene: this.scene, light: this._light, modelPath: modelPath });
                 break;
 
             default:
