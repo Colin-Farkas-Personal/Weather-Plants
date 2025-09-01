@@ -22,7 +22,7 @@ const basePlesantTheme: SceneTheme = {
 		},
 		front: {
 			color: '#ffeb89ff',
-			intensity: 30
+			intensity: 20
 		},
 		back: {
 			color: '#F3FFA8',
@@ -36,14 +36,74 @@ const pleasantTheme: Partial<ThemeMap> = {
         ...basePlesantTheme
     },
     SUNNY_CLOUDY: {
-        ...basePlesantTheme
+        ...basePlesantTheme,
+        fog: {
+            color: '#c1c7d0ff'
+        },
+        ground: {
+            color: '#dbdfe6ff'
+        },
+        lights: {
+            ambient: {
+                color: '#cdbcffff',
+                intensity: 1
+            },
+            front: {
+                color: '#b9f1efff',
+                intensity: 10
+            },
+            back: {
+                color: '#F3FFA8',
+                intensity: 0.75
+            }
+        }
     },
     CLOUDY: {
-        ...basePlesantTheme
+        ...basePlesantTheme,
+        fog: {
+            color: '#a1a9b6ff'
+        },
+        ground: {
+            color: '#f7faffff'
+        },
+        lights: {
+            ambient: {
+                color: '#beaeecff',
+                intensity: 1
+            },
+            front: {
+                color: '#c2dcdfff',
+                intensity: 6
+            },
+            back: {
+                color: '#F3FFA8',
+                intensity: 0.25
+            }
+        },
     },
     RAINY: {
         ...basePlesantTheme,
-    }
+        fog: {
+            color: '#a1a9b6ff'
+        },
+        ground: {
+            color: '#f7faffff'
+        },
+        lights: {
+            ambient: {
+                color: '#beaeecff',
+                intensity: 1
+            },
+            front: {
+                color: '#c2dcdfff',
+                intensity: 6
+            },
+            back: {
+                color: '#F3FFA8',
+                intensity: 0.25
+            }
+        },
+    },
 };
 
 export { pleasantTheme };

@@ -44,7 +44,7 @@ export class GeneralLights implements SceneSubject {
         const color = 0xF3FFA8;
         const intensity = 10;
         
-        const spotLight = new THREE.SpotLight(0xffffff, color, intensity, Math.PI/6, 0.3, 1.5);
+        const spotLight = new THREE.SpotLight(0xffffff, color, intensity, Math.PI/6, 1, 1.2);
         spotLight.position.set(4, 2.5, 2);
         
         spotLight.castShadow = true;

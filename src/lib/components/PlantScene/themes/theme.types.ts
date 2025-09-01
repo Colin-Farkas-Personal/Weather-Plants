@@ -9,7 +9,7 @@ type MeshAttributes = {
 };
 
 type TemperatureThemeMap = Record<TemperatureRange, Partial<ThemeMap>>;
-type ThemeMap = Record<ConditionStatus, SceneTheme>;
+type ThemeMap = Record<ConditionStatus, Partial<SceneTheme>>;
 
 type SceneTheme = {
   readonly model: Partial<Record<ModelType, ModelAttributes>>;
