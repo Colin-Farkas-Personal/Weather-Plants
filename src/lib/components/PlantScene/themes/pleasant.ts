@@ -92,11 +92,11 @@ const pleasantTheme: Partial<ThemeMap> = {
         lights: {
             ambient: {
                 color: '#beaeecff',
-                intensity: 1
+                intensity: 1.25
             },
             front: {
-                color: '#c2dcdfff',
-                intensity: 6
+                color: '#9ba4a5ff',
+                intensity: 25
             },
             back: {
                 color: '#F3FFA8',

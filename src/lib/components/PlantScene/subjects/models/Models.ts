@@ -5,14 +5,14 @@ import { Pot } from "./Pot";
 
 interface ConstructorParams {
     scene: THREE.Scene;
-    light: THREE.DirectionalLight;
+    light: THREE.SpotLight;
     potModelPath: string;
 }
 
 export class Models implements SceneSubject {
 
     private scene: THREE.Scene;
-    private _light: THREE.DirectionalLight;
+    private _light: THREE.SpotLight;
     private potModel: Pot;
     private plantModel: Plant | null = null;
 

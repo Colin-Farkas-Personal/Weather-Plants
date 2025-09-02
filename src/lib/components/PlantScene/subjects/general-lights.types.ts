@@ -7,7 +7,7 @@ type LightSourceAttributes = {
 
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const lights = ['ambient', 'front', 'back'] as const;
+const lights = ['ambient', 'front'] as const;
 type LightNames = typeof lights[number];
 
 export type { LightNames, LightSourceAttributes };

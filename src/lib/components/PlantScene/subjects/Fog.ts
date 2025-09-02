@@ -10,7 +10,7 @@ interface Constructor {
 
 export class Fog implements SceneSubject {
     private fog: THREE.Fog;
-    private startAt: number = 3;
+    private startAt: number = 2;
     private endAt: number = 4.5;
 
     constructor({ scene, color }: Constructor) {

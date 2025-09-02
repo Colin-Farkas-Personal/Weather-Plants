@@ -4,13 +4,13 @@ import type { SceneSubject } from "../subject";
 
 interface ConstructorParams {
     scene: THREE.Scene;
-    light: THREE.DirectionalLight;
+    light: THREE.SpotLight;
     modelPath: string;
 }
 
 export class Plant implements SceneSubject {
     private _scene: THREE.Scene;
-    private _light: THREE.DirectionalLight;
+    private _light: THREE.SpotLight;
     private modelPath: string;
     private model: THREE.Group | null = null;
 
