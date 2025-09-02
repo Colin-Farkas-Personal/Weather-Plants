@@ -9,23 +9,19 @@ const defaultTheme: SceneTheme = {
 		},
 	},
 	fog: {
-		color: '#3c00ffff'
+		color: '#ddc577ff'
 	},
 	ground: {
-		color: '#C8F3FF'
+		color: '#F0D783'
 	},
 	lights: {
 		ambient: {
-			color: '#ffffff',
+			color: '#fcffbcff',
 			intensity: 1
 		},
 		front: {
-			color: '#F3FFA8',
-			intensity: 10.75
-		},
-		back: {
-			color: '#F3FFA8',
-			intensity: 0.75
+			color: '#e8ede7ff',
+			intensity: 45
 		}
 	}
 }
