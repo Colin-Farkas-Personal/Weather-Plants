@@ -17,17 +17,13 @@ const basePlesantTheme: SceneTheme = {
     },
     	lights: {
 		ambient: {
-			color: '#cdbcffff',
-			intensity: 1
+			color: '#ffe9bcff',
+			intensity: 0.75
 		},
 		front: {
-			color: '#ffeb89ff',
-			intensity: 20
+			color: '#fdf1b4ff',
+			intensity: 60
 		},
-		back: {
-			color: '#F3FFA8',
-			intensity: 0.75
-		}
 	}
 };
 
@@ -37,73 +33,83 @@ const pleasantTheme: Partial<ThemeMap> = {
     },
     SUNNY_CLOUDY: {
         ...basePlesantTheme,
-        fog: {
-            color: '#c1c7d0ff'
-        },
-        ground: {
-            color: '#dbdfe6ff'
-        },
-        lights: {
-            ambient: {
-                color: '#cdbcffff',
-                intensity: 1
-            },
-            front: {
-                color: '#b9f1efff',
-                intensity: 10
-            },
-            back: {
-                color: '#F3FFA8',
-                intensity: 0.75
-            }
-        }
     },
     CLOUDY: {
         ...basePlesantTheme,
         fog: {
-            color: '#a1a9b6ff'
+            color: '#767b80ff'
         },
         ground: {
             color: '#f7faffff'
         },
         lights: {
             ambient: {
-                color: '#beaeecff',
-                intensity: 1
+                color: '#bcd3ffff',
+                intensity: 0.5
             },
             front: {
-                color: '#c2dcdfff',
-                intensity: 6
+			color: '#fdf1b4ff',
+			intensity: 30
             },
-            back: {
-                color: '#F3FFA8',
-                intensity: 0.25
-            }
-        },
+        }
     },
     RAINY: {
         ...basePlesantTheme,
         fog: {
-            color: '#a1a9b6ff'
+            color: '#8e9399ff'
         },
         ground: {
             color: '#f7faffff'
         },
         lights: {
             ambient: {
-                color: '#beaeecff',
-                intensity: 1.25
+                color: '#bcd3ffff',
+                intensity: 0.5
             },
             front: {
-                color: '#9ba4a5ff',
-                intensity: 25
+                color: '#fdf1b4ff',
+                intensity: 30
             },
-            back: {
-                color: '#F3FFA8',
-                intensity: 0.25
-            }
-        },
+        }
     },
+    THUNDER: {
+        ...basePlesantTheme,
+        fog: {
+            color: '#3d4650ff'
+        },
+        ground: {
+            color: '#f7faffff'
+        },
+        lights: {
+            ambient: {
+                color: '#bcd3ffff',
+                intensity: 0.5
+            },
+            front: {
+                color: '#fdf1b4ff',
+                intensity: 15
+            },
+        }
+    },
+    TORNADO: {
+        ...basePlesantTheme,
+        fog: {
+            color: '#3d4650ff'
+        },
+        ground: {
+            color: '#f7faffff'
+        },
+        lights: {
+            ambient: {
+                color: '#bcd3ffff',
+                intensity: 0.5
+            },
+            front: {
+                color: '#fdf1b4ff',
+                intensity: 15
+            },
+        }
+    }
 };
 
 export { pleasantTheme };

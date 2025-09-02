@@ -39,7 +39,7 @@ export class GeneralLights implements SceneSubject {
         const intensity = 10;
         const distance = 10;
         const angle = 1; 
-        const penumbra = 1.2;
+        const penumbra = 2;
         
         const spotLight = new THREE.SpotLight(0xffffff, color, intensity, distance, angle, penumbra);
         spotLight.position.set(4, 2.5, 2);

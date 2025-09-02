@@ -21,7 +21,7 @@ const basePlesantTheme: SceneTheme = {
 		},
 		front: {
 			color: '#e8ede7ff',
-			intensity: 15
+			intensity: 45
 		}
 	}
 };
@@ -42,7 +42,7 @@ const hotTheme: Partial<ThemeMap> = {
             color: '#9c9169ff'
         },
         ground: {
-            color: '#a6996cff'
+            color: '#F0D783'
         },
         lights: {
             ambient: {
@@ -51,7 +51,7 @@ const hotTheme: Partial<ThemeMap> = {
             },
             front: {
 			    color: '#e8ede7ff',
-			    intensity: 8
+			    intensity: 25
 		    }
         }
     },
@@ -61,7 +61,7 @@ const hotTheme: Partial<ThemeMap> = {
             color: '#9c9169ff'
         },
         ground: {
-            color: '#a6996cff'
+            color: '#F0D783'
         },
         lights: {
             ambient: {
@@ -70,7 +70,7 @@ const hotTheme: Partial<ThemeMap> = {
             },
             front: {
 			    color: '#e8ede7ff',
-			    intensity: 8
+			    intensity: 25
 		    }
         }
     },   
@@ -80,7 +80,7 @@ const hotTheme: Partial<ThemeMap> = {
             color: '#534e3aff'
         },
         ground: {
-            color: '#a6996cff'
+            color: '#baaa76ff'
         },
         lights: {
             ambient: {
@@ -89,7 +89,7 @@ const hotTheme: Partial<ThemeMap> = {
             },
             front: {
 			    color: '#e8ede7ff',
-			    intensity: 4
+			    intensity: 20
 		    }
         }
     },
@@ -99,7 +99,7 @@ const hotTheme: Partial<ThemeMap> = {
             color: '#534e3aff'
         },
         ground: {
-            color: '#a6996cff'
+            color: '#baaa76ff'
         },
         lights: {
             ambient: {
@@ -108,7 +108,7 @@ const hotTheme: Partial<ThemeMap> = {
             },
             front: {
 			    color: '#e8ede7ff',
-			    intensity: 4
+			    intensity: 20
 		    }
         }
     }
