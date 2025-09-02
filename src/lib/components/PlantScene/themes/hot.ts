@@ -9,10 +9,10 @@ const basePlesantTheme: SceneTheme = {
         }
     },
     fog: {
-        color: '#ddc577ff'
+        color: '#f4d87bff'
     },
     ground: {
-        color: '#F0D783'
+        color: '#ffe385ff'
     },
     lights: {
 		ambient: {
