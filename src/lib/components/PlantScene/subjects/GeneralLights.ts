@@ -1,52 +1,59 @@
-import * as THREE from "three";
-import { toThreeColor } from "../SceneManager/to-three-color";
-import type { SceneSubject, UpdateParams } from "./subject";
+import * as THREE from 'three';
+import { toThreeColor } from '../SceneManager/to-three-color';
+import type { SceneSubject, UpdateParams } from './subject';
 
 export class GeneralLights implements SceneSubject {
-    public frontLight: THREE.SpotLight = this.createFrontLight();
-    private ambientLight: THREE.AmbientLight = this.createAmbientLight();
+	public frontLight: THREE.SpotLight = this.createFrontLight();
+	private ambientLight: THREE.AmbientLight = this.createAmbientLight();
 
-    constructor(scene: THREE.Scene) {
-        scene.add(this.ambientLight);
-        scene.add(this.frontLight);
-    }
-    
-    update({ lights }: UpdateParams): void {
-        if (!lights) {
-            return; 
-        }
+	constructor(scene: THREE.Scene) {
+		scene.add(this.ambientLight);
+		scene.add(this.frontLight);
+	}
 
-        const { ambient, front } = lights;
+	update({ lights }: UpdateParams): void {
+		if (!lights) {
+			return;
+		}
 
-        // Update ambient light
-        this.ambientLight.color.set(toThreeColor(ambient.color).color);
-        this.ambientLight.intensity = ambient.intensity;
+		const { ambient, front } = lights;
 
-        // Update front light
-        this.frontLight.color.set(toThreeColor(front.color).color);
-        this.frontLight.intensity = front.intensity;
-    }
+		// Update ambient light
+		this.ambientLight.color.set(toThreeColor(ambient.color).color);
+		this.ambientLight.intensity = ambient.intensity;
 
-    private createAmbientLight(): THREE.AmbientLight {
-        const color = 0xFFFFFF;
-        const intensity = 1;
-        const ambientLight = new THREE.AmbientLight(color, intensity);
-        return ambientLight;
-    }
+		// Update front light
+		this.frontLight.color.set(toThreeColor(front.color).color);
+		this.frontLight.intensity = front.intensity;
+	}
 
-    private createFrontLight(): THREE.SpotLight {
-        const color = 0xF3FFA8;
-        const intensity = 10;
-        const distance = 10;
-        const angle = 1; 
-        const penumbra = 2;
-        
-        const spotLight = new THREE.SpotLight(0xffffff, color, intensity, distance, angle, penumbra);
-        spotLight.position.set(4, 2.5, 2);
-        
-        spotLight.castShadow = true;
-        spotLight.shadow.mapSize.set(1024, 1024);
+	private createAmbientLight(): THREE.AmbientLight {
+		const color = 0xffffff;
+		const intensity = 1;
+		const ambientLight = new THREE.AmbientLight(color, intensity);
+		return ambientLight;
+	}
 
-        return spotLight;
-    }
+	private createFrontLight(): THREE.SpotLight {
+		const color = 0xf3ffa8;
+		const intensity = 10;
+		const distance = 10;
+		const angle = 1;
+		const penumbra = 2;
+
+		const spotLight = new THREE.SpotLight(
+			0xffffff,
+			color,
+			intensity,
+			distance,
+			angle,
+			penumbra,
+		);
+		spotLight.position.set(4, 2.5, 2);
+
+		spotLight.castShadow = true;
+		spotLight.shadow.mapSize.set(1024, 1024);
+
+		return spotLight;
+	}
 }

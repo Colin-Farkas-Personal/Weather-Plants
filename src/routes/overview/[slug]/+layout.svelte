@@ -17,9 +17,9 @@
 		});
 
 		return () => {
-			unsubscribeTheme;
-		}
-	})
+			unsubscribeTheme();
+		};
+	});
 
 	function setThemeAttributeName(theme: TemperatureRange) {
 		document.documentElement.setAttribute('data-theme', theme.toLowerCase());

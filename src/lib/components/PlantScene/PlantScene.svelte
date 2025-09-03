@@ -7,13 +7,15 @@
 	import { defaultTheme } from './themes/default';
 
 	// State
-	let currentSceneTheme = $derived(() => getSceneTheme($temperatureRangeStore, $conditionStatusStore));
-	
+	let currentSceneTheme = $derived(() =>
+		getSceneTheme($temperatureRangeStore, $conditionStatusStore),
+	);
+
 	// Variables
 	let canvas: HTMLCanvasElement;
 	let plantSceneManager: SceneManager | null;
 	let rafID: number | null;
-	
+
 	// Initialize Scene Manager
 	onMount(() => {
 		plantSceneManager = new SceneManager(canvas, defaultTheme);
@@ -23,7 +25,7 @@
 		return () => {
 			stopRender();
 			removeSceneManager();
-		}
+		};
 	});
 
 	// Update Scene Theme

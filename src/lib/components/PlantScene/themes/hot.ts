@@ -1,6 +1,6 @@
-import type { SceneTheme, ThemeMap } from "./theme.types";
+import type { SceneTheme, ThemeMap } from './theme.types';
 
-export const modelPathCactus = '/models/cactus/cactus.glb'; 
+export const modelPathCactus = '/models/cactus/cactus.glb';
 
 const basePlesantTheme: SceneTheme = {
     model: {
@@ -14,16 +14,17 @@ const basePlesantTheme: SceneTheme = {
     ground: {
         color: '#ffe385ff'
     },
+
     lights: {
-		ambient: {
-			color: '#fcffbcff',
-			intensity: 1
-		},
-		front: {
-			color: '#e8ede7ff',
-			intensity: 45
-		}
-	}
+        ambient: {
+            color: '#fcffbcff',
+            intensity: 1
+        },
+        front: {
+            color: '#e8ede7ff',
+            intensity: 45
+        }
+    }
 };
 
 const hotTheme: Partial<ThemeMap> = {
@@ -34,7 +35,7 @@ const hotTheme: Partial<ThemeMap> = {
         ...basePlesantTheme
     },
     SUNNY_CLOUDY: {
-        ...basePlesantTheme,
+        ...basePlesantTheme
     },
     CLOUDY: {
         ...basePlesantTheme,
@@ -50,9 +51,9 @@ const hotTheme: Partial<ThemeMap> = {
                 intensity: 0.75
             },
             front: {
-			    color: '#e8ede7ff',
-			    intensity: 25
-		    }
+                color: '#e8ede7ff',
+                intensity: 25
+            }
         }
     },
     RAINY: {
@@ -69,11 +70,11 @@ const hotTheme: Partial<ThemeMap> = {
                 intensity: 0.75
             },
             front: {
-			    color: '#e8ede7ff',
-			    intensity: 25
-		    }
+                color: '#e8ede7ff',
+                intensity: 25
+            }
         }
-    },   
+    },
     THUNDER: {
         ...basePlesantTheme,
         fog: {
@@ -88,9 +89,9 @@ const hotTheme: Partial<ThemeMap> = {
                 intensity: 0.75
             },
             front: {
-			    color: '#e8ede7ff',
-			    intensity: 20
-		    }
+                color: '#e8ede7ff',
+                intensity: 20
+            }
         }
     },
     TORNADO: {
@@ -107,9 +108,9 @@ const hotTheme: Partial<ThemeMap> = {
                 intensity: 0.75
             },
             front: {
-			    color: '#e8ede7ff',
-			    intensity: 20
-		    }
+                color: '#e8ede7ff',
+                intensity: 20
+            }
         }
     }
 };

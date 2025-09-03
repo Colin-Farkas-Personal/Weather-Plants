@@ -1,55 +1,60 @@
-import type { ConditionStatus } from "$lib/types/condition";
-import type { TemperatureRange } from "$lib/types/temperature";
-import { pleasantTheme } from "./themes/pleasant";
-import { defaultTheme } from "./themes/default";
-import { hotTheme } from "./themes/hot";
-import type { SceneTheme, TemperatureThemeMap } from "./themes/theme.types";
-import { getScreenOrientation } from "./SceneManager/aspect-ration";
+import type { ConditionStatus } from '$lib/types/condition';
+import type { TemperatureRange } from '$lib/types/temperature';
+import { pleasantTheme } from './themes/pleasant';
+import { defaultTheme } from './themes/default';
+import { hotTheme } from './themes/hot';
+import type { SceneTheme, TemperatureThemeMap } from './themes/theme.types';
+import { getScreenOrientation } from './SceneManager/aspect-ration';
 
 function setOverviewLocationBackgroundColor(color: string): void {
-  const bodyElement = document.body as HTMLElement;
-  const locationElement = document.getElementById("overview-location");
+	const bodyElement = document.body as HTMLElement;
+	const locationElement = document.getElementById('overview-location');
 
-  const { orientation } = getScreenOrientation();
+	const { orientation } = getScreenOrientation();
 
-  if (orientation === 'portrait') {
-    if (bodyElement) {
-      bodyElement.style.backgroundColor = color;
-    }
+	if (orientation === 'portrait') {
+		if (bodyElement) {
+			bodyElement.style.backgroundColor = color;
+		}
 
-    if (locationElement) {
-      locationElement.style.backgroundColor = color;
-    }
-  }
+		if (locationElement) {
+			locationElement.style.backgroundColor = color;
+		}
+	}
 }
 
 const temperatureSceneThemes: TemperatureThemeMap = {
-  Cold: {
-    ...hotTheme
-  },
-  Pleasant: {
-    ...pleasantTheme
-  },
-  Hot: {
-    ...hotTheme
-  },
+	Cold: {
+		...hotTheme,
+	},
+	Pleasant: {
+		...pleasantTheme,
+	},
+	Hot: {
+		...hotTheme,
+	},
 };
 
-function getSceneTheme(range: TemperatureRange | null, condition: ConditionStatus | null): SceneTheme {
-  if (!range || !condition) {
-    return defaultTheme;
-  }
+function getSceneTheme(
+	range: TemperatureRange | null,
+	condition: ConditionStatus | null,
+): SceneTheme {
+	if (!range || !condition) {
+		return defaultTheme;
+	}
 
-  const sceneTheme = temperatureSceneThemes[range][condition];
-  if (!sceneTheme) {
-    console.warn(`No scene theme implemented for range: "${range}" with condition: "${condition}"`);
-    return defaultTheme;
-  }
+	const sceneTheme = temperatureSceneThemes[range][condition];
+	if (!sceneTheme) {
+		console.warn(
+			`No scene theme implemented for range: "${range}" with condition: "${condition}"`,
+		);
+		return defaultTheme;
+	}
 
-  // Set background color for location on mobile
-  setOverviewLocationBackgroundColor(sceneTheme.fog.color);
+	// Set background color for location on mobile
+	setOverviewLocationBackgroundColor(sceneTheme.fog.color);
 
-  return sceneTheme;
+	return sceneTheme;
 }
 
 export { getSceneTheme };

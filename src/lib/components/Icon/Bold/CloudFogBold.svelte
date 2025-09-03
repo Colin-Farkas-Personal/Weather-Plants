@@ -3,10 +3,10 @@
 </script>
 
 <script lang="ts">
-	import type { IconProps } from "$lib/types/icon-component";
-		import { getComponentName } from '../SvgIcon.helper';
+	import type { IconProps } from '$lib/types/icon-component';
+	import { getComponentName } from '../SvgIcon.helper';
 
-	import SvgIcon from "../SvgIcon.svelte";
+	import SvgIcon from '../SvgIcon.svelte';
 
 	let props: IconProps = $props();
 </script>
