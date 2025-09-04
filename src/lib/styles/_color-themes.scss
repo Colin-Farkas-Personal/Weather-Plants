@@ -1,100 +1,128 @@
 // Variables for Termperature Based Colors
 :root {
-  /// Cold - Snow White
-  --snow-white-50: #fcfaff;
-  --snow-white-100: #f7f5fb;
-  --snow-white-200: #eceaf4;
-  --snow-white-300: #dedceb;
-  --snow-white-400: #cdcadb;
-  --snow-white-500: #b9b5c8;
-  --snow-white-600: #9893a9;
-  --snow-white-700: #767089;
-  --snow-white-800: #534d64;
-  --snow-white-900: #2f2a3c;
+	/// Default - Warm White
+	--warm-white-50: #fffefc;
+	--warm-white-100: #fffef9;
+	--warm-white-200: #fffdf2;
+	--warm-white-300: #fffbec;
+	--warm-white-400: #fffae5;
+	--warm-white-500: #fff9df;
+	--warm-white-600: #f9f3d8;
+	--warm-white-700: #ccc5a5;
+	--warm-white-800: #a39d82;
+	--warm-white-900: #4a4631;
 
-  /// Pleasant - Clear Sky
-  --clear-sky-50: #f3fafe;
-  --clear-sky-100: #def2fc;
-  --clear-sky-200: #bde5f9;
-  --clear-sky-300: #96d4f4;
-  --clear-sky-400: #7ec6f0;
-  --clear-sky-500: #70bdef;
-  --clear-sky-600: #56a1d2;
-  --clear-sky-700: #3f85b1;
-  --clear-sky-800: #2c648b;
-  --clear-sky-900: #1b405c;
+	/// Cold - Snow White
+	--snow-white-50: #fcfaff;
+	--snow-white-100: #f7f5fb;
+	--snow-white-200: #eceaf4;
+	--snow-white-300: #dedceb;
+	--snow-white-400: #cdcadb;
+	--snow-white-500: #b9b5c8;
+	--snow-white-600: #9893a9;
+	--snow-white-700: #767089;
+	--snow-white-800: #534d64;
+	--snow-white-900: #2f2a3c;
 
-  /// Hot - Sunburn
-  --sunburn-50: #fff4eb;
-  --sunburn-100: #ffe1c8;
-  --sunburn-200: #ffc39a;
-  --sunburn-300: #ffa368;
-  --sunburn-400: #f9843f;
-  --sunburn-500: #db8038;
-  --sunburn-600: #bb6c2f;
-  --sunburn-700: #9d5724;
-  --sunburn-800: #733d18;
-  --sunburn-900: #3e210c;
+	/// Pleasant - Clear Sky
+	--clear-sky-50: #f3fafe;
+	--clear-sky-100: #def2fc;
+	--clear-sky-200: #bde5f9;
+	--clear-sky-300: #96d4f4;
+	--clear-sky-400: #7ec6f0;
+	--clear-sky-500: #70bdef;
+	--clear-sky-600: #56a1d2;
+	--clear-sky-700: #3f85b1;
+	--clear-sky-800: #2c648b;
+	--clear-sky-900: #1b405c;
+
+	/// Hot - Sunburn
+	--sunburn-50: #fff4eb;
+	--sunburn-100: #ffe1c8;
+	--sunburn-200: #ffc39a;
+	--sunburn-300: #ffa368;
+	--sunburn-400: #f9843f;
+	--sunburn-500: #db8038;
+	--sunburn-600: #bb6c2f;
+	--sunburn-700: #9d5724;
+	--sunburn-800: #733d18;
+	--sunburn-900: #3e210c;
+}
+
+:root[data-theme='default'] {
+	--theme-primary-color: var(--warm-white-500);
+
+	--theme-bg-primary: var(--warm-white-500);
+	--theme-bg-secondary: var(--warm-white-600);
+
+	--theme-text-primary: var(--warm-white-900);
+	--theme-text-secondary: var(--warm-white-800);
+	--theme-text-tertiary: var(--warm-white-700);
+
+	--theme-text-primary-inversed: var(--warm-white-900);
+	--theme-text-secondary-inversed: var(--warm-white-800);
+
+	--theme-icon-primary: var(--warm-white-50);
+	--theme-icon-secondary: var(--warm-white-200);
+
+	--theme-border-primary: var(--warm-white-700);
 }
 
 :root[data-theme='cold'] {
-  --theme-primary-color: var(--snow-white-50);
+	--theme-primary-color: var(--snow-white-50);
 
-  --theme-bg-primary: var(--snow-white-50);
-  --theme-bg-secondary: var(--snow-white-100);
+	--theme-bg-primary: var(--snow-white-50);
+	--theme-bg-secondary: var(--snow-white-100);
 
-  --theme-text-primary: var(--snow-white-900);
-  --theme-text-secondary: var(--snow-white-600);
-  --theme-text-tertiary: var(--snow-white-500);
+	--theme-text-primary: var(--snow-white-900);
+	--theme-text-secondary: var(--snow-white-600);
+	--theme-text-tertiary: var(--snow-white-500);
 
-  --theme-text-primary-inversed: var(--snow-white-900);
-  --theme-text-secondary-inversed: var(--snow-white-700);
-  --theme-text-bg-inversed: var(--snow-white-200);
+	--theme-text-primary-inversed: var(--snow-white-900);
+	--theme-text-secondary-inversed: var(--snow-white-700);
 
-  --theme-icon-primary: var(--snow-white-900);
-  --theme-icon-secondary: var(--snow-white-600);
+	--theme-icon-primary: var(--snow-white-900);
+	--theme-icon-secondary: var(--snow-white-600);
 
-  --theme-border-primary: var(--snow-white-400);
+	--theme-border-primary: var(--snow-white-400);
 }
 
 :root[data-theme='pleasant'] {
-  --theme-primary-color: var(--clear-sky-500);
+	--theme-primary-color: var(--clear-sky-500);
 
-  --theme-bg-primary: var(--clear-sky-500);
-  --theme-bg-secondary: var(--clear-sky-600);
+	--theme-bg-primary: var(--clear-sky-500);
+	--theme-bg-secondary: var(--clear-sky-600);
 
-  --theme-text-primary: var(--clear-sky-50);
-  --theme-text-secondary: var(--clear-sky-200);
-  --theme-text-tertiary: var(--clear-sky-200);
+	--theme-text-primary: var(--clear-sky-50);
+	--theme-text-secondary: var(--clear-sky-200);
+	--theme-text-tertiary: var(--clear-sky-200);
 
-  --theme-text-primary-inversed: var(--clear-sky-900);
-  --theme-text-secondary-inversed: var(--clear-sky-800);
-  --theme-text-bg-inversed: #73d4ef;
+	--theme-text-primary-inversed: var(--clear-sky-900);
+	--theme-text-secondary-inversed: var(--clear-sky-800);
 
-  --theme-icon-primary: var(--clear-sky-50);
-  --theme-icon-secondary: var(--clear-sky-200);
+	--theme-icon-primary: var(--clear-sky-50);
+	--theme-icon-secondary: var(--clear-sky-200);
 
-  --theme-border-primary: var(--clear-sky-700);
+	--theme-border-primary: var(--clear-sky-700);
 }
 
 :root[data-theme='hot'] {
-  --theme-primary: var(--sunburn-500);
+	--theme-primary: var(--sunburn-500);
 
-  --theme-bg-primary: var(--sunburn-500);
-  --theme-bg-secondary: var(--sunburn-600);
+	--theme-bg-primary: var(--sunburn-500);
+	--theme-bg-secondary: var(--sunburn-600);
 
-  --theme-text-primary: var(--sunburn-50);
-  --theme-text-secondary: var(--sunburn-100);
-  --theme-text-tertiary: var(--sunburn-200);
+	--theme-text-primary: var(--sunburn-50);
+	--theme-text-secondary: var(--sunburn-100);
+	--theme-text-tertiary: var(--sunburn-200);
 
-  --theme-text-primary-inversed: var(--sunburn-900);
-  --theme-text-secondary-inversed: var(--sunburn-800);
-  --theme-text-bg-inversed: #f0d783;
+	--theme-text-primary-inversed: var(--sunburn-900);
+	--theme-text-secondary-inversed: var(--sunburn-800);
 
-  --theme-icon-primary: var(--sunburn-100);
-  --theme-icon-secondary: var(--sunburn-200);
+	--theme-icon-primary: var(--sunburn-100);
+	--theme-icon-secondary: var(--sunburn-200);
 
-  --theme-border-primary: var(--sunburn-700);
+	--theme-border-primary: var(--sunburn-700);
 }
 
 // :root[data-theme='hot'] {
