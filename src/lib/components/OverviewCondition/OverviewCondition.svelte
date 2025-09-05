@@ -27,10 +27,9 @@
 		align-items: center;
 		justify-content: center;
 		padding: clamp(4px, 1vmin, 8px) clamp(12px, 2vmin, 20px);
-		max-width: 100%;
 
 		border-radius: 3rem;
-		border-width: clamp(3px, 1vmin, 4px);
+		border-width: clamp(2.5px, 1vmin, 4px);
 		border-style: solid;
 		border-color: var(--theme-border-primary);
 		background-color: var(--theme-bg-secondary);
@@ -41,10 +40,14 @@
 		}
 
 		.label {
-			text-wrap: balance;
 			text-align: left;
 			font-weight: bold;
-			font-size: clamp(18px, 5vmin, 24px);
+			font-size: clamp(18px, var(--typography-font-size-vmin), 24px);
+
+			max-width: clamp(180px, 50vmin, 240px);
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
 		}
 
 		:global {

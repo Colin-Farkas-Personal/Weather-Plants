@@ -2,14 +2,14 @@
 
 // Type Face
 body {
-  font-family: 'Bricolage Grotesque', sans-serif;
-  font-weight: normal;
+	font-family: 'Bricolage Grotesque', sans-serif;
+	font-weight: normal;
 }
 
 h1 {
-  font-family: 'Bricolage Grotesque', sans-serif;
-  font-weight: bold;
-  line-height: 1;
+	font-family: 'Bricolage Grotesque', sans-serif;
+	font-weight: bold;
+	line-height: 0.75;
 }
 
 h2,
@@ -17,32 +17,32 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: 'Bricolage Grotesque', sans-serif;
-  font-weight: 500;
-  line-height: 1;
+	font-family: 'Bricolage Grotesque', sans-serif;
+	font-weight: 500;
+	line-height: 1;
 }
 
 p {
-  font-family: 'Bricolage Grotesque', sans-serif;
-  font-weight: normal;
+	font-family: 'Bricolage Grotesque', sans-serif;
+	font-weight: normal;
 }
 
 :root {
-  --typography-font-size-vmin: 5vmin;
+	--typography-font-size-vmin: 5vmin;
 }
 
 // Type Scale
 h1 {
-  font-size: clamp(24px, var(--typography-font-size-vmin), 48px);
+	font-size: clamp(32px, var(--typography-font-size-vmin), 48px);
 }
 
 h2 {
-  font-size: clamp(20px, var(--typography-font-size-vmin), 40px);
+	font-size: clamp(20px, var(--typography-font-size-vmin), 40px);
 }
 h3 {
-  font-size: clamp(18px, var(--typography-font-size-vmin), 36px);
+	font-size: clamp(18px, var(--typography-font-size-vmin), 36px);
 }
 
 p {
-  font-size: clamp(16px, var(--typography-font-size-vmin), 32px);
+	font-size: clamp(16px, var(--typography-font-size-vmin), 32px);
 }

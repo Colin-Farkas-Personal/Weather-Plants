@@ -63,9 +63,9 @@
 			flex: 2;
 
 			border-radius: 0 0 clamp(40px, 50vmin, 280px) clamp(40px, 50vmin, 280px);
-			border-left: clamp(2px, 5vmin, 4px) solid var(--theme-border-primary);
-			border-bottom: clamp(2px, 5vmin, 4px) solid var(--theme-border-primary);
-			border-right: clamp(2px, 5vmin, 4px) solid var(--theme-border-primary);
+			border-left: clamp(2.5px, 1vmin, 4px) solid var(--theme-border-primary);
+			border-bottom: clamp(2.5px, 1vmin, 4px) solid var(--theme-border-primary);
+			border-right: clamp(2.5px, 1vmin, 4px) solid var(--theme-border-primary);
 
 			width: 130%;
 			margin-left: -15%;
@@ -79,19 +79,25 @@
 			flex-direction: column;
 			align-items: center;
 			justify-content: center;
-			gap: clamp(1rem, var(--typography-font-size-vmin), 1.75rem);
+			gap: clamp(1rem, var(--typography-font-size-vmin), 1.25rem);
 		}
 
 		:global {
 			.overview-location {
-				padding-top: 2rem;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				gap: 0.5rem;
+				padding-top: 4rem;
 
 				.header {
 					color: var(--theme-text-primary-inversed);
+					font-size: clamp(32px, 10vmin, 40px);
 				}
 
 				.description {
 					color: var(--theme-text-secondary-inversed);
+					font-size: clamp(16px, var(--typography-font-size-vmin), 24px);
 					font-weight: 500;
 				}
 			}
