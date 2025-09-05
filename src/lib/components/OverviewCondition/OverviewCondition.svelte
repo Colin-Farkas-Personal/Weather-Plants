@@ -30,7 +30,7 @@
 		max-width: 100%;
 
 		border-radius: 3rem;
-		border-width: clamp(2px, 0.5vmin, 4px);
+		border-width: clamp(3px, 1vmin, 4px);
 		border-style: solid;
 		border-color: var(--theme-border-primary);
 		background-color: var(--theme-bg-secondary);

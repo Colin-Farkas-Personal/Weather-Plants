@@ -62,10 +62,10 @@
 			flex-direction: column;
 			flex: 2;
 
-			border-radius: 0 0 180px 180px;
-			border-left: clamp(2px, 0.5vmin, 4px) solid var(--theme-border-primary);
-			border-bottom: clamp(2px, 0.5vmin, 4px) solid var(--theme-border-primary);
-			border-right: clamp(2px, 0.5vmin, 4px) solid var(--theme-border-primary);
+			border-radius: 0 0 clamp(40px, 50vmin, 280px) clamp(40px, 50vmin, 280px);
+			border-left: clamp(2px, 5vmin, 4px) solid var(--theme-border-primary);
+			border-bottom: clamp(2px, 5vmin, 4px) solid var(--theme-border-primary);
+			border-right: clamp(2px, 5vmin, 4px) solid var(--theme-border-primary);
 
 			width: 130%;
 			margin-left: -15%;
