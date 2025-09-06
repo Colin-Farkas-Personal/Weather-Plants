@@ -13,7 +13,7 @@
 	<span class="icon" aria-hidden="true">
 		<WeatherConditionIcon />
 	</span>
-	<span class="label" aria-label={`Weather condition: ${condition}`}>
+	<span role="status" class="label" aria-label={`Weather condition: ${condition}`}>
 		{condition}
 	</span>
 </div>

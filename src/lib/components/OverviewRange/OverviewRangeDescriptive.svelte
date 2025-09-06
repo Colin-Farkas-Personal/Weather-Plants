@@ -17,7 +17,7 @@
 <div class="overview-range-descriptive">
 	<dd class="description" aria-hidden="true"><Icon /></dd>
 	<dt class="term">
-		<span class="value" aria-label={`${ariaLabel}: ${temperatureString}`}
+		<span role="status" class="value" aria-label={`${ariaLabel}: ${temperatureString}`}
 			>{temperatureString}</span
 		>
 		<span class="label">{label}</span>

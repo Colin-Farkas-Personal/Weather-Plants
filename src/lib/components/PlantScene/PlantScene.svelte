@@ -69,13 +69,7 @@
 <svelte:window on:resize={onResizeHandler} />
 
 <figure class="size-container">
-	<canvas
-		id="plant-scene"
-		class="plant-scene"
-		tabindex="0"
-		aria-label="3D plant representing current weather in Athens"
-		bind:this={canvas}
-	></canvas>
+	<canvas id="plant-scene" class="plant-scene" tabindex="-1" bind:this={canvas}></canvas>
 </figure>
 
 <style lang="scss">
