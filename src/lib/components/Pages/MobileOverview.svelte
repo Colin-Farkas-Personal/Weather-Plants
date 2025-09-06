@@ -62,10 +62,11 @@
 			flex-direction: column;
 			flex: 2;
 
-			border-radius: 0 0 clamp(40px, 50vmin, 280px) clamp(40px, 50vmin, 280px);
-			border-left: clamp(2.5px, 1vmin, 4px) solid var(--theme-border-primary);
-			border-bottom: clamp(2.5px, 1vmin, 4px) solid var(--theme-border-primary);
-			border-right: clamp(2.5px, 1vmin, 4px) solid var(--theme-border-primary);
+			border-radius: 0 0 clamp(40px, var(--fluid-size-vmin-large), 280px)
+				clamp(40px, var(--fluid-size-vmin-large), 280px);
+			border-left: var(--fluid-size-border-width) solid var(--theme-border-primary);
+			border-bottom: var(--fluid-size-border-width) solid var(--theme-border-primary);
+			border-right: var(--fluid-size-border-width) solid var(--theme-border-primary);
 
 			width: 130%;
 			margin-left: -15%;
@@ -79,7 +80,7 @@
 			flex-direction: column;
 			align-items: center;
 			justify-content: center;
-			gap: clamp(1rem, var(--typography-font-size-vmin), 1.25rem);
+			gap: clamp(1rem, var(--fluid-size-vmin-medium), 1.25rem);
 		}
 
 		:global {
@@ -92,12 +93,12 @@
 
 				.header {
 					color: var(--theme-text-primary-inversed);
-					font-size: clamp(32px, 10vmin, 40px);
+					font-size: clamp(32px, var(--fluid-size-vmin-medium), 40px);
 				}
 
 				.description {
 					color: var(--theme-text-secondary-inversed);
-					font-size: clamp(16px, var(--typography-font-size-vmin), 24px);
+					font-size: clamp(16px, var(--fluid-size-vmin-medium), 20px);
 					font-weight: 500;
 				}
 			}

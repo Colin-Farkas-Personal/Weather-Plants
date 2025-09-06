@@ -15,7 +15,7 @@
 	// Logic
 	let _orientation = $state<WindowOrientation>('portrait');
 
-	let unsubscribe = windowOrientation.subscribe((orientation) => _orientation = orientation);
+	let unsubscribe = windowOrientation.subscribe((orientation) => (_orientation = orientation));
 
 	onDestroy(unsubscribe);
 </script>

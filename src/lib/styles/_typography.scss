@@ -27,22 +27,18 @@ p {
 	font-weight: normal;
 }
 
-:root {
-	--typography-font-size-vmin: 5vmin;
-}
-
 // Type Scale
 h1 {
-	font-size: clamp(32px, var(--typography-font-size-vmin), 48px);
+	font-size: clamp(32px, var(--fluid-size-vmin-medium), 48px);
 }
 
 h2 {
-	font-size: clamp(20px, var(--typography-font-size-vmin), 40px);
+	font-size: clamp(20px, var(--fluid-size-vmin-medium), 40px);
 }
 h3 {
-	font-size: clamp(18px, var(--typography-font-size-vmin), 36px);
+	font-size: clamp(18px, var(--fluid-size-vmin-medium), 36px);
 }
 
 p {
-	font-size: clamp(16px, var(--typography-font-size-vmin), 32px);
+	font-size: clamp(16px, var(--fluid-size-vmin-medium), 32px);
 }
