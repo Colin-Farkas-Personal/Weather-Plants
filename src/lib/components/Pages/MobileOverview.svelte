@@ -84,7 +84,10 @@
 			flex-direction: column;
 			align-items: center;
 			justify-content: center;
-			gap: clamp(1rem, var(--fluid-size-vmin-medium), 1.25rem);
+			gap: clamp(1rem, 5cqi, 1.25rem);
+
+			container-type: inline-size;
+			font-size: clamp(16px, 2.5cqi, 40px);
 		}
 
 		:global {
@@ -92,12 +95,11 @@
 				display: flex;
 				flex-direction: column;
 				align-items: center;
-				gap: 0.5rem;
 				padding-top: 4rem;
 
 				.header {
 					color: var(--theme-text-primary-inversed);
-					font-size: clamp(32px, var(--fluid-size-vmin-medium), 40px);
+					font-size: clamp(28px, var(--fluid-size-vmin-medium), 40px);
 				}
 
 				.description {
@@ -109,16 +111,16 @@
 
 			.overview-temperature {
 				.value {
-					font-size: 2.5rem;
+					font-size: 2.25em;
 					line-height: 1.2;
 				}
 				.label {
-					font-size: 1.25rem;
+					font-size: 1.25em;
 				}
 			}
 
 			.overview-range {
-				gap: 16px;
+				gap: 0.75em;
 			}
 		}
 	}

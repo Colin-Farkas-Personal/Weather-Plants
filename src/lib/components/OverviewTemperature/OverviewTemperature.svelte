@@ -18,13 +18,13 @@
 
 		.value {
 			font-weight: bold;
-			font-size: clamp(40px, var(--fluid-size-vmin-medium), 48px);
+			font-size: 2em;
 			color: var(--theme-text-primary);
 		}
 
 		.label {
 			font-weight: 500;
-			font-size: clamp(20px, var(--fluid-size-vmin-medium), 32px);
+			font-size: 1.25em;
 			color: var(--theme-text-secondary);
 		}
 	}

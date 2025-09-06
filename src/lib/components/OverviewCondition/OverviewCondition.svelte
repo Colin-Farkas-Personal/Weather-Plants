@@ -23,17 +23,16 @@
 
 	.overview-condition {
 		// Variables
-		--border-width: clamp(3px, var(--fluid-size-vmin-small-plus), 4px);
+		--border-width: 0.2em;
 		// --------
 
 		display: inline-flex;
 		gap: 0.5rem;
 		align-items: center;
 		justify-content: center;
-		padding: clamp(4px, var(--fluid-size-vmin-small-plus), 8px)
-			clamp(12px, var(--fluid-size-vmin-small-plus), 20px);
+		padding: 0.5em 1em;
 
-		border-radius: 3rem;
+		border-radius: 3em;
 		border-width: var(--border-width);
 		border-style: solid;
 		border-color: var(--theme-border-primary);
@@ -47,9 +46,9 @@
 		.label {
 			text-align: left;
 			font-weight: bold;
-			font-size: clamp(18px, var(--fluid-size-vmin-medium), 24px);
+			font-size: 1em;
 
-			max-width: clamp(180px, 50vmin, 240px);
+			max-width: clamp(180px, 5cqi, 240px);
 			white-space: nowrap;
 			overflow: hidden;
 			text-overflow: ellipsis;
@@ -57,8 +56,8 @@
 
 		:global {
 			.icon svg {
-				width: clamp(24px, var(--fluid-size-vmin-medium), 32px);
-				height: clamp(24px, var(--fluid-size-vmin-medium), 32px);
+				width: clamp(24px, 5cqi, 28px);
+				block-size: auto;
 			}
 		}
 	}

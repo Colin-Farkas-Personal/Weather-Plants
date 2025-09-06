@@ -30,6 +30,7 @@ p {
 // Type Scale
 h1 {
 	font-size: clamp(32px, var(--fluid-size-vmin-medium), 48px);
+	padding-bottom: 0.5rem;
 }
 
 h2 {

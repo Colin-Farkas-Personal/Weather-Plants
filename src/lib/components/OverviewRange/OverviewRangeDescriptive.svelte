@@ -48,17 +48,17 @@
 			text-align: center;
 
 			.value {
-				color: var(--theme-text-secondary);
-				font-size: clamp(20px, var(--fluid-size-vmin-medium), 32px);
+				font-size: 1.25em;
 				font-weight: bold;
 				line-height: 1;
+				color: var(--theme-text-secondary);
 			}
 
 			.label {
-				font-size: clamp(16px, var(--fluid-size-vmin-medium), 24px);
+				font-size: 1em;
 				font-weight: 500;
-				color: var(--theme-text-secondary);
 				line-height: 1.2;
+				color: var(--theme-text-secondary);
 			}
 		}
 	}

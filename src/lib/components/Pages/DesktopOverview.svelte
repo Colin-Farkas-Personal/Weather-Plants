@@ -63,11 +63,14 @@
 			justify-content: center;
 			align-items: center;
 			margin: 0 auto;
-			gap: clamp(4rem, var(--fluid-size-vmin-large), 10rem);
+			gap: clamp(4rem, 10cqi, 10rem);
 
 			overflow-y: auto;
 			scrollbar-color: var(--theme-border-primary) var(--theme-bg-primary);
 			scrollbar-width: thin;
+
+			container-type: inline-size;
+			font-size: clamp(16px, 1.5cqi, 48px);
 
 			@media screen and (height <= 650px) {
 				justify-content: start;
@@ -78,7 +81,7 @@
 				display: inherit;
 				flex-direction: inherit;
 				align-items: center;
-				gap: 2.625rem;
+				gap: 2em;
 			}
 		}
 
@@ -110,19 +113,19 @@
 
 				.header {
 					color: var(--theme-text-primary);
-					font-size: clamp(32px, var(--fluid-size-vmin-medium), 48px);
+					font-size: 2em;
 					font-weight: bold;
 				}
 
 				.description {
 					color: var(--theme-text-secondary);
-					font-size: clamp(24px, var(--fluid-size-vmin-medium), 28px);
+					font-size: 1.25em;
 					font-weight: 500;
 				}
 			}
 
 			.overview-range {
-				gap: clamp(24px, var(--fluid-size-vmin-medium), 48px);
+				gap: 1.25em;
 			}
 		}
 	}
