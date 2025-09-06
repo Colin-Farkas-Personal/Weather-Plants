@@ -84,7 +84,7 @@
 			flex-direction: column;
 			align-items: center;
 			justify-content: center;
-			gap: clamp(1rem, 5cqi, 1.25rem);
+			gap: clamp(1rem, 7.5cqi, 1.5rem);
 
 			container-type: inline-size;
 			font-size: clamp(16px, 2.5cqi, 40px);
