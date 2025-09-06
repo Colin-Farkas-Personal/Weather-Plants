@@ -120,7 +120,7 @@
 			}
 
 			.overview-range {
-				gap: var(--fluid-size-em-mini);
+				gap: var(--fluid-size-em-small);
 			}
 		}
 	}
