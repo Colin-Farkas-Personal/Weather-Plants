@@ -23,16 +23,16 @@
 
 	.overview-condition {
 		// Variables
-		--border-width: 0.2em;
+		--border-width: var(--fluid-size-em-mini-minus);
 		// --------
 
 		display: inline-flex;
-		gap: 0.5rem;
+		gap: var(--fluid-size-em-mini);
 		align-items: center;
 		justify-content: center;
-		padding: 0.5em 1em;
+		padding: var(--fluid-size-em-mini) var(--fluid-size-em-small);
 
-		border-radius: 3em;
+		border-radius: var(--fluid-size-em-large-plus);
 		border-width: var(--border-width);
 		border-style: solid;
 		border-color: var(--theme-border-primary);
@@ -46,7 +46,7 @@
 		.label {
 			text-align: left;
 			font-weight: bold;
-			font-size: 1em;
+			font-size: var(--fluid-size-em-small);
 
 			max-width: clamp(180px, 5cqi, 240px);
 			white-space: nowrap;
@@ -56,7 +56,7 @@
 
 		:global {
 			.icon svg {
-				width: clamp(24px, 5cqi, 28px);
+				width: var(--fluid-size-em-medium);
 				block-size: auto;
 			}
 		}

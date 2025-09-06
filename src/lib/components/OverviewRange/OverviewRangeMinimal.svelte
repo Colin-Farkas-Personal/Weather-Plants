@@ -23,7 +23,7 @@
 <style lang="scss">
 	.overview-range-minimal {
 		display: flex;
-		gap: 0.25rem;
+		gap: var(--fluid-size-em-mini-minus);
 		align-items: center;
 
 		.term {
@@ -31,7 +31,7 @@
 		}
 
 		.description {
-			font-size: 1em;
+			font-size: var(--fluid-size-em-small);
 			font-weight: bold;
 			color: var(--theme-text-secondary);
 		}

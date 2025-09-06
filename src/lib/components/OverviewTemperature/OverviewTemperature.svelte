@@ -18,13 +18,13 @@
 
 		.value {
 			font-weight: bold;
-			font-size: 2em;
+			font-size: var(--fluid-size-em-medium-plus);
 			color: var(--theme-text-primary);
 		}
 
 		.label {
 			font-weight: 500;
-			font-size: 1.25em;
+			font-size: var(--fluid-size-em-small-plus);
 			color: var(--theme-text-secondary);
 		}
 	}

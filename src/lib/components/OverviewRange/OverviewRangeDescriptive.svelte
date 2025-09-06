@@ -30,14 +30,13 @@
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
-		gap: 1rem;
+		gap: var(--fluid-size-em-small);
 
 		.description {
 			color: var(--theme-text-secondary);
 
-			// TODO: Set via <Icon size="32" /> ???
 			:global(svg) {
-				width: clamp(24px, var(--fluid-size-vmin-medium), 2rem);
+				width: var(--fluid-size-em-medium);
 				height: auto;
 			}
 		}
@@ -48,14 +47,14 @@
 			text-align: center;
 
 			.value {
-				font-size: 1.25em;
+				font-size: var(--fluid-size-em-small-plus);
 				font-weight: bold;
 				line-height: 1;
 				color: var(--theme-text-secondary);
 			}
 
 			.label {
-				font-size: 1em;
+				font-size: var(--fluid-size-em-small);
 				font-weight: 500;
 				line-height: 1.2;
 				color: var(--theme-text-secondary);

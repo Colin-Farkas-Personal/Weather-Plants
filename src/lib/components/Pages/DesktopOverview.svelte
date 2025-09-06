@@ -63,7 +63,7 @@
 			justify-content: center;
 			align-items: center;
 			margin: 0 auto;
-			gap: clamp(4rem, 10cqi, 10rem);
+			gap: 10rem;
 
 			overflow-y: auto;
 			scrollbar-color: var(--theme-border-primary) var(--theme-bg-primary);
@@ -81,7 +81,7 @@
 				display: inherit;
 				flex-direction: inherit;
 				align-items: center;
-				gap: 2em;
+				gap: var(--fluid-size-em-medium-plus);
 			}
 		}
 
@@ -109,23 +109,21 @@
 
 		:global {
 			.overview-location {
-				padding-top: 0rem;
-
 				.header {
 					color: var(--theme-text-primary);
-					font-size: 2em;
+					font-size: var(--fluid-size-em-medium-plus);
 					font-weight: bold;
 				}
 
 				.description {
 					color: var(--theme-text-secondary);
-					font-size: 1.25em;
+					font-size: var(--fluid-size-em-small-plus);
 					font-weight: 500;
 				}
 			}
 
 			.overview-range {
-				gap: 1.25em;
+				gap: var(--fluid-size-em-small-plus);
 			}
 		}
 	}

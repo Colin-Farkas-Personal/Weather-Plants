@@ -111,16 +111,16 @@
 
 			.overview-temperature {
 				.value {
-					font-size: 2.25em;
+					font-size: var(--fluid-size-em-large);
 					line-height: 1.2;
 				}
 				.label {
-					font-size: 1.25em;
+					font-size: var(--fluid-size-em-small-plus);
 				}
 			}
 
 			.overview-range {
-				gap: 0.75em;
+				gap: var(--fluid-size-em-mini);
 			}
 		}
 	}

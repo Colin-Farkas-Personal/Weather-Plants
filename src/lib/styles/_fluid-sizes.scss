@@ -2,12 +2,17 @@
 :root {
 	--fluid-size-vmin-small: 0.5vmin;
 	--fluid-size-vmin-small-plus: 1vmin;
-
 	--fluid-size-vmin-medium: 5vmin;
 	--fluid-size-vmin-medium-plus: 10vmin;
-
 	--fluid-size-vmin-large: 20vmin;
 	--fluid-size-vmin-large-plus: 50vmin;
 
-	--fluid-size-cqmin-medium: 1cqmax;
+	--fluid-size-em-mini-minus: 0.2em;
+	--fluid-size-em-mini: 0.5em;
+	--fluid-size-em-small: 1em;
+	--fluid-size-em-small-plus: 1.25em;
+	--fluid-size-em-medium: 1.5em;
+	--fluid-size-em-medium-plus: 2em;
+	--fluid-size-em-large: 2.5em;
+	--fluid-size-em-large-plus: 3em;
 }

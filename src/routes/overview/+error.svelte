@@ -13,7 +13,7 @@
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
-		gap: 1rem;
+		gap: var(--fluid-size-em-small);
 
 		width: 100dvw;
 		height: 100dvh;
