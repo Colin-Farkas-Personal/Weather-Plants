@@ -56,17 +56,21 @@
 		background-color: var(--theme-bg-primary);
 
 		.display {
+			// Variables
+			--display-border-radius: clamp(40px, var(--fluid-size-vmin-large-plus), 280px);
+			--display-border-width: clamp(3px, var(--fluid-size-vmin-small-plus), 4px);
+			// --------
+
 			overflow: hidden;
 
 			display: flex;
 			flex-direction: column;
 			flex: 2;
 
-			border-radius: 0 0 clamp(40px, var(--fluid-size-vmin-large), 280px)
-				clamp(40px, var(--fluid-size-vmin-large), 280px);
-			border-left: var(--fluid-size-border-width) solid var(--theme-border-primary);
-			border-bottom: var(--fluid-size-border-width) solid var(--theme-border-primary);
-			border-right: var(--fluid-size-border-width) solid var(--theme-border-primary);
+			border-radius: 0 0 var(--display-border-radius) var(--display-border-radius);
+			border-left: var(--display-border-width) solid var(--theme-border-primary);
+			border-bottom: var(--display-border-width) solid var(--theme-border-primary);
+			border-right: var(--display-border-width) solid var(--theme-border-primary);
 
 			width: 130%;
 			margin-left: -15%;

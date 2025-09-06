@@ -15,16 +15,16 @@
 <style lang="scss">
 	.overview-temperature {
 		text-align: center;
-		
+
 		.value {
 			font-weight: bold;
-			font-size: clamp(40px, var(--typography-font-size-vmin), 48px);
+			font-size: clamp(40px, var(--fluid-size-vmin-medium), 48px);
 			color: var(--theme-text-primary);
 		}
 
 		.label {
 			font-weight: 500;
-			font-size: clamp(20px, var(--typography-font-size-vmin), 32px);
+			font-size: clamp(20px, var(--fluid-size-vmin-medium), 32px);
 			color: var(--theme-text-secondary);
 		}
 	}

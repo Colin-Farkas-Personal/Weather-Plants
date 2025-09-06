@@ -1,12 +1,11 @@
 // This file contains dynamic size variables and clamps for responsive design
 :root {
 	--fluid-size-vmin-small: 0.5vmin;
-	--fluid-size-vmin-small-plus: 2vmin;
+	--fluid-size-vmin-small-plus: 1vmin;
 
 	--fluid-size-vmin-medium: 5vmin;
 	--fluid-size-vmin-medium-plus: 10vmin;
 
-	--fluid-size-vmin-large: 50vmin;
-
-	--fluid-size-border-width: clamp(3px, var(--fluid-size-vmin-small), 4px);
+	--fluid-size-vmin-large: 20vmin;
+	--fluid-size-vmin-large-plus: 50vmin;
 }

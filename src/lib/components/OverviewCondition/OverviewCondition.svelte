@@ -22,6 +22,10 @@
 	@use '/src/lib/styles/breakpoints';
 
 	.overview-condition {
+		// Variables
+		--border-width: clamp(3px, var(--fluid-size-vmin-small-plus), 4px);
+		// --------
+
 		display: inline-flex;
 		gap: 0.5rem;
 		align-items: center;
@@ -30,7 +34,7 @@
 			clamp(12px, var(--fluid-size-vmin-small-plus), 20px);
 
 		border-radius: 3rem;
-		border-width: var(--fluid-size-border-width);
+		border-width: var(--border-width);
 		border-style: solid;
 		border-color: var(--theme-border-primary);
 		background-color: var(--theme-bg-secondary);

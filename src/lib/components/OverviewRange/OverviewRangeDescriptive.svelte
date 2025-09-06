@@ -17,7 +17,9 @@
 <div class="overview-range-descriptive">
 	<dd class="description" aria-hidden="true"><Icon /></dd>
 	<dt class="term">
-		<span class="value" aria-label={`${ariaLabel}: ${temperatureString}`}>{temperatureString}</span>
+		<span class="value" aria-label={`${ariaLabel}: ${temperatureString}`}
+			>{temperatureString}</span
+		>
 		<span class="label">{label}</span>
 	</dt>
 </div>
@@ -35,7 +37,7 @@
 
 			// TODO: Set via <Icon size="32" /> ???
 			:global(svg) {
-				width: clamp(24px, var(--typography-font-size-vmin), 2rem);
+				width: clamp(24px, var(--fluid-size-vmin-medium), 2rem);
 				height: auto;
 			}
 		}
@@ -47,13 +49,13 @@
 
 			.value {
 				color: var(--theme-text-secondary);
-				font-size: clamp(20px, var(--typography-font-size-vmin), 32px);
+				font-size: clamp(20px, var(--fluid-size-vmin-medium), 32px);
 				font-weight: bold;
 				line-height: 1;
 			}
 
 			.label {
-				font-size: clamp(16px, var(--typography-font-size-vmin), 24px);
+				font-size: clamp(16px, var(--fluid-size-vmin-medium), 24px);
 				font-weight: 500;
 				color: var(--theme-text-secondary);
 				line-height: 1.2;

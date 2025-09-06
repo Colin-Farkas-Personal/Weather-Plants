@@ -28,7 +28,8 @@
 			font-size: 32px;
 
 			b {
-				padding: clamp(4px, 5vmin, 8px) clamp(8px, 5vmin, 18px);
+				padding: clamp(4px, var(--fluid-size-vmin-medium), 8px)
+					clamp(8px, var(--fluid-size-vmin-medium), 18px);
 				border-radius: 1.875rem;
 
 				background-color: orange;

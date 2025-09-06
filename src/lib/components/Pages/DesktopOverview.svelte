@@ -19,9 +19,8 @@
 <main class="desktop-overview isolate">
 	<div class="noise"></div>
 	<div class="overlay"></div>
-	
-	<section class="details">
 
+	<section class="details">
 		<OverviewLocation locationName={data.location.name} countryName={data.location.country} />
 
 		<div class="details-values">
@@ -50,14 +49,10 @@
 </main>
 
 <style lang="scss">
-	:root {
-		--desktop-overview-display-scale: calc(1.1 - 2);
-	}
 	.desktop-overview {
 		overflow: hidden;
 		display: flex;
 		height: 100dvh;
-
 
 		.details {
 			flex: 1;
@@ -68,7 +63,7 @@
 			justify-content: center;
 			align-items: center;
 			margin: 0 auto;
-			gap: clamp(4rem, 30vmin, 10rem);
+			gap: clamp(4rem, var(--fluid-size-vmin-large), 10rem);
 
 			overflow-y: auto;
 			scrollbar-color: var(--theme-border-primary) var(--theme-bg-primary);
@@ -88,6 +83,11 @@
 		}
 
 		.display {
+			// Variables
+			--display-border-radius: clamp(60px, var(--fluid-size-vmin-large), 140px);
+			--display-border-width: clamp(3px, var(--fluid-size-vmin-small-plus), 4px);
+			// --------
+
 			z-index: 0;
 			position: relative;
 			overflow: hidden;
@@ -96,10 +96,10 @@
 			display: flex;
 			flex: 1.75;
 
-			border-radius: clamp(60px, 20vmin, 140px) 0 0 clamp(60px, 20vmin, 140px);
-			border-top: clamp(2px, 0.5vmin, 4px) solid var(--theme-border-primary);
-			border-left: clamp(2px, 0.5vmin, 4px) solid var(--theme-border-primary);
-			border-bottom: clamp(2px, 0.5vmin, 4px) solid var(--theme-border-primary);
+			border-radius: var(--display-border-radius) 0 0 var(--display-border-radius);
+			border-top: var(--display-border-width) solid var(--theme-border-primary);
+			border-left: var(--display-border-width) solid var(--theme-border-primary);
+			border-bottom: var(--display-border-width) solid var(--theme-border-primary);
 			height: 110%;
 			top: -5%;
 		}
@@ -110,17 +110,19 @@
 
 				.header {
 					color: var(--theme-text-primary);
+					font-size: clamp(32px, var(--fluid-size-vmin-medium), 48px);
 					font-weight: bold;
 				}
 
 				.description {
 					color: var(--theme-text-secondary);
+					font-size: clamp(24px, var(--fluid-size-vmin-medium), 28px);
 					font-weight: 500;
 				}
 			}
 
 			.overview-range {
-				gap: clamp(24px, var(--typography-font-size-vmin), 48px);
+				gap: clamp(24px, var(--fluid-size-vmin-medium), 48px);
 			}
 		}
 	}
