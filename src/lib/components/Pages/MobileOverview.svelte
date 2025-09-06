@@ -17,15 +17,16 @@
 	let { data }: MobileOverviewProps = $props();
 </script>
 
-<main class="mobile-overview">
+<main class="mobile-overview isolate">
+	<div class="noise"></div>
+	<div class="overlay"></div>
+
 	<section class="display">
 		<OverviewLocation locationName={data.location.name} countryName={data.location.country} />
 		<PlantScene />
 	</section>
 
-	<section class="details isolate">
-		<div class="noise"></div>
-		<div class="overlay"></div>
+	<section class="details">
 		<OverviewCondition condition={data.condition.text} />
 
 		<OverviewTemperature temperature={data.temperature} feelsLike={data.feelsLike} />
