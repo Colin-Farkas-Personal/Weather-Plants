@@ -14,7 +14,6 @@ const basePlesantTheme: SceneTheme = {
 	ground: {
 		color: '#ffe385ff',
 	},
-
 	lights: {
 		ambient: {
 			color: '#fcffbcff',
@@ -40,76 +39,56 @@ const hotTheme: Partial<ThemeMap> = {
 	CLOUDY: {
 		...basePlesantTheme,
 		fog: {
-			color: '#9c9169ff',
+			color: '#bab08bff',
 		},
 		ground: {
-			color: '#F0D783',
-		},
-		lights: {
-			ambient: {
-				color: '#fcffbcff',
-				intensity: 0.75,
-			},
-			front: {
-				color: '#e8ede7ff',
-				intensity: 25,
-			},
+			color: '#cab671ff',
 		},
 	},
 	RAINY: {
 		...basePlesantTheme,
 		fog: {
-			color: '#9c9169ff',
+			color: '#968f76ff',
 		},
 		ground: {
-			color: '#F0D783',
-		},
-		lights: {
-			ambient: {
-				color: '#fcffbcff',
-				intensity: 0.75,
-			},
-			front: {
-				color: '#e8ede7ff',
-				intensity: 25,
-			},
+			color: '#ac9e69ff',
 		},
 	},
 	THUNDER: {
 		...basePlesantTheme,
 		fog: {
-			color: '#534e3aff',
+			color: '#69634dff',
 		},
 		ground: {
-			color: '#baaa76ff',
+			color: '#cab671ff',
 		},
 		lights: {
 			ambient: {
-				color: '#fcffbcff',
+				color: '#e5e5e0ff',
 				intensity: 0.75,
 			},
 			front: {
-				color: '#e8ede7ff',
-				intensity: 20,
+				color: '#989c98ff',
+				intensity: 70,
 			},
 		},
 	},
 	TORNADO: {
 		...basePlesantTheme,
 		fog: {
-			color: '#534e3aff',
+			color: '#69634dff',
 		},
 		ground: {
-			color: '#baaa76ff',
+			color: '#cab671ff',
 		},
 		lights: {
 			ambient: {
-				color: '#fcffbcff',
+				color: '#e5e5e0ff',
 				intensity: 0.75,
 			},
 			front: {
-				color: '#e8ede7ff',
-				intensity: 20,
+				color: '#989c98ff',
+				intensity: 70,
 			},
 		},
 	},
