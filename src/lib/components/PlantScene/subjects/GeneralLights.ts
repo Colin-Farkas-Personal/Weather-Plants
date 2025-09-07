@@ -49,7 +49,11 @@ export class GeneralLights implements SceneSubject {
 			angle,
 			penumbra,
 		);
-		spotLight.position.set(4, 2.5, 2);
+
+		const x = 4;
+		const y = 2.5;
+		const z = 2.5;
+		spotLight.position.set(x, y, z);
 
 		spotLight.castShadow = true;
 		spotLight.shadow.mapSize.set(1024, 1024);
