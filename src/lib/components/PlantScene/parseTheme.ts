@@ -5,6 +5,7 @@ import { defaultTheme } from './themes/default';
 import { hotTheme } from './themes/hot';
 import type { SceneTheme, TemperatureThemeMap } from './themes/theme.types';
 import { getScreenOrientation } from './SceneManager/aspect-ration';
+import { coldTheme } from './themes/cold';
 
 function setOverviewLocationBackgroundColor(color: string): void {
 	const bodyElement = document.body as HTMLElement;
@@ -25,7 +26,7 @@ function setOverviewLocationBackgroundColor(color: string): void {
 
 const temperatureSceneThemes: TemperatureThemeMap = {
 	Cold: {
-		...hotTheme,
+		...coldTheme,
 	},
 	Pleasant: {
 		...pleasantTheme,

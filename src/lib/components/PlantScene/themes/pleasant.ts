@@ -29,6 +29,9 @@ const pleasantTheme: Partial<ThemeMap> = {
 	SUNNY: {
 		...basePlesantTheme,
 	},
+	WINDY: {
+		...basePlesantTheme,
+	},
 	SUNNY_CLOUDY: {
 		...basePlesantTheme,
 	},
