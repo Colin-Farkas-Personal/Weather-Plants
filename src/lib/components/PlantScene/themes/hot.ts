@@ -22,7 +22,7 @@ const basePlesantTheme: SceneTheme = {
 		},
 		front: {
 			color: '#e8ede7ff',
-			intensity: 65,
+			intensity: 70,
 		},
 	},
 };
