@@ -8,18 +8,18 @@ const basePlesantTheme: SceneTheme = {
 		},
 	},
 	fog: {
-		color: '#d1dbeaff',
+		color: '#c2daffff',
 	},
 	ground: {
-		color: '#f7faffff',
+		color: '#cddfffff',
 	},
 	lights: {
 		ambient: {
-			color: '#ffe9bcff',
+			color: '#fff6e5ff',
 			intensity: 0.75,
 		},
 		front: {
-			color: '#fdf1b4ff',
+			color: '#ddfeffff',
 			intensity: 60,
 		},
 	},
