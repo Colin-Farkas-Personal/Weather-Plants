@@ -9,7 +9,7 @@ const baseColdTheme: SceneTheme = {
 		},
 	},
 	fog: {
-		color: '#ecebefff',
+		color: '#e6e6e7ff',
 	},
 	ground: {
 		color: '#F7F5FB',
