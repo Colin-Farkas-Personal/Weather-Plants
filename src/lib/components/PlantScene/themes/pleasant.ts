@@ -8,10 +8,10 @@ const basePlesantTheme: SceneTheme = {
 		},
 	},
 	fog: {
-		color: '#9ec8edff',
+		color: '#a4c9e9ff',
 	},
 	ground: {
-		color: '#bad3ffff',
+		color: '#edf3ffff',
 	},
 	lights: {
 		ambient: {
@@ -19,7 +19,7 @@ const basePlesantTheme: SceneTheme = {
 			intensity: 0.75,
 		},
 		front: {
-			color: '#eefbffff',
+			color: '#ffffffff',
 			intensity: 65,
 		},
 	},
