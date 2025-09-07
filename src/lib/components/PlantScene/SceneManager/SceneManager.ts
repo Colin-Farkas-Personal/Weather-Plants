@@ -141,7 +141,10 @@ export class SceneManager implements ISceneManager {
 		const farPlane = 1000;
 		const camera = new THREE.PerspectiveCamera(fieldOfView, aspectRatio, nearPlane, farPlane);
 
-		camera.position.set(1, 1, 1);
+		const x = 1;
+		const y = 1.5;
+		const z = 0;
+		camera.position.set(x, y, z);
 
 		return camera;
 	}
