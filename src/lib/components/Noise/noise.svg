@@ -7,9 +7,18 @@
   <filter id='noiseFilter'>
     <feTurbulence 
       type='fractalNoise' 
-      baseFrequency='1' 
+      baseFrequency='1.6' 
       numOctaves='2' 
-      stitchTiles='stitch' />
+      stitchTiles='stitch' 
+    />
+    <feColorMatrix in="turb" type="saturate" values="0" result="gray"/>
+
+      <feComponentTransfer in="gray">
+    <!-- identical curves = monochrome -->
+    <feFuncR type="linear" slope="1" intercept="0" />
+    <feFuncG type="linear" slope="1" intercept="0" />
+    <feFuncB type="linear" slope="1" intercept="0" />
+  </feComponentTransfer>
   </filter>
 
   <rect

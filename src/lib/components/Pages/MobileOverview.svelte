@@ -54,8 +54,6 @@
 		flex-direction: column;
 		height: 100dvh;
 
-		background-color: var(--theme-bg-primary);
-
 		.display {
 			// Variables
 			--display-border-radius: clamp(40px, var(--fluid-size-vmin-large-plus), 280px);

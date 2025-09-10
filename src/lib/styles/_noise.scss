@@ -8,7 +8,8 @@
 	inset: 0;
 
 	background: url('/src/lib/components/Noise/noise.svg');
-	filter: contrast(180%) brightness(100%);
+	filter: contrast(300%) brightness(100%);
+	// multiply
 }
 
 .overlay {
@@ -17,5 +18,5 @@
 	inset: 0;
 
 	background-color: var(--theme-bg-primary);
-	mix-blend-mode: darken;
+	mix-blend-mode: multiply;
 }
