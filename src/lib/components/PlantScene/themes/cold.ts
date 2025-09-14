@@ -1,6 +1,6 @@
 import type { SceneTheme, ThemeMap } from './theme.types';
 
-export const modelPathCactus = '/models/cactus/cactus.glb';
+export const modelPathCactus = '/models/tree/tree.glb';
 
 const baseColdTheme: SceneTheme = {
 	model: {
