@@ -16,10 +16,7 @@
 	let { data }: DesktopOverviewProps = $props();
 </script>
 
-<main class="desktop-overview isolate">
-	<div class="noise"></div>
-	<div class="overlay"></div>
-
+<main class="desktop-overview noise">
 	<section class="details">
 		<OverviewLocation locationName={data.location.name} countryName={data.location.country} />
 
@@ -53,6 +50,8 @@
 		overflow: hidden;
 		display: flex;
 		height: 100dvh;
+
+		background-color: var(--theme-bg-primary);
 
 		.details {
 			flex: 1;

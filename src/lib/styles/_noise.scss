@@ -1,22 +1,8 @@
-.isolate {
-	isolation: isolate;
-}
-
 .noise {
-	z-index: -1;
 	position: absolute;
 	inset: 0;
 
 	background: url('/src/lib/components/Noise/noise.svg');
-	filter: contrast(300%) brightness(100%);
-	// multiply
-}
-
-.overlay {
-	z-index: -1;
-	position: absolute;
-	inset: 0;
-
-	background-color: var(--theme-bg-primary);
-	mix-blend-mode: multiply;
+	background-repeat: repeat;
+	background-size: 100px 100px;
 }

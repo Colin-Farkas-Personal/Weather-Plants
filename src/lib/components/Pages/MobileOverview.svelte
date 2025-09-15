@@ -17,10 +17,7 @@
 	let { data }: MobileOverviewProps = $props();
 </script>
 
-<main class="mobile-overview isolate">
-	<div class="noise"></div>
-	<div class="overlay"></div>
-
+<main class="mobile-overview noise">
 	<section class="display">
 		<OverviewLocation locationName={data.location.name} countryName={data.location.country} />
 		<PlantScene />
@@ -53,6 +50,8 @@
 		display: flex;
 		flex-direction: column;
 		height: 100dvh;
+
+		background-color: var(--theme-bg-primary);
 
 		.display {
 			// Variables
