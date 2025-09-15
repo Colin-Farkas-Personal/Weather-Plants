@@ -1,7 +1,7 @@
 <script lang="ts">
 	import conditionStatusStore from '$lib/globals/conditionStatusStore.svelte';
 	import temperatureRangeStore from '$lib/globals/temperatureRangeStore.svelte';
-	import { onMount } from 'svelte';
+	import { onDestroy, onMount } from 'svelte';
 	import { getSceneTheme } from './parseTheme';
 	import { SceneManager } from './SceneManager/SceneManager';
 	import { defaultTheme } from './themes/default';
@@ -34,6 +34,11 @@
 			const theme = currentSceneTheme();
 			plantSceneManager.updateTheme(theme);
 		}
+	});
+
+	onDestroy(() => {
+		stopRender();
+		removeSceneManager();
 	});
 
 	// Functions

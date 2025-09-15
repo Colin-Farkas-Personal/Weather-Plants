@@ -67,6 +67,7 @@ export class SceneManager implements ISceneManager {
 	dispose() {
 		this.controls.dispose();
 		this.renderer.dispose();
+		this.renderer.forceContextLoss();
 	}
 
 	onWindowResize() {
