@@ -1,6 +1,6 @@
 <script lang="ts">
 	import PrimarySection from '$lib/components/Section/PrimarySection.svelte';
-	import SecondarySection from '$lib/components/Section/Secondary/SecondarySection.svelte';
+	import SecondarySection from '$lib/components/Section/SecondarySection.svelte';
 	import SectionContainer from '$lib/components/Section/SectionContainer.svelte';
 	import { windowOrientation } from '$lib/globals/windowStore';
 
@@ -11,14 +11,19 @@
 <article class="main">
 	<SectionContainer className="main-page">
 		{#if $orientation === 'landscape'}
-			<PrimarySection>
-				<div class="main-page-inner">
-					<h1 class="heading">What's the weather like in...?</h1>
+			<PrimarySection heading="What's the weather like in...?">
+				<div class="main-page-selection">
 					<input type="text" placeholder="London...Madrid...Athens..." />
 				</div>
 			</PrimarySection>
 
-			<SecondarySection />
+			<SecondarySection>
+				{#snippet Scene()}
+					<div>
+						<p>Weather Pot - Weather embodied</p>
+					</div>
+				{/snippet}
+			</SecondarySection>
 		{:else if $orientation === 'portrait'}
 			<SecondarySection heading="What's the weather like in...?" subHeading="Bye" />
 
@@ -30,19 +35,14 @@
 </article>
 
 <style lang="scss">
-	.main-page-inner {
+	.main-page-selection {
 		display: flex;
 		flex-direction: column;
-		gap: 60px;
-		margin: 0 5rem;
+
+		width: 100%;
+		margin-top: 4rem;
 	}
-	.heading {
-		text-align: center;
-		color: var(--theme-text-primary);
-		font-size: var(--fluid-size-em-medium-plus);
-		font-weight: bold;
-		text-wrap: unset;
-	}
+
 	:global {
 		.main-page {
 			background-color: var(--theme-bg-primary);

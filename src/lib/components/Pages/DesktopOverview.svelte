@@ -9,7 +9,7 @@
 	import PlantScene from '$lib/components/PlantScene/PlantScene.svelte';
 	import type { WeatherOverview } from '$lib/types/weather';
 	import PrimarySection from '../Section/PrimarySection.svelte';
-	import SecondarySection from '../Section/Secondary/SecondarySection.svelte';
+	import SecondarySection from '../Section/SecondarySection.svelte';
 	import SectionContainer from '../Section/SectionContainer.svelte';
 
 	interface DesktopOverviewProps {
@@ -23,7 +23,7 @@
 	<PrimarySection>
 		<OverviewLocation locationName={data.location.name} countryName={data.location.country} />
 
-		<article class="details-values">
+		<article class="details">
 			<OverviewCondition condition={data.condition.text} />
 			<OverviewTemperature temperature={data.temperature} feelsLike={data.feelsLike} />
 			<OverviewRange>
@@ -43,15 +43,21 @@
 		</article>
 	</PrimarySection>
 
-	<SecondarySection Scene={PlantScene} />
+	<SecondarySection>
+		{#snippet Scene()}
+			<PlantScene />
+		{/snippet}
+	</SecondarySection>
 </SectionContainer>
 
 <style lang="scss">
-	.details-values {
+	.details {
 		display: inherit;
 		flex-direction: inherit;
 		align-items: center;
 		gap: var(--fluid-size-em-medium-plus);
+
+		margin-top: 10rem;
 	}
 
 	:global {

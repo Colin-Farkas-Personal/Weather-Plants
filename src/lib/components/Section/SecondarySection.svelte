@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { windowOrientation } from '$lib/globals/windowStore';
 	import type { Snippet } from 'svelte';
-	import SectionInnerHeading from '../SectionInnerHeading.svelte';
+	import SectionHeading from './SectionHeading.svelte';
 
 	interface SecondarySectionProps {
 		TopBar?: Snippet;
@@ -22,7 +22,7 @@
 		class={`secondary-section-inner ${TopBar ? 'with-top-bar' : ''}`}
 	>
 		{@render TopBar?.()}
-		<SectionInnerHeading {heading} {subHeading} />
+		<SectionHeading {heading} {subHeading} />
 		{@render Scene?.()}
 	</div>
 </section>

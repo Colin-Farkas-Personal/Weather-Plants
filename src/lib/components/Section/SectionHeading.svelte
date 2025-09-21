@@ -1,28 +1,28 @@
 <script lang="ts">
 	import { windowOrientation } from '$lib/globals/windowStore';
 
-	interface OverviewRangeDescriptiveProps {
+	interface SectionHeadingProps {
 		heading?: string;
 		subHeading?: string;
 	}
 
-	let { heading, subHeading }: OverviewRangeDescriptiveProps = $props();
+	let { heading, subHeading }: SectionHeadingProps = $props();
 
 	// Logic
 	let orientation = windowOrientation;
 </script>
 
 {#if heading && subHeading}
-	<hgroup id="section-inner-heading" class={`section-inner-heading ${$orientation}`}>
+	<hgroup id="section-heading" class={`section-heading ${$orientation}`}>
 		<h1 class="heading">{heading}</h1>
 		<p class="description">{subHeading}</p>
 	</hgroup>
 {:else if heading}
-	<h1 class={`section-inner-heading heading ${$orientation}`}>{heading}</h1>
+	<h1 class={`section-heading heading ${$orientation}`}>{heading}</h1>
 {/if}
 
 <style lang="scss">
-	.section-inner-heading {
+	.section-heading {
 		display: flex;
 		flex-direction: column;
 		align-items: center;

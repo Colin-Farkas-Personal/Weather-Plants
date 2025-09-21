@@ -1,18 +1,22 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
 	import { windowOrientation } from '$lib/globals/windowStore';
+	import SectionHeading from './SectionHeading.svelte';
 
 	interface PrimarySectionProps {
+		heading?: string;
+		subHeading?: string;
 		children?: Snippet;
 	}
 
-	let { children }: PrimarySectionProps = $props();
+	let { heading, subHeading, children }: PrimarySectionProps = $props();
 
 	// Logic
 	let orientation = windowOrientation;
 </script>
 
 <section class={`primary-section-${$orientation}`}>
+	<SectionHeading {heading} {subHeading} />
 	{@render children?.()}
 </section>
 
@@ -33,14 +37,16 @@
 
 	.primary-section-landscape {
 		flex: 1;
+		overflow-x: hidden;
 
 		position: relative;
 		display: flex;
 		flex-direction: column;
-		justify-content: center;
 		align-items: center;
-		margin: 0 auto;
-		gap: 10rem;
+		justify-content: center;
+
+		max-width: 100%;
+		padding: 0 3.5rem;
 
 		overflow-y: auto;
 		scrollbar-color: var(--theme-border-primary) var(--theme-bg-primary);

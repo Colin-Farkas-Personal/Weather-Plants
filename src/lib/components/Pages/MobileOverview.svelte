@@ -9,7 +9,7 @@
 	import PlantScene from '$lib/components/PlantScene/PlantScene.svelte';
 	import type { WeatherOverview } from '$lib/types/weather';
 	import PrimarySection from '../Section/PrimarySection.svelte';
-	import SecondarySection from '../Section/Secondary/SecondarySection.svelte';
+	import SecondarySection from '../Section/SecondarySection.svelte';
 	import SectionContainer from '../Section/SectionContainer.svelte';
 
 	interface MobileOverviewProps {
