@@ -8,6 +8,9 @@
 	import OverviewTemperature from '$lib/components/OverviewTemperature/OverviewTemperature.svelte';
 	import PlantScene from '$lib/components/PlantScene/PlantScene.svelte';
 	import type { WeatherOverview } from '$lib/types/weather';
+	import PrimarySection from '../Section/PrimarySection.svelte';
+	import SecondarySection from '../Section/Secondary/SecondarySection.svelte';
+	import SectionContainer from '../Section/SectionContainer.svelte';
 
 	interface DesktopOverviewProps {
 		data: WeatherOverview;
@@ -16,11 +19,11 @@
 	let { data }: DesktopOverviewProps = $props();
 </script>
 
-<main class="desktop-overview noise">
-	<section class="details">
+<SectionContainer className="desktop-overview">
+	<PrimarySection>
 		<OverviewLocation locationName={data.location.name} countryName={data.location.country} />
 
-		<div class="details-values">
+		<article class="details-values">
 			<OverviewCondition condition={data.condition.text} />
 			<OverviewTemperature temperature={data.temperature} feelsLike={data.feelsLike} />
 			<OverviewRange>
@@ -37,76 +40,24 @@
 					ariaLabel="Highest temperature today"
 				/>
 			</OverviewRange>
-		</div>
-	</section>
+		</article>
+	</PrimarySection>
 
-	<aside class="display">
-		<PlantScene />
-	</aside>
-</main>
+	<SecondarySection Scene={PlantScene} />
+</SectionContainer>
 
 <style lang="scss">
-	.desktop-overview {
-		overflow: hidden;
-		display: flex;
-		height: 100dvh;
+	.details-values {
+		display: inherit;
+		flex-direction: inherit;
+		align-items: center;
+		gap: var(--fluid-size-em-medium-plus);
+	}
 
-		background-color: var(--theme-bg-primary);
+	:global {
+		.desktop-overview {
+			background-color: var(--theme-bg-primary);
 
-		.details {
-			flex: 1;
-
-			position: relative;
-			display: flex;
-			flex-direction: column;
-			justify-content: center;
-			align-items: center;
-			margin: 0 auto;
-			gap: 10rem;
-
-			overflow-y: auto;
-			scrollbar-color: var(--theme-border-primary) var(--theme-bg-primary);
-			scrollbar-width: thin;
-
-			container-type: inline-size;
-			font-size: clamp(16px, 1.5cqi, 48px);
-
-			@media screen and (height <= 650px) {
-				justify-content: start;
-				padding: 2rem 0;
-			}
-
-			.details-values {
-				display: inherit;
-				flex-direction: inherit;
-				align-items: center;
-				gap: var(--fluid-size-em-medium-plus);
-			}
-		}
-
-		.display {
-			// Variables
-			--display-border-radius: clamp(60px, var(--fluid-size-vmin-large), 140px);
-			--display-border-width: clamp(3px, var(--fluid-size-vmin-small-plus), 4px);
-			// --------
-
-			z-index: 0;
-			position: relative;
-			overflow: hidden;
-
-			box-sizing: border-box;
-			display: flex;
-			flex: 1.75;
-
-			border-radius: var(--display-border-radius) 0 0 var(--display-border-radius);
-			border-top: var(--display-border-width) solid var(--theme-border-primary);
-			border-left: var(--display-border-width) solid var(--theme-border-primary);
-			border-bottom: var(--display-border-width) solid var(--theme-border-primary);
-			height: 110%;
-			top: -5%;
-		}
-
-		:global {
 			.overview-location {
 				.header {
 					color: var(--theme-text-primary);

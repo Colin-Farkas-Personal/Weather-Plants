@@ -12,6 +12,25 @@
 	--warm-white-800: #a39d82;
 	--warm-white-900: #4a4631;
 
+	/// Reusable Variables for Default Theme
+	--warm-white-primary-color: var(--warm-white-500);
+
+	--warm-white-bg-primary: var(--warm-white-500);
+	--warm-white-bg-secondary: var(--warm-white-600);
+	--warm-white-bg-tertiary: var(--warm-white-300);
+
+	--warm-white-text-primary: var(--warm-white-900);
+	--warm-white-text-secondary: var(--warm-white-800);
+	--warm-white-text-tertiary: var(--warm-white-700);
+
+	--warm-white-text-primary-inversed: var(--warm-white-900);
+	--warm-white-text-secondary-inversed: var(--warm-white-800);
+
+	--warm-white-icon-primary: var(--warm-white-900);
+	--warm-white-icon-secondary: var(--warm-white-800);
+
+	--warm-white-border-primary: var(--warm-white-700);
+
 	/// Cold - Snow White
 	--snow-white-50: #fcfaff;
 	--snow-white-100: #f7f5fb;
@@ -50,22 +69,23 @@
 }
 
 :root[data-theme='default'] {
-	--theme-primary-color: var(--warm-white-500);
+	--theme-primary-color: var(--warm-white-primary-color);
 
-	--theme-bg-primary: var(--warm-white-500);
-	--theme-bg-secondary: var(--warm-white-600);
+	--theme-bg-primary: var(--warm-white-bg-primary);
+	--theme-bg-secondary: var(--warm-white-bg-secondary);
+	--theme-bg-tertiary: var(--warm-white-bg-tertiary);
 
-	--theme-text-primary: var(--warm-white-900);
-	--theme-text-secondary: var(--warm-white-800);
-	--theme-text-tertiary: var(--warm-white-700);
+	--theme-text-primary: var(--warm-white-text-primary);
+	--theme-text-secondary: var(--warm-white-text-secondary);
+	--theme-text-tertiary: var(--warm-white-text-tertiary);
 
-	--theme-text-primary-inversed: var(--warm-white-900);
-	--theme-text-secondary-inversed: var(--warm-white-800);
+	--theme-text-primary-inversed: var(--warm-white-text-primary-inversed);
+	--theme-text-secondary-inversed: var(--warm-white-text-secondary-inversed);
 
-	--theme-icon-primary: var(--warm-white-900);
-	--theme-icon-secondary: var(--warm-white-800);
+	--theme-icon-primary: var(--warm-white-icon-primary);
+	--theme-icon-secondary: var(--warm-white-icon-secondary);
 
-	--theme-border-primary: var(--warm-white-700);
+	--theme-border-primary: var(--warm-white-border-primary);
 }
 
 :root[data-theme='cold'] {

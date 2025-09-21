@@ -1,7 +1,7 @@
 <script lang="ts">
-    import '$lib/styles/styles.scss';
+	import '$lib/styles/styles.scss';
 
-    let { children } = $props();
+	let { children } = $props();
 </script>
 
 {@render children?.()}

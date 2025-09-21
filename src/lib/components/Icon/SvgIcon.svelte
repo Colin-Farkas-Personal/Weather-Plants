@@ -1,4 +1,3 @@
-
 <script lang="ts">
 	import type { IconProps } from '$lib/types/icon-component';
 	import type { Snippet } from 'svelte';

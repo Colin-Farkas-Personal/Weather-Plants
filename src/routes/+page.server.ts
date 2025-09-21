@@ -27,5 +27,5 @@ function getRandomLocation() {
 }
 
 export function load() {
-	throw redirect(307, '/overview/' + getRandomLocation());
+	// throw redirect(307, '/overview/' + getRandomLocation());
 }

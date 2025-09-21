@@ -9,7 +9,7 @@ import { coldTheme } from './themes/cold';
 
 function setOverviewLocationBackgroundColor(color: string): void {
 	const bodyElement = document.body as HTMLElement;
-	const locationElement = document.getElementById('overview-location');
+	const locationElement = document.getElementById('secondary-section-inner');
 
 	const { orientation } = getScreenOrientation();
 
