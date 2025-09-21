@@ -19,7 +19,7 @@
 							name="location"
 							placeholder="London...Madrid...Athens..."
 						/>
-						<button formaction="?/goTo">Search</button>
+						<button>Search</button>
 					</form>
 				</div>
 			</PrimarySection>
