@@ -13,22 +13,32 @@
 		{#if $orientation === 'landscape'}
 			<PrimarySection heading="What's the weather like in...?">
 				<div class="main-page-selection">
-					<input type="text" placeholder="London...Madrid...Athens..." />
+					<form method="POST" action="?/goTo" class="form-search-location">
+						<input
+							type="text"
+							name="location"
+							placeholder="London...Madrid...Athens..."
+						/>
+						<button formaction="?/goTo">Search</button>
+					</form>
 				</div>
 			</PrimarySection>
 
 			<SecondarySection>
 				{#snippet Scene()}
-					<div>
+					<div class="hero-section">
 						<p>Weather Pot - Weather embodied</p>
 					</div>
 				{/snippet}
 			</SecondarySection>
 		{:else if $orientation === 'portrait'}
-			<SecondarySection heading="What's the weather like in...?" subHeading="Bye" />
+			<SecondarySection heading="What's the weather like in...?" />
 
 			<PrimarySection>
-				<p>Hello, World!</p>
+				<form method="POST" action="?/goTo" class="form-search-location">
+					<input type="text" name="location" placeholder="London...Madrid...Athens..." />
+					<button formaction="?/goTo">Search</button>
+				</form>
 			</PrimarySection>
 		{/if}
 	</SectionContainer>
@@ -41,6 +51,20 @@
 
 		width: 100%;
 		margin-top: 4rem;
+	}
+
+	.form-search-location {
+		display: flex;
+		gap: 0.5rem;
+		flex-direction: column;
+	}
+
+	.hero-section > * {
+		text-align: center;
+		text-wrap: balance;
+		font-weight: bold;
+		font-size: var(--fluid-size-em-large);
+		color: var(--warm-white-text-tertiary);
 	}
 
 	:global {
