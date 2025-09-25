@@ -32,6 +32,8 @@
 		justify-content: center;
 		padding: var(--fluid-size-em-mini) var(--fluid-size-em-small);
 
+		width: fit-content;
+
 		border-radius: var(--fluid-size-em-large-plus);
 		border-width: var(--border-width);
 		border-style: solid;
@@ -48,7 +50,7 @@
 			font-weight: bold;
 			font-size: var(--fluid-size-em-small);
 
-			max-width: clamp(180px, 5cqi, 240px);
+			max-width: clamp(180px, 5cqi, 240px); // TODO: Update to EM
 			white-space: nowrap;
 			overflow: hidden;
 			text-overflow: ellipsis;

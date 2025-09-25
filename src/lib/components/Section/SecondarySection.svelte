@@ -8,27 +8,33 @@
 		heading?: string;
 		subHeading?: string;
 		Scene?: Snippet;
+		Content?: Snippet;
 	}
 
-	let { TopBar, heading, subHeading, Scene }: SecondarySectionProps = $props();
+	let { TopBar, heading, subHeading, Scene, Content }: SecondarySectionProps = $props();
 
 	// Logic
 	let orientation = windowOrientation;
 </script>
 
-<section class={`secondary-section-${$orientation}`}>
+<section class={`secondary-section ${$orientation}`}>
 	<div
 		id="secondary-section-inner"
 		class={`secondary-section-inner ${TopBar ? 'with-top-bar' : ''}`}
 	>
 		{@render TopBar?.()}
 		<SectionHeading {heading} {subHeading} />
-		{@render Scene?.()}
+		<section class="secondary-section-inner-display">
+			<div class="secondary-section-inner-display-content">
+				{@render Content?.()}
+			</div>
+			{@render Scene?.()}
+		</section>
 	</div>
 </section>
 
 <style lang="scss">
-	.secondary-section-portrait {
+	.secondary-section.portrait {
 		// Variables
 		--display-border-radius: clamp(40px, var(--fluid-size-vmin-large-plus), 280px);
 		--display-border-width: clamp(3px, var(--fluid-size-vmin-small-plus), 4px);
@@ -64,6 +70,31 @@
 
 			display: flex;
 			flex-direction: column;
+
+			.secondary-section-inner-display {
+				position: relative;
+
+				display: flex;
+				flex-direction: column;
+
+				height: 100%;
+
+				.secondary-section-inner-display-content {
+					// Absolute positioning over scene
+					z-index: 1;
+					position: absolute;
+					inset: 0;
+
+					display: flex;
+					flex-direction: column;
+					align-items: center;
+					justify-content: start;
+
+					&:empty {
+						display: none;
+					}
+				}
+			}
 		}
 
 		:global {
@@ -81,7 +112,7 @@
 		}
 	}
 
-	.secondary-section-landscape {
+	.secondary-section.landscape {
 		// Variables
 		--display-border-radius: clamp(60px, var(--fluid-size-vmin-large), 140px);
 		--display-border-width: clamp(3px, var(--fluid-size-vmin-small-plus), 4px);
@@ -119,6 +150,32 @@
 			display: flex;
 			align-items: center;
 			justify-content: center;
+
+			.secondary-section-inner-display {
+				position: relative;
+
+				display: flex;
+				flex-direction: column;
+
+				height: 100%;
+				width: 100%;
+
+				.secondary-section-inner-display-content {
+					// Absolute positioning over scene
+					z-index: 1;
+					position: absolute;
+					inset: 0;
+
+					display: flex;
+					flex-direction: column;
+					align-items: center;
+					justify-content: center;
+
+					&:empty {
+						display: none;
+					}
+				}
+			}
 		}
 	}
 </style>

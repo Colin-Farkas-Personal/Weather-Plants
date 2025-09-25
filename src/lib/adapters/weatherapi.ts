@@ -1,5 +1,10 @@
 import type { Fetch } from '$lib/types/fetch';
 
+// EXAMPLE URL: http://api.weatherapi.com/v1/search.json?key=abc123&q=Göteborg
+// 1. Search - Search flow
+// 2. Current - Overview page
+// 3. Forecast - Overview page
+
 export const WEATHER_API_URL = 'https://api.weatherapi.com/v1/forecast.json';
 export const WEATHER_API_KEY = import.meta.env.VITE_WEATHER_API_KEY;
 export const WEATHER_API_DAYS = 1;

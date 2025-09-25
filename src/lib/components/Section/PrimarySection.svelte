@@ -6,22 +6,22 @@
 	interface PrimarySectionProps {
 		heading?: string;
 		subHeading?: string;
-		children?: Snippet;
+		Content?: Snippet;
 	}
 
-	let { heading, subHeading, children }: PrimarySectionProps = $props();
+	let { heading, subHeading, Content }: PrimarySectionProps = $props();
 
 	// Logic
 	let orientation = windowOrientation;
 </script>
 
-<section class={`primary-section-${$orientation}`}>
+<section class={`primary-section ${$orientation}`}>
 	<SectionHeading {heading} {subHeading} />
-	{@render children?.()}
+	{@render Content?.()}
 </section>
 
 <style lang="scss">
-	.primary-section-portrait {
+	.primary-section.portrait {
 		flex: 1;
 
 		position: relative;
@@ -31,11 +31,13 @@
 		justify-content: center;
 		gap: clamp(1rem, 7.5cqi, 1.5rem);
 
+		padding: 1rem 4rem;
+
 		container-type: inline-size;
 		font-size: clamp(16px, 2.5cqi, 40px);
 	}
 
-	.primary-section-landscape {
+	.primary-section.landscape {
 		flex: 1;
 		overflow-x: hidden;
 
@@ -53,7 +55,7 @@
 		scrollbar-width: thin;
 
 		container-type: inline-size;
-		font-size: clamp(16px, 1.5cqi, 48px);
+		font-size: clamp(20px, 1.5cqi, 48px);
 
 		@media screen and (height <= 650px) {
 			justify-content: start;

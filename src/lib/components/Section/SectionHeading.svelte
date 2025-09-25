@@ -31,6 +31,8 @@
 	}
 
 	.portrait {
+		margin-bottom: 1.5rem;
+
 		.heading {
 			color: var(--theme-text-primary-inversed);
 			font-size: var(--fluid-size-em-medium-plus);
@@ -45,12 +47,12 @@
 
 	.landscape {
 		.heading {
-			color: var(--theme-text-primary-inversed);
+			color: var(--theme-text-primary);
 			font-size: var(--fluid-size-em-medium-plus);
 		}
 
 		.description {
-			color: var(--theme-text-secondary-inversed);
+			color: var(--theme-text-secondary);
 			font-size: var(--fluid-size-em-small-plus);
 			font-weight: 500;
 		}

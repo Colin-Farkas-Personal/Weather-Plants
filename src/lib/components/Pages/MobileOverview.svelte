@@ -28,9 +28,7 @@
 
 	<PrimarySection>
 		<OverviewCondition condition={data.condition.text} />
-
 		<OverviewTemperature temperature={data.temperature} feelsLike={data.feelsLike} />
-
 		<OverviewRange>
 			<OverviewRangeMinimal
 				Icon={ThermometerCold}
