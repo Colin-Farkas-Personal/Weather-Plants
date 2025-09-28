@@ -90,6 +90,8 @@
 					align-items: center;
 					justify-content: start;
 
+					margin-bottom: 24px;
+
 					&:empty {
 						display: none;
 					}

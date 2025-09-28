@@ -1,15 +1,62 @@
 <script lang="ts">
+	import Button from '$lib/components/Button/Button.svelte';
 	import PageLayout from '$lib/components/Page/PageLayout.svelte';
+	import SearchResultItem from '$lib/components/SearchResult/SearchResultItem.svelte';
+	import SearchResultList from '$lib/components/SearchResult/SearchResultList.svelte';
+	import TextInput from '$lib/components/TextInput/TextInput.svelte';
+	import { windowOrientation } from '$lib/globals/windowStore';
+	import type { LocationSearchResult } from '$lib/types/location-search.js';
+
+	interface PageProps {
+		data: {
+			currentLocation: LocationSearchResult;
+			searchResults: LocationSearchResult[];
+		};
+	}
+	let { data }: PageProps = $props();
+
+	const orientation = windowOrientation;
+
+	const currentLocation = $derived(data.currentLocation);
+	const searchResults = $derived(data.searchResults);
 </script>
 
-<PageLayout heading="What's the weather like in...?">
+<PageLayout heading="What's the weather like in...?" className="main-page">
 	{#snippet PrimarySectionContent()}
-		<div class="main-page-selection">
-			<form method="POST" action="?/goTo" class="form-search-location">
-				<input type="text" name="location" placeholder="London...Madrid...Athens..." />
-				<button>Search</button>
+		<div class={`main-page-selection ${$orientation}`}>
+			<form method="GET">
+				<TextInput
+					id="location"
+					name="inputSubmit"
+					placeholder="Madrid..."
+					required
+					ariaLabel="Enter a location"
+				/>
+			</form>
+			<form method="GET">
+				<Button name="locateMe" label="My current location" />
 			</form>
 		</div>
+	{/snippet}
+	{#snippet SecondarySectionContent()}
+		{#if currentLocation}
+			<SearchResultList>
+				<SearchResultItem
+					name={currentLocation.name}
+					country={currentLocation.country}
+					region={currentLocation.region}
+				/>
+			</SearchResultList>
+		{/if}
+		<SearchResultList>
+			{#each searchResults as result (result.id)}
+				<SearchResultItem
+					name={result.name}
+					country={result.country}
+					region={result.region}
+				/>
+			{/each}
+		</SearchResultList>
 	{/snippet}
 </PageLayout>
 
@@ -17,19 +64,18 @@
 	.main-page-selection {
 		display: flex;
 		flex-direction: column;
+		gap: 8px;
 
 		width: 100%;
-	}
 
-	.form-search-location {
-		display: flex;
-		gap: 0.5rem;
-		flex-direction: column;
+		&.landscape {
+			margin-top: 60px;
+		}
 	}
 
 	:global {
 		.main-page {
-			background-color: var(--theme-bg-primary);
+			background-color: var(--warm-white-bg-primary);
 		}
 	}
 </style>

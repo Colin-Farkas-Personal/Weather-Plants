@@ -25,8 +25,6 @@
 
 	// Logic
 	let orientation = windowOrientation;
-
-	console.warn('MY SNIPPET - ', SecondarySectionContent);
 </script>
 
 {#snippet PrimaryContent()}
