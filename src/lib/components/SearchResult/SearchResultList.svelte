@@ -8,20 +8,29 @@
 	let { children }: SearchResultList = $props();
 </script>
 
-<ul class="search-result-list">
-	{@render children?.()}
-</ul>
+<nav class="search-result-list" aria-label="Search Results">
+	<ul>
+		{@render children?.()}
+	</ul>
+</nav>
 
 <style lang="scss">
 	.search-result-list {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: start;
-		gap: 12px;
-
-		padding: 0.5rem 2rem;
-
+		padding: 0.5rem 2rem 5rem;
 		overflow-y: scroll;
+		width: clamp(0px, 100%, 450px);
+
+		ul {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: start;
+			gap: 12px;
+
+			padding: 0;
+			margin: 0;
+
+			list-style: none;
+		}
 	}
 </style>

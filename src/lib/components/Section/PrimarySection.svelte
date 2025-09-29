@@ -31,7 +31,7 @@
 		justify-content: center;
 		gap: clamp(1rem, 7.5cqi, 1.5rem);
 
-		padding: 1rem 4rem;
+		padding: 1rem 2rem;
 
 		container-type: inline-size;
 		font-size: clamp(16px, 2.5cqi, 40px);

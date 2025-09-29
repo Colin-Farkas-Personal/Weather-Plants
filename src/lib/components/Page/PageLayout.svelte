@@ -9,7 +9,7 @@
 		heading: string;
 		subHeading?: string;
 		PrimarySectionContent: Snippet;
-		SecondarySectionContent?: Snippet;
+		SecondarySectionContent?: Snippet<[string]>;
 		Scene?: Snippet;
 		className?: string;
 	}
@@ -31,7 +31,9 @@
 	{@render PrimarySectionContent()}
 {/snippet}
 {#snippet SecondaryContent()}
-	{@render SecondarySectionContent?.()}
+	{#if SecondarySectionContent}
+		{@render SecondarySectionContent('Hello')}
+	{/if}
 {/snippet}
 
 <main class={`page-layout-${$orientation} noise ${className}`}>
