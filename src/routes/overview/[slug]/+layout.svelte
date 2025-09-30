@@ -10,18 +10,10 @@
 	conditionStatusStore.setCondition(data.condition.text);
 
 	onMount(() => {
-		const unsubscribeTheme = temperatureRangeStore.subscribe((t) => {
-			if (t) {
-				setThemeAttributeName(t as TemperatureRange);
-			}
-		});
-
-		return () => {
-			unsubscribeTheme();
-		};
+		setThemeAttributeName($temperatureRangeStore as TemperatureRange);
 	});
 
-	function setThemeAttributeName(theme: TemperatureRange) {
+	function setThemeAttributeName(theme: TemperatureRange | 'default') {
 		document.documentElement.setAttribute('data-theme', theme.toLowerCase());
 	}
 </script>

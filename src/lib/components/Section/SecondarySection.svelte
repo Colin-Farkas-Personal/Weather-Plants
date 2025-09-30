@@ -7,11 +7,19 @@
 		TopBar?: Snippet;
 		heading?: string;
 		subHeading?: string;
-		Scene?: Snippet;
-		Content?: Snippet;
+		Scene?: Snippet<[]> | undefined;
+		Content?: Snippet<[]> | undefined;
+		contentHeading?: string;
 	}
 
-	let { TopBar, heading, subHeading, Scene, Content }: SecondarySectionProps = $props();
+	let {
+		TopBar,
+		heading,
+		subHeading,
+		Scene,
+		Content = undefined,
+		contentHeading,
+	}: SecondarySectionProps = $props();
 
 	// Logic
 	let orientation = windowOrientation;
@@ -25,9 +33,13 @@
 		{@render TopBar?.()}
 		<SectionHeading {heading} {subHeading} />
 		<section class="secondary-section-inner-display">
-			<div class="secondary-section-inner-display-content">
-				{@render Content?.()}
-			</div>
+			{#if contentHeading?.trim() || Content}
+				<div class="secondary-section-inner-display-content">
+					<h2 class="secondary-section-inner-display-heading">{contentHeading}</h2>
+
+					{@render Content?.()}
+				</div>
+			{/if}
 			{@render Scene?.()}
 		</section>
 	</div>
@@ -55,7 +67,7 @@
 		border-bottom: var(--display-border-width) solid var(--theme-border-primary);
 		border-right: var(--display-border-width) solid var(--theme-border-primary);
 
-		background-color: var(--warm-white-300);
+		background-color: var(--warm-white-bg-tertiary);
 
 		container-type: inline-size;
 		font-size: clamp(16px, 2.5cqi, 40px);
@@ -71,7 +83,7 @@
 			display: flex;
 			flex-direction: column;
 
-			.secondary-section-inner-display {
+			&-display {
 				position: relative;
 
 				display: flex;
@@ -79,7 +91,7 @@
 
 				height: 100%;
 
-				.secondary-section-inner-display-content {
+				&-content {
 					// Absolute positioning over scene
 					z-index: 1;
 					position: absolute;
@@ -90,8 +102,13 @@
 					align-items: center;
 					justify-content: start;
 
+					padding: 0 4rem;
+
+					text-align: center;
+
 					&:empty {
 						display: none;
+						pointer-events: none;
 					}
 				}
 			}
@@ -151,7 +168,7 @@
 			align-items: center;
 			justify-content: center;
 
-			.secondary-section-inner-display {
+			&-display {
 				position: relative;
 
 				display: flex;
@@ -160,7 +177,7 @@
 				height: 100%;
 				width: 100%;
 
-				.secondary-section-inner-display-content {
+				&-content {
 					// Absolute positioning over scene
 					z-index: 1;
 					position: absolute;
@@ -170,9 +187,16 @@
 					flex-direction: column;
 					align-items: center;
 					justify-content: center;
+					gap: 24px;
 
-					&:empty {
-						display: none;
+					padding: 6rem 4rem 0;
+
+					text-align: center;
+
+					&-heading {
+						font-size: 40px;
+						font-weight: bold;
+						color: var(--warm-white-900);
 					}
 				}
 			}

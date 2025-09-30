@@ -1,13 +1,14 @@
 <script lang="ts">
+	import { page } from '$app/state';
 	import Button from '$lib/components/Button/Button.svelte';
+	import SunDimBoldIcon from '$lib/components/Icon/Bold/SunDimBold.svelte';
 	import PageLayout from '$lib/components/Page/PageLayout.svelte';
 	import SearchResultItem from '$lib/components/SearchResult/SearchResultItem.svelte';
 	import SearchResultList from '$lib/components/SearchResult/SearchResultList.svelte';
 	import TextInput from '$lib/components/TextInput/TextInput.svelte';
 	import { windowOrientation } from '$lib/globals/windowStore';
 	import type { LocationSearchResult } from '$lib/types/location-search.js';
-	import SunDimBoldIcon from '$lib/components/Icon/Bold/SunDimBold.svelte';
-	import type { Snippet } from 'svelte';
+	import { onMount } from 'svelte';
 
 	interface PageProps {
 		data: {
@@ -22,18 +23,33 @@
 	const currentLocation = $derived(data.currentLocation);
 	const searchResults = $derived(data.searchResults);
 
+	const noResultsFound = $derived(() => {
+		return !currentLocation && searchResults.length === 0;
+	});
+	const hasSearched = page.url.searchParams.keys.length > 0;
+
 	const secondarySectionHeading = $derived(() => {
 		if (currentLocation) {
 			return 'Your current location';
 		} else if (searchResults.length > 0) {
-			return 'Search Results';
+			return 'Results';
+		} else if (hasSearched && noResultsFound()) {
+			return 'No results';
 		} else {
 			return '';
 		}
 	});
+
+	onMount(() => {
+		document.documentElement.setAttribute('data-theme', 'default');
+	});
 </script>
 
-<PageLayout heading="What's the weather like in...?" className="main-page">
+<PageLayout
+	heading="What's the weather like in...?"
+	secondarySectionHeading={secondarySectionHeading()}
+	className="main-page"
+>
 	{#snippet PrimarySectionContent()}
 		<div class={`main-page-selection ${$orientation}`}>
 			<form method="GET">
@@ -75,7 +91,7 @@
 					/>
 				{/each}
 			</SearchResultList>
-		{:else if !currentLocation}
+		{:else if hasSearched && noResultsFound()}
 			<p>No results found. Try searching for another location.</p>
 		{/if}
 	{/snippet}
@@ -91,12 +107,6 @@
 
 		&.landscape {
 			margin-top: 60px;
-		}
-	}
-
-	:global {
-		.main-page {
-			background-color: var(--warm-white-bg-primary);
 		}
 	}
 </style>
