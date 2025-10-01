@@ -35,7 +35,9 @@
 		<section class="secondary-section-inner-display">
 			{#if contentHeading?.trim() || Content}
 				<div class="secondary-section-inner-display-content">
-					<h2 class="secondary-section-inner-display-heading">{contentHeading}</h2>
+					<h2 class="secondary-section-inner-display-content-heading">
+						{contentHeading}
+					</h2>
 
 					{@render Content?.()}
 				</div>
@@ -102,7 +104,7 @@
 					align-items: center;
 					justify-content: start;
 
-					padding: 0 4rem;
+					padding: 0 var(--fluid-size-em-medium);
 
 					text-align: center;
 

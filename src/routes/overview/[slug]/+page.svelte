@@ -22,6 +22,9 @@
 	subHeading={data.location.country}
 	className="overview-page"
 >
+	{#snippet TopBar()}
+		<button>Back</button>
+	{/snippet}
 	{#snippet PrimarySectionContent()}
 		<article class={`overview-page-data ${$orientation}`}>
 			<OverviewCondition condition={data.condition.text} />
