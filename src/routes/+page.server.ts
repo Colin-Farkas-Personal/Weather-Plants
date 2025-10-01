@@ -13,6 +13,7 @@ export const load: PageServerLoad = async ({ fetch, url }) => {
 
 	let currentLocation = null;
 	let searchResults: ReturnType<typeof transformSearchData> = [];
+	let noSearchResults: boolean | null = null;
 
 	try {
 		if (hasLocateMe) {
@@ -22,10 +23,15 @@ export const load: PageServerLoad = async ({ fetch, url }) => {
 		} else if (input && input.trim().length > 0) {
 			const response = await fetchFromWeatherApi.search({ fetch, location: input.trim() });
 			const dataSearch: ResponseSearch[] = await response.json();
+
+			if (dataSearch.length === 0) {
+				noSearchResults = true;
+			}
+
 			searchResults = transformSearchData(dataSearch);
 		}
 
-		return { currentLocation, searchResults };
+		return { currentLocation, searchResults, noSearchResults };
 	} catch (e) {
 		console.warn('Search load failed:', e);
 		throw error(500, 'Search failed');

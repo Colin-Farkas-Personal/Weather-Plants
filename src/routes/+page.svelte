@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { page } from '$app/state';
 	import Button from '$lib/components/Button/Button.svelte';
 	import SunDimBoldIcon from '$lib/components/Icon/Bold/SunDimBold.svelte';
 	import PageLayout from '$lib/components/Page/PageLayout.svelte';
@@ -14,6 +13,7 @@
 		data: {
 			currentLocation: LocationSearchResult;
 			searchResults: LocationSearchResult[];
+			noSearchResults: boolean | null;
 		};
 	}
 	let { data }: PageProps = $props();
@@ -22,22 +22,13 @@
 
 	const currentLocation = $derived(data.currentLocation);
 	const searchResults = $derived(data.searchResults);
-
-	const noResultsFound = $derived(() => {
-		return !currentLocation && searchResults.length === 0;
-	});
-	const hasSearched = page.url.searchParams.keys.length > 0;
+	const noSearchResults = $derived(() => data.noSearchResults);
 
 	const secondarySectionHeading = $derived(() => {
-		if (currentLocation) {
-			return 'Your current location';
-		} else if (searchResults.length > 0) {
-			return 'Results';
-		} else if (hasSearched && noResultsFound()) {
-			return 'No results';
-		} else {
-			return '';
-		}
+		if (currentLocation) return 'Your current location';
+		if (searchResults.length > 0) return 'Results';
+		if (noSearchResults()) return 'No results';
+		return '';
 	});
 
 	onMount(() => {
@@ -91,7 +82,7 @@
 					/>
 				{/each}
 			</SearchResultList>
-		{:else if hasSearched && noResultsFound()}
+		{:else if noSearchResults()}
 			<p>No results found. Try searching for another location.</p>
 		{/if}
 	{/snippet}
