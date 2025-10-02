@@ -30,20 +30,35 @@
 		id="secondary-section-inner"
 		class={`secondary-section-inner ${TopBar ? 'with-top-bar' : ''}`}
 	>
-		{@render TopBar?.()}
-		<SectionHeading {heading} {subHeading} />
-		<section class="secondary-section-inner-display">
-			{#if contentHeading?.trim() || Content}
-				<div class="secondary-section-inner-display-content">
-					<h2 class="secondary-section-inner-display-content-heading">
-						{contentHeading}
-					</h2>
-
-					{@render Content?.()}
-				</div>
-			{/if}
+		{#if $orientation === 'portrait'}
+			<section class="secondary-section-inner-display">
+				{#if TopBar}
+					<nav class="secondary-section-inner-display-top-bar">
+						{@render TopBar()}
+					</nav>
+				{/if}
+				<SectionHeading heading={contentHeading || heading} {subHeading} />
+				{#if contentHeading?.trim() || Content}
+					<div class="secondary-section-inner-display-content">
+						{@render Content?.()}
+					</div>
+				{/if}
+			</section>
 			{@render Scene?.()}
-		</section>
+		{:else if $orientation === 'landscape'}
+			<section class="secondary-section-inner-display">
+				{#if contentHeading?.trim() || Content}
+					<div class="secondary-section-inner-display-content">
+						<h2 class="secondary-section-inner-display-content-heading">
+							{contentHeading}
+						</h2>
+
+						{@render Content?.()}
+					</div>
+				{/if}
+				{@render Scene?.()}
+			</section>
+		{/if}
 	</div>
 </section>
 
@@ -91,13 +106,10 @@
 				display: flex;
 				flex-direction: column;
 
-				height: 100%;
+				padding: 1rem 2rem 0;
 
 				&-content {
-					// Absolute positioning over scene
 					z-index: 1;
-					position: absolute;
-					inset: 0;
 
 					display: flex;
 					flex-direction: column;

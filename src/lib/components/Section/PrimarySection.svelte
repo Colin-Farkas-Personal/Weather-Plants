@@ -4,18 +4,24 @@
 	import SectionHeading from './SectionHeading.svelte';
 
 	interface PrimarySectionProps {
+		TopBar?: Snippet;
 		heading?: string;
 		subHeading?: string;
 		Content?: Snippet;
 	}
 
-	let { heading, subHeading, Content }: PrimarySectionProps = $props();
+	let { TopBar, heading, subHeading, Content }: PrimarySectionProps = $props();
 
 	// Logic
 	let orientation = windowOrientation;
 </script>
 
 <section class={`primary-section ${$orientation}`}>
+	{#if TopBar}
+		<nav class="primary-section-top-bar">
+			{@render TopBar()}
+		</nav>
+	{/if}
 	<div class="primary-section-inner">
 		<SectionHeading {heading} {subHeading} />
 		<div class="primary-section-body">
@@ -79,6 +85,12 @@
 
 		container-type: inline-size;
 		font-size: clamp(20px, 1.5cqi, 48px);
+
+		.primary-section-top-bar {
+			width: 100%;
+			padding: clamp(2rem, 1cqi, 3rem) clamp(2rem, 4cqi, 3rem) 0;
+			box-sizing: border-box;
+		}
 
 		.primary-section-inner {
 			flex: 1;

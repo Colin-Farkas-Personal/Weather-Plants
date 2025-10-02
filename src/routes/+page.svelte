@@ -36,9 +36,39 @@
 	});
 </script>
 
+{#snippet SecondarySectionContent()}
+	{#if currentLocation}
+		<SearchResultList>
+			<SearchResultItem
+				name={currentLocation.name}
+				country={currentLocation.country}
+				region={currentLocation.region}
+			>
+				{#snippet Icon()}
+					<SunDimBoldIcon size="32" />
+				{/snippet}
+			</SearchResultItem>
+		</SearchResultList>
+	{/if}
+
+	{#if searchResults.length > 0}
+		<SearchResultList>
+			{#each searchResults as result (result.id)}
+				<SearchResultItem
+					name={result.name}
+					country={result.country}
+					region={result.region}
+				/>
+			{/each}
+		</SearchResultList>
+	{:else if noSearchResults()}
+		<p>No results found. Try searching for another location.</p>
+	{/if}
+{/snippet}
+
 <PageLayout
 	heading="What's the weather like in...?"
-	secondarySectionHeading={secondarySectionHeading()}
+	secondarySectionProps={{ Content: SecondarySectionContent, heading: secondarySectionHeading() }}
 	className="main-page"
 >
 	{#snippet PrimarySectionContent()}
@@ -56,35 +86,6 @@
 				<Button name="locateMe" label="My current location" />
 			</form>
 		</div>
-	{/snippet}
-	{#snippet SecondarySectionContent()}
-		{#if currentLocation}
-			<SearchResultList>
-				<SearchResultItem
-					name={currentLocation.name}
-					country={currentLocation.country}
-					region={currentLocation.region}
-				>
-					{#snippet Icon()}
-						<SunDimBoldIcon size="32" />
-					{/snippet}
-				</SearchResultItem>
-			</SearchResultList>
-		{/if}
-
-		{#if searchResults.length > 0}
-			<SearchResultList>
-				{#each searchResults as result (result.id)}
-					<SearchResultItem
-						name={result.name}
-						country={result.country}
-						region={result.region}
-					/>
-				{/each}
-			</SearchResultList>
-		{:else if noSearchResults()}
-			<p>No results found. Try searching for another location.</p>
-		{/if}
 	{/snippet}
 </PageLayout>
 

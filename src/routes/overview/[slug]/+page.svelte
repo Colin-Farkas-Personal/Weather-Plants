@@ -6,6 +6,7 @@
 	import PlantScene from '$lib/components/PlantScene/PlantScene.svelte';
 	import type { WeatherOverview } from '$lib/types/weather.js';
 	import { windowOrientation } from '$lib/globals/windowStore';
+	import { goto } from '$app/navigation';
 
 	// Props
 	interface PageProps {
@@ -22,8 +23,8 @@
 	subHeading={data.location.country}
 	className="overview-page"
 >
-	{#snippet TopBar()}
-		<button>Back</button>
+	{#snippet MainTopBar()}
+		<button onclick={() => goto('/')}>Back</button>
 	{/snippet}
 	{#snippet PrimarySectionContent()}
 		<article class={`overview-page-data ${$orientation}`}>
