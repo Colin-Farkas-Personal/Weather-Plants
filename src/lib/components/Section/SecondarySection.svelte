@@ -106,7 +106,7 @@
 				display: flex;
 				flex-direction: column;
 
-				padding: 1rem 2rem 0;
+				padding: 1rem var(--fluid-size-em-medium) 0;
 
 				&-content {
 					z-index: 1;
@@ -115,8 +115,6 @@
 					flex-direction: column;
 					align-items: center;
 					justify-content: start;
-
-					padding: 0 var(--fluid-size-em-medium);
 
 					text-align: center;
 

@@ -1,17 +1,38 @@
 <script lang="ts">
-	import ThermometerCold from '$lib/components/Icon/Bold/ThermometerCold.svelte';
+	import type { Snippet } from 'svelte';
 
-	interface TextInputProps {
-		name: string;
+	interface ButtonProps {
 		label: string;
+		Icon?: Snippet;
+		type?: 'button' | 'submit' | 'reset';
+		disabled?: boolean;
+		variant?: 'primary' | 'secondary';
+		size?: 'medium' | 'large';
+		onClick?: () => void;
 	}
 
-	let { name, label }: TextInputProps = $props();
+	let {
+		label,
+		Icon,
+		type = 'button',
+		disabled = false,
+		variant = 'primary',
+		size = 'medium',
+		onClick,
+	}: ButtonProps = $props();
 </script>
 
-<button type="submit" {name} class="button">
-	<span class="icon" aria-hidden="true"><ThermometerCold /></span>
-	{label}
+<button
+	class="button {variant} {size}"
+	{type}
+	{disabled}
+	aria-disabled={disabled || undefined}
+	onclick={onClick}
+>
+	{#if Icon}
+		<span class="button-icon" aria-hidden="true">{@render Icon?.()}</span>
+	{/if}
+	<span class="button-label">{label}</span>
 </button>
 
 <style lang="scss">
@@ -19,35 +40,31 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		gap: 8px;
+		gap: 4px;
 
-		width: 100%;
-		height: 64px;
-		padding-left: 20px;
+		padding: 6px 12px;
 
-		outline: none;
-		border: 2px solid var(--warm-white-700);
-		border-radius: 60px;
-		background-color: var(--warm-white-500);
+		background: none;
+		border-radius: 30px;
 
-		text-align: left;
-		font-size: 18px;
+		font-size: 16px;
 		font-weight: bold;
-		color: var(--warm-white-900);
+		color: var(--theme-text-secondary-inversed);
 
 		cursor: pointer;
 
-		.icon {
-			flex: 0 0 auto;
-		}
-
 		&:hover {
-			border-color: var(--warm-white-800);
+			color: var(--theme-bg-primary-inversed);
 		}
 
-		&:active,
-		&:focus-visible {
-			border-color: var(--warm-white-900);
+		&.primary {
+			background-color: var(--theme-bg-primary);
+			border: 2px solid var(--theme-border-primary);
+			color: var(--theme-text-primary);
+		}
+		&.secondary {
+			border: none;
+			color: var(--theme-text-secondary-inversed);
 		}
 	}
 </style>

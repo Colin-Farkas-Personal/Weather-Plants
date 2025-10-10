@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Button from '$lib/components/Button/Button.svelte';
+	import LocateMeButton from '$lib/components/LocateMeButton/LocateMeButton.svelte';
 	import SunDimBoldIcon from '$lib/components/Icon/Bold/SunDimBold.svelte';
 	import PageLayout from '$lib/components/Page/PageLayout.svelte';
 	import SearchResultItem from '$lib/components/SearchResult/SearchResultItem.svelte';
@@ -83,7 +83,7 @@
 				/>
 			</form>
 			<form method="GET">
-				<Button name="locateMe" label="My current location" />
+				<LocateMeButton />
 			</form>
 		</div>
 	{/snippet}

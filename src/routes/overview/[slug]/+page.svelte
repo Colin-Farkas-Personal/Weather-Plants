@@ -4,6 +4,8 @@
 	import OverviewTemperature from '$lib/components/OverviewTemperature/OverviewTemperature.svelte';
 	import PageLayout from '$lib/components/Page/PageLayout.svelte';
 	import PlantScene from '$lib/components/PlantScene/PlantScene.svelte';
+	import Button from '$lib/components/Button/Button.svelte';
+	import CloudBoldIcon from '$lib/components/Icon/Bold/CloudBold.svelte';
 	import type { WeatherOverview } from '$lib/types/weather.js';
 	import { windowOrientation } from '$lib/globals/windowStore';
 	import { goto } from '$app/navigation';
@@ -24,7 +26,11 @@
 	className="overview-page"
 >
 	{#snippet MainTopBar()}
-		<button onclick={() => goto('/')}>Back</button>
+		<Button onClick={() => goto('/')} label="Back" variant="secondary" size="medium">
+			{#snippet Icon()}
+				<CloudBoldIcon size="24" />
+			{/snippet}
+		</Button>
 	{/snippet}
 	{#snippet PrimarySectionContent()}
 		<article class={`overview-page-data ${$orientation}`}>
