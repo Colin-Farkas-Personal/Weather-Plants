@@ -1,5 +1,5 @@
 <script lang="ts">
-	import ThermometerCold from '$lib/components/Icon/Bold/ThermometerCold.svelte';
+	import GpsBoldIcon from '~icons/ph/gps-bold';
 
 	interface LocateMeButtonProps {
 		name?: string; // default 'locateMe'
@@ -10,7 +10,7 @@
 </script>
 
 <button type="submit" {name} class="locate-me-button">
-	<span class="icon" aria-hidden="true"><ThermometerCold /></span>
+	<span class="icon" aria-hidden="true"><GpsBoldIcon class="icon-medium" /></span>
 	{label}
 </button>
 

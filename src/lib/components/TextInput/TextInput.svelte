@@ -1,5 +1,5 @@
 <script lang="ts">
-	import ThermometerCold from '$lib/components/Icon/Bold/ThermometerCold.svelte';
+	import MagnifyingGlassBoldIcon from '~icons/ph/magnifying-glass-bold';
 
 	interface TextInputProps {
 		id: string;
@@ -22,7 +22,9 @@
 		autocomplete="on"
 		aria-label={ariaLabel}
 	/>
-	<button type="submit" aria-label="Search"><ThermometerCold /></button>
+	<button type="submit" aria-label="Search">
+		<MagnifyingGlassBoldIcon class="icon-medium" />
+	</button>
 </label>
 
 <style lang="scss">
@@ -78,13 +80,11 @@
 			flex-shrink: 0;
 			border-radius: 50%;
 
-			/* your existing styles… */
 			border: none;
 			background-color: var(--warm-white-text-primary-inversed);
 			color: var(--warm-white-text-tertiary);
 			cursor: pointer;
 
-			/* keep your focus ring */
 			@include accessibility.focus-visible(var(--warm-white-900));
 		}
 	}
