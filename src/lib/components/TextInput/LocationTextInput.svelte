@@ -1,26 +1,15 @@
 <script lang="ts">
 	import MagnifyingGlassBoldIcon from '~icons/ph/magnifying-glass-bold';
-
-	interface TextInputProps {
-		id: string;
-		placeholder: string;
-		name: string;
-		required: boolean;
-		ariaLabel: string;
-	}
-
-	let { id, placeholder, name, required, ariaLabel }: TextInputProps = $props();
 </script>
 
 <label class="text-input">
 	<input
 		type="text"
-		{id}
-		{name}
-		{placeholder}
-		{required}
-		autocomplete="on"
-		aria-label={ariaLabel}
+		id="location"
+		name="inputSubmit"
+		placeholder="Madrid..."
+		required
+		aria-label="Enter a location"
 	/>
 	<button type="submit" aria-label="Search">
 		<MagnifyingGlassBoldIcon class="icon-medium" />

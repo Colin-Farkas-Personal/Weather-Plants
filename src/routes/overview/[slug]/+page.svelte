@@ -4,11 +4,12 @@
 	import OverviewTemperature from '$lib/components/OverviewTemperature/OverviewTemperature.svelte';
 	import PageLayout from '$lib/components/Page/PageLayout.svelte';
 	import PlantScene from '$lib/components/PlantScene/PlantScene.svelte';
-	import Button from '$lib/components/Button/Button.svelte';
 	import CloudBoldIcon from '$lib/components/Icon/Bold/CloudBold.svelte';
+	import ArrowLeftBoldIcon from '~icons/ph/arrow-left-bold';
 	import type { WeatherOverview } from '$lib/types/weather.js';
 	import { windowOrientation } from '$lib/globals/windowStore';
 	import { goto } from '$app/navigation';
+	import Button from '$lib/components/Button/Button.svelte';
 
 	// Props
 	interface PageProps {
@@ -26,10 +27,9 @@
 	className="overview-page"
 >
 	{#snippet MainTopBar()}
-		<Button onClick={() => goto('/')} label="Back" variant="secondary" size="medium">
-			{#snippet Icon()}
-				<CloudBoldIcon size="24" />
-			{/snippet}
+		<Button onClick={() => goto('/')} variant="secondary" size="medium">
+			<ArrowLeftBoldIcon class="icon-medium" />
+			Back
 		</Button>
 	{/snippet}
 	{#snippet PrimarySectionContent()}

@@ -42,6 +42,7 @@
         "vitest": "^3.2.4"
     },
     "dependencies": {
+        "bits-ui": "^2.11.5",
         "three": "^0.178.0"
     }
 }

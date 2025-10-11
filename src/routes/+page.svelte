@@ -1,10 +1,10 @@
 <script lang="ts">
+	import GpsBoldIcon from '~icons/ph/gps-bold';
 	import LocateMeButton from '$lib/components/LocateMeButton/LocateMeButton.svelte';
-	import SunDimBoldIcon from '$lib/components/Icon/Bold/SunDimBold.svelte';
 	import PageLayout from '$lib/components/Page/PageLayout.svelte';
 	import SearchResultItem from '$lib/components/SearchResult/SearchResultItem.svelte';
 	import SearchResultList from '$lib/components/SearchResult/SearchResultList.svelte';
-	import TextInput from '$lib/components/TextInput/TextInput.svelte';
+	import LocationTextInput from '$lib/components/TextInput/LocationTextInput.svelte';
 	import { windowOrientation } from '$lib/globals/windowStore';
 	import type { LocationSearchResult } from '$lib/types/location-search.js';
 	import { onMount } from 'svelte';
@@ -45,7 +45,7 @@
 				region={currentLocation.region}
 			>
 				{#snippet Icon()}
-					<SunDimBoldIcon size="32" />
+					<GpsBoldIcon class="icon-large" />
 				{/snippet}
 			</SearchResultItem>
 		</SearchResultList>
@@ -74,13 +74,7 @@
 	{#snippet PrimarySectionContent()}
 		<div class={`main-page-selection ${$orientation}`}>
 			<form method="GET">
-				<TextInput
-					id="location"
-					name="inputSubmit"
-					placeholder="Madrid..."
-					required
-					ariaLabel="Enter a location"
-				/>
+				<LocationTextInput />
 			</form>
 			<form method="GET">
 				<LocateMeButton />

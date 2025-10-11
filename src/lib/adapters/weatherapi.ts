@@ -1,10 +1,5 @@
 import type { Fetch } from '$lib/types/fetch';
 
-// EXAMPLE URL: http://api.weatherapi.com/v1/search.json?key=abc123&q=Göteborg
-// 1. Search - Search flow
-// 2. Current - Overview page
-// 3. Forecast - Overview page
-
 type Endpoint = 'search' | 'current' | 'forecast';
 
 export const WEATHER_API_BASE_URL = 'https://api.weatherapi.com/v1/';
@@ -16,21 +11,16 @@ export function getFetchUrl(
 	location: string,
 	options: Record<string, unknown> = {},
 ): string {
-	// Contruct URL
-	// 1. Base url ("api.weatherapi.com...")
 	const url = new URL(WEATHER_API_BASE_URL);
-
-	// 2. Append endpoint ("search.json")
-	const endpointJson = '/' + endpoint + '.json';
-	url.pathname += endpointJson;
-
-	// 3. Add Request Parameters ("?key:...")
+	url.pathname += '/' + endpoint + '.json';
 	url.searchParams.append('key', WEATHER_API_KEY);
 	url.searchParams.append('q', location);
 
 	for (const [name, value] of Object.entries(options)) {
-		url.searchParams.append(name, String(value));
+		if (value != null) url.searchParams.append(name, String(value));
 	}
+
+	console.warn('Fetching from URL:', url.toString());
 
 	return url.toString();
 }
@@ -39,35 +29,24 @@ interface FetchFromWeatherApiParams {
 	fetch: Fetch;
 	location: string;
 }
+
+async function doFetch(url: string, fetchFn: Fetch) {
+	const res = await fetchFn(url);
+	if (!res.ok) throw new Error('Failed to fetch weather data');
+	return res;
+}
+
 export const fetchFromWeatherApi = {
-	search: async ({ fetch, location }: FetchFromWeatherApiParams): Promise<Response> => {
-		const fetchUrl = getFetchUrl('search', location);
-		const response = await fetch(fetchUrl);
-
-		if (!response.ok) {
-			throw new Error('Failed to fetch weather data');
-		}
-
-		return response;
+	search: async ({ fetch, location }: FetchFromWeatherApiParams) => {
+		const url = getFetchUrl('search', location);
+		return doFetch(url, fetch);
 	},
-	current: async ({ fetch, location }: FetchFromWeatherApiParams): Promise<Response> => {
-		const fetchUrl = getFetchUrl('current', location);
-		const response = await fetch(fetchUrl);
-
-		if (!response.ok) {
-			throw new Error('Failed to fetch weather data');
-		}
-
-		return response;
+	current: async ({ fetch, location }: FetchFromWeatherApiParams) => {
+		const url = getFetchUrl('current', location);
+		return doFetch(url, fetch);
 	},
-	forecast: async ({ fetch, location }: FetchFromWeatherApiParams): Promise<Response> => {
-		const fetchUrl = getFetchUrl('forecast', location, { days: WEATHER_API_DAYS });
-		const response = await fetch(fetchUrl);
-
-		if (!response.ok) {
-			throw new Error('Failed to fetch weather data');
-		}
-
-		return response;
+	forecast: async ({ fetch, location }: FetchFromWeatherApiParams) => {
+		const url = getFetchUrl('forecast', location, { days: WEATHER_API_DAYS });
+		return doFetch(url, fetch);
 	},
 };
