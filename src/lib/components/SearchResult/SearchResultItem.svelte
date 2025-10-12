@@ -3,20 +3,33 @@
 	import type { Snippet } from 'svelte';
 
 	interface SearchResultItem {
+		lat: number;
+		lon: number;
 		city: string;
 		country: string;
 		region: string;
 		Icon?: Snippet;
 	}
 
-	let { city: name, country, region, Icon }: SearchResultItem = $props();
+	let { lat, lon, city: name, country, region, Icon }: SearchResultItem = $props();
+
+	function createOverviewPageLink() {
+		const url = new URL('/overview', location.origin);
+		url.searchParams.set('lat', String(lat));
+		url.searchParams.set('lon', String(lon));
+		url.searchParams.set('name', name);
+		url.searchParams.set('country', country);
+		return url.toString();
+	}
 </script>
 
 <li class="search-result-item">
 	{#if Icon}
 		<Button.Root
-			href={`/overview/${name} ${country}`}
+			href={createOverviewPageLink()}
 			class="search-result-item-link with-icon"
+			data-sveltekit-preload-code="hover"
+			data-sveltekit-preload-data="off"
 		>
 			<div class="search-result-item-link-details">
 				<h3 class="search-result-item-link-details-heading">{name}</h3>
@@ -26,7 +39,12 @@
 			<span class="search-result-item-link-icon" aria-hidden="true">{@render Icon?.()}</span>
 		</Button.Root>
 	{:else}
-		<Button.Root href={`/overview/${name} ${country}`} class="search-result-item-link no-icon">
+		<Button.Root
+			href={createOverviewPageLink()}
+			class="search-result-item-link no-icon"
+			data-sveltekit-preload-code="hover"
+			data-sveltekit-preload-data="off"
+		>
 			<h3 class="search-result-item-link-heading">{name}</h3>
 			<div class="search-result-item-link-details">
 				<p>{country}</p>

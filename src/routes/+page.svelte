@@ -22,6 +22,7 @@
 
 	const currentLocation = $derived(data.currentLocation);
 	const searchResults = $derived(data.searchResults);
+	console.warn('searchResults', searchResults);
 	const noSearchResults = $derived(() => data.noSearchResults);
 
 	const secondarySectionHeading = $derived(() => {
@@ -40,6 +41,8 @@
 	{#if currentLocation}
 		<SearchResultList>
 			<SearchResultItem
+				lon={currentLocation.lon}
+				lat={currentLocation.lat}
 				country={currentLocation.country}
 				region={currentLocation.county}
 				city={currentLocation.city}
@@ -55,6 +58,8 @@
 		<SearchResultList>
 			{#each searchResults as result (result.id)}
 				<SearchResultItem
+					lon={result.lon}
+					lat={result.lat}
 					country={result.country}
 					region={result.county}
 					city={result.city}

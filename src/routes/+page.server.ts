@@ -5,7 +5,7 @@ import {
 	type ResponseReverse,
 	type ResponseSearch,
 } from '$lib/adapters/weatherApiTransformer';
-import type { LocationResolveResult, LocationSearchResult } from '$lib/types/location-search';
+import type { LocationReverseResult, LocationSearchResult } from '$lib/types/location-search';
 import { error } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 
@@ -15,7 +15,7 @@ export const load: PageServerLoad = async ({ fetch, url }) => {
 	const latParam = url.searchParams.get('lat');
 	const lonParam = url.searchParams.get('lon');
 
-	let currentLocation: LocationResolveResult | null = null;
+	let currentLocation: LocationReverseResult | null = null;
 	let searchResults: LocationSearchResult[] = [];
 	let noSearchResults: boolean | null = null;
 

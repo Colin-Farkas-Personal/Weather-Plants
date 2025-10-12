@@ -9,12 +9,27 @@
 	import { windowOrientation } from '$lib/globals/windowStore';
 	import type { WeatherOverview } from '$lib/types/weather.js';
 	import ArrowLeftBoldIcon from '~icons/ph/arrow-left-bold';
+	import conditionStatusStore from '$lib/globals/conditionStatusStore.svelte.js';
+	import temperatureRangeStore from '$lib/globals/temperatureRangeStore.svelte.js';
+	import type { TemperatureRange } from '$lib/types/temperature.js';
+	import { onMount } from 'svelte';
 
 	// Props
 	interface PageProps {
 		data: WeatherOverview;
 	}
 	let { data }: PageProps = $props();
+
+	temperatureRangeStore.setRange(data.temperature);
+	conditionStatusStore.setCondition(data.condition.text);
+
+	onMount(() => {
+		setThemeAttributeName($temperatureRangeStore as TemperatureRange);
+	});
+
+	function setThemeAttributeName(theme: TemperatureRange | 'default') {
+		document.documentElement.setAttribute('data-theme', theme.toLowerCase());
+	}
 
 	// Logic
 	const orientation = windowOrientation;
@@ -27,7 +42,7 @@
 >
 	{#snippet MainTopBar()}
 		<Button onClick={() => goto('/')} variant="secondary" size="medium">
-			<ArrowLeftBoldIcon class="icon-medium" />
+			<ArrowLeftBoldIcon class="icon-small" />
 			Back
 		</Button>
 	{/snippet}

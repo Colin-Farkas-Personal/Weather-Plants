@@ -95,7 +95,7 @@
 			left: 50%;
 			width: 100vw;
 			transform: translateX(-50%);
-			height: 100%;
+			max-height: 100%;
 
 			display: flex;
 			flex-direction: column;
@@ -106,6 +106,7 @@
 				display: flex;
 				flex-direction: column;
 
+				max-height: 100%;
 				padding: 1rem var(--fluid-size-em-medium) 0;
 
 				&-content {
@@ -115,6 +116,13 @@
 					flex-direction: column;
 					align-items: center;
 					justify-content: start;
+
+					overflow-y: auto;
+					overscroll-behavior: contain;
+					-webkit-overflow-scrolling: touch;
+
+					max-height: 100%;
+					min-height: 0;
 
 					text-align: center;
 
