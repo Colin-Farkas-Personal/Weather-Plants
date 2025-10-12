@@ -16,11 +16,11 @@ export const load = async ({ url, fetch, setHeaders }) => {
 	// Example url: http://localhost:5173/overview?lat=-22.9110137&lon=-43.2093727&name=Rio+de+Janeiro&country=Brazil
 	const lat = url.searchParams.get('lat');
 	const lon = url.searchParams.get('lon');
-	const name = url.searchParams.get('name') || undefined;
-	const country = url.searchParams.get('country') || undefined;
+	const name = url.searchParams.get('name');
+	const country = url.searchParams.get('country');
 
-	if (!lat || !lon) {
-		throw error(400, 'Latitude and longitude are required');
+	if (!lat || !lon || !name || !country) {
+		throw error(400, 'Latitude, longitude, name, and country are required');
 	}
 
 	const locationCoordinatesString = `${lat},${lon}`;
@@ -45,7 +45,7 @@ export const load = async ({ url, fetch, setHeaders }) => {
 			'forecast-cache-control': responseForecast.headers.get('cache-control') ?? '',
 		});
 
-		const dataRaw = transformWeatherData(dataCurrent, dataForecast);
+		const dataRaw = transformWeatherData(dataCurrent, dataForecast, { name, country });
 		const dataFormatted = toFormattedWeatherData<WeatherOverview>(
 			dataRaw,
 			selectedTemperatureUnit,

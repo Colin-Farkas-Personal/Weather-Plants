@@ -2,10 +2,6 @@ import type { LocationReverseResult, LocationSearchResult } from '$lib/types/loc
 import type { WeatherOverviewRaw } from '$lib/types/weather';
 
 export type ResponseCurrent = {
-	location: {
-		name: string;
-		country: string;
-	};
 	current: {
 		last_updated: string;
 		temp_c: number;
@@ -17,10 +13,6 @@ export type ResponseCurrent = {
 	};
 };
 export type ResponseForecast = {
-	location: {
-		name: string;
-		country: string;
-	};
 	forecast: {
 		forecastday: Array<{
 			day: {
@@ -30,14 +22,21 @@ export type ResponseForecast = {
 		}>;
 	};
 };
+
+type Location = {
+	name: string;
+	country: string;
+};
+
 function transformWeatherData(
 	responseCurrent: ResponseCurrent,
 	responseForecast: ResponseForecast,
+	location: Location,
 ): WeatherOverviewRaw {
 	return {
 		location: {
-			name: responseCurrent.location.name,
-			country: responseCurrent.location.country,
+			name: location.name,
+			country: location.country,
 		},
 		temperature_tempC: responseCurrent.current.temp_c,
 		feelsLike_tempC: responseCurrent.current.feelslike_c,
