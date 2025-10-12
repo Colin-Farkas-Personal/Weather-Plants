@@ -1,8 +1,11 @@
 type LocationSearchResult = {
 	id: number;
-	name: string;
-	region: string;
+	lon: number;
+	lat: number;
 	country: string;
+	county: string;
+	city: string;
 };
+type LocationReverseResult = LocationSearchResult;
 
-export type { LocationSearchResult };
+export type { LocationSearchResult, LocationReverseResult };

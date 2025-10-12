@@ -1,36 +1,47 @@
-import { fetchFromWeatherApi } from '$lib/adapters/weatherapi';
+import { fetchFromSearchApi } from '$lib/adapters/searchapi';
 import {
-	transformCurrentLocationData,
+	transformResolveData,
 	transformSearchData,
+	type ResponseReverse,
 	type ResponseSearch,
 } from '$lib/adapters/weatherApiTransformer';
+import type { LocationResolveResult, LocationSearchResult } from '$lib/types/location-search';
 import { error } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ fetch, url }) => {
-	const hasLocateMe = url.searchParams.has('locateMe');
-	const input = url.searchParams.get('inputSubmit');
+	const inputValue = url.searchParams.get('inputSubmit');
 
-	let currentLocation = null;
-	let searchResults: ReturnType<typeof transformSearchData> = [];
+	const latParam = url.searchParams.get('lat');
+	const lonParam = url.searchParams.get('lon');
+
+	let currentLocation: LocationResolveResult | null = null;
+	let searchResults: LocationSearchResult[] = [];
 	let noSearchResults: boolean | null = null;
 
 	try {
-		if (hasLocateMe) {
-			const response = await fetchFromWeatherApi.search({ fetch, location: 'auto:ip' });
-			const dataSearch: ResponseSearch = (await response.json())[0];
-			currentLocation = transformCurrentLocationData(dataSearch);
-		} else if (input && input.trim().length > 0) {
-			const response = await fetchFromWeatherApi.search({ fetch, location: input.trim() });
-			const dataSearch: ResponseSearch[] = await response.json();
+		if (latParam && lonParam) {
+			const response: Response = await fetchFromSearchApi.reverse({
+				fetch,
+				locationCoordinates: [Number(latParam), Number(lonParam)],
+			});
+			const dataReverse: ResponseReverse = await response.json();
+			currentLocation = transformResolveData(dataReverse);
+		} else if (inputValue && inputValue.trim().length > 0) {
+			const response = await fetchFromSearchApi.search({
+				fetch,
+				locationName: inputValue.trim(),
+			});
+			const dataSearch: ResponseSearch = await response.json();
 
-			if (dataSearch.length === 0) {
+			if (!dataSearch || dataSearch.results.length === 0) {
 				noSearchResults = true;
 			}
 
 			searchResults = transformSearchData(dataSearch);
 		}
 
+		console.warn('Current location:', { currentLocation, searchResults, noSearchResults });
 		return { currentLocation, searchResults, noSearchResults };
 	} catch (e) {
 		console.warn('Search load failed:', e);

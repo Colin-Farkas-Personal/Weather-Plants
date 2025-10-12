@@ -40,9 +40,9 @@
 	{#if currentLocation}
 		<SearchResultList>
 			<SearchResultItem
-				name={currentLocation.name}
 				country={currentLocation.country}
-				region={currentLocation.region}
+				region={currentLocation.county}
+				city={currentLocation.city}
 			>
 				{#snippet Icon()}
 					<GpsBoldIcon class="icon-large" />
@@ -55,9 +55,9 @@
 		<SearchResultList>
 			{#each searchResults as result (result.id)}
 				<SearchResultItem
-					name={result.name}
 					country={result.country}
-					region={result.region}
+					region={result.county}
+					city={result.city}
 				/>
 			{/each}
 		</SearchResultList>

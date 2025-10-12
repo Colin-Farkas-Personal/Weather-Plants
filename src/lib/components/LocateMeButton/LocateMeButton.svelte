@@ -1,9 +1,28 @@
 <script lang="ts">
 	import GpsBoldIcon from '~icons/ph/gps-bold';
 	import { Button } from 'bits-ui';
+	import { goto } from '$app/navigation';
+
+	// Logic
+	function setGeolocationCoordinates() {
+		if (!navigator.geolocation) {
+			throw new Error('Geolocation is not supported by your browser');
+		}
+
+		navigator.geolocation.getCurrentPosition(
+			(position) => {
+				const { latitude, longitude } = position.coords;
+				goto(`/?lat=${latitude}&lon=${longitude}`);
+			},
+			(error) => {
+				console.error('Error getting geolocation:', error);
+				alert('Unable to retrieve your location. Please try again later.');
+			},
+		);
+	}
 </script>
 
-<Button.Root type="submit" name="locateMe" class="locate-me-button">
+<Button.Root type="submit" class="locate-me-button" onclick={setGeolocationCoordinates}>
 	<GpsBoldIcon class="icon icon-medium" aria-hidden="true" />
 	My current location
 </Button.Root>

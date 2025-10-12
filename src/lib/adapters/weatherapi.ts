@@ -37,10 +37,6 @@ async function doFetch(url: string, fetchFn: Fetch) {
 }
 
 export const fetchFromWeatherApi = {
-	search: async ({ fetch, location }: FetchFromWeatherApiParams) => {
-		const url = getFetchUrl('search', location);
-		return doFetch(url, fetch);
-	},
 	current: async ({ fetch, location }: FetchFromWeatherApiParams) => {
 		const url = getFetchUrl('current', location);
 		return doFetch(url, fetch);

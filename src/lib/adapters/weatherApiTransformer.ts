@@ -1,4 +1,4 @@
-import type { LocationSearchResult } from '$lib/types/location-search';
+import type { LocationReverseResult, LocationSearchResult } from '$lib/types/location-search';
 import type { WeatherOverviewRaw } from '$lib/types/weather';
 
 export type ResponseCurrent = {
@@ -54,35 +54,51 @@ function transformWeatherData(
 }
 
 export type ResponseSearch = {
-	id: number;
-	name: string;
-	region: string;
-	country: string;
+	results: Array<{
+		place_id: number;
+		lon: number;
+		lat: number;
+		country: string;
+		county: string;
+		city: string;
+	}>;
 };
-function transformSearchData(responseSearch: ResponseSearch[]): LocationSearchResult[] {
+function transformSearchData(responseSearch: ResponseSearch): LocationSearchResult[] {
 	const transformedData: LocationSearchResult[] = [];
 
-	responseSearch.forEach((result: ResponseSearch) => {
+	responseSearch.results.forEach((result) => {
 		transformedData.push({
-			id: result.id,
-			name: result.name,
-			region: result.region,
+			id: result.place_id,
+			lon: result.lon,
+			lat: result.lat,
 			country: result.country,
+			county: result.county,
+			city: result.city,
 		});
 	});
 
 	return transformedData;
 }
 
-function transformCurrentLocationData(responseSearch: ResponseSearch): LocationSearchResult {
-	const transformedData: LocationSearchResult = {
-		id: responseSearch.id,
-		name: responseSearch.name,
-		region: responseSearch.region,
-		country: responseSearch.country,
+export type ResponseReverse = {
+	results: Array<{
+		place_id: number;
+		lon: number;
+		lat: number;
+		country: string;
+		county: string;
+		city: string;
+	}>;
+};
+function transformReverseData(responseResolve: ResponseReverse): LocationReverseResult {
+	return {
+		id: responseResolve.results[0].place_id,
+		lon: responseResolve.results[0].lon,
+		lat: responseResolve.results[0].lat,
+		country: responseResolve.results[0].country,
+		county: responseResolve.results[0].county,
+		city: responseResolve.results[0].city,
 	};
-
-	return transformedData;
 }
 
-export { transformWeatherData, transformSearchData, transformCurrentLocationData };
+export { transformWeatherData, transformSearchData, transformReverseData as transformResolveData };

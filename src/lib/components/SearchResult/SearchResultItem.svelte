@@ -3,13 +3,13 @@
 	import type { Snippet } from 'svelte';
 
 	interface SearchResultItem {
-		name: string;
+		city: string;
 		country: string;
 		region: string;
 		Icon?: Snippet;
 	}
 
-	let { name, country, region, Icon }: SearchResultItem = $props();
+	let { city: name, country, region, Icon }: SearchResultItem = $props();
 </script>
 
 <li class="search-result-item">
