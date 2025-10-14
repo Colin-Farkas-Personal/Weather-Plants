@@ -1,6 +1,6 @@
 <script lang="ts">
-	import ThermometerCold from '$lib/components/Icon/Bold/ThermometerCold.svelte';
-	import ThermometerHot from '$lib/components/Icon/Bold/ThermometerHot.svelte';
+	import ThermometerCold from '~icons/ph/thermometer-cold-bold';
+	import ThermometerHot from '~icons/ph/thermometer-hot-bold';
 	import { windowOrientation } from '$lib/globals/windowStore';
 	import Divider from '../Divider/Divider.svelte';
 	import OverviewRangeDescriptive from './OverviewRangeDescriptive.svelte';

@@ -17,7 +17,7 @@
 <style lang="scss">
 	.search-result-list {
 		padding: 0.5rem 0.5rem 5rem;
-		overflow-y: scroll;
+		overflow-y: auto;
 		width: clamp(0px, 100%, 450px);
 
 		ul {
