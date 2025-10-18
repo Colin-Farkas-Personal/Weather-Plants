@@ -38,7 +38,22 @@ export const load: PageServerLoad = async ({ fetch, url }) => {
 				noSearchResults = true;
 			}
 
-			searchResults = transformSearchData(dataSearch);
+			const transformedSearchResults = transformSearchData(dataSearch);
+
+			// Filter out results without city or country information
+			const filteredSearchResults = transformedSearchResults.filter(
+				(result) =>
+					result.city &&
+					result.city.trim().length > 0 &&
+					result.country &&
+					result.country.trim().length > 0,
+			);
+
+			if (filteredSearchResults.length === 0) {
+				noSearchResults = true;
+			}
+
+			searchResults = filteredSearchResults;
 		}
 
 		console.warn('Current location:', { currentLocation, searchResults, noSearchResults });

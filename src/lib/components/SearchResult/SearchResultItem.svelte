@@ -32,9 +32,15 @@
 			data-sveltekit-preload-data="off"
 		>
 			<div class="search-result-item-link-details">
-				<h3 class="search-result-item-link-details-heading">{name}</h3>
-				<p>{country}</p>
-				<p>{region}</p>
+				{#if name}
+					<h3 class="search-result-item-link-details-heading">{name}</h3>
+				{/if}
+				{#if country}
+					<p>{country}</p>
+				{/if}
+				{#if region}
+					<p>{region}</p>
+				{/if}
 			</div>
 			<span class="search-result-item-link-icon" aria-hidden="true">{@render Icon?.()}</span>
 		</Button.Root>
@@ -45,10 +51,16 @@
 			data-sveltekit-preload-code="hover"
 			data-sveltekit-preload-data="off"
 		>
-			<h3 class="search-result-item-link-heading">{name}</h3>
+			{#if name}
+				<h3 class="search-result-item-link-heading">{name}</h3>
+			{/if}
 			<div class="search-result-item-link-details">
-				<p>{country}</p>
-				<p>{region}</p>
+				{#if country}
+					<p>{country}</p>
+				{/if}
+				{#if region}
+					<p>{region}</p>
+				{/if}
 			</div>
 		</Button.Root>
 	{/if}
@@ -90,6 +102,7 @@
 
 				&.with-icon {
 					.search-result-item-link-details {
+						flex: 1;
 						display: flex;
 						flex-direction: column;
 						align-items: flex-start;
@@ -127,6 +140,7 @@
 					}
 
 					.search-result-item-link-details {
+						flex: 1;
 						display: flex;
 						flex-direction: column;
 						align-items: flex-end;
