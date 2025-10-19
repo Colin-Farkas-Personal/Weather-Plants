@@ -54,12 +54,6 @@ export const load = async ({ url, fetch, setHeaders }) => {
 
 		return dataFormatted;
 	} catch (e) {
-		console.warn(
-			'Loading weather for location coordinates:',
-			locationCoordinatesString,
-			name,
-			country,
-		);
 		console.warn('Weather load failed:', e);
 		throw error(500, 'Unable to load weather');
 	}

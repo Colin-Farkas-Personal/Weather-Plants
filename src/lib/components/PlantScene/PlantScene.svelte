@@ -1,15 +1,16 @@
 <script lang="ts">
-	import conditionStatusStore from '$lib/globals/conditionStatusStore.svelte';
-	import temperatureRangeStore from '$lib/globals/temperatureRangeStore.svelte';
 	import { onDestroy, onMount } from 'svelte';
-	import { getSceneTheme } from './parseTheme';
 	import { SceneManager } from './SceneManager/SceneManager';
 	import { defaultTheme } from './themes/default';
+	import type { SceneTheme } from './themes/theme.types';
 
-	// State
-	let currentSceneTheme = $derived(() =>
-		getSceneTheme($temperatureRangeStore, $conditionStatusStore),
-	);
+	// Props
+	interface PlantSceneProps {
+		sceneTheme: SceneTheme;
+		dailyHour?: number;
+	}
+
+	let { sceneTheme, dailyHour }: PlantSceneProps = $props();
 
 	// Variables
 	let canvas: HTMLCanvasElement;
@@ -31,7 +32,8 @@
 	// Update Scene Theme
 	$effect(() => {
 		if (plantSceneManager) {
-			const theme = currentSceneTheme();
+			// const theme = currentSceneTheme();
+			const theme = sceneTheme;
 			plantSceneManager.updateTheme(theme);
 		}
 	});

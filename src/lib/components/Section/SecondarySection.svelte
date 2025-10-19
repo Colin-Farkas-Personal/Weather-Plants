@@ -31,6 +31,14 @@
 		class={`secondary-section-inner ${TopBar ? 'with-top-bar' : ''}`}
 	>
 		{#if $orientation === 'portrait'}
+			<section class="secondary-section-inner-hidden">
+				{#if TopBar}
+					<nav class="secondary-section-inner-display-top-bar">
+						{@render TopBar()}
+					</nav>
+				{/if}
+				<SectionHeading heading={contentHeading || heading} {subHeading} />
+			</section>
 			<section class="secondary-section-inner-display">
 				{#if TopBar}
 					<nav class="secondary-section-inner-display-top-bar">
@@ -38,16 +46,23 @@
 					</nav>
 				{/if}
 				<SectionHeading heading={contentHeading || heading} {subHeading} />
-				{#if contentHeading?.trim() || Content}
+				{#if contentHeading?.trim()}
 					<div class="secondary-section-inner-display-content">
 						{@render Content?.()}
 					</div>
 				{/if}
 			</section>
-			{@render Scene?.()}
+			<section class="secondary-section-inner-scene">
+				{@render Scene?.()}
+			</section>
 		{:else if $orientation === 'landscape'}
 			<section class="secondary-section-inner-display">
-				{#if contentHeading?.trim() || Content}
+				{#if TopBar}
+					<div class="secondary-section-inner-display-top-bar">
+						{@render TopBar()}
+					</div>
+				{/if}
+				{#if contentHeading?.trim()}
 					<div class="secondary-section-inner-display-content">
 						<h2 class="secondary-section-inner-display-content-heading">
 							{contentHeading}
@@ -100,8 +115,21 @@
 			display: flex;
 			flex-direction: column;
 
+			&-hidden {
+				visibility: hidden;
+
+				display: flex;
+				flex-direction: column;
+
+				max-height: 100%;
+				padding: 1rem var(--fluid-size-em-medium) 0;
+			}
+
 			&-display {
-				position: relative;
+				z-index: 1;
+
+				position: absolute;
+				width: 100%;
 
 				display: flex;
 				flex-direction: column;
@@ -109,9 +137,13 @@
 				max-height: 100%;
 				padding: 1rem var(--fluid-size-em-medium) 0;
 
-				&-content {
-					z-index: 1;
+				backdrop-filter: blur(80px);
 
+				&:has(.secondary-section-inner-display-content) {
+					height: 100%;
+				}
+
+				&-content {
 					display: flex;
 					flex-direction: column;
 					align-items: center;
@@ -123,6 +155,8 @@
 
 					max-height: 100%;
 					min-height: 0;
+					padding-left: var(--fluid-size-em-medium);
+					padding-right: var(--fluid-size-em-medium);
 
 					text-align: center;
 
@@ -131,6 +165,11 @@
 						pointer-events: none;
 					}
 				}
+			}
+
+			&-scene {
+				position: relative;
+				height: 100%;
 			}
 		}
 
@@ -197,6 +236,14 @@
 				height: 100%;
 				width: 100%;
 
+				&-top-bar {
+					z-index: 2;
+					position: absolute;
+					top: 0;
+					left: 50%;
+					transform: translateX(-50%);
+				}
+
 				&-content {
 					// Absolute positioning over scene
 					z-index: 1;
@@ -212,6 +259,8 @@
 					padding: 6rem 4rem 0;
 
 					text-align: center;
+
+					backdrop-filter: blur(150px);
 
 					&-heading {
 						font-size: 40px;

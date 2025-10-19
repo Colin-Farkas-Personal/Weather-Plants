@@ -13,12 +13,18 @@
 	import temperatureRangeStore from '$lib/globals/temperatureRangeStore.svelte.js';
 	import type { TemperatureRange } from '$lib/types/temperature.js';
 	import { onMount } from 'svelte';
+	import { getSceneTheme } from '$lib/components/PlantScene/parseTheme';
 
 	// Props
 	interface PageProps {
 		data: WeatherOverview;
 	}
 	let { data }: PageProps = $props();
+
+	// State
+	let currentSceneTheme = $derived(() =>
+		getSceneTheme($temperatureRangeStore, $conditionStatusStore),
+	);
 
 	temperatureRangeStore.setRange(data.temperature);
 	conditionStatusStore.setCondition(data.condition.text);
@@ -54,7 +60,7 @@
 		</article>
 	{/snippet}
 	{#snippet Scene()}
-		<PlantScene />
+		<PlantScene sceneTheme={currentSceneTheme()} />
 	{/snippet}
 </PageLayout>
 

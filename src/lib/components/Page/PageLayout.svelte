@@ -6,8 +6,8 @@
 
 	interface SecondarySectionProps {
 		TopBar?: Snippet;
-		Content?: Snippet;
-		heading?: string;
+		Content: Snippet;
+		heading: string;
 	}
 
 	interface PageLayoutProps {

@@ -59,8 +59,3 @@ function getSceneTheme(
 }
 
 export { getSceneTheme };
-
-// COLD
-// modelPath: modelPathSappling,
-// backgroundColor: 0xb9b5c8,
-// groundColor: 0xf7f5fb,

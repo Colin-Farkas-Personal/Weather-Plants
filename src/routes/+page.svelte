@@ -8,6 +8,9 @@
 	import { windowOrientation } from '$lib/globals/windowStore';
 	import type { LocationSearchResult } from '$lib/types/location-search.js';
 	import { onMount } from 'svelte';
+	import PlantScene from '$lib/components/PlantScene/PlantScene.svelte';
+	import type { SceneTheme } from '$lib/components/PlantScene/themes/theme.types';
+	import { defaultTheme } from '$lib/components/PlantScene/themes/default';
 
 	interface PageProps {
 		data: {
@@ -22,7 +25,6 @@
 
 	const currentLocation = $derived(data.currentLocation);
 	const searchResults = $derived(data.searchResults);
-	console.warn('searchResults', searchResults);
 	const noSearchResults = $derived(() => data.noSearchResults);
 
 	const secondarySectionHeading = $derived(() => {
@@ -73,7 +75,10 @@
 
 <PageLayout
 	heading="What's the weather like in...?"
-	secondarySectionProps={{ Content: SecondarySectionContent, heading: secondarySectionHeading() }}
+	secondarySectionProps={{
+		Content: SecondarySectionContent,
+		heading: secondarySectionHeading(),
+	}}
 	className="main-page"
 >
 	{#snippet PrimarySectionContent()}
@@ -85,6 +90,9 @@
 				<LocateMeButton />
 			</form>
 		</div>
+	{/snippet}
+	{#snippet Scene()}
+		<PlantScene sceneTheme={defaultTheme} />
 	{/snippet}
 </PageLayout>
 
