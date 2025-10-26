@@ -5,14 +5,15 @@ import {
 } from '$lib/adapters/weatherApiTransformer';
 import { fetchFromWeatherApi } from '$lib/adapters/weatherapi';
 import type { TemperatureUnit } from '$lib/types/temperature';
-import type { WeatherOverview } from '$lib/types/weather';
+import type { StreamedOverviewData } from '$lib/types/weather';
 import { toFormattedWeatherData } from '$lib/utilities/formatted-temperature';
 import { error } from '@sveltejs/kit';
+import type { PageServerLoad } from '../$types';
 
 const selectedRoundValues: boolean = true; // TODO: implement rounding switch
 const selectedTemperatureUnit: TemperatureUnit = 'celsius'; // TODO: implement temperature unit selection
 
-export const load = async ({ url, fetch, setHeaders }) => {
+export const load: PageServerLoad = async ({ url, fetch }) => {
 	// Example url: http://localhost:5173/overview?lat=-22.9110137&lon=-43.2093727&name=Rio+de+Janeiro&country=Brazil
 	const lat = url.searchParams.get('lat');
 	const lon = url.searchParams.get('lon');
@@ -25,36 +26,40 @@ export const load = async ({ url, fetch, setHeaders }) => {
 
 	const locationCoordinatesString = `${lat},${lon}`;
 
-	try {
-		const responseCurrent = await fetchFromWeatherApi.current({
-			fetch,
-			location: locationCoordinatesString,
-		});
-		const responseForecast = await fetchFromWeatherApi.forecast({
-			fetch,
-			location: locationCoordinatesString,
-		});
+	// render a skeleton while this resolves.
+	const overviewPromise = (async () => {
+		try {
+			const [responseCurrent, responseForecast] = await Promise.all([
+				fetchFromWeatherApi.current({ fetch, location: locationCoordinatesString }),
+				fetchFromWeatherApi.forecast({ fetch, location: locationCoordinatesString }),
+			]);
 
-		const dataCurrent: ResponseCurrent = await responseCurrent.json();
-		const dataForecast: ResponseForecast = await responseForecast.json();
+			const [dataCurrent, dataForecast] = await Promise.all([
+				responseCurrent.json() as Promise<ResponseCurrent>,
+				responseForecast.json() as Promise<ResponseForecast>,
+			]);
 
-		setHeaders({
-			'current-age': responseCurrent.headers.get('age') ?? '',
-			'current-cache-control': responseCurrent.headers.get('cache-control') ?? '',
-			'forecast-age': responseForecast.headers.get('age') ?? '',
-			'forecast-cache-control': responseForecast.headers.get('cache-control') ?? '',
-		});
+			const dataRaw = transformWeatherData(dataCurrent, dataForecast);
+			const dataFormatted = toFormattedWeatherData<StreamedOverviewData>(
+				dataRaw,
+				selectedTemperatureUnit,
+				selectedRoundValues,
+			);
 
-		const dataRaw = transformWeatherData(dataCurrent, dataForecast, { name, country });
-		const dataFormatted = toFormattedWeatherData<WeatherOverview>(
-			dataRaw,
-			selectedTemperatureUnit,
-			selectedRoundValues,
-		);
+			return dataFormatted;
+		} catch (e) {
+			console.warn('Weather load failed:', e);
+			throw error(500, 'Unable to load weather');
+		}
+	})();
 
-		return dataFormatted;
-	} catch (e) {
-		console.warn('Weather load failed:', e);
-		throw error(500, 'Unable to load weather');
-	}
+	return {
+		// Any instantly-available bits you might want to show before the streamed data arrives
+		location: { name, country },
+
+		// Values under `streamed` are delivered after the first render.
+		streamed: {
+			overview: overviewPromise,
+		},
+	};
 };

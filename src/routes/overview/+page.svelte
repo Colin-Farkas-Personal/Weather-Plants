@@ -5,15 +5,14 @@
 	import OverviewRange from '$lib/components/OverviewRange/OverviewRange.svelte';
 	import OverviewTemperature from '$lib/components/OverviewTemperature/OverviewTemperature.svelte';
 	import PageLayout from '$lib/components/Page/PageLayout.svelte';
+	import { getSceneTheme } from '$lib/components/PlantScene/parseTheme';
 	import PlantScene from '$lib/components/PlantScene/PlantScene.svelte';
-	import { windowOrientation } from '$lib/globals/windowStore';
-	import type { WeatherOverview } from '$lib/types/weather.js';
-	import ArrowLeftBoldIcon from '~icons/ph/arrow-left-bold';
 	import conditionStatusStore from '$lib/globals/conditionStatusStore.svelte.js';
 	import temperatureRangeStore from '$lib/globals/temperatureRangeStore.svelte.js';
+	import { windowOrientation } from '$lib/globals/windowStore';
 	import type { TemperatureRange } from '$lib/types/temperature.js';
-	import { onMount } from 'svelte';
-	import { getSceneTheme } from '$lib/components/PlantScene/parseTheme';
+	import type { WeatherOverview } from '$lib/types/weather.js';
+	import ArrowLeftBoldIcon from '~icons/ph/arrow-left-bold';
 
 	// Props
 	interface PageProps {
@@ -22,16 +21,30 @@
 	let { data }: PageProps = $props();
 
 	// State
-	let currentSceneTheme = $derived(() =>
+	$effect(() => {
+		updateOverviewData();
+	});
+
+	const currentSceneTheme = $derived(() =>
 		getSceneTheme($temperatureRangeStore, $conditionStatusStore),
 	);
 
-	temperatureRangeStore.setRange(data.temperature);
-	conditionStatusStore.setCondition(data.condition.text);
+	async function updateOverviewData() {
+		const streamedOverviewData = await data.streamed.overview;
+		temperatureRangeStore.setRange(streamedOverviewData.temperature);
+		conditionStatusStore.setCondition(streamedOverviewData.condition.text);
 
-	onMount(() => {
 		setThemeAttributeName($temperatureRangeStore as TemperatureRange);
-	});
+
+		// console.warn(
+		// 	'RANGE: ',
+		// 	streamedOverviewData.temperature,
+		// 	'STATUS: ',
+		// 	streamedOverviewData.condition.text,
+		// );
+
+		// console.error('SCENE THEME - ', currentSceneTheme());
+	}
 
 	function setThemeAttributeName(theme: TemperatureRange | 'default') {
 		document.documentElement.setAttribute('data-theme', theme.toLowerCase());
@@ -53,11 +66,18 @@
 		</Button>
 	{/snippet}
 	{#snippet PrimarySectionContent()}
-		<article class={`overview-page-data ${$orientation}`}>
-			<OverviewCondition condition={data.condition.text} />
-			<OverviewTemperature temperature={data.temperature} feelsLike={data.feelsLike} />
-			<OverviewRange min={data.dailyRange.min} max={data.dailyRange.max} />
-		</article>
+		{#await data.streamed.overview}
+			<p>Loading data</p>
+		{:then streamed}
+			<article class={`overview-page-data ${$orientation}`}>
+				<OverviewCondition condition={streamed.condition.text} />
+				<OverviewTemperature
+					temperature={streamed.temperature}
+					feelsLike={streamed.feelsLike}
+				/>
+				<OverviewRange min={streamed.dailyRange.min} max={streamed.dailyRange.max} />
+			</article>
+		{/await}
 	{/snippet}
 	{#snippet Scene()}
 		<PlantScene sceneTheme={currentSceneTheme()} />

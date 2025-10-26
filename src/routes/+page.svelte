@@ -1,16 +1,15 @@
 <script lang="ts">
-	import GpsBoldIcon from '~icons/ph/gps-bold';
 	import LocateMeButton from '$lib/components/LocateMeButton/LocateMeButton.svelte';
 	import PageLayout from '$lib/components/Page/PageLayout.svelte';
+	import PlantScene from '$lib/components/PlantScene/PlantScene.svelte';
+	import { defaultTheme } from '$lib/components/PlantScene/themes/default';
 	import SearchResultItem from '$lib/components/SearchResult/SearchResultItem.svelte';
 	import SearchResultList from '$lib/components/SearchResult/SearchResultList.svelte';
 	import LocationTextInput from '$lib/components/TextInput/LocationTextInput.svelte';
 	import { windowOrientation } from '$lib/globals/windowStore';
 	import type { LocationSearchResult } from '$lib/types/location-search.js';
 	import { onMount } from 'svelte';
-	import PlantScene from '$lib/components/PlantScene/PlantScene.svelte';
-	import type { SceneTheme } from '$lib/components/PlantScene/themes/theme.types';
-	import { defaultTheme } from '$lib/components/PlantScene/themes/default';
+	import GpsBoldIcon from '~icons/ph/gps-bold';
 
 	interface PageProps {
 		data: {

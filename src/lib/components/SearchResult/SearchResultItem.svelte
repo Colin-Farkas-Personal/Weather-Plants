@@ -14,12 +14,13 @@
 	let { lat, lon, city: name, country, region, Icon }: SearchResultItem = $props();
 
 	function createOverviewPageLink() {
-		const url = new URL('/overview', location.origin);
-		url.searchParams.set('lat', String(lat));
-		url.searchParams.set('lon', String(lon));
-		url.searchParams.set('name', name);
-		url.searchParams.set('country', country);
-		return url.toString();
+		const params = new URLSearchParams({
+			lat: String(lat),
+			lon: String(lon),
+			name,
+			country,
+		});
+		return `/overview?${params.toString()}`;
 	}
 </script>
 
@@ -28,7 +29,7 @@
 		<Button.Root
 			href={createOverviewPageLink()}
 			class="search-result-item-link with-icon"
-			data-sveltekit-preload-code="hover"
+			data-sveltekit-preload-code="eager"
 			data-sveltekit-preload-data="off"
 		>
 			<div class="search-result-item-link-details">
@@ -48,7 +49,7 @@
 		<Button.Root
 			href={createOverviewPageLink()}
 			class="search-result-item-link no-icon"
-			data-sveltekit-preload-code="hover"
+			data-sveltekit-preload-code="eager"
 			data-sveltekit-preload-data="off"
 		>
 			{#if name}

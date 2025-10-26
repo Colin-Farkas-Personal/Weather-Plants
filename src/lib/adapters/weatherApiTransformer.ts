@@ -23,21 +23,11 @@ export type ResponseForecast = {
 	};
 };
 
-type Location = {
-	name: string;
-	country: string;
-};
-
 function transformWeatherData(
 	responseCurrent: ResponseCurrent,
 	responseForecast: ResponseForecast,
-	location: Location,
 ): WeatherOverviewRaw {
 	return {
-		location: {
-			name: location.name,
-			country: location.country,
-		},
 		temperature_tempC: responseCurrent.current.temp_c,
 		feelsLike_tempC: responseCurrent.current.feelslike_c,
 		condition: {

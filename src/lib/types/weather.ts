@@ -18,7 +18,6 @@ interface DailyRange {
 }
 
 type WeatherOverviewRaw = {
-	location: WeatherLocation;
 	temperature_tempC: number;
 	feelsLike_tempC: number;
 	condition: Condition;
@@ -26,8 +25,7 @@ type WeatherOverviewRaw = {
 	lastUpdated?: string;
 };
 
-type WeatherOverview = {
-	location: WeatherLocation;
+type StreamedOverviewData = {
 	temperature: number;
 	feelsLike: number;
 	condition: Condition;
@@ -35,8 +33,16 @@ type WeatherOverview = {
 	lastUpdated?: string;
 };
 
+type WeatherOverview = {
+	location: WeatherLocation;
+	streamed: {
+		overview: Promise<StreamedOverviewData>;
+	};
+};
+
 export type {
 	WeatherOverviewRaw,
+	StreamedOverviewData,
 	WeatherOverview,
 	WeatherLocation,
 	Condition,
