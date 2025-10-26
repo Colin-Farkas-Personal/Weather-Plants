@@ -13,7 +13,7 @@ import type { PageServerLoad } from '../$types';
 const selectedRoundValues: boolean = true; // TODO: implement rounding switch
 const selectedTemperatureUnit: TemperatureUnit = 'celsius'; // TODO: implement temperature unit selection
 
-export const load: PageServerLoad = async ({ url, fetch }) => {
+export const load: PageServerLoad = async ({ url, fetch, setHeaders }) => {
 	// Example url: http://localhost:5173/overview?lat=-22.9110137&lon=-43.2093727&name=Rio+de+Janeiro&country=Brazil
 	const lat = url.searchParams.get('lat');
 	const lon = url.searchParams.get('lon');
@@ -26,7 +26,8 @@ export const load: PageServerLoad = async ({ url, fetch }) => {
 
 	const locationCoordinatesString = `${lat},${lon}`;
 
-	// render a skeleton while this resolves.
+	setHeaders({ 'Cache-Control': 'public, max-age=300' });
+
 	const overviewPromise = (async () => {
 		try {
 			const [responseCurrent, responseForecast] = await Promise.all([
