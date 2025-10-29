@@ -160,7 +160,7 @@ export class SceneManager implements ISceneManager {
 		controls.enablePan = false;
 
 		controls.keyRotateSpeed = 20;
-		controls.listenToKeyEvents(window);
+		// controls.listenToKeyEvents(window); <-- ERROR: Prevents any other element from using their keyboard listeners (such as the caret of input fields not moveable)
 
 		controls.minPolarAngle = Math.PI / 2.8;
 		controls.maxPolarAngle = Math.PI / 2.8;
