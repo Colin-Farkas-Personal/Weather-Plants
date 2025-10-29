@@ -2,7 +2,7 @@
 	import MagnifyingGlassBoldIcon from '~icons/ph/magnifying-glass-bold';
 </script>
 
-<div class="text-input">
+<label class="text-input">
 	<input
 		id="location"
 		name="input"
@@ -13,7 +13,7 @@
 	<button type="submit" data-action="input" aria-label="Search">
 		<MagnifyingGlassBoldIcon class="icon-medium" />
 	</button>
-</div>
+</label>
 
 <style lang="scss">
 	@use '$lib/styles/accessibility';
