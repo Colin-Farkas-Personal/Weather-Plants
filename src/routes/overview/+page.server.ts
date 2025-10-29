@@ -14,22 +14,22 @@ import type { Fetch } from '$lib/types/fetch';
 const selectedRoundValues: boolean = true; // TODO: implement rounding switch
 const selectedTemperatureUnit: TemperatureUnit = 'celsius'; // TODO: implement temperature unit selection
 
-const getRequiredParam = (url: URL, key: string) => {
-	const value = url.searchParams.get(key);
-	if (!value) throw error(400, `Missing required query param: ${key}`);
-	return value;
-};
+export const load: PageServerLoad = async ({ url, fetch, setHeaders }) => {
+	// Read and validate query params
+	const lat = getRequiredParam(url, 'lat');
+	const lon = getRequiredParam(url, 'lon');
+	const name = getRequiredParam(url, 'name');
+	const country = getRequiredParam(url, 'country');
 
-const formatOverview = (
-	current: ResponseCurrent,
-	forecast: ResponseForecast,
-): StreamedOverviewData => {
-	const raw = transformWeatherData(current, forecast);
-	return toFormattedWeatherData<StreamedOverviewData>(
-		raw,
-		selectedTemperatureUnit,
-		selectedRoundValues,
-	);
+	const locationCoordinatesString = `${lat},${lon}`;
+
+	// Cache the page shell so reloads are fast; allow background revalidation
+	setHeaders({ 'Cache-Control': 'public, max-age=300, stale-while-revalidate=600' });
+
+	return {
+		location: { name, country },
+		streamed: { overview: overviewPromise(fetch, locationCoordinatesString) },
+	};
 };
 
 // Stream the heavy work so the page can render a skeleton immediately
@@ -64,20 +64,20 @@ async function overviewPromise(
 	}
 }
 
-export const load: PageServerLoad = async ({ url, fetch, setHeaders }) => {
-	// Read and validate query params
-	const lat = getRequiredParam(url, 'lat');
-	const lon = getRequiredParam(url, 'lon');
-	const name = getRequiredParam(url, 'name');
-	const country = getRequiredParam(url, 'country');
+const formatOverview = (
+	current: ResponseCurrent,
+	forecast: ResponseForecast,
+): StreamedOverviewData => {
+	const raw = transformWeatherData(current, forecast);
+	return toFormattedWeatherData<StreamedOverviewData>(
+		raw,
+		selectedTemperatureUnit,
+		selectedRoundValues,
+	);
+};
 
-	const locationCoordinatesString = `${lat},${lon}`;
-
-	// Cache the page shell so reloads are fast; allow background revalidation
-	setHeaders({ 'Cache-Control': 'public, max-age=300, stale-while-revalidate=600' });
-
-	return {
-		location: { name, country },
-		streamed: { overview: overviewPromise(fetch, locationCoordinatesString) },
-	};
+const getRequiredParam = (url: URL, key: string) => {
+	const value = url.searchParams.get(key);
+	if (!value) throw error(400, `Missing required query param: ${key}`);
+	return value;
 };

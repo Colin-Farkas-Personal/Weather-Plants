@@ -2,19 +2,18 @@
 	import MagnifyingGlassBoldIcon from '~icons/ph/magnifying-glass-bold';
 </script>
 
-<label class="text-input">
+<div class="text-input">
 	<input
-		type="text"
 		id="location"
-		name="inputSubmit"
+		name="input"
 		placeholder="Madrid..."
 		required
 		aria-label="Enter a location"
 	/>
-	<button type="submit" aria-label="Search">
+	<button type="submit" data-action="input" aria-label="Search">
 		<MagnifyingGlassBoldIcon class="icon-medium" />
 	</button>
-</label>
+</div>
 
 <style lang="scss">
 	@use '$lib/styles/accessibility';

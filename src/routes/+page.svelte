@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { page } from '$app/state';
 	import LocateMeButton from '$lib/components/LocateMeButton/LocateMeButton.svelte';
 	import PageLayout from '$lib/components/Page/PageLayout.svelte';
 	import PlantScene from '$lib/components/PlantScene/PlantScene.svelte';
@@ -7,68 +8,94 @@
 	import SearchResultList from '$lib/components/SearchResult/SearchResultList.svelte';
 	import LocationTextInput from '$lib/components/TextInput/LocationTextInput.svelte';
 	import { windowOrientation } from '$lib/globals/windowStore';
-	import type { LocationSearchResult } from '$lib/types/location-search.js';
 	import { onMount } from 'svelte';
 	import GpsBoldIcon from '~icons/ph/gps-bold';
+	import type { SearchData } from './+page.server';
+
+	type SearchType = 'input' | 'current';
 
 	interface PageProps {
-		data: {
-			currentLocation: LocationSearchResult;
-			searchResults: LocationSearchResult[];
-			noSearchResults: boolean | null;
-		};
+		data: SearchData;
 	}
 	let { data }: PageProps = $props();
 
+	// State
 	const orientation = windowOrientation;
+	let currentSearchType = $derived(getCurrentSearchType());
+	let secondarySectionHeading = $derived(setSecondarySectionHeading);
 
-	const currentLocation = $derived(data.currentLocation);
-	const searchResults = $derived(data.searchResults);
-	const noSearchResults = $derived(() => data.noSearchResults);
-
-	const secondarySectionHeading = $derived(() => {
-		if (currentLocation) return 'Your current location';
-		if (searchResults.length > 0) return 'Results';
-		if (noSearchResults()) return 'No results';
-		return '';
-	});
-
+	/// Lifecycle
 	onMount(() => {
 		document.documentElement.setAttribute('data-theme', 'default');
 	});
+
+	// Functions
+	function getCurrentSearchType(): SearchType | '' {
+		const urlParams = page.url.searchParams;
+
+		if (urlParams.has('lat') && urlParams.has('lon')) {
+			return 'current';
+		}
+
+		if (urlParams.has('input')) {
+			return 'input';
+		}
+
+		return '';
+	}
+
+	function setSecondarySectionHeading() {
+		if (currentSearchType === 'current') {
+			return 'Your current location';
+		}
+
+		if (currentSearchType === 'input') {
+			return 'Results';
+		}
+
+		return '';
+	}
 </script>
 
 {#snippet SecondarySectionContent()}
-	{#if currentLocation}
-		<SearchResultList>
-			<SearchResultItem
-				lon={currentLocation.lon}
-				lat={currentLocation.lat}
-				country={currentLocation.country}
-				region={currentLocation.county}
-				city={currentLocation.city}
-			>
-				{#snippet Icon()}
-					<GpsBoldIcon class="icon-large" />
-				{/snippet}
-			</SearchResultItem>
-		</SearchResultList>
-	{/if}
-
-	{#if searchResults.length > 0}
-		<SearchResultList>
-			{#each searchResults as result (result.id)}
-				<SearchResultItem
-					lon={result.lon}
-					lat={result.lat}
-					country={result.country}
-					region={result.county}
-					city={result.city}
-				/>
-			{/each}
-		</SearchResultList>
-	{:else if noSearchResults()}
-		<p>No results found. Try searching for another location.</p>
+	{#if currentSearchType === 'input'}
+		{#await data.streamed.searchResults}
+			<p>Loading...</p>
+		{:then searchResults}
+			{#if searchResults}
+				<SearchResultList>
+					{#each searchResults as result (result.id)}
+						<SearchResultItem
+							lon={result.lon}
+							lat={result.lat}
+							country={result.country}
+							region={result.county}
+							city={result.city}
+						/>
+					{/each}
+				</SearchResultList>
+			{/if}
+		{/await}
+	{:else if currentSearchType === 'current'}
+		{#await data.streamed.currentLocation}
+			<p>Loading...</p>
+		{:then currentLocation}
+			{#if currentLocation}
+				<SearchResultList>
+					<SearchResultItem
+						lon={currentLocation.lon}
+						lat={currentLocation.lat}
+						country={currentLocation.country}
+						region={currentLocation.county}
+						city={currentLocation.city}
+					>
+						{#snippet Icon()}
+							<GpsBoldIcon class="icon-large" />
+						{/snippet}
+					</SearchResultItem>
+				</SearchResultList>
+			{/if}
+		{/await}
 	{/if}
 {/snippet}
 

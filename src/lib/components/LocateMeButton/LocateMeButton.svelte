@@ -22,7 +22,12 @@
 	}
 </script>
 
-<Button.Root type="submit" class="locate-me-button" onclick={setGeolocationCoordinates}>
+<Button.Root
+	type="submit"
+	data-action="current"
+	class="locate-me-button"
+	onclick={setGeolocationCoordinates}
+>
 	<GpsBoldIcon class="icon icon-medium" aria-hidden="true" />
 	My current location
 </Button.Root>

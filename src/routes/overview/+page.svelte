@@ -21,13 +21,13 @@
 	let { data }: PageProps = $props();
 
 	// State
-	$effect(() => {
-		updateOverviewData();
-	});
-
 	const currentSceneTheme = $derived(() =>
 		getSceneTheme($temperatureRangeStore, $conditionStatusStore),
 	);
+
+	$effect(() => {
+		updateOverviewData();
+	});
 
 	async function updateOverviewData() {
 		const streamedOverviewData = await data.streamed.overview;
@@ -35,15 +35,6 @@
 		conditionStatusStore.setCondition(streamedOverviewData.condition.text);
 
 		setThemeAttributeName($temperatureRangeStore as TemperatureRange);
-
-		// console.warn(
-		// 	'RANGE: ',
-		// 	streamedOverviewData.temperature,
-		// 	'STATUS: ',
-		// 	streamedOverviewData.condition.text,
-		// );
-
-		// console.error('SCENE THEME - ', currentSceneTheme());
 	}
 
 	function setThemeAttributeName(theme: TemperatureRange | 'default') {
