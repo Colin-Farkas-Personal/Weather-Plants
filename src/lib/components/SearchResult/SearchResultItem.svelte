@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import { Button } from 'bits-ui';
 	import type { Snippet } from 'svelte';
 
@@ -13,21 +14,21 @@
 
 	let { lat, lon, city: name, country, region, Icon }: SearchResultItem = $props();
 
-	function createOverviewPageLink() {
+	function goToOverviewPage() {
 		const params = new URLSearchParams({
 			lat: String(lat),
 			lon: String(lon),
 			name,
 			country,
 		});
-		return `/overview?${params.toString()}`;
+		goto(`/overview?${params.toString()}`);
 	}
 </script>
 
 <li class="search-result-item">
 	{#if Icon}
 		<Button.Root
-			href={createOverviewPageLink()}
+			onclick={goToOverviewPage}
 			class="search-result-item-link with-icon"
 			data-sveltekit-preload-code="eager"
 			data-sveltekit-preload-data="off"
@@ -47,7 +48,7 @@
 		</Button.Root>
 	{:else}
 		<Button.Root
-			href={createOverviewPageLink()}
+			href={goToOverviewPage()}
 			class="search-result-item-link no-icon"
 			data-sveltekit-preload-code="eager"
 			data-sveltekit-preload-data="off"
