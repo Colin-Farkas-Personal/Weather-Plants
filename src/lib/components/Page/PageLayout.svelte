@@ -1,9 +1,8 @@
 <script lang="ts">
-	import { onMount, type Snippet } from 'svelte';
+	import type { Snippet } from 'svelte';
 	import { windowOrientation } from '$lib/globals/windowStore';
 	import SecondarySection from '../Section/SecondarySection.svelte';
 	import PrimarySection from '../Section/PrimarySection.svelte';
-	import { on } from 'events';
 
 	interface SecondarySectionProps {
 		TopBar?: Snippet;
@@ -36,18 +35,9 @@
 	const secondaryTopBar = $derived(secondarySectionProps?.TopBar);
 
 	let orientation = windowOrientation;
-
-	onMount(() => {
-		// Trigger initial orientation check
-		const isStandalone =
-			window.matchMedia('(display-mode: standalone)').matches ||
-			(window.navigator as Navigator).standalone === true; // iOS fallback
-		console.log('Standalone?', isStandalone);
-	});
 </script>
 
 <main class={`page-layout ${$orientation} noise ${className}`}>
-	<h1>{isStandalone}</h1>
 	{#if $orientation === 'portrait'}
 		<!-- Portrait: Secondary section shown first, uses page heading + its own content heading -->
 		<SecondarySection

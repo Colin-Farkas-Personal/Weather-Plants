@@ -48,7 +48,7 @@
 		</Button.Root>
 	{:else}
 		<Button.Root
-			href={goToOverviewPage()}
+			onclick={goToOverviewPage}
 			class="search-result-item-link no-icon"
 			data-sveltekit-preload-code="eager"
 			data-sveltekit-preload-data="off"
