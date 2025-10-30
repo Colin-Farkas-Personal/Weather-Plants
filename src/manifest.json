@@ -8,5 +8,6 @@
 			"type": "image/png"
 		}
 	],
+	"scope": "/",
 	"display": "standalone"
 }
