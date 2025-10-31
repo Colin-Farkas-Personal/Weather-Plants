@@ -1,13 +1,16 @@
 {
 	"name": "Weather Pot",
+	"short_name": "WeatherPot",
 	"start_url": "/",
+	"scope": "/",
+	"display": "standalone",
+	"theme_color": "#ffffff",
+	"background_color": "#ffffff",
 	"icons": [
 		{
-			"src": "/static/icons/icon-large.png",
+			"src": "/icons/icon-large.png",
 			"sizes": "512x512",
 			"type": "image/png"
 		}
-	],
-	"scope": "/",
-	"display": "standalone"
+	]
 }
