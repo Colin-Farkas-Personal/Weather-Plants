@@ -4,7 +4,7 @@
 
 <main class="error">
 	<h1>Location not found</h1>
-	<p>There seems to be no location named <b>{page.params.slug}</b></p>
+	<p>There seems to be no location named <b>{page?.params?.slug}</b></p>
 </main>
 
 <style lang="scss">
