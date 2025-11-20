@@ -64,7 +64,7 @@ function createConditionStatusStore() {
 
 	function setCondition(condition: Condition['text']) {
 		const status = parseConditionStatus(condition);
-		// const status: ConditionStatus = 'THUNDER'; // TODO: Remove after testing
+		// const testStatus: ConditionStatus = 'THUNDER'; // TODO: Remove after testing
 
 		update(() => status);
 	}

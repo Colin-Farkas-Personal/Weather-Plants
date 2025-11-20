@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import type { SceneSubject } from '../subject';
+import type { SceneSubject } from '../subject.types';
 import { Plant } from './Plant';
 import { Pot } from './Pot';
 

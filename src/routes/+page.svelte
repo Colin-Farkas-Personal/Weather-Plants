@@ -11,6 +11,7 @@
 	import { onMount } from 'svelte';
 	import GpsBoldIcon from '~icons/ph/gps-bold';
 	import type { SearchData } from './+page.server';
+	import { getCurrentHour } from '$lib/helpers/current-hour';
 
 	type SearchType = 'input' | 'current';
 
@@ -21,6 +22,7 @@
 
 	// State
 	const orientation = windowOrientation;
+	const currentHour = $derived(getCurrentHour());
 	let currentSearchType = $derived(getCurrentSearchType());
 	let secondarySectionHeading = $derived(setSecondarySectionHeading);
 
@@ -118,7 +120,7 @@
 		</div>
 	{/snippet}
 	{#snippet Scene()}
-		<PlantScene sceneTheme={defaultTheme} />
+		<PlantScene sceneTheme={defaultTheme} {currentHour} />
 	{/snippet}
 </PageLayout>
 

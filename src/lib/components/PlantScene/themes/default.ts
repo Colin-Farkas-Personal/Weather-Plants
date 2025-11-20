@@ -9,19 +9,20 @@ const defaultTheme: SceneTheme = {
 		},
 	},
 	fog: {
-		color: '#fff9e4ff',
+		color: 'hsla(49, 57%, 89%, 1.00)',
+		density: 0,
 	},
-	ground: {
-		color: '#fff4cdff',
+	background: {
+		color: ['hsla(46, 68%, 93%, 1.00)', 'hsla(48, 100%, 91%, 1.00)'],
 	},
 	lights: {
 		ambient: {
-			color: '#fff9e4ff',
+			color: 'hsl(0, 0%, 100%)',
 			intensity: 1,
 		},
 		front: {
-			color: '#fff4cdff',
-			intensity: 100,
+			color: 'hsl(0, 0%, 100%)',
+			intensity: 90,
 		},
 	},
 };

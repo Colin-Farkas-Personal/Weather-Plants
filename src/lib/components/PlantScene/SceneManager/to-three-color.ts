@@ -1,11 +1,11 @@
-import type { HexColor } from '../themes/theme.types';
 import * as THREE from 'three';
+import type { HSLColor } from '../themes/theme.types';
 
 type ToThreeColor = {
 	color: THREE.Color;
 	alpha: number;
 };
-function toThreeColor(hex: HexColor): ToThreeColor {
+function toThreeColor(hex: HSLColor): ToThreeColor {
 	if (hex.length === 7) {
 		hex += 'ff';
 	}

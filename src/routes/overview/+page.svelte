@@ -10,6 +10,7 @@
 	import conditionStatusStore from '$lib/globals/conditionStatusStore.svelte.js';
 	import temperatureRangeStore from '$lib/globals/temperatureRangeStore.svelte.js';
 	import { windowOrientation } from '$lib/globals/windowStore';
+	import { getCurrentHour } from '$lib/helpers/current-hour';
 	import type { TemperatureRange } from '$lib/types/temperature.js';
 	import type { WeatherOverview } from '$lib/types/weather.js';
 	import ArrowLeftBoldIcon from '~icons/ph/arrow-left-bold';
@@ -21,9 +22,8 @@
 	let { data }: PageProps = $props();
 
 	// State
-	const currentSceneTheme = $derived(() =>
-		getSceneTheme($temperatureRangeStore, $conditionStatusStore),
-	);
+	let currentSceneTheme = $derived(getSceneTheme($temperatureRangeStore, $conditionStatusStore));
+	const currentHour = $derived(getCurrentHour());
 
 	$effect(() => {
 		updateOverviewData();
@@ -71,7 +71,7 @@
 		{/await}
 	{/snippet}
 	{#snippet Scene()}
-		<PlantScene sceneTheme={currentSceneTheme()} />
+		<PlantScene sceneTheme={currentSceneTheme} {currentHour} />
 	{/snippet}
 </PageLayout>
 

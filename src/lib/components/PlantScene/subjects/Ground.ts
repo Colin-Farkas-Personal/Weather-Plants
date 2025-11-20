@@ -1,34 +1,29 @@
 import * as THREE from 'three';
-import type { SceneSubject } from './subject';
-import type { HexColor } from '../themes/theme.types';
-import { toThreeColor } from '../SceneManager/to-three-color';
+import type { SceneSubject } from './subject.types';
 
 interface Constructor {
 	scene: THREE.Scene;
-	color: HexColor;
 }
 
 export class Ground implements SceneSubject {
 	private circlePlane: THREE.Mesh;
 
-	constructor({ scene, color }: Constructor) {
-		const { color: threeColor } = toThreeColor(color);
-		this.circlePlane = this.createCirclePlane(threeColor);
+	constructor({ scene }: Constructor) {
+		this.circlePlane = this.createCirclePlane();
 		scene.add(this.circlePlane);
 	}
 
-	update({ color }: { color: HexColor }): void {
-		(this.circlePlane.material as THREE.MeshStandardMaterial).color = toThreeColor(color).color;
+	update({ opacity }: { opacity: number }): void {
+		(this.circlePlane.material as THREE.ShadowMaterial).opacity = opacity;
 	}
 
-	private createCirclePlane(color: THREE.Color): THREE.Mesh {
+	private createCirclePlane(): THREE.Mesh {
 		const radius = 5;
 		const segments = 64;
 		const geometry = new THREE.CircleGeometry(radius, segments);
+		const shadowMaterial = new THREE.ShadowMaterial({ opacity: 0.5 });
 
-		const material = new THREE.MeshStandardMaterial({ color: color });
-
-		const plane = new THREE.Mesh(geometry, material);
+		const plane = new THREE.Mesh(geometry, shadowMaterial);
 		plane.rotation.x = -Math.PI / 2;
 		plane.position.y = -0.28;
 		plane.receiveShadow = true;

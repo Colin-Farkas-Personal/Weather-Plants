@@ -1,10 +1,11 @@
 // subjects/Subject.ts
-import type { HexColor, LightSourceAttributes } from '../themes/theme.types';
+import type { HSLColor, LightSourceAttributes } from '../themes/theme.types';
 import type { LightNames } from './general-lights.types';
 
 type UpdateParams = {
-	color?: HexColor;
+	color?: HSLColor;
 	lights?: Record<LightNames, LightSourceAttributes>;
+	opacity?: number;
 };
 
 interface SceneSubject {

@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { toThreeColor } from '../SceneManager/to-three-color';
-import type { SceneSubject, UpdateParams } from './subject';
+import type { SceneSubject, UpdateParams } from './subject.types';
 
 export class GeneralLights implements SceneSubject {
 	public frontLight: THREE.SpotLight = this.createFrontLight();
@@ -35,7 +35,7 @@ export class GeneralLights implements SceneSubject {
 	}
 
 	private createFrontLight(): THREE.SpotLight {
-		const color = 0xf3ffa8;
+		const color = 0xffffff;
 		const intensity = 10;
 		const distance = 10;
 		const angle = 1;

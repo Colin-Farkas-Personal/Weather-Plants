@@ -1,9 +1,8 @@
-import type { HexColor } from '../themes/theme.types';
+import type { DefaultAttributes } from '../themes/theme.types';
 
-type LightSourceAttributes = {
-	color: HexColor;
+interface LightSourceAttributes extends DefaultAttributes {
 	intensity: number;
-};
+}
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const lights = ['ambient', 'front'] as const;

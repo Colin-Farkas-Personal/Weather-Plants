@@ -8,19 +8,20 @@ const basePlesantTheme: SceneTheme = {
 		},
 	},
 	fog: {
-		color: '#a4c7e6ff',
+		color: 'hsla(207, 78%, 88%, 1.00)',
+		density: 0,
 	},
-	ground: {
-		color: '#cde7ffff',
+	background: {
+		color: ['hsla(206, 100%, 91%, 1.00)', 'hsla(203, 63%, 90%, 1.00)'],
 	},
 	lights: {
 		ambient: {
-			color: '#e5f8ffff',
-			intensity: 0.75,
+			color: 'hsla(45, 100%, 80%, 1.00)',
+			intensity: 1,
 		},
 		front: {
-			color: '#ffffffff',
-			intensity: 65,
+			color: 'hsla(50, 100%, 74%, 1.00)',
+			intensity: 100,
 		},
 	},
 };
@@ -34,39 +35,6 @@ const pleasantTheme: Partial<ThemeMap> = {
 	},
 	SUNNY_CLOUDY: {
 		...basePlesantTheme,
-	},
-	CLOUDY: {
-		...basePlesantTheme,
-		fog: {
-			color: '#96a2acff',
-		},
-	},
-	RAINY: {
-		...basePlesantTheme,
-		fog: {
-			color: '#79838bff',
-		},
-		ground: {
-			color: '#a4b8cbff',
-		},
-	},
-	THUNDER: {
-		...basePlesantTheme,
-		fog: {
-			color: '#505d68ff',
-		},
-		ground: {
-			color: '#768b9fff',
-		},
-	},
-	TORNADO: {
-		...basePlesantTheme,
-		fog: {
-			color: '#505d68ff',
-		},
-		ground: {
-			color: '#768b9fff',
-		},
 	},
 };
 

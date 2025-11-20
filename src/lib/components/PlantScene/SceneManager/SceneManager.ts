@@ -5,8 +5,7 @@ import { Fog } from '../subjects/Fog';
 import { GeneralLights } from '../subjects/GeneralLights';
 import { Ground } from '../subjects/Ground';
 import { Models } from '../subjects/models/Models';
-import { Sky } from '../subjects/Sky';
-import type { SceneSubject } from '../subjects/subject';
+import type { SceneSubject } from '../subjects/subject.types';
 import type { SceneTheme } from '../themes/theme.types';
 import { getScreenOrientation } from './aspect-ration';
 
@@ -82,7 +81,7 @@ export class SceneManager implements ISceneManager {
 	}
 
 	updateTheme(theme: SceneTheme) {
-		const { model, fog, ground, lights } = theme;
+		const { model, fog, lights } = theme;
 
 		// Model
 		if (model.plant) this.updateModel(model.plant.path, 'plant');
@@ -95,12 +94,12 @@ export class SceneManager implements ISceneManager {
 			}
 
 			if (subject instanceof Fog) {
-				subject.update({ color: fog.color });
+				subject.update({ color: fog.color, density: fog.density });
 			}
 
-			if (subject instanceof Ground) {
-				subject.update({ color: ground.color });
-			}
+			// if (subject instanceof Ground) {
+			// 	subject.update({ color: shadow.color });
+			// }
 		}
 	}
 
@@ -109,6 +108,7 @@ export class SceneManager implements ISceneManager {
 	private buildScene(): Scene {
 		const scene = new THREE.Scene();
 		scene.environment = null;
+		scene.background = null;
 
 		return scene;
 	}
@@ -118,6 +118,7 @@ export class SceneManager implements ISceneManager {
 			canvas: this._canvas,
 			antialias: true,
 			powerPreference: 'high-performance',
+			alpha: true,
 		});
 		renderer.outputColorSpace = THREE.SRGBColorSpace;
 		renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -162,8 +163,8 @@ export class SceneManager implements ISceneManager {
 		controls.keyRotateSpeed = 20;
 		// controls.listenToKeyEvents(window); <-- ERROR: Prevents any other element from using their keyboard listeners (such as the caret of input fields not moveable)
 
-		controls.minPolarAngle = Math.PI / 2.8;
-		controls.maxPolarAngle = Math.PI / 2.8;
+		controls.minPolarAngle = Math.PI / 2.5;
+		controls.maxPolarAngle = Math.PI / 2.5;
 
 		controls.target.set(0, 0.15, 0);
 
@@ -171,14 +172,10 @@ export class SceneManager implements ISceneManager {
 	}
 
 	private createSceneSubjects(scene: Scene, theme: SceneTheme): SceneSubject[] {
-		const { fog, ground, model } = theme;
+		const { fog, model } = theme;
 
 		const generalLightsSubject = new GeneralLights(scene);
 		const groundSubject = new Ground({
-			scene: scene,
-			color: ground.color,
-		});
-		const skySubject = new Sky({
 			scene: scene,
 		});
 		const fogSubject = new Fog({
@@ -195,7 +192,6 @@ export class SceneManager implements ISceneManager {
 		const sceneSubjects: SceneSubject[] = [
 			generalLightsSubject,
 			groundSubject,
-			skySubject,
 			fogSubject,
 			modelSubject,
 		];

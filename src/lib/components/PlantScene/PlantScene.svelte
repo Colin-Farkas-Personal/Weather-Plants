@@ -3,22 +3,35 @@
 	import { SceneManager } from './SceneManager/SceneManager';
 	import { defaultTheme } from './themes/default';
 	import type { SceneTheme } from './themes/theme.types';
+	import { calculateDayTimeBackgroundGradient } from './dayTimeModifier';
 
 	// Props
 	interface PlantSceneProps {
 		sceneTheme: SceneTheme;
-		dailyHour?: number;
+		currentHour?: number;
 	}
 
-	let { sceneTheme, dailyHour }: PlantSceneProps = $props();
+	let { sceneTheme, currentHour = 12 }: PlantSceneProps = $props();
 
 	// Variables
+	let sceneBackgroundGradientColors = $derived.by(() => {
+		const params = {
+			hourOfDay: currentHour,
+			sunriseHour: 6,
+			sunsetHour: 18,
+			baseGradient: sceneTheme.background.color,
+		};
+
+		return calculateDayTimeBackgroundGradient(params);
+	});
+
 	let canvas: HTMLCanvasElement;
 	let plantSceneManager: SceneManager | null;
 	let rafID: number | null;
 
 	// Initialize Scene Manager
 	onMount(() => {
+		// Create Scene Manager
 		plantSceneManager = new SceneManager(canvas, defaultTheme);
 		render();
 
@@ -75,7 +88,10 @@
 
 <svelte:window on:resize={onResizeHandler} />
 
-<figure class="size-container">
+<figure
+	class="size-container"
+	style="background: linear-gradient(to bottom, {sceneBackgroundGradientColors[0]}, {sceneBackgroundGradientColors[1]})"
+>
 	<canvas id="plant-scene" class="plant-scene" tabindex="-1" bind:this={canvas}></canvas>
 </figure>
 

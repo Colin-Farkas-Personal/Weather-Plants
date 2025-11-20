@@ -1,27 +1,45 @@
-import type { SceneTheme, ThemeMap } from './theme.types';
+import type { HSLColor, SceneTheme, ThemeMap } from './theme.types';
 
-export const modelPathCactus = '/models/tree/tree.glb';
+export const modelPathTree = '/models/tree/tree.glb';
+
+const backgroundGradientColor50: [HSLColor, HSLColor] = [
+	'hsla(0, 0%, 95%, 1.00)',
+	'hsla(0, 0%, 90%, 1.00)',
+];
+const backgroundGradientColor100: [HSLColor, HSLColor] = [
+	'hsla(0, 0%, 70%, 1.00)',
+	'hsla(0, 0%, 90%, 1.00)',
+];
+const backgroundGradientColor100Snow: [HSLColor, HSLColor] = [
+	'hsla(0, 0%, 70%, 1.00)',
+	'hsla(0, 0%, 100%, 1.00)',
+];
+const backgroundGradientColor200: [HSLColor, HSLColor] = [
+	'hsla(0, 0%, 50%, 1.00)',
+	'hsla(0, 0%, 70%, 1.00)',
+];
 
 const baseColdTheme: SceneTheme = {
 	model: {
 		plant: {
-			path: modelPathCactus,
+			path: modelPathTree,
 		},
 	},
 	fog: {
-		color: '#e6e6e7ff',
+		color: 'hsla(0, 0%, 92%, 1.00)',
+		density: 0,
 	},
-	ground: {
-		color: '#F7F5FB',
+	background: {
+		color: backgroundGradientColor50,
 	},
 	lights: {
 		ambient: {
-			color: '#F7F5FB',
-			intensity: 0.75,
+			color: 'hsl(0, 0%, 100%)',
+			intensity: 1,
 		},
 		front: {
-			color: '#F7F5FB',
-			intensity: 70,
+			color: 'hsl(0, 0%, 100%)',
+			intensity: 90,
 		},
 	},
 };
@@ -36,60 +54,44 @@ const coldTheme: Partial<ThemeMap> = {
 	SUNNY_CLOUDY: {
 		...baseColdTheme,
 	},
+	FREEZING: {
+		...baseColdTheme,
+	},
 	CLOUDY: {
 		...baseColdTheme,
-		fog: {
-			color: '#bfbec1ff',
+		background: {
+			color: backgroundGradientColor100,
 		},
-		ground: {
-			color: '#F7F5FB',
+	},
+	FOGGY: {
+		...baseColdTheme,
+		fog: {
+			color: 'hsla(0, 0%, 95%, 1.00)',
+			density: 0.6,
 		},
 	},
 	RAINY: {
 		...baseColdTheme,
-		fog: {
-			color: '#a5a4a7ff',
+		background: {
+			color: backgroundGradientColor100,
 		},
-		ground: {
-			color: '#F7F5FB',
+	},
+	SNOWY: {
+		...baseColdTheme,
+		background: {
+			color: backgroundGradientColor100Snow,
 		},
 	},
 	THUNDER: {
 		...baseColdTheme,
-		fog: {
-			color: '#786f88ff',
-		},
-		ground: {
-			color: '#d4d2d5ff',
-		},
-		lights: {
-			ambient: {
-				color: '#F7F5FB',
-				intensity: 0.75,
-			},
-			front: {
-				color: '#bbb5c5ff',
-				intensity: 40,
-			},
+		background: {
+			color: backgroundGradientColor200,
 		},
 	},
 	TORNADO: {
 		...baseColdTheme,
-		fog: {
-			color: '#786f88ff',
-		},
-		ground: {
-			color: '#d4d2d5ff',
-		},
-		lights: {
-			ambient: {
-				color: '#F7F5FB',
-				intensity: 0.75,
-			},
-			front: {
-				color: '#bbb5c5ff',
-				intensity: 40,
-			},
+		background: {
+			color: backgroundGradientColor200,
 		},
 	},
 };
