@@ -1,19 +1,32 @@
-import type { SceneTheme, ThemeMap } from './theme.types';
+import type { HSLColor, SceneTheme, ThemeMap } from './theme.types';
 
 export const modelPathCactus = '/models/cactus/cactus.glb';
 
-const basePlesantTheme: SceneTheme = {
+const backgroundGradientColor50: [HSLColor, HSLColor] = [
+	'hsla(49, 70%, 80%, 1.00)',
+	'hsla(48, 70%, 75%, 1.00)',
+];
+const backgroundGradientColor100: [HSLColor, HSLColor] = [
+	'hsla(49, 100%, 70%, 1.00)',
+	'hsla(48, 100%, 75%, 1.00)',
+];
+const backgroundGradientColor200: [HSLColor, HSLColor] = [
+	'hsla(49, 100%, 50%, 1.00)',
+	'hsla(48, 100%, 45%, 1.00)',
+];
+
+const baseHotTheme: SceneTheme = {
 	model: {
 		plant: {
 			path: modelPathCactus,
 		},
 	},
 	fog: {
-		color: 'hsla(35, 38%, 82%, 1.00)',
+		color: 'hsla(34, 76%, 61%, 1.00)',
 		density: 0,
 	},
 	background: {
-		color: ['hsla(49, 100%, 83%, 1.00)', 'hsla(48, 100%, 81%, 1.00)'],
+		color: backgroundGradientColor50,
 	},
 	lights: {
 		ambient: {
@@ -29,13 +42,44 @@ const basePlesantTheme: SceneTheme = {
 
 const hotTheme: Partial<ThemeMap> = {
 	SUNNY: {
-		...basePlesantTheme,
+		...baseHotTheme,
 	},
 	WINDY: {
-		...basePlesantTheme,
+		...baseHotTheme,
 	},
 	SUNNY_CLOUDY: {
-		...basePlesantTheme,
+		...baseHotTheme,
+	},
+	CLOUDY: {
+		...baseHotTheme,
+		background: {
+			color: backgroundGradientColor100,
+		},
+	},
+	FOGGY: {
+		...baseHotTheme,
+		fog: {
+			color: 'hsla(0, 0%, 95%, 1.00)',
+			density: 0.6,
+		},
+	},
+	RAINY: {
+		...baseHotTheme,
+		background: {
+			color: backgroundGradientColor100,
+		},
+	},
+	THUNDER: {
+		...baseHotTheme,
+		background: {
+			color: backgroundGradientColor200,
+		},
+	},
+	TORNADO: {
+		...baseHotTheme,
+		background: {
+			color: backgroundGradientColor200,
+		},
 	},
 };
 

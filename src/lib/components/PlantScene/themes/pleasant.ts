@@ -1,7 +1,21 @@
-import type { SceneTheme, ThemeMap } from './theme.types';
+import type { HSLColor, SceneTheme, ThemeMap } from './theme.types';
 
 export const modelPathSunflower = '/models/sunflower/sunflower.glb';
-const basePlesantTheme: SceneTheme = {
+
+const backgroundGradientColor50: [HSLColor, HSLColor] = [
+	'hsla(206, 100%, 85%, 1.00)',
+	'hsla(203, 70%, 90%, 1.00)',
+];
+const backgroundGradientColor100: [HSLColor, HSLColor] = [
+	'hsla(0, 100%, 70%, 1.00)',
+	'hsla(0, 100%, 90%, 1.00)',
+];
+const backgroundGradientColor200: [HSLColor, HSLColor] = [
+	'hsla(0, 100%, 50%, 1.00)',
+	'hsla(0, 100%, 70%, 1.00)',
+];
+
+const basePleasantTheme: SceneTheme = {
 	model: {
 		plant: {
 			path: modelPathSunflower,
@@ -12,7 +26,7 @@ const basePlesantTheme: SceneTheme = {
 		density: 0,
 	},
 	background: {
-		color: ['hsla(206, 100%, 91%, 1.00)', 'hsla(203, 63%, 90%, 1.00)'],
+		color: backgroundGradientColor50,
 	},
 	lights: {
 		ambient: {
@@ -28,13 +42,44 @@ const basePlesantTheme: SceneTheme = {
 
 const pleasantTheme: Partial<ThemeMap> = {
 	SUNNY: {
-		...basePlesantTheme,
+		...basePleasantTheme,
 	},
 	WINDY: {
-		...basePlesantTheme,
+		...basePleasantTheme,
 	},
 	SUNNY_CLOUDY: {
-		...basePlesantTheme,
+		...basePleasantTheme,
+	},
+	CLOUDY: {
+		...basePleasantTheme,
+		background: {
+			color: backgroundGradientColor100,
+		},
+	},
+	FOGGY: {
+		...basePleasantTheme,
+		fog: {
+			color: 'hsla(0, 0%, 95%, 1.00)',
+			density: 0.6,
+		},
+	},
+	RAINY: {
+		...basePleasantTheme,
+		background: {
+			color: backgroundGradientColor100,
+		},
+	},
+	THUNDER: {
+		...basePleasantTheme,
+		background: {
+			color: backgroundGradientColor200,
+		},
+	},
+	TORNADO: {
+		...basePleasantTheme,
+		background: {
+			color: backgroundGradientColor200,
+		},
 	},
 };
 
