@@ -5,6 +5,7 @@
 	import OverviewRange from '$lib/components/OverviewRange/OverviewRange.svelte';
 	import OverviewTemperature from '$lib/components/OverviewTemperature/OverviewTemperature.svelte';
 	import PageLayout from '$lib/components/Page/PageLayout.svelte';
+	import { calculateDayTimeBackgroundGradient } from '$lib/components/PlantScene/dayTimeModifier';
 	import { getSceneTheme } from '$lib/components/PlantScene/parseTheme';
 	import PlantScene from '$lib/components/PlantScene/PlantScene.svelte';
 	import conditionStatusStore from '$lib/globals/conditionStatusStore.svelte.js';
@@ -22,13 +23,25 @@
 	let { data }: PageProps = $props();
 
 	// State
+	const orientation = windowOrientation;
 	let currentSceneTheme = $derived(getSceneTheme($temperatureRangeStore, $conditionStatusStore));
-	const currentHour = $derived(getCurrentHour());
+	let currentHour = $state(getCurrentHour());
+	let sceneBackgroundGradientColors = $derived.by(() => {
+		const params = {
+			hourOfDay: currentHour,
+			sunriseHour: 6,
+			sunsetHour: 18,
+			baseGradient: currentSceneTheme.background.color,
+		};
+
+		return calculateDayTimeBackgroundGradient(params);
+	});
 
 	$effect(() => {
 		updateOverviewData();
 	});
 
+	// Logic
 	async function updateOverviewData() {
 		const streamedOverviewData = await data.streamed.overview;
 		temperatureRangeStore.setRange(streamedOverviewData.temperature);
@@ -40,14 +53,12 @@
 	function setThemeAttributeName(theme: TemperatureRange | 'default') {
 		document.documentElement.setAttribute('data-theme', theme.toLowerCase());
 	}
-
-	// Logic
-	const orientation = windowOrientation;
 </script>
 
 <PageLayout
 	heading={data.location.name}
 	subHeading={data.location.country}
+	sceneBackground={sceneBackgroundGradientColors}
 	className="overview-page"
 >
 	{#snippet MainTopBar()}
@@ -61,6 +72,10 @@
 			<p>Loading data</p>
 		{:then streamed}
 			<article class={`overview-page-data ${$orientation}`}>
+				<!-- <h4>{currentHour}</h4>
+				<p>0</p>
+				<input type="range" min="0" max="24" step="0.25" bind:value={currentHour} />
+				<p>24</p> -->
 				<OverviewCondition condition={streamed.condition.text} />
 				<OverviewTemperature
 					temperature={streamed.temperature}
@@ -71,7 +86,7 @@
 		{/await}
 	{/snippet}
 	{#snippet Scene()}
-		<PlantScene sceneTheme={currentSceneTheme} {currentHour} />
+		<PlantScene sceneTheme={currentSceneTheme} />
 	{/snippet}
 </PageLayout>
 

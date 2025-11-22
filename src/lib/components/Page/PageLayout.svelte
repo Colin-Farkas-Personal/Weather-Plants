@@ -3,6 +3,7 @@
 	import { windowOrientation } from '$lib/globals/windowStore';
 	import SecondarySection from '../Section/SecondarySection.svelte';
 	import PrimarySection from '../Section/PrimarySection.svelte';
+	import type { BackgroundGradientColor } from '../PlantScene/themes/theme.types';
 
 	interface SecondarySectionProps {
 		TopBar?: Snippet;
@@ -17,6 +18,8 @@
 		PrimarySectionContent: Snippet;
 		secondarySectionProps?: SecondarySectionProps;
 		Scene?: Snippet;
+		sceneBackground?: BackgroundGradientColor;
+		blurScene?: boolean;
 		className?: string;
 	}
 
@@ -27,6 +30,8 @@
 		PrimarySectionContent,
 		secondarySectionProps,
 		Scene,
+		sceneBackground,
+		blurScene,
 		className,
 	}: PageLayoutProps = $props();
 
@@ -47,6 +52,8 @@
 			{Scene}
 			contentHeading={secondaryContentHeading}
 			Content={SecondaryContentSnippet}
+			{sceneBackground}
+			{blurScene}
 		/>
 		<PrimarySection Content={PrimarySectionContent} />
 	{:else if $orientation === 'landscape'}
@@ -61,6 +68,8 @@
 			TopBar={secondaryTopBar}
 			contentHeading={secondaryContentHeading}
 			{Scene}
+			{sceneBackground}
+			{blurScene}
 			Content={SecondaryContentSnippet}
 		/>
 	{/if}

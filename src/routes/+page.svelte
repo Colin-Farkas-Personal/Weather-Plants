@@ -12,6 +12,7 @@
 	import GpsBoldIcon from '~icons/ph/gps-bold';
 	import type { SearchData } from './+page.server';
 	import { getCurrentHour } from '$lib/helpers/current-hour';
+	import { calculateDayTimeBackgroundGradient } from '$lib/components/PlantScene/dayTimeModifier';
 
 	type SearchType = 'input' | 'current';
 
@@ -23,7 +24,18 @@
 	// State
 	const orientation = windowOrientation;
 	const currentHour = $derived(getCurrentHour());
+	let sceneBackgroundGradientColors = $derived.by(() => {
+		const params = {
+			hourOfDay: currentHour,
+			sunriseHour: 6,
+			sunsetHour: 18,
+			baseGradient: defaultTheme.background.color,
+		};
+
+		return calculateDayTimeBackgroundGradient(params);
+	});
 	let currentSearchType = $derived(getCurrentSearchType());
+	const hasSearched = $derived(currentSearchType.length > 0);
 	let secondarySectionHeading = $derived(setSecondarySectionHeading);
 
 	/// Lifecycle
@@ -108,6 +120,8 @@
 		heading: secondarySectionHeading(),
 	}}
 	className="main-page"
+	sceneBackground={sceneBackgroundGradientColors}
+	blurScene={hasSearched}
 >
 	{#snippet PrimarySectionContent()}
 		<div class={`main-page-selection ${$orientation}`}>
@@ -120,7 +134,7 @@
 		</div>
 	{/snippet}
 	{#snippet Scene()}
-		<PlantScene sceneTheme={defaultTheme} {currentHour} />
+		<PlantScene sceneTheme={defaultTheme} />
 	{/snippet}
 </PageLayout>
 

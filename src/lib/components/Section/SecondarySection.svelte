@@ -2,12 +2,15 @@
 	import { windowOrientation } from '$lib/globals/windowStore';
 	import type { Snippet } from 'svelte';
 	import SectionHeading from './SectionHeading.svelte';
+	import type { BackgroundGradientColor } from '../PlantScene/themes/theme.types';
 
 	interface SecondarySectionProps {
 		TopBar?: Snippet;
 		heading?: string;
 		subHeading?: string;
 		Scene?: Snippet<[]> | undefined;
+		sceneBackground?: BackgroundGradientColor;
+		blurScene?: boolean;
 		Content?: Snippet<[]> | undefined;
 		contentHeading?: string;
 	}
@@ -17,11 +20,13 @@
 		heading,
 		subHeading,
 		Scene,
+		sceneBackground,
+		blurScene: blurContent = false,
 		Content = undefined,
 		contentHeading,
 	}: SecondarySectionProps = $props();
 
-	// Logic
+	// State
 	let orientation = windowOrientation;
 </script>
 
@@ -29,6 +34,8 @@
 	<div
 		id="secondary-section-inner"
 		class={`secondary-section-inner ${TopBar ? 'with-top-bar' : ''}`}
+		style:background={sceneBackground &&
+			`linear-gradient(to bottom, ${sceneBackground[0]}, ${sceneBackground[1]})`}
 	>
 		{#if $orientation === 'portrait'}
 			<section class="secondary-section-inner-hidden">
@@ -39,7 +46,10 @@
 				{/if}
 				<SectionHeading heading={contentHeading || heading} {subHeading} />
 			</section>
-			<section class="secondary-section-inner-display">
+			<section
+				class="secondary-section-inner-display"
+				style:backdrop-filter={blurContent ? 'blur(80px)' : 'none'}
+			>
 				{#if TopBar}
 					<nav class="secondary-section-inner-display-top-bar">
 						{@render TopBar()}
@@ -63,7 +73,10 @@
 					</div>
 				{/if}
 				{#if contentHeading?.trim()}
-					<div class="secondary-section-inner-display-content">
+					<div
+						class="secondary-section-inner-display-content"
+						style:backdrop-filter={blurContent ? 'blur(150px)' : 'none'}
+					>
 						<h2 class="secondary-section-inner-display-content-heading">
 							{contentHeading}
 						</h2>
@@ -136,8 +149,6 @@
 
 				max-height: 100%;
 				padding: 1rem var(--fluid-size-em-medium) 0;
-
-				backdrop-filter: blur(80px);
 
 				&:has(.secondary-section-inner-display-content) {
 					height: 100%;
@@ -259,8 +270,6 @@
 					padding: 6rem 4rem 0;
 
 					text-align: center;
-
-					backdrop-filter: blur(150px);
 
 					&-heading {
 						font-size: 40px;
