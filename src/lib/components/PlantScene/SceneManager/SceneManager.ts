@@ -4,7 +4,7 @@ import { OrbitControls } from 'three/examples/jsm/Addons.js';
 import { Fog } from '../subjects/Fog';
 import { GeneralLights } from '../subjects/GeneralLights';
 import { Ground } from '../subjects/Ground';
-import { Models } from '../subjects/models/Models';
+import { Model } from '../subjects/Model';
 import type { SceneSubject } from '../subjects/subject.types';
 import type { SceneTheme } from '../themes/theme.types';
 import { getScreenOrientation } from './aspect-ration';
@@ -21,6 +21,11 @@ type CanvasDimensions = {
 	height: number;
 };
 
+type Models = {
+	pot: Model | undefined;
+	plant: Model | undefined;
+};
+
 export class SceneManager implements ISceneManager {
 	private _canvas: HTMLCanvasElement;
 	private _theme: SceneTheme;
@@ -29,7 +34,7 @@ export class SceneManager implements ISceneManager {
 	private camera: THREE.PerspectiveCamera;
 	private controls: OrbitControls;
 	private sceneSubjects: SceneSubject[];
-	private model: Models | null = null;
+	private models: Models = { pot: undefined, plant: undefined };
 
 	private get canvasDimensions(): CanvasDimensions {
 		return {
@@ -84,8 +89,15 @@ export class SceneManager implements ISceneManager {
 		const { model, fog, lights } = theme;
 
 		// Model
-		if (model.plant) this.updateModel(model.plant.path, 'plant');
-		if (model.pot) this.updateModel(model.pot.path, 'pot');
+		const isDifferentPlantModel = model.plant?.path !== this.models.plant?._modelPath;
+		console.error('new plant', model.plant?.path, 'old plant', this.models.plant?._modelPath);
+		if (model.plant && isDifferentPlantModel) {
+			this.updateModel(model.plant.path, 'plant');
+		}
+
+		if (model.pot) {
+			this.updateModel(model.pot.path, 'pot');
+		}
 
 		// Meshes & Lights
 		for (const subject of this.sceneSubjects) {
@@ -120,6 +132,7 @@ export class SceneManager implements ISceneManager {
 			powerPreference: 'high-performance',
 			alpha: true,
 		});
+
 		renderer.outputColorSpace = THREE.SRGBColorSpace;
 		renderer.toneMapping = THREE.ACESFilmicToneMapping;
 		renderer.toneMappingExposure = 1.5;
@@ -182,27 +195,27 @@ export class SceneManager implements ISceneManager {
 			scene: scene,
 			color: fog.color,
 		});
-		const modelSubject = new Models({
+		const potSubject = new Model({
 			scene: scene,
-			light: generalLightsSubject.frontLight,
-			potModelPath: model?.pot?.path as string,
+			modelPath: model?.pot?.path as string,
 		});
-		this.model = modelSubject;
 
 		const sceneSubjects: SceneSubject[] = [
 			generalLightsSubject,
 			groundSubject,
 			fogSubject,
-			modelSubject,
+			potSubject,
 		];
 
 		return sceneSubjects;
 	}
 
 	private updateModel(plantModelPath: string, modelType: 'plant' | 'pot') {
-		if (this.model) {
-			this.model.dispose(modelType);
-			this.model.create(plantModelPath, modelType);
+		if (this.models[modelType]) {
+			this.models[modelType].dispose();
+			this.models[modelType].create(plantModelPath);
 		}
+
+		this.models[modelType] = new Model({ scene: this.scene, modelPath: plantModelPath });
 	}
 }

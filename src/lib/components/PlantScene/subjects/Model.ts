@@ -1,27 +1,21 @@
-import * as THREE from 'three';
-import type { SceneSubject } from '../subject.types';
 import { GLTFLoader, type GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import type { SceneSubject } from './subject.types';
+import * as THREE from 'three';
 
-interface ConstructorParams {
-	scene: THREE.Scene;
-	modelPath: string;
-}
-
-export class Pot implements SceneSubject {
+export class Model implements SceneSubject {
 	private _scene: THREE.Scene;
-	private modelPath: string;
 	private model: THREE.Group | null = null;
+	public _modelPath: string;
 
-	constructor({ scene, modelPath }: ConstructorParams) {
+	constructor({ scene, modelPath }: { scene: THREE.Scene; modelPath: string }) {
 		this._scene = scene;
-		this.modelPath = modelPath;
+		this._modelPath = modelPath;
 
-		if (this.modelPath) {
-			this.create(this.modelPath);
-		}
+		this.create(this._modelPath);
 	}
 
-	create(modelPath: string): void {
+	// ---- PUBLIC METHODS ----
+	create(modelPath: string) {
 		this.model = this.buildModel(modelPath);
 		this._scene.add(this.model);
 	}
@@ -36,6 +30,7 @@ export class Pot implements SceneSubject {
 		}
 	}
 
+	// ---- PRIVATE METHODS ----
 	private buildModel(path: string): THREE.Group {
 		const loader = new GLTFLoader();
 		const model = new THREE.Group();

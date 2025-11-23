@@ -1,7 +1,7 @@
 import type { ConditionStatus } from '$lib/types/condition';
 import type { TemperatureRange } from '$lib/types/temperature';
 import type { LightNames, LightSourceAttributes } from '../subjects/general-lights.types';
-import type { ModelAttributes, ModelType } from '../subjects/models/models.types';
+import type { ModelAttributes, ModelType } from '../subjects/models.types';
 
 type TemperatureThemeMap = Record<TemperatureRange, Partial<ThemeMap>>;
 type ThemeMap = Record<ConditionStatus, SceneTheme>;

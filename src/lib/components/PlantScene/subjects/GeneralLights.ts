@@ -56,7 +56,6 @@ export class GeneralLights implements SceneSubject {
 		spotLight.position.set(x, y, z);
 
 		spotLight.castShadow = true;
-		spotLight.shadow.mapSize.set(1024, 1024);
 
 		return spotLight;
 	}

@@ -5,7 +5,6 @@
 	import OverviewRange from '$lib/components/OverviewRange/OverviewRange.svelte';
 	import OverviewTemperature from '$lib/components/OverviewTemperature/OverviewTemperature.svelte';
 	import PageLayout from '$lib/components/Page/PageLayout.svelte';
-	import { calculateDayTimeBackgroundGradient } from '$lib/components/PlantScene/dayTimeModifier';
 	import { getSceneTheme } from '$lib/components/PlantScene/parseTheme';
 	import PlantScene from '$lib/components/PlantScene/PlantScene.svelte';
 	import conditionStatusStore from '$lib/globals/conditionStatusStore.svelte.js';
@@ -24,18 +23,16 @@
 
 	// State
 	const orientation = windowOrientation;
-	let currentSceneTheme = $derived(getSceneTheme($temperatureRangeStore, $conditionStatusStore));
 	let currentHour = $state(getCurrentHour());
-	let sceneBackgroundGradientColors = $derived.by(() => {
-		const params = {
-			hourOfDay: currentHour,
+	let currentSceneTheme = $derived(
+		getSceneTheme({
+			range: $temperatureRangeStore,
+			condition: $conditionStatusStore,
+			currentHour: currentHour,
 			sunriseHour: 6,
 			sunsetHour: 18,
-			baseGradient: currentSceneTheme.background.color,
-		};
-
-		return calculateDayTimeBackgroundGradient(params);
-	});
+		}),
+	);
 
 	$effect(() => {
 		updateOverviewData();
@@ -58,7 +55,7 @@
 <PageLayout
 	heading={data.location.name}
 	subHeading={data.location.country}
-	sceneBackground={sceneBackgroundGradientColors}
+	sceneBackground={currentSceneTheme.background.color}
 	className="overview-page"
 >
 	{#snippet MainTopBar()}
