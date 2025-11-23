@@ -88,8 +88,15 @@ function applyDayTimeModifier({
 }
 
 function setScreenBackgroundColor(color: string): void {
-	const bodyElement = document.body as HTMLElement;
-	bodyElement.style.backgroundColor = color;
+	document.body.style.backgroundColor = color;
+
+	let themeMeta = document.querySelector('meta[name="theme-color"]') as HTMLMetaElement;
+	if (!themeMeta) {
+		themeMeta = document.createElement('meta');
+		themeMeta.name = 'theme-color';
+		document.head.appendChild(themeMeta);
+	}
+	themeMeta.content = color;
 }
 
 export { getSceneTheme };
