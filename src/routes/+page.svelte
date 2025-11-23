@@ -2,17 +2,19 @@
 	import { page } from '$app/state';
 	import LocateMeButton from '$lib/components/LocateMeButton/LocateMeButton.svelte';
 	import PageLayout from '$lib/components/Page/PageLayout.svelte';
+	import { getSceneTheme } from '$lib/components/PlantScene/parseTheme';
 	import PlantScene from '$lib/components/PlantScene/PlantScene.svelte';
 	import { defaultTheme } from '$lib/components/PlantScene/themes/default';
 	import SearchResultItem from '$lib/components/SearchResult/SearchResultItem.svelte';
 	import SearchResultList from '$lib/components/SearchResult/SearchResultList.svelte';
 	import LocationTextInput from '$lib/components/TextInput/LocationTextInput.svelte';
+	import conditionStatusStore from '$lib/globals/conditionStatusStore.svelte';
+	import temperatureRangeStore from '$lib/globals/temperatureRangeStore.svelte';
 	import { windowOrientation } from '$lib/globals/windowStore';
+	import { getCurrentHour } from '$lib/helpers/current-hour';
 	import { onMount } from 'svelte';
 	import GpsBoldIcon from '~icons/ph/gps-bold';
 	import type { SearchData } from './+page.server';
-	import { getCurrentHour } from '$lib/helpers/current-hour';
-	import { calculateDayTimeBackgroundGradient } from '$lib/components/PlantScene/dayTimeModifier';
 
 	type SearchType = 'input' | 'current';
 
@@ -24,16 +26,15 @@
 	// State
 	const orientation = windowOrientation;
 	const currentHour = $derived(getCurrentHour());
-	let sceneBackgroundGradientColors = $derived.by(() => {
-		const params = {
-			hourOfDay: currentHour,
+	let currentSceneTheme = $derived(
+		getSceneTheme({
+			range: $temperatureRangeStore,
+			condition: $conditionStatusStore,
+			currentHour: currentHour,
 			sunriseHour: 6,
 			sunsetHour: 18,
-			baseGradient: defaultTheme.background.color,
-		};
-
-		return calculateDayTimeBackgroundGradient(params);
-	});
+		}),
+	);
 	let currentSearchType = $derived(getCurrentSearchType());
 	const hasSearched = $derived(currentSearchType.length > 0);
 	let secondarySectionHeading = $derived(setSecondarySectionHeading);
@@ -120,7 +121,7 @@
 		heading: secondarySectionHeading(),
 	}}
 	className="main-page"
-	sceneBackground={sceneBackgroundGradientColors}
+	sceneBackground={currentSceneTheme.background.color}
 	blurScene={hasSearched}
 >
 	{#snippet PrimarySectionContent()}
