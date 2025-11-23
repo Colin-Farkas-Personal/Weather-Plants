@@ -22,6 +22,7 @@ function getSceneTheme({
 	sunsetHour,
 }: GetSceneThemeParams): SceneTheme {
 	if (!range || !condition) {
+		setScreenBackgroundColor(defaultTheme.background.color[0]);
 		return defaultTheme;
 	}
 
