@@ -22,7 +22,7 @@ function getSceneTheme({
 	sunsetHour,
 }: GetSceneThemeParams): SceneTheme {
 	if (!range || !condition) {
-		setScreenBackgroundColor(defaultTheme.background.color[0]);
+		// setScreenBackgroundColor(defaultTheme.background.color[0]);
 		return defaultTheme;
 	}
 
@@ -89,6 +89,10 @@ function applyDayTimeModifier({
 }
 
 function setScreenBackgroundColor(color: string): void {
+	if (!document) {
+		return;
+	}
+
 	document.body.style.backgroundColor = color;
 
 	let themeMeta = document.querySelector('meta[name="theme-color"]') as HTMLMetaElement;
