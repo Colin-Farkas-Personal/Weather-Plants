@@ -1,3 +1,4 @@
+import { browser } from '$app/environment';
 import type { ConditionStatus } from '$lib/types/condition';
 import type { TemperatureRange } from '$lib/types/temperature';
 import { calculateDayTimeBackgroundGradient } from './dayTimeModifier';
@@ -22,7 +23,7 @@ function getSceneTheme({
 	sunsetHour,
 }: GetSceneThemeParams): SceneTheme {
 	if (!range || !condition) {
-		// setScreenBackgroundColor(defaultTheme.background.color[0]);
+		setScreenBackgroundColor(defaultTheme.background.color[0]);
 		return defaultTheme;
 	}
 
@@ -89,9 +90,7 @@ function applyDayTimeModifier({
 }
 
 function setScreenBackgroundColor(color: string): void {
-	if (!document) {
-		return;
-	}
+	if (!browser) return;
 
 	document.body.style.backgroundColor = color;
 
