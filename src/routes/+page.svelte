@@ -8,7 +8,6 @@
 	import SearchResultItem from '$lib/components/SearchResult/SearchResultItem.svelte';
 	import SearchResultList from '$lib/components/SearchResult/SearchResultList.svelte';
 	import LocationTextInput from '$lib/components/TextInput/LocationTextInput.svelte';
-	import conditionStatusStore from '$lib/globals/conditionStatusStore.svelte';
 	import temperatureRangeStore from '$lib/globals/temperatureRangeStore.svelte';
 	import { windowOrientation } from '$lib/globals/windowStore';
 	import { getCurrentHour } from '$lib/helpers/current-hour';
@@ -29,7 +28,7 @@
 	let currentSceneTheme = $derived(
 		getSceneTheme({
 			range: $temperatureRangeStore,
-			condition: $conditionStatusStore,
+			condition: null,
 			currentHour: currentHour,
 			sunriseHour: 6,
 			sunsetHour: 18,

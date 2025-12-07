@@ -34,7 +34,7 @@
 		margin-bottom: 1.5rem;
 
 		.heading {
-			color: var(--theme-text-primary-inversed);
+			color: var(--theme-text-primary);
 			font-size: var(--fluid-size-em-medium-plus);
 		}
 

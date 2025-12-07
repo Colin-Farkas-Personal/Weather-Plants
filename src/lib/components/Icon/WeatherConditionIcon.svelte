@@ -1,23 +1,16 @@
 <script lang="ts">
-	import conditionStatusStore from '$lib/globals/conditionStatusStore.svelte';
-	import { onMount, type Component } from 'svelte';
+	import { type CurrentCondition } from '$lib/globals/conditionStatusStore.svelte';
 	import { parseWeatherIcon } from './WeatherConditionIcon.parseWeatherIcon';
 
 	// Props
-	let Icon = $state<Component | null>();
+	interface WeatherConditionIconProps {
+		conditionStatus: CurrentCondition['status'];
+	}
 
-	// Logic
-	onMount(() => {
-		const unsubscribe = conditionStatusStore.subscribe((s) => {
-			if (s) {
-				Icon = parseWeatherIcon(s);
-			}
-		});
+	let { conditionStatus }: WeatherConditionIconProps = $props();
 
-		return () => {
-			unsubscribe();
-		};
-	});
+	// State
+	let Icon = parseWeatherIcon(conditionStatus);
 </script>
 
 {#if Icon}<Icon />{/if}

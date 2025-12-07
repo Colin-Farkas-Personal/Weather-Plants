@@ -14,6 +14,11 @@
 
 <style lang="scss">
 	.overview-temperature {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: var(--fluid-size-em-mini);
+
 		text-align: center;
 
 		.value {
@@ -23,7 +28,7 @@
 		}
 
 		.label {
-			font-weight: 500;
+			font-weight: bold;
 			font-size: var(--fluid-size-em-small-plus);
 			color: var(--theme-text-secondary);
 		}

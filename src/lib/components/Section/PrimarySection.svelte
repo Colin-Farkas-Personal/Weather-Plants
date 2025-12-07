@@ -84,7 +84,7 @@
 		scrollbar-width: thin;
 
 		container-type: inline-size;
-		font-size: clamp(20px, 1.5cqi, 48px);
+		font-size: clamp(20px, 1.2cqi, 42px);
 
 		.primary-section-top-bar {
 			width: 100%;

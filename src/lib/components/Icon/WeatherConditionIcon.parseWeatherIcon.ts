@@ -14,7 +14,7 @@ import type { Component } from 'svelte';
 const weatherConditionIcons: Record<ConditionStatus, Component> = {
 	SUNNY: SunBold,
 	WINDY: WindBold,
-	SUNNY_CLOUDY: CloudSunBold,
+	PARTLY_CLOUDY: CloudSunBold,
 	CLOUDY: CloudBold,
 	FOGGY: CloudFogBold,
 	RAINY: CloudRainBold,

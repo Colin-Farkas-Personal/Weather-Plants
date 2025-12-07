@@ -17,9 +17,15 @@ interface DailyRange {
 	max: number;
 }
 
+type Astro = {
+	sunrise: string;
+	sunset: string;
+};
+
 type WeatherOverviewRaw = {
 	temperature_tempC: number;
 	feelsLike_tempC: number;
+	astro: Astro;
 	condition: Condition;
 	dailyRange: DailyRangeRaw;
 	lastUpdated?: string;
@@ -28,6 +34,7 @@ type WeatherOverviewRaw = {
 type StreamedOverviewData = {
 	temperature: number;
 	feelsLike: number;
+	astro: Astro;
 	condition: Condition;
 	dailyRange: DailyRange;
 	lastUpdated?: string;

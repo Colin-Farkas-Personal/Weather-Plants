@@ -51,7 +51,7 @@ const coldTheme: Partial<ThemeMap> = {
 	WINDY: {
 		...baseColdTheme,
 	},
-	SUNNY_CLOUDY: {
+	PARTLY_CLOUDY: {
 		...baseColdTheme,
 	},
 	FREEZING: {

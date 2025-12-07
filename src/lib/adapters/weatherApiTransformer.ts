@@ -19,6 +19,10 @@ export type ResponseForecast = {
 				mintemp_c: number;
 				maxtemp_c: number;
 			};
+			astro: {
+				sunrise: string;
+				sunset: string;
+			};
 		}>;
 	};
 };
@@ -30,6 +34,10 @@ function transformWeatherData(
 	return {
 		temperature_tempC: responseCurrent.current.temp_c,
 		feelsLike_tempC: responseCurrent.current.feelslike_c,
+		astro: {
+			sunrise: responseForecast.forecast.forecastday[0].astro.sunrise,
+			sunset: responseForecast.forecast.forecastday[0].astro.sunset,
+		},
 		condition: {
 			text: responseCurrent.current.condition.text,
 			code: responseCurrent.current.condition.code,

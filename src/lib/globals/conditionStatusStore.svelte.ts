@@ -1,77 +1,128 @@
-import type { Condition } from '$lib/types/weather';
-import type { ConditionStatus, WeatherCondition } from '$lib/types/condition';
-import { writable } from 'svelte/store';
+import conditionObject from '$lib/conditions/condition.json';
 
-function parseConditionStatus(condition: Condition['text']) {
-	return weatherConditionStatuses[condition.toLocaleLowerCase()];
-}
-
-const weatherConditionStatuses: Record<WeatherCondition, ConditionStatus> = {
-	'blowing snow': 'SNOWY',
-	'freezing drizzle': 'FREEZING',
-	'freezing fog': 'FREEZING',
-	'heavy freezing drizzle': 'FREEZING',
-	'heavy rain at times': 'RAINY',
-	'heavy rain': 'RAINY',
-	'heavy snow': 'SNOWY',
-	'ice pellets': 'FREEZING',
-	'light drizzle': 'RAINY',
-	'light freezing rain': 'RAINY',
-	'light rain shower': 'RAINY',
-	'light rain': 'RAINY',
-	'light showers of ice pellets': 'FREEZING',
-	'light sleet showers': 'RAINY',
-	'light sleet': 'RAINY',
-	'light snow showers': 'SNOWY',
-	'light snow': 'SNOWY',
-	'moderate or heavy freezing rain': 'FREEZING',
-	'moderate or heavy rain shower': 'RAINY',
-	'moderate or heavy rain with thunder': 'THUNDER',
-	'moderate or heavy showers of ice pellets': 'FREEZING',
-	'moderate or heavy sleet showers': 'RAINY',
-	'moderate or heavy sleet': 'RAINY',
-	'moderate or heavy snow showers': 'SNOWY',
-	'moderate or heavy snow with thunder': 'THUNDER',
-	'moderate rain at times': 'RAINY',
-	'moderate rain': 'RAINY',
-	'moderate snow': 'SNOWY',
-	'partly cloudy': 'SUNNY_CLOUDY',
-	'patchy freezing drizzle possible': 'FREEZING',
-	'patchy heavy snow': 'SNOWY',
-	'patchy light drizzle': 'RAINY',
-	'patchy light rain with thunder': 'THUNDER',
-	'patchy light rain': 'RAINY',
-	'patchy light snow with thunder': 'THUNDER',
-	'patchy light snow': 'SNOWY',
-	'patchy moderate snow': 'SNOWY',
-	'patchy rain nearby': 'RAINY',
-	'patchy rain possible': 'RAINY',
-	'patchy sleet possible': 'RAINY',
-	'patchy snow possible': 'SNOWY',
-	'thundery outbreaks possible': 'THUNDER',
-	'torrential rain shower': 'RAINY',
-	blizzard: 'TORNADO',
-	clear: 'SUNNY',
-	cloudy: 'CLOUDY',
-	fog: 'FOGGY',
-	mist: 'FOGGY',
-	overcast: 'CLOUDY',
-	sunny: 'SUNNY',
+export type CurrentCondition = {
+	status: ConditionStatus;
+	label: ConditionLabel;
+	description: string;
 };
 
-function createConditionStatusStore() {
-	const { update, subscribe } = writable<ConditionStatus | null>();
+export default function getCurrentCondition(
+	conditionCode: number,
+	timeOfDay: 'day' | 'night',
+): CurrentCondition {
+	const status = mapCodeToConditionStatus(timeOfDay)[conditionCode];
 
-	function setCondition(condition: Condition['text']) {
-		const status = parseConditionStatus(condition);
-		// const testStatus: ConditionStatus = 'THUNDER'; // TODO: Remove after testing
-
-		update(() => status);
-	}
-
-	return { subscribe, setCondition };
+	return {
+		status: status,
+		label: statusToConditionLabel[status],
+		description: getConditionDescription(conditionCode, timeOfDay),
+	};
 }
 
-const conditionStatusStore = createConditionStatusStore();
+function mapCodeToConditionStatus(timeOfDay: 'day' | 'night'): Record<number, ConditionStatus> {
+	return {
+		1000: timeOfDay === 'day' ? 'SUNNY' : 'CLEAR',
+		1003: 'PARTLY_CLOUDY',
+		1006: 'CLOUDY',
+		1009: 'CLOUDY',
+		1030: 'FOGGY',
+		1063: 'RAINY',
+		1066: 'SNOWY',
+		1069: 'SNOWY',
+		1072: 'FREEZING',
+		1087: 'THUNDER',
+		1114: 'SNOWY',
+		1117: 'SNOWY',
+		1135: 'FOGGY',
+		1147: 'FOGGY',
+		1150: 'RAINY',
+		1153: 'RAINY',
+		1168: 'FREEZING',
+		1171: 'FREEZING',
+		1180: 'RAINY',
+		1183: 'RAINY',
+		1186: 'RAINY',
+		1189: 'RAINY',
+		1192: 'RAINY',
+		1195: 'RAINY',
+		1198: 'FREEZING',
+		1201: 'FREEZING',
+		1204: 'SNOWY',
+		1207: 'SNOWY',
+		1210: 'SNOWY',
+		1213: 'SNOWY',
+		1216: 'SNOWY',
+		1219: 'SNOWY',
+		1222: 'SNOWY',
+		1225: 'SNOWY',
+		1237: 'FREEZING',
+		1240: 'RAINY',
+		1243: 'RAINY',
+		1246: 'RAINY',
+		1249: 'FREEZING',
+		1252: 'FREEZING',
+		1255: 'SNOWY',
+		1258: 'SNOWY',
+		1261: 'FREEZING',
+		1264: 'FREEZING',
+		1273: 'THUNDER',
+		1276: 'THUNDER',
+		1279: 'THUNDER',
+		1282: 'THUNDER',
+	};
+}
 
-export default conditionStatusStore;
+const statusToConditionLabel: Record<ConditionStatus, ConditionLabel> = {
+	SUNNY: 'Sunny',
+	CLEAR: 'Clear',
+	WINDY: 'Windy',
+	PARTLY_CLOUDY: 'Partly Cloudy',
+	CLOUDY: 'Cloudy',
+	FOGGY: 'Foggy',
+	RAINY: 'Rainy',
+	THUNDER: 'Thunder',
+	SNOWY: 'Snowy',
+	FREEZING: 'Freezing',
+	TORNADO: 'Tornado',
+};
+
+function getConditionDescription(conditionCode: number, timeOfDay: 'day' | 'night'): string {
+	const conditionCodeObject = conditionObject.find(
+		(condition) => condition.code === conditionCode,
+	);
+
+	if (!conditionCodeObject) {
+		console.warn(`No condition description found for code: ${conditionCode}`);
+		return '';
+	}
+
+	const conditionDescription = conditionCodeObject[timeOfDay];
+
+	return conditionDescription;
+}
+
+export type ConditionStatus =
+	| 'SUNNY'
+	| 'CLEAR'
+	| 'WINDY'
+	| 'PARTLY_CLOUDY'
+	| 'CLOUDY'
+	| 'FOGGY'
+	| 'RAINY'
+	| 'THUNDER'
+	| 'SNOWY'
+	| 'FREEZING'
+	| 'TORNADO';
+
+export type ConditionLabel =
+	| 'Sunny'
+	| 'Clear'
+	| 'Windy'
+	| 'Partly Cloudy'
+	| 'Cloudy'
+	| 'Foggy'
+	| 'Rainy'
+	| 'Thunder'
+	| 'Snowy'
+	| 'Freezing'
+	| 'Tornado';

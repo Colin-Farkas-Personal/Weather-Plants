@@ -47,7 +47,7 @@ const hotTheme: Partial<ThemeMap> = {
 	WINDY: {
 		...baseHotTheme,
 	},
-	SUNNY_CLOUDY: {
+	PARTLY_CLOUDY: {
 		...baseHotTheme,
 	},
 	CLOUDY: {

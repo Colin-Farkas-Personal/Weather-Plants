@@ -10,6 +10,7 @@ import { toFormattedWeatherData } from '$lib/utilities/formatted-temperature';
 import { error } from '@sveltejs/kit';
 import type { PageServerLoad } from '../$types';
 import type { Fetch } from '$lib/types/fetch';
+import { formatAstroToDayTimeHours } from '$lib/utilities/formatted-hours';
 
 const selectedRoundValues: boolean = true; // TODO: implement rounding switch
 const selectedTemperatureUnit: TemperatureUnit = 'celsius'; // TODO: implement temperature unit selection
@@ -69,8 +70,9 @@ const formatOverview = (
 	forecast: ResponseForecast,
 ): StreamedOverviewData => {
 	const raw = transformWeatherData(current, forecast);
+	const formattedAstro = formatAstroToDayTimeHours(raw);
 	return toFormattedWeatherData<StreamedOverviewData>(
-		raw,
+		formattedAstro,
 		selectedTemperatureUnit,
 		selectedRoundValues,
 	);

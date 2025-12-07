@@ -1,5 +1,5 @@
 import { browser } from '$app/environment';
-import type { ConditionStatus } from '$lib/types/condition';
+import type { CurrentCondition } from '$lib/globals/conditionStatusStore.svelte';
 import type { TemperatureRange } from '$lib/types/temperature';
 import { calculateDayTimeBackgroundGradient } from './dayTimeModifier';
 import { coldTheme } from './themes/cold';
@@ -10,7 +10,7 @@ import type { SceneTheme, TemperatureThemeMap } from './themes/theme.types';
 
 interface GetSceneThemeParams {
 	range: TemperatureRange | null;
-	condition: ConditionStatus | null;
+	condition: CurrentCondition['status'] | null;
 	currentHour: number;
 	sunriseHour: number;
 	sunsetHour: number;
