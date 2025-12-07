@@ -8,6 +8,7 @@ type ThemeMap = Record<ConditionStatus, SceneTheme>;
 
 interface SceneTheme {
 	readonly model: Partial<Record<ModelType, ModelAttributes>>;
+	cloudModel?: string;
 	readonly fog: FogAttributes;
 	readonly background: BackgroundAttributes;
 	readonly lights: Record<LightNames, LightSourceAttributes>;

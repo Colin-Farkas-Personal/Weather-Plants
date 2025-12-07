@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
 
-	const TRACK_SIZE = 12;
+	const TRACK_SIZE = 10;
 
 	interface LinearGaugeProps {
 		min: number;

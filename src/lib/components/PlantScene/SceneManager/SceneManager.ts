@@ -24,6 +24,7 @@ type CanvasDimensions = {
 type Models = {
 	pot: Model | undefined;
 	plant: Model | undefined;
+	cloud: Model | undefined;
 };
 
 export class SceneManager implements ISceneManager {
@@ -34,7 +35,7 @@ export class SceneManager implements ISceneManager {
 	private camera: THREE.PerspectiveCamera;
 	private controls: OrbitControls;
 	private sceneSubjects: SceneSubject[];
-	private models: Models = { pot: undefined, plant: undefined };
+	private models: Models = { pot: undefined, plant: undefined, cloud: undefined };
 
 	private get canvasDimensions(): CanvasDimensions {
 		return {
@@ -86,17 +87,21 @@ export class SceneManager implements ISceneManager {
 	}
 
 	updateTheme(theme: SceneTheme) {
-		const { model, fog, lights } = theme;
+		const { model, cloudModel, fog, lights } = theme;
 
 		// Model
 		const isDifferentPlantModel = model.plant?.path !== this.models.plant?._modelPath;
-		console.error('new plant', model.plant?.path, 'old plant', this.models.plant?._modelPath);
 		if (model.plant && isDifferentPlantModel) {
 			this.updateModel(model.plant.path, 'plant');
 		}
 
 		if (model.pot) {
 			this.updateModel(model.pot.path, 'pot');
+		}
+
+		// Cloud Model
+		if (cloudModel) {
+			this.updateModel(cloudModel, 'cloud');
 		}
 
 		// Meshes & Lights
@@ -147,7 +152,7 @@ export class SceneManager implements ISceneManager {
 
 	private buildCamera({ width, height }: CanvasDimensions): THREE.PerspectiveCamera {
 		const { orientation } = getScreenOrientation();
-		const fieldOfViewMobile = 42.5;
+		const fieldOfViewMobile = 52.5;
 		const fieldOfViewDesktop = 55;
 		const fieldOfView = orientation === 'portrait' ? fieldOfViewMobile : fieldOfViewDesktop;
 
@@ -157,7 +162,7 @@ export class SceneManager implements ISceneManager {
 		const camera = new THREE.PerspectiveCamera(fieldOfView, aspectRatio, nearPlane, farPlane);
 
 		const x = 1;
-		const y = 1.5;
+		const y = 1.8;
 		const z = 0;
 		camera.position.set(x, y, z);
 
@@ -176,10 +181,10 @@ export class SceneManager implements ISceneManager {
 		controls.keyRotateSpeed = 20;
 		// controls.listenToKeyEvents(window); <-- ERROR: Prevents any other element from using their keyboard listeners (such as the caret of input fields not moveable)
 
-		controls.minPolarAngle = Math.PI / 2.5;
-		controls.maxPolarAngle = Math.PI / 2.5;
+		controls.minPolarAngle = Math.PI / 2.35;
+		controls.maxPolarAngle = Math.PI / 2.35;
 
-		controls.target.set(0, 0.15, 0);
+		controls.target.set(0, 0.35, 0);
 
 		return controls;
 	}
@@ -210,7 +215,7 @@ export class SceneManager implements ISceneManager {
 		return sceneSubjects;
 	}
 
-	private updateModel(plantModelPath: string, modelType: 'plant' | 'pot') {
+	private updateModel(plantModelPath: string, modelType: 'plant' | 'pot' | 'cloud') {
 		if (this.models[modelType]) {
 			this.models[modelType].dispose();
 			this.models[modelType].create(plantModelPath);

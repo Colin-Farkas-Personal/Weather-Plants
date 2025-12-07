@@ -1,5 +1,5 @@
 import { browser } from '$app/environment';
-import type { CurrentCondition } from '$lib/globals/conditionStatusStore.svelte';
+import type { ConditionStatus, CurrentCondition } from '$lib/globals/conditionStatusStore.svelte';
 import type { TemperatureRange } from '$lib/types/temperature';
 import { calculateDayTimeBackgroundGradient } from './dayTimeModifier';
 import { coldTheme } from './themes/cold';
@@ -36,7 +36,11 @@ function getSceneTheme({
 		return defaultTheme;
 	}
 
-	// #2 Calculate the current day time scene theme from hour of day
+	// #2 Add cloud model for cloudy conditions
+	sceneTheme.cloudModel = getCloudModelPath(condition);
+	console.log('??? ', sceneTheme.cloudModel);
+
+	// #3 Calculate the current day time scene theme from hour of day
 	const dayTimeSceneTheme = applyDayTimeModifier({
 		sceneTheme,
 		currentHour,
@@ -44,7 +48,7 @@ function getSceneTheme({
 		sunsetHour,
 	});
 
-	// #3 Set the main screen background (IOS) to match the scene background
+	// #4 Set the main screen background (IOS) to match the scene background
 	setScreenBackgroundColor(dayTimeSceneTheme.background.color[0]);
 
 	return dayTimeSceneTheme;
@@ -61,6 +65,25 @@ const temperatureSceneThemes: TemperatureThemeMap = {
 		...hotTheme,
 	},
 };
+
+const smallPairCloudPath = '/models/cloud/cloud-pair-small.glb';
+const largeCloudPath = '/models/cloud/cloud-large.glb';
+function getCloudModelPath(condition: ConditionStatus): string | undefined {
+	switch (condition) {
+		case 'CLOUDY':
+		case 'FOGGY':
+		case 'RAINY':
+		case 'SNOWY':
+		case 'WINDY':
+		case 'THUNDER':
+		case 'TORNADO':
+			return largeCloudPath;
+		case 'PARTLY_CLOUDY':
+			return smallPairCloudPath;
+		default:
+			return undefined;
+	}
+}
 
 interface ApplyDayTimeModifierParams {
 	sceneTheme: SceneTheme;
