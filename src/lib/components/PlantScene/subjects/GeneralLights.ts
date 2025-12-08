@@ -55,6 +55,10 @@ export class GeneralLights implements SceneSubject {
 		const z = 2.5;
 		spotLight.position.set(x, y, z);
 
+		// Sets shadow quality
+		spotLight.shadow.mapSize.width = 2048;
+		spotLight.shadow.mapSize.height = 2048;
+
 		spotLight.castShadow = true;
 
 		return spotLight;
