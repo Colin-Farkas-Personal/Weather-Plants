@@ -34,7 +34,7 @@ function calculateForegroundColor({
 			return foregroundColorFallbackDark;
 		}
 
-		return FALLBACK_COLOR['light'];
+		return FALLBACK_COLOR['dark'];
 	} else {
 		const foregroundColorLight = deriveColor(
 			temperatureRange,
@@ -56,7 +56,7 @@ function calculateForegroundColor({
 			return foregroundColorDark;
 		}
 
-		return FALLBACK_COLOR['light'];
+		return FALLBACK_COLOR['dark'];
 	}
 }
 

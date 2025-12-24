@@ -4,6 +4,9 @@ const modelPathPot = '/models/pot/pot-classic.glb';
 
 const defaultTheme: SceneTheme = {
 	model: {
+		plant: {
+			path: getRandomModelPath(),
+		},
 		pot: {
 			path: modelPathPot,
 		},
@@ -26,5 +29,15 @@ const defaultTheme: SceneTheme = {
 		},
 	},
 };
+
+function getRandomModelPath(): string {
+	const modelPaths = [
+		'/models/tree/tree.glb',
+		'/models/sunflower/sunflower.glb',
+		'/models/cactus/cactus.glb',
+	];
+	const randomIndex = Math.floor(Math.random() * modelPaths.length);
+	return modelPaths[randomIndex];
+}
 
 export { defaultTheme };

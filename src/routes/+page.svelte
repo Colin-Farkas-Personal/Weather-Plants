@@ -24,16 +24,17 @@
 
 	// State
 	const orientation = windowOrientation;
-	const currentHour = $derived(getCurrentHour());
+	let currentHour = $state(getCurrentHour());
 	let currentSceneTheme = $derived(
 		getSceneTheme({
-			range: $temperatureRangeStore,
-			condition: null,
+			range: null,
+			condition: 'CLOUDY',
 			currentHour: currentHour,
 			sunriseHour: 6,
 			sunsetHour: 18,
 		}),
 	);
+
 	let currentSearchType = $derived(getCurrentSearchType());
 	const hasSearched = $derived(currentSearchType.length > 0);
 	let secondarySectionHeading = $derived(setSecondarySectionHeading);

@@ -23,8 +23,17 @@ function getSceneTheme({
 	sunsetHour,
 }: GetSceneThemeParams): SceneTheme {
 	if (!range || !condition) {
-		setScreenBackgroundColor(defaultTheme.background.color[0]);
-		return defaultTheme;
+		// #3 Calculate the current day time scene theme from hour of day
+		const dayTimeSceneTheme = applyDayTimeModifier({
+			sceneTheme: defaultTheme,
+			currentHour,
+			sunriseHour,
+			sunsetHour,
+		});
+
+		// #4 Set the main screen background (IOS) to match the scene background
+		setScreenBackgroundColor(dayTimeSceneTheme.background.color[0]);
+		return dayTimeSceneTheme;
 	}
 
 	// #1 Get the theme for the temperature range and condition
