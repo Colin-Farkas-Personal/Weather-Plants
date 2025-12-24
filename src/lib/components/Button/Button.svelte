@@ -66,10 +66,9 @@
 			&.secondary {
 				border: none;
 				color: var(--theme-text-secondary-inversed);
-
-				&:hover {
-					outline: 2px solid var(--theme-border-primary);
-				}
+				outline-width: 2px;
+				outline-style: solid;
+				outline-color: inherit;
 
 				&:active,
 				&:focus-visible {

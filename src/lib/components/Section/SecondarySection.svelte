@@ -3,6 +3,8 @@
 	import type { Snippet } from 'svelte';
 	import SectionHeading from './SectionHeading.svelte';
 	import type { BackgroundGradientColor } from '../PlantScene/themes/theme.types';
+	import { calculateForegroundColor } from '$lib/utilities/theme/foreground-color';
+	import temperatureRangeStore from '$lib/globals/temperatureRangeStore.svelte';
 
 	interface SecondarySectionProps {
 		TopBar?: Snippet;
@@ -28,6 +30,23 @@
 
 	// State
 	let orientation = windowOrientation;
+	let currentTemperatureRange = temperatureRangeStore;
+	const foregroundColorPrimary = $derived(
+		sceneBackground &&
+			calculateForegroundColor({
+				temperatureRange: $currentTemperatureRange,
+				backgroundColor: sceneBackground[0],
+				priority: 'primary',
+			}),
+	);
+	const foregroundColorSecondary = $derived(
+		sceneBackground &&
+			calculateForegroundColor({
+				temperatureRange: $currentTemperatureRange,
+				backgroundColor: sceneBackground[0],
+				priority: 'secondary',
+			}),
+	);
 </script>
 
 <section class={`secondary-section ${$orientation}`}>
@@ -44,18 +63,31 @@
 						{@render TopBar()}
 					</nav>
 				{/if}
-				<SectionHeading heading={contentHeading || heading} {subHeading} />
+				<SectionHeading
+					heading={contentHeading || heading}
+					{subHeading}
+					headingColor={foregroundColorPrimary}
+					subheadingColor={foregroundColorSecondary}
+				/>
 			</section>
 			<section
 				class="secondary-section-inner-display"
 				style:backdrop-filter={blurContent ? 'blur(80px)' : 'none'}
 			>
 				{#if TopBar}
-					<nav class="secondary-section-inner-display-top-bar">
+					<nav
+						class="secondary-section-inner-display-top-bar"
+						style:color={foregroundColorSecondary}
+					>
 						{@render TopBar()}
 					</nav>
 				{/if}
-				<SectionHeading heading={contentHeading || heading} {subHeading} />
+				<SectionHeading
+					heading={contentHeading || heading}
+					{subHeading}
+					headingColor={foregroundColorPrimary}
+					subheadingColor={foregroundColorSecondary}
+				/>
 				{#if contentHeading?.trim()}
 					<div class="secondary-section-inner-display-content">
 						{@render Content?.()}

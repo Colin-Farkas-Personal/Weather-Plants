@@ -22,6 +22,10 @@ type HSLColor =
 	| `hsl(${number}, ${number}%, ${number}%)`;
 export type BackgroundGradientColor = [HSLColor, HSLColor];
 
+type HexColor = `#${string}`;
+
+type RGBColor = `rgb(${number}, ${number}, ${number})`;
+
 interface BackgroundAttributes {
 	color: BackgroundGradientColor;
 }
@@ -30,4 +34,12 @@ export interface FogAttributes extends DefaultAttributes {
 	density: number;
 }
 
-export type { TemperatureThemeMap, ThemeMap, SceneTheme, HSLColor, LightSourceAttributes };
+export type {
+	TemperatureThemeMap,
+	ThemeMap,
+	SceneTheme,
+	HSLColor,
+	HexColor,
+	RGBColor,
+	LightSourceAttributes,
+};

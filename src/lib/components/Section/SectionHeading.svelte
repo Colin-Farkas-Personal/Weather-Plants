@@ -1,12 +1,15 @@
 <script lang="ts">
 	import { windowOrientation } from '$lib/globals/windowStore';
+	import type { HexColor } from '../PlantScene/themes/theme.types';
 
 	interface SectionHeadingProps {
 		heading?: string;
+		headingColor?: HexColor;
 		subHeading?: string;
+		subheadingColor?: HexColor;
 	}
 
-	let { heading, subHeading }: SectionHeadingProps = $props();
+	let { heading, subHeading, headingColor, subheadingColor }: SectionHeadingProps = $props();
 
 	// Logic
 	let orientation = windowOrientation;
@@ -14,11 +17,13 @@
 
 {#if heading && subHeading}
 	<hgroup id="section-heading" class={`section-heading ${$orientation}`}>
-		<h1 class="heading">{heading}</h1>
-		<p class="description">{subHeading}</p>
+		<h1 class="heading" style="color: {headingColor}">{heading}</h1>
+		<p class="description" style="color: {subheadingColor}">{subHeading}</p>
 	</hgroup>
 {:else if heading}
-	<h1 class={`section-heading heading ${$orientation}`}>{heading}</h1>
+	<h1 class={`section-heading heading ${$orientation}`} style="color: {headingColor}">
+		{heading}
+	</h1>
 {/if}
 
 <style lang="scss">

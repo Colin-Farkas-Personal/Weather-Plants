@@ -38,7 +38,6 @@ function getSceneTheme({
 
 	// #2 Add cloud model for cloudy conditions
 	sceneTheme.cloudModel = getCloudModelPath(condition);
-	console.log('??? ', sceneTheme.cloudModel);
 
 	// #3 Calculate the current day time scene theme from hour of day
 	const dayTimeSceneTheme = applyDayTimeModifier({

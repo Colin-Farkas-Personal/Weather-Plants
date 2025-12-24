@@ -30,13 +30,26 @@
 
 	// State
 	const orientation = windowOrientation;
-	let currentHour = $state(getCurrentHour());
+	let currentHour = $state(17);
 
 	let currentConditionStatus = $state<CurrentCondition>();
+	let astro = $state<{ sunriseHour: number; sunsetHour: number } | null>(null);
 	let currentSceneTheme = $state<SceneTheme>(defaultTheme);
 
 	$effect(() => {
 		initializeOverview();
+	});
+
+	$effect(() => {
+		if (!astro || !currentConditionStatus) return;
+
+		currentSceneTheme = getSceneTheme({
+			range: $temperatureRangeStore,
+			condition: currentConditionStatus.status,
+			currentHour,
+			sunriseHour: astro.sunriseHour,
+			sunsetHour: astro.sunsetHour,
+		});
 	});
 
 	async function initializeOverview() {
@@ -48,14 +61,11 @@
 		// 2. Update condition
 		currentConditionStatus = getCurrentCondition(streamedOverviewData.condition.code, 'night');
 
-		// 3. Update scene theme (now that temp + condition are known)
-		currentSceneTheme = getSceneTheme({
-			range: $temperatureRangeStore,
-			condition: currentConditionStatus.status,
-			currentHour,
+		// 3. Set astro times
+		astro = {
 			sunriseHour: getHourFromTimeString(streamedOverviewData.astro.sunrise),
 			sunsetHour: getHourFromTimeString(streamedOverviewData.astro.sunset),
-		});
+		};
 
 		// 4. Update main theme attribute
 		updateMainTheme();

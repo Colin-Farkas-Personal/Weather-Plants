@@ -152,7 +152,7 @@ export class SceneManager implements ISceneManager {
 
 	private buildCamera({ width, height }: CanvasDimensions): THREE.PerspectiveCamera {
 		const { orientation } = getScreenOrientation();
-		const fieldOfViewMobile = 52.5;
+		const fieldOfViewMobile = 45;
 		const fieldOfViewDesktop = 55;
 		const fieldOfView = orientation === 'portrait' ? fieldOfViewMobile : fieldOfViewDesktop;
 
@@ -162,7 +162,7 @@ export class SceneManager implements ISceneManager {
 		const camera = new THREE.PerspectiveCamera(fieldOfView, aspectRatio, nearPlane, farPlane);
 
 		const x = 1;
-		const y = 1.8;
+		const y = 2;
 		const z = 0;
 		camera.position.set(x, y, z);
 
@@ -184,7 +184,7 @@ export class SceneManager implements ISceneManager {
 		controls.minPolarAngle = Math.PI / 2.35;
 		controls.maxPolarAngle = Math.PI / 2.35;
 
-		controls.target.set(0, 0.35, 0);
+		controls.target.set(0, 0.25, 0);
 
 		return controls;
 	}
