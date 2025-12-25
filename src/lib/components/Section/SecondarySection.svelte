@@ -109,7 +109,10 @@
 						class="secondary-section-inner-display-content"
 						style:backdrop-filter={blurContent ? 'blur(150px)' : 'none'}
 					>
-						<h2 class="secondary-section-inner-display-content-heading">
+						<h2
+							class="secondary-section-inner-display-content-heading"
+							style:color={foregroundColorPrimary}
+						>
 							{contentHeading}
 						</h2>
 
