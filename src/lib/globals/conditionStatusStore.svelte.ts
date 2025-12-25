@@ -72,7 +72,7 @@ function mapCodeToConditionStatus(timeOfDay: 'day' | 'night'): Record<number, Co
 	};
 }
 
-const statusToConditionLabel: Record<ConditionStatus, ConditionLabel> = {
+export const statusToConditionLabel: Record<ConditionStatus, ConditionLabel> = {
 	SUNNY: 'Sunny',
 	CLEAR: 'Clear',
 	WINDY: 'Windy',

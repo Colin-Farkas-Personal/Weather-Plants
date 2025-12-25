@@ -8,14 +8,18 @@
 	import SearchResultItem from '$lib/components/SearchResult/SearchResultItem.svelte';
 	import SearchResultList from '$lib/components/SearchResult/SearchResultList.svelte';
 	import LocationTextInput from '$lib/components/TextInput/LocationTextInput.svelte';
-	import temperatureRangeStore from '$lib/globals/temperatureRangeStore.svelte';
 	import { windowOrientation } from '$lib/globals/windowStore';
 	import { getCurrentHour } from '$lib/helpers/current-hour';
 	import { onMount } from 'svelte';
 	import GpsBoldIcon from '~icons/ph/gps-bold';
 	import type { SearchData } from './+page.server';
+	import type { TemperatureRange } from '$lib/types/temperature';
+	import { pleasantTheme } from '$lib/components/PlantScene/themes/pleasant';
+	import {
+		statusToConditionLabel,
+		type ConditionStatus,
+	} from '$lib/globals/conditionStatusStore.svelte';
 
-	const DATA_FETCH_INTERVAL_MINUTES = 30;
 	type SearchType = 'input' | 'current';
 
 	interface PageProps {
@@ -28,8 +32,8 @@
 	let currentHour = $state(getCurrentHour());
 	let currentSceneTheme = $derived(
 		getSceneTheme({
-			range: null,
-			condition: 'CLOUDY',
+			range: getRandomTemperatureRange(),
+			condition: getRandomCondition(),
 			currentHour: currentHour,
 			sunriseHour: 6,
 			sunsetHour: 18,
@@ -46,6 +50,16 @@
 	});
 
 	// Functions
+	function getRandomTemperatureRange(): TemperatureRange {
+		const ranges = ['Cold', 'Pleasant', 'Hot'] as TemperatureRange[];
+		return ranges[Math.floor(Math.random() * ranges.length)];
+	}
+
+	function getRandomCondition(): ConditionStatus {
+		const conditionStatuses = Object.keys(statusToConditionLabel) as ConditionStatus[];
+		return conditionStatuses[Math.floor(Math.random() * conditionStatuses.length)];
+	}
+
 	function getCurrentSearchType(): SearchType | '' {
 		const urlParams = page.url.searchParams;
 
