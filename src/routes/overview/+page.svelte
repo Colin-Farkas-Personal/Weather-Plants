@@ -15,7 +15,6 @@
 	} from '$lib/globals/conditionStatusStore.svelte.js';
 	import temperatureRangeStore from '$lib/globals/temperatureRangeStore.svelte.js';
 	import { windowOrientation } from '$lib/globals/windowStore';
-	import { getCurrentHour } from '$lib/helpers/current-hour';
 	import type { TemperatureRange } from '$lib/types/temperature.js';
 	import type { WeatherOverview } from '$lib/types/weather.js';
 	import { getHourFromTimeString } from '$lib/utilities/formatted-hours';
@@ -30,7 +29,7 @@
 
 	// State
 	const orientation = windowOrientation;
-	let currentHour = $state(17);
+	let currentHour = $state<number | null>(null);
 
 	let currentConditionStatus = $state<CurrentCondition>();
 	let astro = $state<{ sunriseHour: number; sunsetHour: number } | null>(null);
@@ -41,12 +40,12 @@
 	});
 
 	$effect(() => {
-		if (!astro || !currentConditionStatus) return;
+		if (!currentHour || !astro || !currentConditionStatus) return;
 
 		currentSceneTheme = getSceneTheme({
 			range: $temperatureRangeStore,
 			condition: currentConditionStatus.status,
-			currentHour,
+			currentHour: currentHour,
 			sunriseHour: astro.sunriseHour,
 			sunsetHour: astro.sunsetHour,
 		});
@@ -61,7 +60,9 @@
 		// 2. Update condition
 		currentConditionStatus = getCurrentCondition(streamedOverviewData.condition.code, 'night');
 
-		// 3. Set astro times
+		// 3. Set times
+		console.error('HOUR', streamedOverviewData.localTime);
+		currentHour = getHourFromTimeString(streamedOverviewData.localTime);
 		astro = {
 			sunriseHour: getHourFromTimeString(streamedOverviewData.astro.sunrise),
 			sunsetHour: getHourFromTimeString(streamedOverviewData.astro.sunset),

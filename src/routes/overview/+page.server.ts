@@ -2,15 +2,16 @@ import {
 	transformWeatherData,
 	type ResponseCurrent,
 	type ResponseForecast,
+	type ResponseTimeZone,
 } from '$lib/adapters/weatherApiTransformer';
 import { fetchFromWeatherApi } from '$lib/adapters/weatherapi';
+import type { Fetch } from '$lib/types/fetch';
 import type { TemperatureUnit } from '$lib/types/temperature';
 import type { StreamedOverviewData } from '$lib/types/weather';
+import { formatTimeToDayTimeHours } from '$lib/utilities/formatted-hours';
 import { toFormattedWeatherData } from '$lib/utilities/formatted-temperature';
 import { error } from '@sveltejs/kit';
 import type { PageServerLoad } from '../$types';
-import type { Fetch } from '$lib/types/fetch';
-import { formatAstroToDayTimeHours } from '$lib/utilities/formatted-hours';
 
 const selectedRoundValues: boolean = true; // TODO: implement rounding switch
 const selectedTemperatureUnit: TemperatureUnit = 'celsius'; // TODO: implement temperature unit selection
@@ -39,26 +40,29 @@ async function overviewPromise(
 	locationCoordinatesString: string,
 ): Promise<StreamedOverviewData> {
 	try {
-		const [resCurrent, resForecast] = await Promise.all([
+		const [resCurrent, resForecast, resTimeZone] = await Promise.all([
 			fetchFromWeatherApi.current({ fetch, location: locationCoordinatesString }),
 			fetchFromWeatherApi.forecast({ fetch, location: locationCoordinatesString }),
+			fetchFromWeatherApi.timeZone({ fetch, location: locationCoordinatesString }),
 		]);
 
 		// Guard against upstream failures
-		if (!resCurrent.ok || !resForecast.ok) {
+		if (!resCurrent.ok || !resForecast.ok || !resTimeZone.ok) {
 			console.error('Upstream weather error', {
 				currentStatus: resCurrent.status,
 				forecastStatus: resForecast.status,
+				timeZoneStatus: resTimeZone.status,
 			});
 			throw error(502, 'Upstream weather service failed');
 		}
 
-		const [dataCurrent, dataForecast] = await Promise.all([
+		const [dataCurrent, dataForecast, dataTimeZone] = await Promise.all([
 			resCurrent.json() as Promise<ResponseCurrent>,
 			resForecast.json() as Promise<ResponseForecast>,
+			resTimeZone.json() as Promise<ResponseTimeZone>,
 		]);
 
-		return formatOverview(dataCurrent, dataForecast);
+		return formatOverview(dataCurrent, dataForecast, dataTimeZone);
 	} catch (e) {
 		console.error('Weather load failed:', e);
 		throw error(500, 'Unable to load weather');
@@ -68,11 +72,12 @@ async function overviewPromise(
 const formatOverview = (
 	current: ResponseCurrent,
 	forecast: ResponseForecast,
+	timeZone: ResponseTimeZone,
 ): StreamedOverviewData => {
-	const raw = transformWeatherData(current, forecast);
-	const formattedAstro = formatAstroToDayTimeHours(raw);
+	const raw = transformWeatherData(current, forecast, timeZone);
+	const formattedTime = formatTimeToDayTimeHours(raw);
 	return toFormattedWeatherData<StreamedOverviewData>(
-		formattedAstro,
+		formattedTime,
 		selectedTemperatureUnit,
 		selectedRoundValues,
 	);

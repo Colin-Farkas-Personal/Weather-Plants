@@ -27,11 +27,21 @@ export type ResponseForecast = {
 	};
 };
 
+export type ResponseTimeZone = {
+	location: {
+		tz_id: string;
+		localtime_epoch: number;
+		localtime: string;
+	};
+};
+
 function transformWeatherData(
 	responseCurrent: ResponseCurrent,
 	responseForecast: ResponseForecast,
+	responseTimeZone: ResponseTimeZone,
 ): WeatherOverviewRaw {
 	return {
+		localTime: responseTimeZone.location.localtime,
 		temperature_tempC: responseCurrent.current.temp_c,
 		feelsLike_tempC: responseCurrent.current.feelslike_c,
 		astro: {

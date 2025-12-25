@@ -23,6 +23,7 @@ type Astro = {
 };
 
 type WeatherOverviewRaw = {
+	localTime: string;
 	temperature_tempC: number;
 	feelsLike_tempC: number;
 	astro: Astro;
@@ -32,6 +33,7 @@ type WeatherOverviewRaw = {
 };
 
 type StreamedOverviewData = {
+	localTime: string;
 	temperature: number;
 	feelsLike: number;
 	astro: Astro;

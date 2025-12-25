@@ -1,8 +1,9 @@
 import type { WeatherOverviewRaw } from '$lib/types/weather';
 
-function formatAstroToDayTimeHours(raw: WeatherOverviewRaw) {
+function formatTimeToDayTimeHours(raw: WeatherOverviewRaw) {
 	return {
 		...raw,
+		localTime: raw.localTime.split(' ')[1],
 		astro: {
 			sunrise: convertTime12to24(raw.astro.sunrise),
 			sunset: convertTime12to24(raw.astro.sunset),
@@ -29,6 +30,7 @@ function convertTime12to24(timeString: string): string {
 }
 
 function getHourFromTimeString(timeString: string): number {
+	// Split by colon and parse numbers
 	const [hour, minute] = timeString.split(':').map(Number);
 
 	if (minute >= 30) {
@@ -38,4 +40,4 @@ function getHourFromTimeString(timeString: string): number {
 	return hour;
 }
 
-export { formatAstroToDayTimeHours, getHourFromTimeString };
+export { formatTimeToDayTimeHours, getHourFromTimeString };

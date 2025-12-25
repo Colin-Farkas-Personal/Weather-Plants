@@ -1,6 +1,6 @@
 import type { Fetch } from '$lib/types/fetch';
 
-type Endpoint = 'search' | 'current' | 'forecast';
+type Endpoint = 'search' | 'current' | 'forecast' | 'timezone';
 
 export const WEATHER_API_BASE_URL = 'https://api.weatherapi.com/v1/';
 export const WEATHER_API_KEY = import.meta.env.VITE_WEATHER_API_KEY;
@@ -43,6 +43,10 @@ export const fetchFromWeatherApi = {
 	},
 	forecast: async ({ fetch, location }: FetchFromWeatherApiParams) => {
 		const url = getFetchUrl('forecast', location, { days: WEATHER_API_DAYS });
+		return doFetch(url, fetch);
+	},
+	timeZone: async ({ fetch, location }: FetchFromWeatherApiParams) => {
+		const url = getFetchUrl('timezone', location);
 		return doFetch(url, fetch);
 	},
 };
