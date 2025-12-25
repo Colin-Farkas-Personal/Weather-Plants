@@ -9,7 +9,7 @@ type ThemeMap = Record<ConditionStatus, SceneTheme>;
 interface SceneTheme {
 	readonly model: Partial<Record<ModelType, ModelAttributes>>;
 	cloudModel?: string;
-	readonly shadow?: ShadowAttributes;
+	readonly shadow: ShadowAttributes;
 	readonly fog: FogAttributes;
 	readonly background: BackgroundAttributes;
 	readonly lights: Record<LightNames, LightSourceAttributes>;
@@ -35,8 +35,8 @@ export interface FogAttributes extends DefaultAttributes {
 	density: number;
 }
 
-export interface ShadowAttributes extends DefaultAttributes {
-	opacity?: number;
+export interface ShadowAttributes {
+	opacity: number;
 }
 
 export type {

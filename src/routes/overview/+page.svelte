@@ -116,10 +116,6 @@
 			<p>Loading data</p>
 		{:then streamed}
 			<article class={`overview-page-data ${$orientation}`}>
-				<!-- <h4>{currentHour}</h4>
-				<p>0</p>
-				<input type="range" min="0" max="24" step="0.25" bind:value={currentHour} />
-				<p>24</p> -->
 				{#if currentConditionStatus}
 					<OverviewCondition
 						label={currentConditionStatus.label}

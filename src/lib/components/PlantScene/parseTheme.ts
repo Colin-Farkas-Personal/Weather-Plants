@@ -1,7 +1,10 @@
 import { browser } from '$app/environment';
 import type { ConditionStatus, CurrentCondition } from '$lib/globals/conditionStatusStore.svelte';
 import type { TemperatureRange } from '$lib/types/temperature';
-import { calculateDayTimeBackgroundGradient } from './dayTimeModifier';
+import {
+	calculateDayTimeBackgroundGradient,
+	calculateDayTimeShadowOpacity,
+} from './dayTimeModifier';
 import { coldTheme } from './themes/cold';
 import { defaultTheme } from './themes/default';
 import { hotTheme } from './themes/hot';
@@ -104,8 +107,15 @@ function applyDayTimeModifier({
 		baseGradient: sceneTheme.background.color,
 	});
 
+	const updatedShadowOpacity = calculateDayTimeShadowOpacity({
+		hourOfDay: currentHour,
+		sunriseHour,
+		sunsetHour,
+	});
+
 	const modifiedSceneTheme = {
 		...sceneTheme,
+		shadow: { opacity: updatedShadowOpacity },
 		background: { color: updatedBackgroundColor },
 	} as SceneTheme;
 

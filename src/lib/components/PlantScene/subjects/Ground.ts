@@ -21,7 +21,9 @@ export class Ground implements SceneSubject {
 		const radius = 5;
 		const segments = 64;
 		const geometry = new THREE.CircleGeometry(radius, segments);
-		const shadowMaterial = new THREE.ShadowMaterial({ opacity: 0.5 });
+
+		const defaultOpacity = 0;
+		const shadowMaterial = new THREE.ShadowMaterial({ opacity: defaultOpacity });
 
 		const plane = new THREE.Mesh(geometry, shadowMaterial);
 		plane.rotation.x = -Math.PI / 2;

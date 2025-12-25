@@ -20,35 +20,9 @@
 	const SUNRISE_HOUR_DEFAULT = 6;
 	const SUNSET_HOUR_DEFAULT = 18;
 
-	type SearchType = 'input' | 'current';
+	const range = getRandomTemperatureRange();
+	const condition = getRandomCondition();
 
-	interface PageProps {
-		data: SearchData;
-	}
-	let { data }: PageProps = $props();
-
-	// State
-	const orientation = windowOrientation;
-	let currentSceneTheme = $derived(
-		getSceneTheme({
-			range: getRandomTemperatureRange(),
-			condition: getRandomCondition(),
-			currentHour: getRandomCurrentHour(),
-			sunriseHour: SUNRISE_HOUR_DEFAULT,
-			sunsetHour: SUNSET_HOUR_DEFAULT,
-		}),
-	);
-
-	let currentSearchType = $derived(getCurrentSearchType());
-	const hasSearched = $derived(currentSearchType.length > 0);
-	let secondarySectionHeading = $derived(setSecondarySectionHeading);
-
-	/// Lifecycle
-	onMount(() => {
-		document.documentElement.setAttribute('data-theme', 'default');
-	});
-
-	// Functions
 	function getRandomTemperatureRange(): TemperatureRange {
 		const ranges = ['Cold', 'Pleasant', 'Hot'] as TemperatureRange[];
 		return ranges[Math.floor(Math.random() * ranges.length)];
@@ -65,6 +39,37 @@
 		);
 	}
 
+	type SearchType = 'input' | 'current';
+
+	interface PageProps {
+		data: SearchData;
+	}
+	let { data }: PageProps = $props();
+
+	// State
+	const orientation = windowOrientation;
+
+	let currentHour = $state<number>(getRandomCurrentHour());
+	let currentSceneTheme = $derived(
+		getSceneTheme({
+			range: range,
+			condition: condition,
+			currentHour: currentHour,
+			sunriseHour: SUNRISE_HOUR_DEFAULT,
+			sunsetHour: SUNSET_HOUR_DEFAULT,
+		}),
+	);
+
+	let currentSearchType = $derived(getCurrentSearchType());
+	const hasSearched = $derived(currentSearchType.length > 0);
+	let secondarySectionHeading = $derived(setSecondarySectionHeading);
+
+	/// Lifecycle
+	onMount(() => {
+		document.documentElement.setAttribute('data-theme', 'default');
+	});
+
+	// Functions
 	function getCurrentSearchType(): SearchType | '' {
 		const urlParams = page.url.searchParams;
 
@@ -145,6 +150,10 @@
 	blurScene={hasSearched}
 >
 	{#snippet PrimarySectionContent()}
+		<h4>{currentHour}</h4>
+		<p>0</p>
+		<input type="range" min="0" max="24" step="0.25" bind:value={currentHour} />
+		<p>24</p>
 		<div class={`main-page-selection ${$orientation}`}>
 			<form method="GET">
 				<LocationTextInput />

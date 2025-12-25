@@ -5,6 +5,31 @@ const minLightnessPercent2 = 10;
 const minSaturationPercent1 = 5;
 const minSaturationPercent2 = 10;
 
+interface CalculateDayTimeShadowOpacityParams {
+	hourOfDay: number;
+	sunriseHour: number;
+	sunsetHour: number;
+}
+function calculateDayTimeShadowOpacity({
+	hourOfDay,
+	sunriseHour,
+	sunsetHour,
+}: CalculateDayTimeShadowOpacityParams): number {
+	// Shadow opacity ranges from 0.1 (day) to 0.5 (night)
+	const maxOpacity = 0.5;
+
+	const opacityPercent = calculatePercentValueAtHour({
+		hourOfDay,
+		lowestPercent: 0,
+		peakPercent: 1,
+		sunriseHour,
+		sunsetHour,
+		gamma: 1.2,
+	});
+
+	return maxOpacity * opacityPercent;
+}
+
 interface CalculateDayTimeBackgroundGradientParams {
 	hourOfDay: number;
 	sunriseHour: number;
@@ -167,4 +192,4 @@ function setHslSaturationAndLightness(
 	return `hsl(${hslParts.join(', ')})` as HSLColor;
 }
 
-export { calculateDayTimeBackgroundGradient };
+export { calculateDayTimeShadowOpacity, calculateDayTimeBackgroundGradient };

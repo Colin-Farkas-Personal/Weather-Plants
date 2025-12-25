@@ -115,6 +115,7 @@ export class SceneManager implements ISceneManager {
 			}
 
 			if (subject instanceof Ground) {
+				console.log('Updating ground shadow opacity to:', shadow?.opacity);
 				subject.update({ opacity: shadow?.opacity });
 			}
 		}
