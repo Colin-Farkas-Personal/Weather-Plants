@@ -24,6 +24,7 @@ function getSceneTheme({
 }: GetSceneThemeParams): SceneTheme {
 	// #1 Get the theme for the temperature range and condition
 	const sceneTheme = temperatureSceneThemes[range][condition];
+
 	if (!sceneTheme) {
 		console.warn(
 			`No scene theme implemented for range: "${range}" with condition: "${condition}"`,
@@ -33,7 +34,6 @@ function getSceneTheme({
 
 	// #2 Add cloud model for cloudy conditions
 	sceneTheme.cloudModel = getCloudModelPath(condition);
-	console.log('CLOUS ????', sceneTheme.cloudModel);
 
 	// #3 Calculate the current day time scene theme from hour of day
 	const dayTimeSceneTheme = applyDayTimeModifier({
@@ -45,6 +45,11 @@ function getSceneTheme({
 
 	// #4 Set the main screen background (IOS) to match the scene background
 	setScreenBackgroundColor(dayTimeSceneTheme.background.color[0]);
+
+	// 5. IF FOGGY - Set fog color to match the top background color
+	if (condition === 'FOGGY') {
+		dayTimeSceneTheme.fog.color = dayTimeSceneTheme.background.color[0];
+	}
 
 	return dayTimeSceneTheme;
 }

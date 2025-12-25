@@ -25,8 +25,10 @@ const baseColdTheme: SceneTheme = {
 			path: modelPathTree,
 		},
 	},
+	shadow: {
+		opacity: 0.5,
+	},
 	fog: {
-		color: 'hsla(0, 0%, 92%, 1.00)',
 		density: 0,
 	},
 	background: {
@@ -48,6 +50,9 @@ const coldTheme: Partial<ThemeMap> = {
 	SUNNY: {
 		...baseColdTheme,
 	},
+	CLEAR: {
+		...baseColdTheme,
+	},
 	WINDY: {
 		...baseColdTheme,
 	},
@@ -65,8 +70,10 @@ const coldTheme: Partial<ThemeMap> = {
 	},
 	FOGGY: {
 		...baseColdTheme,
+		shadow: {
+			opacity: 0,
+		},
 		fog: {
-			color: 'hsla(0, 0%, 95%, 1.00)',
 			density: 0.6,
 		},
 	},

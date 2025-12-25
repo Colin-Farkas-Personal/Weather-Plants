@@ -4,7 +4,6 @@
 	import PageLayout from '$lib/components/Page/PageLayout.svelte';
 	import { getSceneTheme } from '$lib/components/PlantScene/parseTheme';
 	import PlantScene from '$lib/components/PlantScene/PlantScene.svelte';
-	import { defaultTheme } from '$lib/components/PlantScene/themes/default';
 	import SearchResultItem from '$lib/components/SearchResult/SearchResultItem.svelte';
 	import SearchResultList from '$lib/components/SearchResult/SearchResultList.svelte';
 	import LocationTextInput from '$lib/components/TextInput/LocationTextInput.svelte';

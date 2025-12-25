@@ -21,8 +21,10 @@ const basePleasantTheme: SceneTheme = {
 			path: modelPathSunflower,
 		},
 	},
+	shadow: {
+		opacity: 0.5,
+	},
 	fog: {
-		color: 'hsla(207, 78%, 88%, 1.00)',
 		density: 0,
 	},
 	background: {
@@ -44,6 +46,9 @@ const pleasantTheme: Partial<ThemeMap> = {
 	SUNNY: {
 		...basePleasantTheme,
 	},
+	CLEAR: {
+		...basePleasantTheme,
+	},
 	WINDY: {
 		...basePleasantTheme,
 	},
@@ -58,8 +63,10 @@ const pleasantTheme: Partial<ThemeMap> = {
 	},
 	FOGGY: {
 		...basePleasantTheme,
+		shadow: {
+			opacity: 0,
+		},
 		fog: {
-			color: 'hsla(0, 0%, 95%, 1.00)',
 			density: 0.6,
 		},
 	},

@@ -21,8 +21,10 @@ const baseHotTheme: SceneTheme = {
 			path: modelPathCactus,
 		},
 	},
+	shadow: {
+		opacity: 0.5,
+	},
 	fog: {
-		color: 'hsla(34, 76%, 61%, 1.00)',
 		density: 0,
 	},
 	background: {
@@ -44,6 +46,9 @@ const hotTheme: Partial<ThemeMap> = {
 	SUNNY: {
 		...baseHotTheme,
 	},
+	CLEAR: {
+		...baseHotTheme,
+	},
 	WINDY: {
 		...baseHotTheme,
 	},
@@ -58,8 +63,10 @@ const hotTheme: Partial<ThemeMap> = {
 	},
 	FOGGY: {
 		...baseHotTheme,
+		shadow: {
+			opacity: 0,
+		},
 		fog: {
-			color: 'hsla(0, 0%, 95%, 1.00)',
 			density: 0.6,
 		},
 	},

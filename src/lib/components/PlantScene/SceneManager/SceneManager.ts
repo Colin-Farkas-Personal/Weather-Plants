@@ -87,7 +87,7 @@ export class SceneManager implements ISceneManager {
 	}
 
 	updateTheme(theme: SceneTheme) {
-		const { model, cloudModel, fog, lights } = theme;
+		const { model, cloudModel, fog, lights, shadow } = theme;
 
 		// Model
 		const isDifferentPlantModel = model.plant?.path !== this.models.plant?._modelPath;
@@ -114,9 +114,9 @@ export class SceneManager implements ISceneManager {
 				subject.update({ color: fog.color, density: fog.density });
 			}
 
-			// if (subject instanceof Ground) {
-			// 	subject.update({ color: shadow.color });
-			// }
+			if (subject instanceof Ground) {
+				subject.update({ opacity: shadow?.opacity });
+			}
 		}
 	}
 
@@ -190,7 +190,7 @@ export class SceneManager implements ISceneManager {
 	}
 
 	private createSceneSubjects(scene: Scene, theme: SceneTheme): SceneSubject[] {
-		const { fog, model } = theme;
+		const { model } = theme;
 
 		const generalLightsSubject = new GeneralLights(scene);
 		const groundSubject = new Ground({
@@ -198,7 +198,6 @@ export class SceneManager implements ISceneManager {
 		});
 		const fogSubject = new Fog({
 			scene: scene,
-			color: fog.color,
 		});
 		const potSubject = new Model({
 			scene: scene,
