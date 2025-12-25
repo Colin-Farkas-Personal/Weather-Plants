@@ -93,6 +93,7 @@
 				border-radius: 24px;
 
 				text-decoration: none;
+				cursor: pointer;
 
 				&:hover {
 					border-color: var(--warm-white-800);

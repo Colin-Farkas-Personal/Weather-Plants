@@ -8,17 +8,18 @@
 	import SearchResultItem from '$lib/components/SearchResult/SearchResultItem.svelte';
 	import SearchResultList from '$lib/components/SearchResult/SearchResultList.svelte';
 	import LocationTextInput from '$lib/components/TextInput/LocationTextInput.svelte';
-	import { windowOrientation } from '$lib/globals/windowStore';
-	import { getCurrentHour } from '$lib/helpers/current-hour';
-	import { onMount } from 'svelte';
-	import GpsBoldIcon from '~icons/ph/gps-bold';
-	import type { SearchData } from './+page.server';
-	import type { TemperatureRange } from '$lib/types/temperature';
-	import { pleasantTheme } from '$lib/components/PlantScene/themes/pleasant';
 	import {
 		statusToConditionLabel,
 		type ConditionStatus,
 	} from '$lib/globals/conditionStatusStore.svelte';
+	import { windowOrientation } from '$lib/globals/windowStore';
+	import type { TemperatureRange } from '$lib/types/temperature';
+	import { onMount } from 'svelte';
+	import GpsBoldIcon from '~icons/ph/gps-bold';
+	import type { SearchData } from './+page.server';
+
+	const SUNRISE_HOUR_DEFAULT = 6;
+	const SUNSET_HOUR_DEFAULT = 18;
 
 	type SearchType = 'input' | 'current';
 
@@ -29,14 +30,13 @@
 
 	// State
 	const orientation = windowOrientation;
-	let currentHour = $state(getCurrentHour());
 	let currentSceneTheme = $derived(
 		getSceneTheme({
 			range: getRandomTemperatureRange(),
 			condition: getRandomCondition(),
-			currentHour: currentHour,
-			sunriseHour: 6,
-			sunsetHour: 18,
+			currentHour: getRandomCurrentHour(),
+			sunriseHour: SUNRISE_HOUR_DEFAULT,
+			sunsetHour: SUNSET_HOUR_DEFAULT,
 		}),
 	);
 
@@ -58,6 +58,12 @@
 	function getRandomCondition(): ConditionStatus {
 		const conditionStatuses = Object.keys(statusToConditionLabel) as ConditionStatus[];
 		return conditionStatuses[Math.floor(Math.random() * conditionStatuses.length)];
+	}
+
+	function getRandomCurrentHour(): number {
+		return Math.floor(
+			Math.random() * (SUNSET_HOUR_DEFAULT - SUNRISE_HOUR_DEFAULT + 1) + SUNRISE_HOUR_DEFAULT,
+		);
 	}
 
 	function getCurrentSearchType(): SearchType | '' {
