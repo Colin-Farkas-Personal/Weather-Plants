@@ -130,6 +130,38 @@ function getValueFromHSLColor(hslColor: HSLColor, value: HSLValue): number {
 	return lightness;
 }
 
+interface CaclulateDayTimeLightPositionParams {
+	hourOfDay: number;
+	sunriseHour: number;
+	sunsetHour: number;
+}
+function caclulateDayTimeLightPosition({
+	hourOfDay,
+	sunriseHour,
+	sunsetHour,
+}: CaclulateDayTimeLightPositionParams): { x: number; y: number; z: number } {
+	const h = hourOfDay;
+
+	// If sunrise/sunset are invalid, treat the day as 0..24.
+	const isValidWindow =
+		Number.isFinite(sunriseHour) && Number.isFinite(sunsetHour) && sunsetHour > sunriseHour;
+
+	const start = isValidWindow ? sunriseHour : 0;
+	const end = isValidWindow ? sunsetHour : 24;
+
+	const clamp01 = (v: number) => Math.max(0, Math.min(1, v));
+	const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
+
+	const t = clamp01((h - start) / (end - start));
+	const z = lerp(-14, 14, t);
+
+	return {
+		x: 4,
+		y: 2.5,
+		z,
+	};
+}
+
 interface CalculatePercentValueAtHour {
 	hourOfDay: number;
 	lowestPercent: number;
@@ -192,4 +224,8 @@ function setHslSaturationAndLightness(
 	return `hsl(${hslParts.join(', ')})` as HSLColor;
 }
 
-export { calculateDayTimeShadowOpacity, calculateDayTimeBackgroundGradient };
+export {
+	calculateDayTimeShadowOpacity,
+	calculateDayTimeBackgroundGradient,
+	caclulateDayTimeLightPosition,
+};

@@ -107,7 +107,7 @@ export class SceneManager implements ISceneManager {
 		// Meshes & Lights
 		for (const subject of this.sceneSubjects) {
 			if (subject instanceof GeneralLights) {
-				subject.update({ lights: lights });
+				subject.update({ lights });
 			}
 
 			if (subject instanceof Fog) {
@@ -179,7 +179,7 @@ export class SceneManager implements ISceneManager {
 		controls.enableZoom = false;
 		controls.enablePan = false;
 
-		controls.keyRotateSpeed = 20;
+		// controls.keyRotateSpeed = 20;
 		// controls.listenToKeyEvents(window); <-- ERROR: Prevents any other element from using their keyboard listeners (such as the caret of input fields not moveable)
 
 		controls.minPolarAngle = Math.PI / 2.35;

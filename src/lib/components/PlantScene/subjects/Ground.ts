@@ -18,7 +18,7 @@ export class Ground implements SceneSubject {
 	}
 
 	private createCirclePlane(): THREE.Mesh {
-		const radius = 5;
+		const radius = 10;
 		const segments = 64;
 		const geometry = new THREE.CircleGeometry(radius, segments);
 

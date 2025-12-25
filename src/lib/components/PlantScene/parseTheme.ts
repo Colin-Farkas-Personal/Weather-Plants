@@ -2,6 +2,7 @@ import { browser } from '$app/environment';
 import type { ConditionStatus, CurrentCondition } from '$lib/globals/conditionStatusStore.svelte';
 import type { TemperatureRange } from '$lib/types/temperature';
 import {
+	caclulateDayTimeLightPosition,
 	calculateDayTimeBackgroundGradient,
 	calculateDayTimeShadowOpacity,
 } from './dayTimeModifier';
@@ -52,6 +53,7 @@ function getSceneTheme({
 	// 5. IF FOGGY - Set fog color to match the top background color
 	if (condition === 'FOGGY') {
 		dayTimeSceneTheme.fog.color = dayTimeSceneTheme.background.color[0];
+		dayTimeSceneTheme.lights.front.color = dayTimeSceneTheme.background.color[0];
 	}
 
 	return dayTimeSceneTheme;
@@ -113,10 +115,27 @@ function applyDayTimeModifier({
 		sunsetHour,
 	});
 
+	let updatedLightPosition = { x: 4, y: 2.5, z: 2.5 };
+	if (currentHour >= sunriseHour && currentHour <= sunsetHour) {
+		updatedLightPosition = caclulateDayTimeLightPosition({
+			hourOfDay: currentHour,
+			sunriseHour,
+			sunsetHour,
+		});
+	}
+
 	const modifiedSceneTheme = {
 		...sceneTheme,
 		shadow: { opacity: updatedShadowOpacity },
 		background: { color: updatedBackgroundColor },
+		lights: {
+			...sceneTheme.lights,
+			front: {
+				...sceneTheme.lights.front,
+				position: updatedLightPosition,
+				castShadow: currentHour >= sunriseHour && currentHour <= sunsetHour,
+			},
+		},
 	} as SceneTheme;
 
 	return modifiedSceneTheme;
