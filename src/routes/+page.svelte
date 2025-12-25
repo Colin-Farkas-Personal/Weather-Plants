@@ -15,6 +15,7 @@
 	import GpsBoldIcon from '~icons/ph/gps-bold';
 	import type { SearchData } from './+page.server';
 
+	const DATA_FETCH_INTERVAL_MINUTES = 30;
 	type SearchType = 'input' | 'current';
 
 	interface PageProps {

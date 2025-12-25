@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
+	import { goto, invalidateAll } from '$app/navigation';
 	import Button from '$lib/components/Button/Button.svelte';
 	import OverviewCondition from '$lib/components/OverviewCondition/OverviewCondition.svelte';
 	import OverviewTemperature from '$lib/components/OverviewTemperature/OverviewTemperature.svelte';
@@ -18,7 +18,10 @@
 	import type { TemperatureRange } from '$lib/types/temperature.js';
 	import type { WeatherOverview } from '$lib/types/weather.js';
 	import { getHourFromTimeString } from '$lib/utilities/formatted-hours';
+	import { onDestroy, onMount } from 'svelte';
 	import ArrowLeftBoldIcon from '~icons/ph/arrow-left-bold';
+
+	const DATA_FETCH_INTERVAL_MINUTES = 30;
 
 	// Props
 	interface PageProps {
@@ -28,12 +31,17 @@
 	let { data }: PageProps = $props();
 
 	// State
+	let timer: ReturnType<typeof setInterval>;
 	const orientation = windowOrientation;
 	let currentHour = $state<number | null>(null);
 
 	let currentConditionStatus = $state<CurrentCondition>();
 	let astro = $state<{ sunriseHour: number; sunsetHour: number } | null>(null);
 	let currentSceneTheme = $state<SceneTheme>(defaultTheme);
+
+	onMount(() => {
+		fetchOverviewDataByInterval(DATA_FETCH_INTERVAL_MINUTES);
+	});
 
 	$effect(() => {
 		initializeOverview();
@@ -51,6 +59,20 @@
 		});
 	});
 
+	onDestroy(() => clearInterval(timer));
+
+	// Functions
+	function fetchOverviewDataByInterval(intervalMinutes: number) {
+		const intervalMilliseconds = intervalMinutes * 60 * 1000;
+
+		const refresh = async () => {
+			// reruns +page.server.ts load() and updates the UI
+			await invalidateAll();
+		};
+
+		timer = setInterval(refresh, intervalMilliseconds);
+	}
+
 	async function initializeOverview() {
 		const streamedOverviewData = await data.streamed.overview;
 
@@ -61,7 +83,6 @@
 		currentConditionStatus = getCurrentCondition(streamedOverviewData.condition.code, 'night');
 
 		// 3. Set times
-		console.error('HOUR', streamedOverviewData.localTime);
 		currentHour = getHourFromTimeString(streamedOverviewData.localTime);
 		astro = {
 			sunriseHour: getHourFromTimeString(streamedOverviewData.astro.sunrise),
