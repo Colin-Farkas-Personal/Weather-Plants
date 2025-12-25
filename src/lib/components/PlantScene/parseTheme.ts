@@ -9,8 +9,8 @@ import { pleasantTheme } from './themes/pleasant';
 import type { SceneTheme, TemperatureThemeMap } from './themes/theme.types';
 
 interface GetSceneThemeParams {
-	range: TemperatureRange | null;
-	condition: CurrentCondition['status'] | null;
+	range: TemperatureRange;
+	condition: CurrentCondition['status'];
 	currentHour: number;
 	sunriseHour: number;
 	sunsetHour: number;
@@ -22,20 +22,6 @@ function getSceneTheme({
 	sunriseHour,
 	sunsetHour,
 }: GetSceneThemeParams): SceneTheme {
-	if (!range || !condition) {
-		// #3 Calculate the current day time scene theme from hour of day
-		const dayTimeSceneTheme = applyDayTimeModifier({
-			sceneTheme: defaultTheme,
-			currentHour,
-			sunriseHour,
-			sunsetHour,
-		});
-
-		// #4 Set the main screen background (IOS) to match the scene background
-		setScreenBackgroundColor(dayTimeSceneTheme.background.color[0]);
-		return dayTimeSceneTheme;
-	}
-
 	// #1 Get the theme for the temperature range and condition
 	const sceneTheme = temperatureSceneThemes[range][condition];
 	if (!sceneTheme) {
@@ -47,6 +33,7 @@ function getSceneTheme({
 
 	// #2 Add cloud model for cloudy conditions
 	sceneTheme.cloudModel = getCloudModelPath(condition);
+	console.log('CLOUS ????', sceneTheme.cloudModel);
 
 	// #3 Calculate the current day time scene theme from hour of day
 	const dayTimeSceneTheme = applyDayTimeModifier({

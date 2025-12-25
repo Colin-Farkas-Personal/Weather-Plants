@@ -156,7 +156,7 @@
 		</div>
 	{/snippet}
 	{#snippet Scene()}
-		<PlantScene sceneTheme={defaultTheme} />
+		<PlantScene sceneTheme={currentSceneTheme} />
 	{/snippet}
 </PageLayout>
 
