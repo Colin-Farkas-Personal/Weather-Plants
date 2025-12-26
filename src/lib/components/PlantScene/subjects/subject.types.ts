@@ -6,6 +6,7 @@ type UpdateParams = {
 	color?: HSLColor;
 	lights?: Record<LightNames, LightSourceAttributes>;
 	opacity?: number;
+	receiveShadow?: boolean;
 };
 
 interface SceneSubject {

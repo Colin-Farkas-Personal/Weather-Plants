@@ -31,7 +31,7 @@ export class GeneralLights implements SceneSubject {
 		this.frontLight.color.set(toThreeColor(front.color).color);
 		this.frontLight.intensity = front.intensity;
 		this.frontLight.position.set(x, y, z);
-		this.frontLight.castShadow = front.castShadow;
+		this.frontLight.castShadow = true;
 	}
 
 	private createAmbientLight(): THREE.AmbientLight {

@@ -88,6 +88,18 @@ const hotTheme: Partial<ThemeMap> = {
 			color: backgroundGradientColor200,
 		},
 	},
+	SNOWY: {
+		...baseHotTheme,
+		background: {
+			color: backgroundGradientColor200,
+		},
+	},
+	FREEZING: {
+		...baseHotTheme,
+		background: {
+			color: backgroundGradientColor200,
+		},
+	},
 };
 
 export { hotTheme };

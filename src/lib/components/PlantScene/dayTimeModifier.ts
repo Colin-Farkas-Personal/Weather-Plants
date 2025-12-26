@@ -135,31 +135,56 @@ interface CaclulateDayTimeLightPositionParams {
 	sunriseHour: number;
 	sunsetHour: number;
 }
+
+// Z sweep for a full 24h loop:
+// - Day (sunrise -> sunset):    z goes -10 -> 10
+// - Night (sunset -> sunrise):  z goes 10  -> -10
+//
+// This keeps motion continuous while allowing shadows/intensity to be controlled elsewhere.
+
 function caclulateDayTimeLightPosition({
 	hourOfDay,
 	sunriseHour,
 	sunsetHour,
 }: CaclulateDayTimeLightPositionParams): { x: number; y: number; z: number } {
-	const h = hourOfDay;
+	// Normalize to 0..24
+	const h = ((hourOfDay % 24) + 24) % 24;
 
-	// If sunrise/sunset are invalid, treat the day as 0..24.
+	// Guard: if sunrise/sunset are invalid, fall back to a simple 0..24 sweep.
 	const isValidWindow =
 		Number.isFinite(sunriseHour) && Number.isFinite(sunsetHour) && sunsetHour > sunriseHour;
-
-	const start = isValidWindow ? sunriseHour : 0;
-	const end = isValidWindow ? sunsetHour : 24;
 
 	const clamp01 = (v: number) => Math.max(0, Math.min(1, v));
 	const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 
-	const t = clamp01((h - start) / (end - start));
-	const z = lerp(-14, 14, t);
+	// Ease that moves quickly early and slows later (helps the night return feel "quicker")
+	const easeOut = (t: number, power = 2.5) => 1 - Math.pow(1 - clamp01(t), power);
 
-	return {
-		x: 4,
-		y: 2.5,
-		z,
-	};
+	// Fallback: map the whole day 0..24 to -10..10
+	if (!isValidWindow) {
+		const t = clamp01(h / 24);
+		return { x: 4, y: 2.5, z: lerp(-10, 10, t) };
+	}
+
+	const sr = sunriseHour;
+	const ss = sunsetHour;
+
+	// Daytime window
+	const isDay = h >= sr && h <= ss;
+
+	if (isDay) {
+		const dayLength = ss - sr;
+		const t = dayLength > 0 ? clamp01((h - sr) / dayLength) : 0;
+		return { x: 4, y: 2.5, z: lerp(-10, 10, t) };
+	}
+
+	// Night window wraps around midnight: ss -> 24 -> sr
+	const nightLength = 24 - ss + sr;
+	const hoursSinceSunset = h >= ss ? h - ss : h + 24 - ss;
+
+	// Make the return feel faster early in the night via easeOut.
+	const tNight = nightLength > 0 ? easeOut(hoursSinceSunset / nightLength, 2.5) : 0;
+	return { x: 4, y: 2.5, z: lerp(10, -10, tNight) };
 }
 
 interface CalculatePercentValueAtHour {

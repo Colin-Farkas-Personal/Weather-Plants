@@ -118,6 +118,15 @@ export class SceneManager implements ISceneManager {
 				console.log('Updating ground shadow opacity to:', shadow?.opacity);
 				subject.update({ opacity: shadow?.opacity });
 			}
+
+			// if (subject instanceof Model) {
+			// 	if (model.plant) {
+			// 		subject.update({ receiveShadow: model.plant.receiveShadow ?? false });
+			// 	}
+			// 	if (model.pot) {
+			// 		subject.update({ receiveShadow: model.pot.receiveShadow ?? false });
+			// 	}
+			// }
 		}
 	}
 

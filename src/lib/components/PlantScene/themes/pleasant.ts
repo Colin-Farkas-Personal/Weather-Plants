@@ -88,6 +88,18 @@ const pleasantTheme: Partial<ThemeMap> = {
 			color: backgroundGradientColor200,
 		},
 	},
+	SNOWY: {
+		...basePleasantTheme,
+		background: {
+			color: backgroundGradientColor200,
+		},
+	},
+	FREEZING: {
+		...basePleasantTheme,
+		background: {
+			color: backgroundGradientColor200,
+		},
+	},
 };
 
 export { pleasantTheme };

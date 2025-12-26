@@ -54,6 +54,7 @@ function getSceneTheme({
 	if (condition === 'FOGGY') {
 		dayTimeSceneTheme.fog.color = dayTimeSceneTheme.background.color[0];
 		dayTimeSceneTheme.lights.front.color = dayTimeSceneTheme.background.color[0];
+		dayTimeSceneTheme.shadow.opacity = 0;
 	}
 
 	return dayTimeSceneTheme;
@@ -115,14 +116,11 @@ function applyDayTimeModifier({
 		sunsetHour,
 	});
 
-	let updatedLightPosition = { x: 4, y: 2.5, z: 2.5 };
-	if (currentHour >= sunriseHour && currentHour <= sunsetHour) {
-		updatedLightPosition = caclulateDayTimeLightPosition({
-			hourOfDay: currentHour,
-			sunriseHour,
-			sunsetHour,
-		});
-	}
+	const updatedLightPosition = caclulateDayTimeLightPosition({
+		hourOfDay: currentHour,
+		sunriseHour,
+		sunsetHour,
+	});
 
 	const modifiedSceneTheme = {
 		...sceneTheme,

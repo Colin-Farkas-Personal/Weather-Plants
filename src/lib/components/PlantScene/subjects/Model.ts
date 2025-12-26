@@ -20,8 +20,14 @@ export class Model implements SceneSubject {
 		this._scene.add(this.model);
 	}
 
-	update(): void {
-		console.warn('Method not implemented.', this);
+	update({ receiveShadow }: { receiveShadow: boolean }): void {
+		// if (this.model) {
+		// 	this.model.traverse((child) => {
+		// 		if (child instanceof THREE.Mesh) {
+		// 			child.receiveShadow = receiveShadow;
+		// 		}
+		// 	});
+		// }
 	}
 
 	dispose(): void {
