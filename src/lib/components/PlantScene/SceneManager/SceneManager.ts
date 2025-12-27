@@ -95,13 +95,18 @@ export class SceneManager implements ISceneManager {
 			this.updateModel(model.plant.path, 'plant');
 		}
 
-		if (model.pot) {
+		const isDifferentPotModel = model.pot?.path !== this.models.pot?._modelPath;
+		if (model.pot && isDifferentPotModel) {
 			this.updateModel(model.pot.path, 'pot');
 		}
 
 		// Cloud Model
-		if (cloudModel) {
+		const isDifferentCloudModel = cloudModel !== this.models.cloud?._modelPath;
+		if (cloudModel && isDifferentCloudModel) {
 			this.updateModel(cloudModel, 'cloud');
+		} else if (!cloudModel && this.models.cloud) {
+			this.models.cloud.dispose();
+			this.models.cloud = undefined;
 		}
 
 		// Meshes & Lights
@@ -224,12 +229,14 @@ export class SceneManager implements ISceneManager {
 		return sceneSubjects;
 	}
 
-	private updateModel(plantModelPath: string, modelType: 'plant' | 'pot' | 'cloud') {
-		if (this.models[modelType]) {
-			this.models[modelType].dispose();
-			this.models[modelType].create(plantModelPath);
+	private updateModel(modelPath: string, modelType: 'plant' | 'pot' | 'cloud') {
+		const existing = this.models[modelType];
+		if (existing) {
+			existing.dispose();
+			existing.create(modelPath);
+			return;
 		}
 
-		this.models[modelType] = new Model({ scene: this.scene, modelPath: plantModelPath });
+		this.models[modelType] = new Model({ scene: this.scene, modelPath });
 	}
 }

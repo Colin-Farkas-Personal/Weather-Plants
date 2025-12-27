@@ -16,6 +16,7 @@
 	import { onMount } from 'svelte';
 	import GpsBoldIcon from '~icons/ph/gps-bold';
 	import type { SearchData } from './+page.server';
+	import type { MouseEventHandler } from 'svelte/elements';
 
 	const SUNRISE_HOUR_DEFAULT = 6;
 	const SUNSET_HOUR_DEFAULT = 18;
@@ -94,6 +95,22 @@
 		}
 
 		return '';
+	}
+
+	// Event
+	function handleTimeChange(e: MouseEvent) {
+		const newTargetHour = e.target as HTMLInputElement;
+		// transitionTime(currentHour, Number(newTargetHour.value));
+	}
+
+	function transitionTime(start: number, end: number): void {
+		if (start >= end) {
+			return;
+		}
+
+		start += 0.05;
+		currentHour = start;
+		window.requestAnimationFrame(() => transitionTime(start, end));
 	}
 </script>
 

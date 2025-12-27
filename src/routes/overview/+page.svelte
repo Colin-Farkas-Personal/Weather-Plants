@@ -80,7 +80,7 @@
 		temperatureRangeStore.setRange(streamedOverviewData.temperature);
 
 		// 2. Update condition
-		currentConditionStatus = getCurrentCondition(streamedOverviewData.condition.code, 'night');
+		currentConditionStatus = getCurrentCondition(streamedOverviewData.condition.code, 'day');
 
 		// 3. Set times
 		currentHour = getHourFromTimeString(streamedOverviewData.localTime);

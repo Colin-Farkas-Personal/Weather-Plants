@@ -6,13 +6,15 @@ import CloudSnowBold from '~icons/ph/cloud-snow-bold';
 import CloudSunBold from '~icons/ph/cloud-sun-bold';
 import SnowflakeBold from '~icons/ph/snowflake-bold';
 import SunBold from '~icons/ph/sun-bold';
+import MoonBold from '~icons/ph/moon-stars-bold';
 import TornadoBold from '~icons/ph/tornado-bold';
 import WindBold from '~icons/ph/wind-bold';
-import type { ConditionStatus } from '$lib/types/condition';
 import type { Component } from 'svelte';
+import type { ConditionStatus } from '$lib/globals/conditionStatusStore.svelte';
 
 const weatherConditionIcons: Record<ConditionStatus, Component> = {
 	SUNNY: SunBold,
+	CLEAR: MoonBold,
 	WINDY: WindBold,
 	PARTLY_CLOUDY: CloudSunBold,
 	CLOUDY: CloudBold,
