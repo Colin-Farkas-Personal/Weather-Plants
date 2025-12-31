@@ -32,12 +32,12 @@ const basePleasantTheme: SceneTheme = {
 	},
 	lights: {
 		ambient: {
-			color: 'hsla(45, 100%, 80%, 1.00)',
+			color: 'hsla(59, 100%, 80%, 1.00)',
 			intensity: 1,
 		},
 		front: {
-			color: 'hsla(50, 100%, 74%, 1.00)',
-			intensity: 100,
+			color: 'hsla(56, 100%, 74%, 1.00)',
+			intensity: 20,
 		},
 	},
 };

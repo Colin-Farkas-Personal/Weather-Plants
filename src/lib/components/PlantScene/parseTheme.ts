@@ -4,8 +4,9 @@ import type { TemperatureRange } from '$lib/types/temperature';
 import {
 	caclulateDayTimeLightPosition,
 	calculateDayTimeBackgroundGradient,
+	calculateDayTimeLightIntensity,
 	calculateDayTimeShadowOpacity,
-} from './dayTimeModifier';
+} from './dayTimeModifiers/dayTimeModifier';
 import { coldTheme } from './themes/cold';
 import { defaultTheme } from './themes/default';
 import { hotTheme } from './themes/hot';
@@ -122,6 +123,14 @@ function applyDayTimeModifier({
 		sunsetHour,
 	});
 
+	const updatedLightIntensity = calculateDayTimeLightIntensity({
+		hourOfDay: currentHour,
+		sunriseHour,
+		sunsetHour,
+		minIntensity: 0,
+		maxIntensity: 30,
+	});
+
 	const modifiedSceneTheme = {
 		...sceneTheme,
 		shadow: { opacity: updatedShadowOpacity },
@@ -131,7 +140,7 @@ function applyDayTimeModifier({
 			front: {
 				...sceneTheme.lights.front,
 				position: updatedLightPosition,
-				castShadow: currentHour >= sunriseHour && currentHour <= sunsetHour,
+				intensity: updatedLightIntensity,
 			},
 		},
 	} as SceneTheme;

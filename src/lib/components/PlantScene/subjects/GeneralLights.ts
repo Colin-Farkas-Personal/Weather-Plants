@@ -4,13 +4,15 @@ import type { SceneSubject, UpdateParams } from './subject.types';
 
 export class GeneralLights implements SceneSubject {
 	public frontLight: THREE.SpotLight = this.createFrontLight();
+	private rectLight: THREE.RectAreaLight = this.createFillLight();
 	private ambientLight: THREE.AmbientLight = this.createAmbientLight();
 
 	constructor(scene: THREE.Scene) {
 		scene.add(this.ambientLight);
 		scene.add(this.frontLight);
-		// Ensure the spotlight has an explicit target in the scene (affects shadow camera direction)
 		scene.add(this.frontLight.target);
+		scene.add(this.rectLight);
+
 		this.frontLight.target.position.set(0, 0, 0);
 		this.frontLight.target.updateMatrixWorld();
 	}
@@ -31,7 +33,6 @@ export class GeneralLights implements SceneSubject {
 		this.frontLight.color.set(toThreeColor(front.color).color);
 		this.frontLight.intensity = front.intensity;
 		this.frontLight.position.set(x, y, z);
-		this.frontLight.castShadow = true;
 	}
 
 	private createAmbientLight(): THREE.AmbientLight {
@@ -75,5 +76,13 @@ export class GeneralLights implements SceneSubject {
 		spotLight.shadow.camera.updateProjectionMatrix();
 
 		return spotLight;
+	}
+
+	private createFillLight(): THREE.RectAreaLight {
+		const fill = new THREE.RectAreaLight(0x9ac9df, 5, 20, 20);
+		fill.position.set(6, 14, 0);
+		fill.lookAt(0, 0, 0);
+
+		return fill;
 	}
 }
