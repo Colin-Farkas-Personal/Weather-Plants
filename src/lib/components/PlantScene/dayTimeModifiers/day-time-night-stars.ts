@@ -6,7 +6,11 @@ interface UpdateStarProperties {
 	sunsetHour: number;
 }
 
-export function updateStarProperties({ hourOfDay, sunriseHour, sunsetHour }: UpdateStarProperties) {
+export function updateNightTimeStarOpacity({
+	hourOfDay,
+	sunriseHour,
+	sunsetHour,
+}: UpdateStarProperties) {
 	if (typeof document === 'undefined') {
 		return;
 	}
@@ -44,4 +48,44 @@ export function updateStarProperties({ hourOfDay, sunriseHour, sunsetHour }: Upd
 
 	// Apply as percentage (opacity supports percentages in modern browsers)
 	nightStarsElement.style.setProperty('--night-stars-opacity', opacityPercent);
+}
+
+export function updateNightTimeStarTransform({
+	hourOfDay,
+	sunriseHour,
+	sunsetHour,
+}: UpdateStarProperties) {
+	if (typeof document === 'undefined') {
+		return;
+	}
+
+	const nightStarsElement = document.getElementById('night-stars') as HTMLElement | null;
+	if (!nightStarsElement) return;
+
+	// Consider it "night" from sunset -> next sunrise (wraps across midnight)
+	const isNight = hourOfDay >= sunsetHour || hourOfDay < sunriseHour;
+
+	// If it's daytime, reset transforms so we don't "freeze" the last night position.
+	if (!isNight) {
+		nightStarsElement.style.setProperty('--night-stars-transform-x', '0px');
+		nightStarsElement.style.setProperty('--night-stars-transform-y', '0px');
+		return;
+	}
+
+	// Normalize a 0..1 progress across the whole night (sunset -> next sunrise),
+	// even when we wrap past midnight.
+	const hoursSinceSunset =
+		hourOfDay >= sunsetHour ? hourOfDay - sunsetHour : hourOfDay + (24 - sunsetHour);
+	const nightLength = 24 - sunsetHour + sunriseHour;
+	const progress = nightLength > 0 ? hoursSinceSunset / nightLength : 0;
+
+	// Map progress to a translation range (tweak these values to taste)
+	const MAX_TRANSLATE_X_PX = 80;
+	const MAX_TRANSLATE_Y_PX = -40; // negative = up
+
+	const x = progress * MAX_TRANSLATE_X_PX;
+	const y = progress * MAX_TRANSLATE_Y_PX;
+
+	nightStarsElement.style.setProperty('--night-stars-transform-x', `${x}px`);
+	nightStarsElement.style.setProperty('--night-stars-transform-y', `${y}px`);
 }

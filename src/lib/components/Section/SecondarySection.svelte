@@ -6,7 +6,6 @@
 	import { createStars } from '../PlantScene/nightStars';
 	import type { BackgroundGradientColor } from '../PlantScene/themes/theme.types';
 	import SectionHeading from './SectionHeading.svelte';
-	import { updateStarProperties } from '../PlantScene/dayTimeModifiers/day-time-night-stars';
 
 	interface SecondarySectionProps {
 		TopBar?: Snippet;

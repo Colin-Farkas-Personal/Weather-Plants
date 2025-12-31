@@ -1,7 +1,10 @@
 import { browser } from '$app/environment';
 import type { ConditionStatus, CurrentCondition } from '$lib/globals/conditionStatusStore.svelte';
 import type { TemperatureRange } from '$lib/types/temperature';
-import { updateStarProperties } from './dayTimeModifiers/day-time-night-stars';
+import {
+	updateNightTimeStarOpacity,
+	updateNightTimeStarTransform,
+} from './dayTimeModifiers/day-time-night-stars';
 import {
 	caclulateDayTimeLightPosition,
 	calculateDayTimeBackgroundGradient,
@@ -53,7 +56,8 @@ function getSceneTheme({
 	setScreenBackgroundColor(dayTimeSceneTheme.background.color[0]);
 
 	// #5 IF Night time, add stars with smooth transition
-	updateStarProperties({ hourOfDay: currentHour, sunriseHour, sunsetHour });
+	updateNightTimeStarOpacity({ hourOfDay: currentHour, sunriseHour, sunsetHour });
+	updateNightTimeStarTransform({ hourOfDay: currentHour, sunriseHour, sunsetHour });
 
 	// 5. IF FOGGY - Set fog color to match the top background color
 	if (condition === 'FOGGY') {

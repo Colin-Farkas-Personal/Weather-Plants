@@ -1,23 +1,20 @@
-$starFieldWidth: 100;
-$starFieldHeight: 60;
-$starStartOffset: 600px;
-
-$starOneScrollDuration: 100s;
-$starTwoScrollDuration: 125s;
-$starThreeScrollDuration: 175s;
-$numStarOneStars: 1700;
-$numStarTwoStars: 700;
-$numStarThreeStars: 200;
-$numComet: 10;
-
 .night-stars {
+	--night-stars-size-padding: 10%;
 	--night-stars-opacity: 0%;
+	--night-stars-transform-x: 0px;
+	--night-stars-transform-y: 0px;
 
 	position: absolute;
-	inset: 0;
-	height: 80%;
+
+	height: 100%;
+	top: calc(-1 * var(--night-stars-size-padding));
+	left: calc(-1 * var(--night-stars-size-padding));
+	right: calc(-1 * var(--night-stars-size-padding));
 
 	opacity: var(--night-stars-opacity);
+
+	translate: var(--night-stars-transform-x) var(--night-stars-transform-y);
+	will-change: opacity, translate;
 
 	/* Fade stars out toward the bottom */
 	-webkit-mask-image: linear-gradient(
