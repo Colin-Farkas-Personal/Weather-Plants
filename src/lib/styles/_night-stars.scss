@@ -1,0 +1,53 @@
+$starFieldWidth: 100;
+$starFieldHeight: 60;
+$starStartOffset: 600px;
+
+$starOneScrollDuration: 100s;
+$starTwoScrollDuration: 125s;
+$starThreeScrollDuration: 175s;
+$numStarOneStars: 1700;
+$numStarTwoStars: 700;
+$numStarThreeStars: 200;
+$numComet: 10;
+
+.night-stars {
+	--night-stars-opacity: 0%;
+
+	position: absolute;
+	inset: 0;
+	height: 80%;
+
+	opacity: var(--night-stars-opacity);
+
+	/* Fade stars out toward the bottom */
+	-webkit-mask-image: linear-gradient(
+		to bottom,
+		rgba(0, 0, 0, 1) 0%,
+		rgba(0, 0, 0, 0) 80%,
+		rgba(0, 0, 0, 0) 100%
+	);
+	mask-image: linear-gradient(
+		to bottom,
+		rgba(0, 0, 0, 1) 0%,
+		rgba(0, 0, 0, 0) 80%,
+		rgba(0, 0, 0, 0) 100%
+	);
+}
+
+.star {
+	position: absolute;
+	background: white;
+	border-radius: 50%;
+	opacity: 0.8;
+	animation: twinkle 2s infinite ease-in-out;
+}
+
+@keyframes twinkle {
+	0%,
+	100% {
+		opacity: 0.8;
+	}
+	50% {
+		opacity: 0.3;
+	}
+}

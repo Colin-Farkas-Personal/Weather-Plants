@@ -16,7 +16,6 @@
 	import { onMount } from 'svelte';
 	import GpsBoldIcon from '~icons/ph/gps-bold';
 	import type { SearchData } from './+page.server';
-	import type { MouseEventHandler } from 'svelte/elements';
 
 	const SUNRISE_HOUR_DEFAULT = 6;
 	const SUNSET_HOUR_DEFAULT = 18;
@@ -60,6 +59,7 @@
 			sunsetHour: SUNSET_HOUR_DEFAULT,
 		}),
 	);
+	let isNight = $derived(currentHour < SUNRISE_HOUR_DEFAULT || currentHour > SUNSET_HOUR_DEFAULT);
 
 	let currentSearchType = $derived(getCurrentSearchType());
 	const hasSearched = $derived(currentSearchType.length > 0);
@@ -98,20 +98,20 @@
 	}
 
 	// Event
-	function handleTimeChange(e: MouseEvent) {
-		const newTargetHour = e.target as HTMLInputElement;
-		// transitionTime(currentHour, Number(newTargetHour.value));
-	}
+	// function handleTimeChange(e: MouseEvent) {
+	// 	const newTargetHour = e.target as HTMLInputElement;
+	// 	// transitionTime(currentHour, Number(newTargetHour.value));
+	// }
 
-	function transitionTime(start: number, end: number): void {
-		if (start >= end) {
-			return;
-		}
+	// function transitionTime(start: number, end: number): void {
+	// 	if (start >= end) {
+	// 		return;
+	// 	}
 
-		start += 0.05;
-		currentHour = start;
-		window.requestAnimationFrame(() => transitionTime(start, end));
-	}
+	// 	start += 0.05;
+	// 	currentHour = start;
+	// 	window.requestAnimationFrame(() => transitionTime(start, end));
+	// }
 </script>
 
 {#snippet SecondarySectionContent()}
@@ -164,6 +164,7 @@
 	}}
 	className="main-page"
 	sceneBackground={currentSceneTheme.background.color}
+	showNightStars={isNight}
 	blurScene={hasSearched}
 >
 	{#snippet PrimarySectionContent()}

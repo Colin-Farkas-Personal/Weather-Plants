@@ -18,6 +18,7 @@
 		PrimarySectionContent: Snippet;
 		secondarySectionProps?: SecondarySectionProps;
 		Scene?: Snippet;
+		showNightStars: boolean;
 		sceneBackground?: BackgroundGradientColor;
 		blurScene?: boolean;
 		className?: string;
@@ -30,6 +31,7 @@
 		PrimarySectionContent,
 		secondarySectionProps,
 		Scene,
+		showNightStars,
 		sceneBackground,
 		blurScene,
 		className,
@@ -53,6 +55,7 @@
 			contentHeading={secondaryContentHeading}
 			Content={SecondaryContentSnippet}
 			{sceneBackground}
+			{showNightStars}
 			{blurScene}
 		/>
 		<PrimarySection Content={PrimarySectionContent} />
@@ -69,6 +72,7 @@
 			contentHeading={secondaryContentHeading}
 			{Scene}
 			{sceneBackground}
+			{showNightStars}
 			{blurScene}
 			Content={SecondaryContentSnippet}
 		/>

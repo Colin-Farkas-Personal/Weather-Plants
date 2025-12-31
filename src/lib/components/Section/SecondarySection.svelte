@@ -1,16 +1,19 @@
 <script lang="ts">
-	import { windowOrientation } from '$lib/globals/windowStore';
-	import type { Snippet } from 'svelte';
-	import SectionHeading from './SectionHeading.svelte';
-	import type { BackgroundGradientColor } from '../PlantScene/themes/theme.types';
-	import { calculateForegroundColor } from '$lib/utilities/theme/foreground-color';
 	import temperatureRangeStore from '$lib/globals/temperatureRangeStore.svelte';
+	import { windowOrientation } from '$lib/globals/windowStore';
+	import { calculateForegroundColor } from '$lib/utilities/theme/foreground-color';
+	import { type Snippet } from 'svelte';
+	import { createStars } from '../PlantScene/nightStars';
+	import type { BackgroundGradientColor } from '../PlantScene/themes/theme.types';
+	import SectionHeading from './SectionHeading.svelte';
+	import { updateStarProperties } from '../PlantScene/dayTimeModifiers/day-time-night-stars';
 
 	interface SecondarySectionProps {
 		TopBar?: Snippet;
 		heading?: string;
 		subHeading?: string;
 		Scene?: Snippet<[]> | undefined;
+		showNightStars?: boolean;
 		sceneBackground?: BackgroundGradientColor;
 		blurScene?: boolean;
 		Content?: Snippet<[]> | undefined;
@@ -23,6 +26,7 @@
 		subHeading,
 		Scene,
 		sceneBackground,
+		showNightStars,
 		blurScene: blurContent = false,
 		Content = undefined,
 		contentHeading,
@@ -47,6 +51,12 @@
 				priority: 'secondary',
 			}),
 	);
+
+	$effect(() => {
+		if (showNightStars) {
+			createStars();
+		}
+	});
 </script>
 
 <section class={`secondary-section ${$orientation}`}>
@@ -56,6 +66,9 @@
 		style:background={sceneBackground &&
 			`linear-gradient(to bottom, ${sceneBackground[0]}, ${sceneBackground[1]})`}
 	>
+		{#if showNightStars}
+			<span id="night-stars" class="night-stars"></span>
+		{/if}
 		{#if $orientation === 'portrait'}
 			<section class="secondary-section-inner-hidden">
 				{#if TopBar}
