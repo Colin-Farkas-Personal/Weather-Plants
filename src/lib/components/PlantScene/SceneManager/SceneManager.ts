@@ -60,10 +60,9 @@ export class SceneManager implements ISceneManager {
 	// ---- PUBLIC METHODS ----
 
 	update() {
-		// for(const subject of this.sceneSubjects) {
-		//     Subjects currently do not implement update logic
-		//     subject.update();
-		// }
+		this.models.pot?.update();
+		this.models.plant?.update();
+		this.models.cloud?.update();
 
 		this.controls.update();
 		this.renderer.render(this.scene, this.camera);
@@ -193,13 +192,12 @@ export class SceneManager implements ISceneManager {
 		controls.enableZoom = false;
 		controls.enablePan = false;
 
-		// controls.keyRotateSpeed = 20;
-		// controls.listenToKeyEvents(window); <-- ERROR: Prevents any other element from using their keyboard listeners (such as the caret of input fields not moveable)
-
 		controls.minPolarAngle = Math.PI / 2.35;
 		controls.maxPolarAngle = Math.PI / 2.35;
 
 		controls.target.set(0, 0.25, 0);
+
+		controls.enableRotate = false;
 
 		return controls;
 	}

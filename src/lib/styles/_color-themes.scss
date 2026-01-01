@@ -50,7 +50,7 @@
 	--clear-sky-300: #b1deff;
 	--clear-sky-400: #98d6ff;
 	--clear-sky-500: #8fd3ff;
-	--clear-sky-600: #6abfff;
+	--clear-sky-600: #73b7e3;
 	--clear-sky-700: #4e7f9f;
 	--clear-sky-800: #366176;
 	--clear-sky-900: #2c3b45;
@@ -75,6 +75,8 @@
 	--theme-bg-secondary: var(--warm-white-bg-secondary);
 	--theme-bg-tertiary: var(--warm-white-bg-tertiary);
 
+	--theme-action-bg-primary: var(--warm-white-bg-secondary);
+
 	--theme-text-primary: var(--warm-white-text-primary);
 	--theme-text-secondary: var(--warm-white-text-secondary);
 	--theme-text-tertiary: var(--warm-white-text-tertiary);
@@ -91,6 +93,8 @@
 	--theme-bg-primary: var(--snow-white-50);
 	--theme-bg-secondary: var(--snow-white-300);
 
+	--theme-action-bg-primary: var(--snow-white-300);
+
 	--theme-text-primary: var(--snow-white-900);
 	--theme-text-secondary: var(--snow-white-600);
 	--theme-text-tertiary: var(--snow-white-500);
@@ -106,7 +110,9 @@
 	--theme-primary-color: var(--clear-sky-500);
 
 	--theme-bg-primary: var(--clear-sky-500);
-	--theme-bg-secondary: var(--clear-sky-200);
+	--theme-bg-secondary: var(--clear-sky-600);
+
+	--theme-action-bg-primary: var(--clear-sky-200);
 
 	--theme-text-primary: var(--clear-sky-900);
 	--theme-text-secondary: var(--clear-sky-800);
@@ -123,7 +129,9 @@
 	--theme-primary: var(--sunburn-500);
 
 	--theme-bg-primary: var(--sunburn-500);
-	--theme-bg-secondary: var(--sunburn-300);
+	--theme-bg-secondary: var(--sunburn-600);
+
+	--theme-action-bg-primary: var(--sunburn-300);
 
 	--theme-text-primary: var(--sunburn-900);
 	--theme-text-secondary: var(--sunburn-800);

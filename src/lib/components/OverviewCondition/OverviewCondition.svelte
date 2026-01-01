@@ -32,7 +32,7 @@
 		width: fit-content;
 
 		border-radius: var(--fluid-size-em-large-plus);
-		background-color: var(--theme-bg-secondary);
+		background-color: var(--theme-action-bg-primary);
 		color: var(--theme-text-primary);
 
 		.icon {

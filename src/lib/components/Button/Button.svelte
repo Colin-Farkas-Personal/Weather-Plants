@@ -46,7 +46,6 @@
 
 			font-size: 16px;
 			font-weight: bold;
-			color: var(--theme-text-secondary-inversed);
 
 			cursor: pointer;
 
@@ -65,7 +64,7 @@
 			}
 			&.secondary {
 				border: none;
-				color: var(--theme-text-secondary-inversed);
+				color: var(--theme-text-secondary);
 				outline-width: 2px;
 				outline-style: solid;
 				outline-color: inherit;

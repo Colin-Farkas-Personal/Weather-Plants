@@ -193,6 +193,7 @@
 			font-size: var(--fluid-size-em-medium-plus);
 			min-width: 4ch;
 			font-weight: bold;
+			color: var(--theme-text-primary);
 		}
 
 		&-label-min {

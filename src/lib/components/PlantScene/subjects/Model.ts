@@ -20,14 +20,8 @@ export class Model implements SceneSubject {
 		this._scene.add(this.model);
 	}
 
-	update({ receiveShadow }: { receiveShadow: boolean }): void {
-		// if (this.model) {
-		// 	this.model.traverse((child) => {
-		// 		if (child instanceof THREE.Mesh) {
-		// 			child.receiveShadow = receiveShadow;
-		// 		}
-		// 	});
-		// }
+	update(): void {
+		this.rotateModel();
 	}
 
 	dispose(): void {
@@ -67,6 +61,12 @@ export class Model implements SceneSubject {
 					});
 				}
 			});
+		}
+	}
+
+	private rotateModel() {
+		if (this.model) {
+			this.model.rotation.y += 0.0001;
 		}
 	}
 }
