@@ -81,7 +81,7 @@ export function updateNightTimeStarTransform({
 
 	// Map progress to a translation range (tweak these values to taste)
 	const MAX_TRANSLATE_X_PX = 80;
-	const MAX_TRANSLATE_Y_PX = -40; // negative = up
+	const MAX_TRANSLATE_Y_PX = -40;
 
 	const x = progress * MAX_TRANSLATE_X_PX;
 	const y = progress * MAX_TRANSLATE_Y_PX;

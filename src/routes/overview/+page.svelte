@@ -38,6 +38,7 @@
 	let currentConditionStatus = $state<CurrentCondition>();
 	let astro = $state<{ sunriseHour: number; sunsetHour: number } | null>(null);
 	let currentSceneTheme = $state<SceneTheme>(defaultTheme);
+	let isNight = $state(false);
 
 	onMount(() => {
 		fetchOverviewDataByInterval(DATA_FETCH_INTERVAL_MINUTES);
@@ -89,7 +90,12 @@
 			sunsetHour: getHourFromTimeString(streamedOverviewData.astro.sunset),
 		};
 
-		// 4. Update main theme attribute
+		// 4. Set night sky
+		isNight =
+			currentHour < getHourFromTimeString(streamedOverviewData.astro.sunrise) ||
+			currentHour > getHourFromTimeString(streamedOverviewData.astro.sunset);
+
+		// 5. Update main theme attribute
 		updateMainTheme();
 	}
 
@@ -103,6 +109,7 @@
 	heading={data.location.name}
 	subHeading={data.location.country}
 	sceneBackground={currentSceneTheme.background.color}
+	showNightStars={isNight}
 	className="overview-page"
 >
 	{#snippet MainTopBar()}
