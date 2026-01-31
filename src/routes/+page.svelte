@@ -96,22 +96,6 @@
 
 		return '';
 	}
-
-	// Event
-	// function handleTimeChange(e: MouseEvent) {
-	// 	const newTargetHour = e.target as HTMLInputElement;
-	// 	// transitionTime(currentHour, Number(newTargetHour.value));
-	// }
-
-	// function transitionTime(start: number, end: number): void {
-	// 	if (start >= end) {
-	// 		return;
-	// 	}
-
-	// 	start += 0.05;
-	// 	currentHour = start;
-	// 	window.requestAnimationFrame(() => transitionTime(start, end));
-	// }
 </script>
 
 {#snippet SecondarySectionContent()}
@@ -168,10 +152,6 @@
 	blurScene={hasSearched}
 >
 	{#snippet PrimarySectionContent()}
-		<h4>{currentHour}</h4>
-		<p>0</p>
-		<input type="range" min="0" max="24" step="0.05" bind:value={currentHour} />
-		<p>24</p>
 		<div class={`main-page-selection ${$orientation}`}>
 			<form method="GET">
 				<LocationTextInput />

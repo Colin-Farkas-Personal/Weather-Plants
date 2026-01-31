@@ -17,6 +17,7 @@
 		blurScene?: boolean;
 		Content?: Snippet<[]> | undefined;
 		contentHeading?: string;
+		BottomContent?: Snippet<[]> | undefined;
 	}
 
 	let {
@@ -29,6 +30,7 @@
 		blurScene: blurContent = false,
 		Content = undefined,
 		contentHeading,
+		BottomContent,
 	}: SecondarySectionProps = $props();
 
 	// State
@@ -129,6 +131,11 @@
 						</h2>
 
 						{@render Content?.()}
+					</div>
+				{/if}
+				{#if BottomContent}
+					<div class="secondary-section-inner-display-bottom-content">
+						{@render BottomContent()}
 					</div>
 				{/if}
 				{@render Scene?.()}
@@ -323,6 +330,20 @@
 						font-weight: bold;
 						color: var(--warm-white-900);
 					}
+				}
+
+				&-bottom-content {
+					z-index: 1;
+					position: absolute;
+					bottom: 0;
+					left: 0;
+					right: 0;
+
+					display: flex;
+					align-items: center;
+					justify-content: center;
+
+					padding: 2rem 0;
 				}
 			}
 		}

@@ -7,8 +7,9 @@
 
 	interface SecondarySectionProps {
 		TopBar?: Snippet;
-		Content: Snippet;
-		heading: string;
+		Content?: Snippet;
+		heading?: string;
+		BottomContent?: Snippet<[]> | undefined;
 	}
 
 	interface PageLayoutProps {
@@ -40,6 +41,7 @@
 	const secondaryContentHeading = $derived(secondarySectionProps?.heading);
 	const SecondaryContentSnippet = $derived(secondarySectionProps?.Content);
 	const secondaryTopBar = $derived(secondarySectionProps?.TopBar);
+	const secondaryBottomContent = $derived(secondarySectionProps?.BottomContent);
 
 	let orientation = windowOrientation;
 </script>
@@ -57,6 +59,7 @@
 			{sceneBackground}
 			{showNightStars}
 			{blurScene}
+			BottomContent={secondaryBottomContent}
 		/>
 		<PrimarySection Content={PrimarySectionContent} />
 	{:else if $orientation === 'landscape'}
@@ -75,6 +78,7 @@
 			{showNightStars}
 			{blurScene}
 			Content={SecondaryContentSnippet}
+			BottomContent={secondaryBottomContent}
 		/>
 	{/if}
 </main>

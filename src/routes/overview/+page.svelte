@@ -10,6 +10,7 @@
 	import PlantScene from '$lib/components/PlantScene/PlantScene.svelte';
 	import { defaultTheme } from '$lib/components/PlantScene/themes/default';
 	import type { SceneTheme } from '$lib/components/PlantScene/themes/theme.types';
+	import ScrollWheel from '$lib/components/ScrollWheel/ScrollWheel.svelte';
 	import getCurrentCondition, {
 		type CurrentCondition,
 	} from '$lib/globals/conditionStatusStore.svelte.js';
@@ -33,31 +34,40 @@
 	// State
 	let timer: ReturnType<typeof setInterval>;
 	const orientation = windowOrientation;
-	let currentHour = $state<number | null>(null);
+	let currentHour = $state<number>(0);
+	let onValueChageNumber = $state<number>(0);
+	let onValueCommitNumber = $state<number>(0);
 
 	let currentConditionStatus = $state<CurrentCondition>();
 	let astro = $state<{ sunriseHour: number; sunsetHour: number } | null>(null);
 	let currentSceneTheme = $state<SceneTheme>(defaultTheme);
 	let isNight = $state(false);
+	let isTimeScroll = $state(false);
 
 	onMount(() => {
 		fetchOverviewDataByInterval(DATA_FETCH_INTERVAL_MINUTES);
 	});
 
 	$effect(() => {
+		if (isTimeScroll) return;
+
 		initializeOverview();
 	});
 
 	$effect(() => {
 		if (!currentHour || !astro || !currentConditionStatus) return;
 
+		// Update scene theme
 		currentSceneTheme = getSceneTheme({
-			range: $temperatureRangeStore,
+			range: $temperatureRangeStore ?? 'Cold',
 			condition: currentConditionStatus.status,
 			currentHour: currentHour,
 			sunriseHour: astro.sunriseHour,
 			sunsetHour: astro.sunsetHour,
 		});
+
+		// Set night sky
+		isNight = currentHour < astro.sunriseHour || currentHour > astro.sunsetHour;
 	});
 
 	onDestroy(() => clearInterval(timer));
@@ -90,12 +100,7 @@
 			sunsetHour: getHourFromTimeString(streamedOverviewData.astro.sunset),
 		};
 
-		// 4. Set night sky
-		isNight =
-			currentHour < getHourFromTimeString(streamedOverviewData.astro.sunrise) ||
-			currentHour > getHourFromTimeString(streamedOverviewData.astro.sunset);
-
-		// 5. Update main theme attribute
+		// 4. Update main theme attribute
 		updateMainTheme();
 	}
 
@@ -103,7 +108,32 @@
 		const theme = $temperatureRangeStore as TemperatureRange | 'default';
 		document.documentElement.setAttribute('data-theme', theme.toLowerCase());
 	}
+
+	function handleOnValueChageNumber(value: number) {
+		isTimeScroll = true;
+		onValueChageNumber = value;
+	}
+
+	function handleOnValueCommitNumber(value: number) {
+		isTimeScroll = true;
+		onValueCommitNumber = value;
+	}
 </script>
+
+{#snippet TimeScroll()}
+	<div class="time-scroll">
+		<h4>{onValueChageNumber}</h4>
+		<input type="range" min="0" max="24" step="0.05" bind:value={onValueChageNumber} />
+		<ScrollWheel
+			min={0}
+			max={24}
+			step={1}
+			value={onValueChageNumber}
+			onValueChange={handleOnValueChageNumber}
+			onValueCommit={handleOnValueCommitNumber}
+		/>
+	</div>
+{/snippet}
 
 <PageLayout
 	heading={data.location.name}
@@ -111,6 +141,7 @@
 	sceneBackground={currentSceneTheme.background.color}
 	showNightStars={isNight}
 	className="overview-page"
+	secondarySectionProps={{ BottomContent: TimeScroll }}
 >
 	{#snippet MainTopBar()}
 		<Button onClick={() => goto('/')} variant="secondary" size="medium">
@@ -122,6 +153,10 @@
 		{#await data.streamed.overview}
 			<p>Loading data</p>
 		{:then streamed}
+			<h2>Change Number</h2>
+			<h4>{onValueChageNumber}</h4>
+			<h2>Commit Number</h2>
+			<h4>{onValueCommitNumber}</h4>
 			<article class={`overview-page-data ${$orientation}`}>
 				{#if currentConditionStatus}
 					<OverviewCondition
