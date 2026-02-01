@@ -30,12 +30,11 @@
 	let isInteracting = $state(false);
 	let isActiveScrolling = $state(false);
 	let timeoutRef = $state<ReturnType<typeof setTimeout> | null>(null);
-
-	$effect(() => {
-		if (!isActiveScrolling || !isInteracting) {
-			syncKnurlingWithValue(value);
-		}
-	});
+	let scrollEndTimeoutRef = $state<ReturnType<typeof setTimeout> | null>(null);
+	let isPointerDown = $state(false);
+	let pointerStartX = $state(0);
+	let pointerStartScrollLeft = $state(0);
+	let activePointerId = $state<number | null>(null);
 
 	const { decrement, increment, stepTo, cancelSnap } = scrollWheelController({
 		min,
@@ -101,28 +100,36 @@
 	}
 
 	function handleWheel() {
-		// User is actively scrolling with input device
+		// User intends to take over (trackpad / wheel)
 		isActiveScrolling = true;
-
-		// Cancel any controller-initiated snap animation
 		cancelSnap();
 	}
 
 	function handleScroll() {
 		if (!knurlingRef) return;
 
-		// Only update if user is actively scrolling (not from programmatic changes)
+		// Ignore programmatic scroll unless the user has taken control.
 		if (!isActiveScrolling) return;
 
 		onChange(getVisualValue());
+
+		// Debounce scroll end (works across browsers and for grab-drag)
+		if (scrollEndTimeoutRef) clearTimeout(scrollEndTimeoutRef);
+		scrollEndTimeoutRef = setTimeout(() => {
+			handleScrollEnd();
+		}, 140);
 	}
 
 	function handleScrollEnd() {
-		if (!isActiveScrolling) return;
+		if (scrollEndTimeoutRef) {
+			clearTimeout(scrollEndTimeoutRef);
+			scrollEndTimeoutRef = null;
+		}
 
-		// User stopped scrolling, now snap to nearest step
+		// Don't snap while the user is still holding the pointer down.
+		if (!isActiveScrolling || isPointerDown) return;
+
 		isActiveScrolling = false;
-
 		stepTo(getVisualValue());
 	}
 
@@ -144,20 +151,60 @@
 
 		const valueDiff = Math.abs(newValue - currentValueFromKnurlingPos);
 		if (valueDiff > step) {
-			transitionValue(
-				currentValueFromKnurlingPos,
-				newValue,
-				(transitionValue) => {
-					setVisualValue(transitionValue);
-				},
-				() => {
-					isSyncing = false;
-				},
-			);
+			transitionValue(currentValueFromKnurlingPos, newValue, (transitionValue) => {
+				setVisualValue(transitionValue);
+			});
 		} else {
 			// Too small - just sync visual directly
 			setVisualValue(newValue);
 		}
+	}
+
+	function handlePointerDown(e: PointerEvent) {
+		// Only enable grab-scroll for mouse to avoid touch conflicts.
+		if (e.pointerType !== 'mouse') return;
+		if (!knurlingRef) return;
+
+		isActiveScrolling = true;
+		isPointerDown = true;
+		activePointerId = e.pointerId;
+
+		// Cancel any active snap transition
+		cancelSnap();
+
+		pointerStartX = e.clientX;
+		pointerStartScrollLeft = knurlingRef.scrollLeft;
+
+		// Ensure we keep receiving move/up even if the pointer leaves the element.
+		knurlingRef.setPointerCapture(e.pointerId);
+	}
+
+	function handlePointerMove(e: PointerEvent) {
+		if (!knurlingRef) return;
+		if (!isPointerDown) return;
+		if (activePointerId !== e.pointerId) return;
+
+		// 1:1 pixel drag: move scrollLeft by the same amount the mouse moved.
+		const dx = e.clientX - pointerStartX;
+		knurlingRef.scrollLeft = pointerStartScrollLeft - dx;
+	}
+
+	function handlePointerUp(e: PointerEvent) {
+		if (!knurlingRef) return;
+		if (!isPointerDown) return;
+		if (activePointerId !== e.pointerId) return;
+
+		isPointerDown = false;
+		activePointerId = null;
+
+		try {
+			knurlingRef.releasePointerCapture(e.pointerId);
+		} catch {
+			// ignore if capture is already released
+		}
+
+		// If there is no momentum, end immediately and snap.
+		handleScrollEnd();
 	}
 </script>
 
@@ -180,7 +227,10 @@
 		bind:this={knurlingRef}
 		onwheel={handleWheel}
 		onscroll={handleScroll}
-		onscrollend={handleScrollEnd}
+		onpointerdown={handlePointerDown}
+		onpointermove={handlePointerMove}
+		onpointerup={handlePointerUp}
+		onpointercancel={handlePointerUp}
 	>
 		{#each lines as _, index (index)}
 			<span id={String(index)} class="line"></span>

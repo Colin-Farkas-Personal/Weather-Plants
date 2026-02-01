@@ -91,9 +91,6 @@ function scrollWheelController({
 		// Stop the animation immediately.
 		cancelActiveTransition?.();
 		cancelActiveTransition = null;
-
-		// Yield control back to the user.
-		setInteracting(false);
 	}
 
 	return {
