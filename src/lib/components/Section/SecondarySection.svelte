@@ -111,6 +111,11 @@
 			<section class="secondary-section-inner-scene">
 				{@render Scene?.()}
 			</section>
+			{#if BottomContent}
+				<div class="secondary-section-inner-bottom-content">
+					{@render BottomContent()}
+				</div>
+			{/if}
 		{:else if $orientation === 'landscape'}
 			<section class="secondary-section-inner-display">
 				{#if TopBar}
@@ -235,6 +240,20 @@
 			&-scene {
 				position: relative;
 				height: 100%;
+			}
+
+			&-bottom-content {
+				z-index: 1;
+				position: absolute;
+				bottom: 0;
+				left: 0;
+				right: 0;
+
+				display: flex;
+				align-items: center;
+				justify-content: center;
+
+				padding: 0 4rem 2rem;
 			}
 		}
 

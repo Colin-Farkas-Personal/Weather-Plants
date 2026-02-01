@@ -162,15 +162,15 @@
 
 	function handlePointerDown(e: PointerEvent) {
 		// Only enable grab-scroll for mouse to avoid touch conflicts.
+		isActiveScrolling = true;
+		// Cancel any active snap transition.
+		cancelSnap();
+
 		if (e.pointerType !== 'mouse') return;
 		if (!knurlingRef) return;
 
-		isActiveScrolling = true;
 		isPointerDown = true;
 		activePointerId = e.pointerId;
-
-		// Cancel any active snap transition
-		cancelSnap();
 
 		pointerStartX = e.clientX;
 		pointerStartScrollLeft = knurlingRef.scrollLeft;

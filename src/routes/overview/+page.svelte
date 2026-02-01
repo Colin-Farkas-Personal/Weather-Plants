@@ -153,10 +153,6 @@
 		{#await data.streamed.overview}
 			<p>Loading data</p>
 		{:then streamed}
-			<h2>Change Number</h2>
-			<h4>{onValueChageNumber}</h4>
-			<h2>Commit Number</h2>
-			<h4>{onValueCommitNumber}</h4>
 			<article class={`overview-page-data ${$orientation}`}>
 				{#if currentConditionStatus}
 					<OverviewCondition
