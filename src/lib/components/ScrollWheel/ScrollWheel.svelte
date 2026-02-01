@@ -28,9 +28,16 @@
 	const canDecrement = $derived(value > min);
 	const canIncrement = $derived(value < max);
 	let isInteracting = $state(false);
+	let isActiveScrolling = $state(false);
 	let timeoutRef = $state<ReturnType<typeof setTimeout> | null>(null);
 
-	const { decrement, increment, stepTo } = scrollWheelController({
+	$effect(() => {
+		if (!isActiveScrolling || !isInteracting) {
+			syncKnurlingWithValue(value);
+		}
+	});
+
+	const { decrement, increment, stepTo, cancelSnap } = scrollWheelController({
 		min,
 		max,
 		step,
@@ -62,31 +69,8 @@
 		}
 
 		const progress = knurlingRef.scrollLeft / maxScroll;
-		return min + progress * (max - min);
-	}
-
-	$effect(() => {
-		syncKnurlingWithValue(value);
-		console.warn('KNURLING IS KNURLINGING...', getVisualValue());
-	});
-
-	function syncKnurlingWithValue(newValue: number) {
-		// Calculate current value from knurling position
-		// Current 1000px out of 1370px
-
-		if (!knurlingRef || isInteracting) {
-			return;
-		}
-
-		const knurlingLeftPx = knurlingRef.scrollLeft;
-		const knurlingMaxPx = knurlingRef.scrollWidth - knurlingRef.clientWidth;
-		const currentPosPercent = knurlingLeftPx / knurlingMaxPx;
-
-		const currentValueFromKnurlingPos = min + currentPosPercent * (max - min);
-
-		transitionValue(currentValueFromKnurlingPos, newValue, (transitionValue) => {
-			setVisualValue(transitionValue);
-		});
+		const visualValueFixed = Number((min + progress * (max - min)).toFixed(3));
+		return visualValueFixed;
 	}
 
 	function setVisualValue(newValue: number) {
@@ -116,27 +100,64 @@
 		}, COMMIT_ON_DELAY_MS);
 	}
 
-	function handleKnurlingScroll() {
+	function handleWheel() {
+		// User is actively scrolling with input device
+		isActiveScrolling = true;
+
+		// Cancel any controller-initiated snap animation
+		cancelSnap();
+	}
+
+	function handleScroll() {
 		if (!knurlingRef) return;
 
-		setInteracting(true);
+		// Only update if user is actively scrolling (not from programmatic changes)
+		if (!isActiveScrolling) return;
 
-		const scrollLeft = knurlingRef.scrollLeft;
-		const maxScroll = knurlingRef.scrollWidth - knurlingRef.clientWidth;
-		if (maxScroll <= 0) return;
+		onChange(getVisualValue());
+	}
 
-		const progressPercent = scrollLeft / maxScroll; // 0..1
-		const valueRaw = min + progressPercent * (max - min);
+	function handleScrollEnd() {
+		if (!isActiveScrolling) return;
 
-		// Clamp and limit floating noise while dragging
-		const valueClamped = Math.max(min, Math.min(valueRaw, max));
-		const valueFixed = Number(valueClamped.toFixed(3));
+		// User stopped scrolling, now snap to nearest step
+		isActiveScrolling = false;
 
-		// Debounce "scroll end" detection (works across browsers)
-		const valueTarget = Math.round(valueFixed / step) * step;
+		stepTo(getVisualValue());
+	}
 
-		// Pass to controller???
-		// stepTo(valueTarget);
+	$effect(() => {
+		// Only sync when not actively scrolling or animating
+		if (!isActiveScrolling && !isInteracting) {
+			syncKnurlingWithValue(value);
+		}
+	});
+
+	function syncKnurlingWithValue(newValue: number) {
+		if (!knurlingRef) return;
+
+		const knurlingLeftPx = knurlingRef.scrollLeft;
+		const knurlingMaxPx = knurlingRef.scrollWidth - knurlingRef.clientWidth;
+		const currentPosPercent = knurlingLeftPx / knurlingMaxPx;
+
+		const currentValueFromKnurlingPos = min + currentPosPercent * (max - min);
+
+		const valueDiff = Math.abs(newValue - currentValueFromKnurlingPos);
+		if (valueDiff > step) {
+			transitionValue(
+				currentValueFromKnurlingPos,
+				newValue,
+				(transitionValue) => {
+					setVisualValue(transitionValue);
+				},
+				() => {
+					isSyncing = false;
+				},
+			);
+		} else {
+			// Too small - just sync visual directly
+			setVisualValue(newValue);
+		}
 	}
 </script>
 
@@ -157,7 +178,9 @@
 		tabindex="0"
 		class="knurling"
 		bind:this={knurlingRef}
-		onscroll={handleKnurlingScroll}
+		onwheel={handleWheel}
+		onscroll={handleScroll}
+		onscrollend={handleScrollEnd}
 	>
 		{#each lines as _, index (index)}
 			<span id={String(index)} class="line"></span>

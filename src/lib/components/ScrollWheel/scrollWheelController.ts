@@ -15,6 +15,7 @@ interface ScrollWheelControllerContext {
 		onDone: (value: number) => void,
 	) => () => void;
 }
+
 function scrollWheelController({
 	min,
 	max,
@@ -71,6 +72,10 @@ function scrollWheelController({
 			},
 			() => {
 				if (transitionId === activeTransitionId) {
+					// Ensure logical + visual land exactly on the snapped target
+					onChange(nextValueRounded);
+					setVisualValue(nextValueRounded);
+
 					setInteracting(false);
 					cancelActiveTransition = null;
 					requestCommit(nextValueRounded);
@@ -79,15 +84,23 @@ function scrollWheelController({
 		);
 	}
 
-	function syncVisual() {
-		// Sync the scroll position to the current logical value
-		const valueNow = getValue();
+	function cancelSnap() {
+		// Invalidate any in-flight transition so its completion callback is ignored.
+		activeTransitionId++;
+
+		// Stop the animation immediately.
+		cancelActiveTransition?.();
+		cancelActiveTransition = null;
+
+		// Yield control back to the user.
+		setInteracting(false);
 	}
 
 	return {
 		increment: () => stepTo(getValue() + step),
 		decrement: () => stepTo(getValue() - step),
 		stepTo,
+		cancelSnap,
 	};
 }
 
