@@ -198,7 +198,7 @@
 			display: flex;
 			flex-direction: column;
 			align-items: center;
-			gap: clamp(24px, 8cqi, 32px);
+			gap: clamp(12px, 3.5cqi, 32px);
 		}
 
 		.overview-page-data.landscape {

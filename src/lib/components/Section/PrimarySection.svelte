@@ -34,8 +34,6 @@
 	.primary-section.portrait {
 		// --fluid-size-vmin
 
-		flex: 1;
-
 		position: relative;
 		display: flex;
 		flex-direction: column;
@@ -53,8 +51,7 @@
 			flex-direction: column;
 			align-items: center;
 			justify-content: center;
-			padding: clamp(1.25rem, 8cqi, 2.25rem) clamp(1.25rem, 8cqi, 3rem);
-			gap: clamp(1rem, 7.5cqi, 1.75rem);
+			padding: clamp(1.25rem, 4.5cqi, 2.25rem) clamp(1.25rem, 2.25cqi, 3rem);
 			box-sizing: border-box;
 		}
 

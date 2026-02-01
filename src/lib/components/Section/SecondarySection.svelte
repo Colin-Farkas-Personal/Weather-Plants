@@ -253,7 +253,7 @@
 				align-items: center;
 				justify-content: center;
 
-				padding: 0 4rem 2rem;
+				padding: 0 4rem 1.5rem;
 			}
 		}
 

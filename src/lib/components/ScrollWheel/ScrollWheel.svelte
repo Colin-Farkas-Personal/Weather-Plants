@@ -3,6 +3,7 @@
 	import ClockCounterClockwiseBold from '~icons/ph/clock-counter-clockwise-bold';
 	import { transitionValue } from './transition';
 	import { scrollWheelController } from './scrollWheelController';
+	import { windowOrientation } from '$lib/globals/windowStore';
 
 	interface ScrollWheelProps {
 		min: number;
@@ -21,6 +22,8 @@
 		onValueChange: onChange,
 		onValueCommit,
 	}: ScrollWheelProps = $props();
+
+	let orientation = windowOrientation;
 
 	// State
 	let knurlingRef!: HTMLDivElement;
@@ -208,7 +211,7 @@
 	}
 </script>
 
-<div class="scroll-wheel">
+<div class="scroll-wheel {$orientation}">
 	<button
 		type="button"
 		aria-label="backwards"
@@ -249,73 +252,143 @@
 <style lang="scss">
 	.scroll-wheel {
 		display: flex;
-		gap: 12px;
-
-		padding: 12px 18px;
 		background-color: black;
-		border-radius: 60px;
 
-		button {
-			padding: 0;
-			margin: 0;
-			border: none;
-			background: none;
+		&.portrait {
+			gap: 6px;
+			padding: 8px 12px;
+			border-radius: 30px;
 
-			color: rgb(99, 99, 99);
+			button {
+				padding: 0;
+				margin: 0;
+				border: none;
+				background: none;
 
-			cursor: pointer;
+				color: rgb(99, 99, 99);
 
-			:global(svg) {
-				width: 24px;
-				height: 24px;
+				cursor: pointer;
+
+				:global(svg) {
+					width: 18px;
+					height: 18px;
+				}
+
+				&.disable-stepping {
+					color: rgb(45, 45, 45);
+				}
 			}
 
-			&.disable-stepping {
-				color: rgb(45, 45, 45);
+			.knurling {
+				position: relative;
+				display: flex;
+				align-items: flex-end;
+				gap: 10px;
+
+				width: 160px;
+				height: 26px;
+
+				overflow-x: scroll;
+				overflow-y: hidden;
+				scrollbar-width: none;
+				cursor: grab;
+				user-select: none;
+				-webkit-overflow-scrolling: touch;
+				touch-action: pan-x;
+
+				-webkit-mask-image: linear-gradient(
+					to right,
+					transparent 0%,
+					black 50%,
+					transparent 100%
+				);
+				mask-image: linear-gradient(from left, black, transparent);
+				-webkit-mask-repeat: no-repeat;
+				mask-repeat: no-repeat;
+				-webkit-mask-size: 100% 100%;
+				mask-size: 100% 100%;
+
+				.line {
+					width: 4px;
+					height: 70%;
+					border-radius: 12px;
+					background-color: rgb(75, 75, 75);
+					flex: 0 0 auto;
+					pointer-events: none;
+				}
+
+				.line:nth-child(3n) {
+					height: 100%;
+				}
 			}
 		}
 
-		.knurling {
-			position: relative;
-			display: flex;
-			align-items: flex-end; // not "end"
-			gap: 10px;
+		&.landscape {
+			gap: 12px;
+			padding: 12px 18px;
+			border-radius: 60px;
 
-			width: 240px;
-			height: 32px;
+			button {
+				padding: 0;
+				margin: 0;
+				border: none;
+				background: none;
 
-			overflow-x: scroll;
-			overflow-y: hidden;
-			scrollbar-width: none;
-			cursor: grab;
-			user-select: none;
-			-webkit-overflow-scrolling: touch;
-			touch-action: pan-x;
+				color: rgb(99, 99, 99);
 
-			// Fade the edges without an overlay element (won't move when scrolling)
-			-webkit-mask-image: linear-gradient(
-				to right,
-				transparent 0%,
-				black 50%,
-				transparent 100%
-			);
-			mask-image: linear-gradient(from left, black, transparent);
-			-webkit-mask-repeat: no-repeat;
-			mask-repeat: no-repeat;
-			-webkit-mask-size: 100% 100%;
-			mask-size: 100% 100%;
+				cursor: pointer;
 
-			.line {
-				width: 5px;
-				height: 70%;
-				border-radius: 12px;
-				background-color: rgb(75, 75, 75);
-				flex: 0 0 auto;
-				pointer-events: none;
+				:global(svg) {
+					width: 24px;
+					height: 24px;
+				}
+
+				&.disable-stepping {
+					color: rgb(45, 45, 45);
+				}
 			}
 
-			.line:nth-child(3n) {
-				height: 100%;
+			.knurling {
+				position: relative;
+				display: flex;
+				align-items: flex-end;
+				gap: 10px;
+
+				width: 240px;
+				height: 32px;
+
+				overflow-x: scroll;
+				overflow-y: hidden;
+				scrollbar-width: none;
+				cursor: grab;
+				user-select: none;
+				-webkit-overflow-scrolling: touch;
+				touch-action: pan-x;
+
+				-webkit-mask-image: linear-gradient(
+					to right,
+					transparent 0%,
+					black 50%,
+					transparent 100%
+				);
+				mask-image: linear-gradient(from left, black, transparent);
+				-webkit-mask-repeat: no-repeat;
+				mask-repeat: no-repeat;
+				-webkit-mask-size: 100% 100%;
+				mask-size: 100% 100%;
+
+				.line {
+					width: 5px;
+					height: 70%;
+					border-radius: 12px;
+					background-color: rgb(75, 75, 75);
+					flex: 0 0 auto;
+					pointer-events: none;
+				}
+
+				.line:nth-child(3n) {
+					height: 100%;
+				}
 			}
 		}
 	}
