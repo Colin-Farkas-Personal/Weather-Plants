@@ -123,7 +123,7 @@
 {#snippet TimeScroll()}
 	<div class="time-scroll">
 		<h4>{onValueChageNumber}</h4>
-		<input type="range" min="0" max="24" step="0.05" bind:value={onValueChageNumber} />
+
 		<ScrollWheel
 			min={0}
 			max={24}
