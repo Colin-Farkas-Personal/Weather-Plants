@@ -78,3 +78,8 @@ h6 {
 	touch-action: pan-x pan-y;
 	height: 100%;
 }
+
+html,
+body {
+	overscroll-behavior: none;
+}
