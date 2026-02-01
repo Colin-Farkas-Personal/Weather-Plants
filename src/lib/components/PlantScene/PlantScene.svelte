@@ -13,6 +13,8 @@
 
 	// Variables
 	let canvas: HTMLCanvasElement;
+	let container: HTMLElement;
+	let reziseObserver: ResizeObserver;
 	let plantSceneManager: SceneManager | null;
 	let rafID: number | null;
 
@@ -20,6 +22,14 @@
 	onMount(() => {
 		// Create Scene Manager
 		plantSceneManager = new SceneManager(canvas, defaultTheme);
+
+		// Observe Resize
+		reziseObserver = new ResizeObserver(() => {
+			plantSceneManager?.onWindowResize();
+		});
+		reziseObserver.observe(container);
+
+		// Start Render Loop
 		render();
 
 		// Cleanup
@@ -41,6 +51,7 @@
 	onDestroy(() => {
 		stopRender();
 		removeSceneManager();
+		reziseObserver.disconnect();
 	});
 
 	// Functions
@@ -75,7 +86,7 @@
 
 <svelte:window on:resize={onResizeHandler} />
 
-<figure class="size-container">
+<figure class="size-container" bind:this={container}>
 	<canvas id="plant-scene" class="plant-scene" tabindex="-1" bind:this={canvas}></canvas>
 </figure>
 

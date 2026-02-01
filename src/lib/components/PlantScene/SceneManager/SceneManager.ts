@@ -55,6 +55,7 @@ export class SceneManager implements ISceneManager {
 		this.camera = this.buildCamera(canvasdimensions);
 		this.controls = this.buildOrbitControls();
 		this.sceneSubjects = this.createSceneSubjects(this.scene, this._theme);
+		this.onWindowResize();
 	}
 
 	// ---- PUBLIC METHODS ----
