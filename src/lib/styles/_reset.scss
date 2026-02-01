@@ -73,3 +73,8 @@ h6 {
 #__next {
 	isolation: isolate;
 }
+
+:root {
+	touch-action: pan-x pan-y;
+	height: 100%;
+}
