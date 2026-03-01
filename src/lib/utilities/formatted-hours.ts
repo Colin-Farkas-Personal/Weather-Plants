@@ -31,11 +31,7 @@ function convertTime12to24(timeString: string): string {
 
 function getHourFromTimeString(timeString: string): number {
 	// Split by colon and parse numbers
-	const [hour, minute] = timeString.split(':').map(Number);
-
-	if (minute >= 30) {
-		return hour + 1;
-	}
+	const [hour] = timeString.split(':').map(Number);
 
 	return hour;
 }

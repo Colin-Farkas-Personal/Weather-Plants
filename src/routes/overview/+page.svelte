@@ -1,6 +1,10 @@
 <script lang="ts">
 	import { goto, invalidateAll } from '$app/navigation';
 	import Button from '$lib/components/Button/Button.svelte';
+	import DisplayWheel, {
+		type HourCondition,
+	} from '$lib/components/DisplayWheel/DisplayWheel.svelte';
+	import TestWheel from '$lib/components/DisplayWheel/TestWheel.svelte';
 	import OverviewCondition from '$lib/components/OverviewCondition/OverviewCondition.svelte';
 	import OverviewTemperature from '$lib/components/OverviewTemperature/OverviewTemperature.svelte';
 	import OverviewTemperatureRangeLinearGauge from '$lib/components/OverviewTemperatureRangeGauge/OverviewTemperatureRangeLinearGauge.svelte';
@@ -118,6 +122,105 @@
 		isTimeScroll = true;
 		onValueCommitNumber = value;
 	}
+
+	const array = [
+		{
+			hour: 0,
+			condition: 'CLEAR',
+		},
+		{
+			hour: 1,
+			condition: 'SUNNY',
+		},
+		{
+			hour: 2,
+			condition: 'SUNNY',
+		},
+		{
+			hour: 3,
+			condition: 'CLOUDY',
+		},
+		{
+			hour: 4,
+			condition: 'CLOUDY',
+		},
+		{
+			hour: 5,
+			condition: 'CLOUDY',
+		},
+		{
+			hour: 6,
+			condition: 'CLOUDY',
+		},
+		{
+			hour: 7,
+			condition: 'CLOUDY',
+		},
+		{
+			hour: 8,
+			condition: 'CLOUDY',
+		},
+		{
+			hour: 9,
+			condition: 'CLOUDY',
+		},
+		{
+			hour: 10,
+			condition: 'CLOUDY',
+		},
+		{
+			hour: 11,
+			condition: 'CLOUDY',
+		},
+		{
+			hour: 12,
+			condition: 'CLOUDY',
+		},
+		{
+			hour: 13,
+			condition: 'CLOUDY',
+		},
+		{
+			hour: 14,
+			condition: 'CLOUDY',
+		},
+		{
+			hour: 15,
+			condition: 'CLOUDY',
+		},
+		{
+			hour: 16,
+			condition: 'CLOUDY',
+		},
+		{
+			hour: 17,
+			condition: 'CLOUDY',
+		},
+		{
+			hour: 18,
+			condition: 'CLOUDY',
+		},
+		{
+			hour: 19,
+			condition: 'CLOUDY',
+		},
+		{
+			hour: 20,
+			condition: 'CLOUDY',
+		},
+		{
+			hour: 21,
+			condition: 'CLOUDY',
+		},
+		{
+			hour: 22,
+			condition: 'CLOUDY',
+		},
+		{
+			hour: 23,
+			condition: 'CLOUDY',
+		},
+	] as HourCondition[];
 </script>
 
 {#snippet TimeScroll()}
@@ -126,7 +229,7 @@
 
 		<ScrollWheel
 			min={0}
-			max={24}
+			max={23}
 			step={1}
 			value={onValueChageNumber}
 			onValueChange={handleOnValueChageNumber}
@@ -135,13 +238,17 @@
 	</div>
 {/snippet}
 
+{#snippet DisplayWheelSnippet()}
+	<DisplayWheel {currentHour} forecastHour={onValueChageNumber} dailyConditionForecast={array} />
+{/snippet}
+
 <PageLayout
 	heading={data.location.name}
 	subHeading={data.location.country}
 	sceneBackground={currentSceneTheme.background.color}
 	showNightStars={isNight}
 	className="overview-page"
-	secondarySectionProps={{ BottomContent: TimeScroll }}
+	secondarySectionProps={{ BottomContent: DisplayWheelSnippet }}
 >
 	{#snippet MainTopBar()}
 		<Button onClick={() => goto('/')} variant="secondary" size="medium">
@@ -167,6 +274,9 @@
 						max={streamed.dailyRange.max}
 						value={streamed.temperature}
 					/>
+
+					{@render TimeScroll()}
+
 					<p class="feels-like">Feels like {streamed.feelsLike}°C</p>
 				{:else if $orientation === 'portrait'}
 					<OverviewTemperature
