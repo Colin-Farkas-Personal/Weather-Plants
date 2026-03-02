@@ -211,7 +211,7 @@
 	}
 </script>
 
-<div class="scroll-wheel {$orientation}">
+<div id="scroll-wheel" class="scroll-wheel {$orientation}">
 	<button
 		type="button"
 		aria-label="backwards"

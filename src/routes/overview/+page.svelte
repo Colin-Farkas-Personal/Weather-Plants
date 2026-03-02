@@ -25,6 +25,7 @@
 	import { getHourFromTimeString } from '$lib/utilities/formatted-hours';
 	import { onDestroy, onMount } from 'svelte';
 	import ArrowLeftBoldIcon from '~icons/ph/arrow-left-bold';
+	import { forecastDisplay } from '$lib/globals/forecastTimeLineStore.svelte';
 
 	const DATA_FETCH_INTERVAL_MINUTES = 30;
 
@@ -114,12 +115,17 @@
 	}
 
 	function handleOnValueChageNumber(value: number) {
+		// Call global state to display the DisplayWheel time
+		if (!$forecastDisplay) {
+			forecastDisplay.show();
+		}
+
 		isTimeScroll = true;
 		onValueChageNumber = value;
 	}
 
 	function handleOnValueCommitNumber(value: number) {
-		isTimeScroll = true;
+		isTimeScroll = false;
 		onValueCommitNumber = value;
 	}
 
@@ -225,8 +231,6 @@
 
 {#snippet TimeScroll()}
 	<div class="time-scroll">
-		<h4>{onValueChageNumber}</h4>
-
 		<ScrollWheel
 			min={0}
 			max={23}
@@ -248,7 +252,8 @@
 	sceneBackground={currentSceneTheme.background.color}
 	showNightStars={isNight}
 	className="overview-page"
-	secondarySectionProps={{ BottomContent: DisplayWheelSnippet }}
+	secondarySectionProps={{ BottomContent: TimeScroll }}
+	ForecastDisplay={DisplayWheelSnippet}
 >
 	{#snippet MainTopBar()}
 		<Button onClick={() => goto('/')} variant="secondary" size="medium">
@@ -274,8 +279,6 @@
 						max={streamed.dailyRange.max}
 						value={streamed.temperature}
 					/>
-
-					{@render TimeScroll()}
 
 					<p class="feels-like">Feels like {streamed.feelsLike}°C</p>
 				{:else if $orientation === 'portrait'}

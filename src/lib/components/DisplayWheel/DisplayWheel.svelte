@@ -60,7 +60,7 @@
 		const minutesInDay = 24 * 60;
 		const normalized = ((totalMinutesRounded % minutesInDay) + minutesInDay) % minutesInDay;
 
-		const h = Math.floor(normalized / 60);
+		const h = Math.round(normalized / 60);
 		const m = normalized % 60;
 
 		return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}`;
@@ -118,7 +118,7 @@
 	</div>
 {/snippet}
 
-<div class="display-wheel">
+<div id="display-wheel" class="display-wheel">
 	<div class="time-display">
 		<div class="time">
 			<ClockBoldIcon />
@@ -158,11 +158,9 @@
 		position: relative;
 		display: flex;
 
-		background-color: black;
 		color: white;
 
 		width: 420px;
-		padding: 18px 12px;
 		border-radius: 100vh;
 
 		.time-display {
@@ -287,7 +285,7 @@
 				scrollbar-width: none;
 				user-select: none;
 
-				overflow: scroll;
+				overflow: hidden;
 				user-select: none;
 
 				.spacer {

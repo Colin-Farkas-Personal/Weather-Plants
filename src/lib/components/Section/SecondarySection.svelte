@@ -6,6 +6,8 @@
 	import { createStars } from '../PlantScene/nightStars';
 	import type { BackgroundGradientColor } from '../PlantScene/themes/theme.types';
 	import SectionHeading from './SectionHeading.svelte';
+	import { forecastDisplay } from '$lib/globals/forecastTimeLineStore.svelte';
+	import DisplayWheel from '../DisplayWheel/DisplayWheel.svelte';
 
 	interface SecondarySectionProps {
 		TopBar?: Snippet;
@@ -18,6 +20,7 @@
 		Content?: Snippet<[]> | undefined;
 		contentHeading?: string;
 		BottomContent?: Snippet<[]> | undefined;
+		ForecastDisplay?: Snippet<[]> | undefined;
 	}
 
 	let {
@@ -31,6 +34,7 @@
 		Content = undefined,
 		contentHeading,
 		BottomContent,
+		ForecastDisplay,
 	}: SecondarySectionProps = $props();
 
 	// State
@@ -52,6 +56,9 @@
 				priority: 'secondary',
 			}),
 	);
+	const forecastActiveClassName = $derived(
+		$forecastDisplay && $orientation === 'portrait' ? 'forecast-active' : '',
+	);
 
 	$effect(() => {
 		if (showNightStars) {
@@ -60,10 +67,13 @@
 	});
 </script>
 
-<section class={`secondary-section ${$orientation}`}>
+<section
+	id="secondary-section"
+	class={`secondary-section ${$orientation} ${forecastActiveClassName}`}
+>
 	<div
 		id="secondary-section-inner"
-		class={`secondary-section-inner ${TopBar ? 'with-top-bar' : ''}`}
+		class={`secondary-section-inner ${TopBar ? 'with-top-bar' : ''} ${forecastActiveClassName}`}
 		style:background={sceneBackground &&
 			`linear-gradient(to bottom, ${sceneBackground[0]}, ${sceneBackground[1]})`}
 	>
@@ -72,7 +82,7 @@
 		{/if}
 		{#if $orientation === 'portrait'}
 			<section class="secondary-section-inner-hidden">
-				{#if TopBar}
+				{#if TopBar && !$forecastDisplay}
 					<nav class="secondary-section-inner-display-top-bar">
 						{@render TopBar()}
 					</nav>
@@ -88,7 +98,7 @@
 				class="secondary-section-inner-display"
 				style:backdrop-filter={blurContent ? 'blur(80px)' : 'none'}
 			>
-				{#if TopBar}
+				{#if TopBar && !$forecastDisplay}
 					<nav
 						class="secondary-section-inner-display-top-bar"
 						style:color={foregroundColorSecondary}
@@ -117,6 +127,11 @@
 				</div>
 			{/if}
 		{:else if $orientation === 'landscape'}
+			{#if $forecastDisplay}
+				<div id="forecast-display" class="secondary-section-inner-forecast-display">
+					{@render ForecastDisplay?.()}
+				</div>
+			{/if}
 			<section class="secondary-section-inner-display">
 				{#if TopBar}
 					<div class="secondary-section-inner-display-top-bar">
@@ -255,6 +270,29 @@
 
 				padding: 0 4rem 1.5rem;
 			}
+
+			&.forecast-active {
+				overflow: hidden;
+				border-radius: 46px 46px 0 0;
+				transition: border-radius 640ms
+					linear(
+						0,
+						0.006 1.2%,
+						0.025 2.5%,
+						0.102 5.5%,
+						0.202 8.3%,
+						0.546 17.1%,
+						0.648 20.1%,
+						0.733 23%,
+						0.804 25.9%,
+						0.864 28.9%,
+						0.913 32%,
+						0.95 35.2%,
+						0.997 42%,
+						1.017 50.4%,
+						1
+					);
+			}
 		}
 
 		:global {
@@ -269,6 +307,10 @@
 					margin: 15px 15px 0;
 				}
 			}
+		}
+
+		&.forecast-active {
+			background-color: black;
 		}
 	}
 
@@ -364,6 +406,20 @@
 
 					padding: 2rem 0;
 				}
+			}
+
+			&-forecast-display {
+				position: absolute;
+				top: 0;
+				left: 50%;
+				transform: translateX(-50%);
+
+				max-width: 60cqw;
+
+				padding: 1rem;
+
+				border-radius: 0 0 30px 30px;
+				background-color: black;
 			}
 		}
 	}
