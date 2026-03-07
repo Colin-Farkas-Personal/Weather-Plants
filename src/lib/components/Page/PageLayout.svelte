@@ -53,7 +53,10 @@
 	});
 </script>
 
-<main id="page-layout" class={`page-layout ${$orientation} noise ${className}`}>
+<main
+	id="page-layout"
+	class={`page-layout ${$orientation} noise ${className} ${$forecastDisplay ? 'forecast-display-active' : ''}`}
+>
 	{#if $orientation === 'portrait'}
 		{#if $forecastDisplay}
 			<div id="forecast-display" class="forecast-display">

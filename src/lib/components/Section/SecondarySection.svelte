@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { forecastDisplay } from '$lib/globals/forecastTimeLineStore.svelte';
 	import temperatureRangeStore from '$lib/globals/temperatureRangeStore.svelte';
 	import { windowOrientation } from '$lib/globals/windowStore';
 	import { calculateForegroundColor } from '$lib/utilities/theme/foreground-color';
@@ -6,8 +7,6 @@
 	import { createStars } from '../PlantScene/nightStars';
 	import type { BackgroundGradientColor } from '../PlantScene/themes/theme.types';
 	import SectionHeading from './SectionHeading.svelte';
-	import { forecastDisplay } from '$lib/globals/forecastTimeLineStore.svelte';
-	import DisplayWheel from '../DisplayWheel/DisplayWheel.svelte';
 
 	interface SecondarySectionProps {
 		TopBar?: Snippet;

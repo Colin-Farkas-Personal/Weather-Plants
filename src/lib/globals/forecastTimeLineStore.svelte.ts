@@ -9,12 +9,6 @@ function createForecastDisplayStore() {
 		console.warn('SHOW IT!');
 		update(() => true);
 
-		const pageLayoutElement = document.getElementById('page-layout');
-
-		if (pageLayoutElement) {
-			pageLayoutElement.classList.add('forecast-display-active');
-		}
-
 		document.addEventListener('mousedown', hideDisplayStore);
 	}
 
@@ -33,12 +27,6 @@ function createForecastDisplayStore() {
 		}
 
 		update(() => false);
-
-		const pageLayoutElement = document.getElementById('page-layout');
-
-		if (pageLayoutElement) {
-			pageLayoutElement.classList.remove('forecast-display-active');
-		}
 
 		document.removeEventListener('mousedown', hideDisplayStore);
 	}

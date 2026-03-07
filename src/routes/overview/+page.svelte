@@ -39,8 +39,8 @@
 	// State
 	let timer: ReturnType<typeof setInterval>;
 	const orientation = windowOrientation;
-	let currentHour = $state<number>(0);
-	let onValueChageNumber = $state<number>(0);
+	let currentHour = $derived<number>(0);
+	let forecastNumber = $derived<number>(currentHour);
 	let onValueCommitNumber = $state<number>(0);
 
 	let currentConditionStatus = $state<CurrentCondition>();
@@ -60,19 +60,17 @@
 	});
 
 	$effect(() => {
-		if (!currentHour || !astro || !currentConditionStatus) return;
+		if (!$forecastDisplay && !isTimeScroll) {
+			forecastNumber = currentHour;
+		}
+	});
 
-		// Update scene theme
-		currentSceneTheme = getSceneTheme({
-			range: $temperatureRangeStore ?? 'Cold',
-			condition: currentConditionStatus.status,
-			currentHour: currentHour,
-			sunriseHour: astro.sunriseHour,
-			sunsetHour: astro.sunsetHour,
-		});
-
-		// Set night sky
-		isNight = currentHour < astro.sunriseHour || currentHour > astro.sunsetHour;
+	$effect(() => {
+		if (isTimeScroll || $forecastDisplay) {
+			updateOverviewScene(forecastNumber);
+		} else {
+			updateOverviewScene(currentHour);
+		}
 	});
 
 	onDestroy(() => clearInterval(timer));
@@ -87,6 +85,22 @@
 		};
 
 		timer = setInterval(refresh, intervalMilliseconds);
+	}
+
+	function updateOverviewScene(hourValue: number) {
+		if (!astro || !currentConditionStatus) return;
+
+		// Update scene theme
+		currentSceneTheme = getSceneTheme({
+			range: $temperatureRangeStore ?? 'Cold',
+			condition: currentConditionStatus.status,
+			currentHour: hourValue,
+			sunriseHour: astro.sunriseHour,
+			sunsetHour: astro.sunsetHour,
+		});
+
+		// Set night sky
+		isNight = hourValue < astro.sunriseHour || hourValue > astro.sunsetHour;
 	}
 
 	async function initializeOverview() {
@@ -116,12 +130,12 @@
 
 	function handleOnValueChageNumber(value: number) {
 		// Call global state to display the DisplayWheel time
-		if (!$forecastDisplay) {
+		if (!$forecastDisplay && !isTimeScroll) {
 			forecastDisplay.show();
 		}
 
 		isTimeScroll = true;
-		onValueChageNumber = value;
+		forecastNumber = value;
 	}
 
 	function handleOnValueCommitNumber(value: number) {
@@ -235,7 +249,7 @@
 			min={0}
 			max={23}
 			step={1}
-			value={onValueChageNumber}
+			value={forecastNumber}
 			onValueChange={handleOnValueChageNumber}
 			onValueCommit={handleOnValueCommitNumber}
 		/>
@@ -243,7 +257,7 @@
 {/snippet}
 
 {#snippet DisplayWheelSnippet()}
-	<DisplayWheel {currentHour} forecastHour={onValueChageNumber} dailyConditionForecast={array} />
+	<DisplayWheel {currentHour} forecastHour={forecastNumber} dailyConditionForecast={array} />
 {/snippet}
 
 <PageLayout

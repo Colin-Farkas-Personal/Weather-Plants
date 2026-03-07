@@ -2,6 +2,7 @@
 	import type { Snippet } from 'svelte';
 	import { windowOrientation } from '$lib/globals/windowStore';
 	import SectionHeading from './SectionHeading.svelte';
+	import { forecastDisplay } from '$lib/globals/forecastTimeLineStore.svelte';
 
 	interface PrimarySectionProps {
 		TopBar?: Snippet;
@@ -17,7 +18,7 @@
 </script>
 
 <section class={`primary-section ${$orientation}`}>
-	{#if TopBar}
+	{#if TopBar && !$forecastDisplay}
 		<nav class="primary-section-top-bar">
 			{@render TopBar()}
 		</nav>
@@ -82,6 +83,8 @@
 
 		container-type: inline-size;
 		font-size: clamp(20px, 1.2cqi, 42px);
+
+		transition: 0.3s ease;
 
 		.primary-section-top-bar {
 			width: 100%;
