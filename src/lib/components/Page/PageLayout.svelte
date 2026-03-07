@@ -98,13 +98,13 @@
 
 <style lang="scss">
 	.page-layout {
-		background-color: var(--theme-bg-primary);
-
 		&.portrait {
 			overflow-x: hidden;
 			display: flex;
 			flex-direction: column;
 			height: 100dvh;
+
+			transition: all 0.3s ease;
 		}
 
 		&.landscape {
@@ -123,6 +123,8 @@
 				border-radius: 40px;
 
 				pointer-events: none;
+
+				animation: grow-shadow 180ms ease-out;
 			}
 		}
 	}
@@ -135,33 +137,18 @@
 		padding: 16px 24px;
 
 		background-color: black;
-
-		animation: growFromTop 640ms
-			linear(
-				0,
-				0.007 1.3%,
-				0.028 2.7%,
-				0.116 5.9%,
-				0.231 8.9%,
-				0.609 17.8%,
-				0.802 23.4%,
-				0.875 26.1%,
-				0.933 28.8%,
-				0.98 31.6%,
-				1.017 34.6%,
-				1.052 39.8%,
-				1.062 45.9%,
-				1.004 74%,
-				1
-			);
 	}
 
-	@keyframes growFromTop {
+	@keyframes grow-shadow {
 		from {
-			height: 0;
+			box-shadow:
+				0 0 0 0px black,
+				inset 0 0 0 0px black;
 		}
 		to {
-			height: max-content;
+			box-shadow:
+				0 0 0 100px black,
+				inset 0 0 0 14px black;
 		}
 	}
 </style>

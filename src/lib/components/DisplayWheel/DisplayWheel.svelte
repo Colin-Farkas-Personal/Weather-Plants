@@ -99,25 +99,6 @@
 	}
 </script>
 
-{#snippet TimeLine(position: 'leading' | 'trailing')}
-	<div class={`time-line ${position}`} bind:this={timeLineElementFuture}>
-		{#if position === 'leading'}
-			<div class="spacer"></div>
-		{/if}
-		{#each dailyConditionForecast as hourCondition (hourCondition.hour)}
-			<div class="hour-condition" bind:this={itemElementsFuture.add}>
-				<span class="hour">{hourCondition.hour}</span>
-				<span class="condition"
-					><WeatherConditionIcon conditionStatus={hourCondition.condition} /></span
-				>
-			</div>
-		{/each}
-		{#if position === 'trailing'}
-			<div class="spacer"></div>
-		{/if}
-	</div>
-{/snippet}
-
 <div id="display-wheel" class="display-wheel">
 	<div class="time-display">
 		<div class="time">
@@ -127,7 +108,7 @@
 		<span class="diff">{diffHours}</span>
 	</div>
 	<div class="container">
-		<div class={`time-line leading`} bind:this={timeLineElementPast}>
+		<div class="time-line leading" bind:this={timeLineElementPast}>
 			<div class="spacer"></div>
 			{#each dailyConditionForecast as hourCondition (hourCondition.hour)}
 				<div class="hour-condition" bind:this={itemElementsPast.add}>
@@ -139,7 +120,7 @@
 			{/each}
 		</div>
 		<span class="block"></span>
-		<div class={`time-line trailing`} bind:this={timeLineElementFuture}>
+		<div class="time-line trailing" bind:this={timeLineElementFuture}>
 			{#each dailyConditionForecast as hourCondition (hourCondition.hour)}
 				<div class="hour-condition" bind:this={itemElementsFuture.add}>
 					<span class="hour">{hourCondition.hour}</span>
@@ -160,8 +141,21 @@
 
 		color: white;
 
-		width: 420px;
+		max-width: 420px;
 		border-radius: 100vh;
+
+		animation: growFromTop 250ms ease-out;
+
+		@keyframes growFromTop {
+			from {
+				transform: scale(0.9);
+				opacity: 0;
+			}
+			to {
+				transform: scale(1);
+				opacity: 1;
+			}
+		}
 
 		.time-display {
 			z-index: 1;
