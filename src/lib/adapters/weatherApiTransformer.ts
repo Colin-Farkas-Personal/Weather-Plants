@@ -23,6 +23,14 @@ export type ResponseForecast = {
 				sunrise: string;
 				sunset: string;
 			};
+			hour: Array<{
+				temp_c: number;
+				feelslike_c: number;
+				condition: {
+					text: string;
+					code: number;
+				};
+			}>;
 		}>;
 	};
 };
@@ -57,6 +65,17 @@ function transformWeatherData(
 			max_tempC: responseForecast.forecast.forecastday[0].day.maxtemp_c,
 		},
 		lastUpdated: responseCurrent.current.last_updated,
+		dailyForecast: responseForecast.forecast.forecastday.flatMap((day) =>
+			day.hour.map((hourResponse, hour) => ({
+				hour,
+				tempC: hourResponse.temp_c,
+				feelsLike_tempC: hourResponse.feelslike_c,
+				condition: {
+					text: hourResponse.condition.text,
+					code: hourResponse.condition.code,
+				},
+			})),
+		),
 	};
 }
 
@@ -108,4 +127,4 @@ function transformReverseData(responseResolve: ResponseReverse): LocationReverse
 	};
 }
 
-export { transformWeatherData, transformSearchData, transformReverseData as transformResolveData };
+export { transformReverseData as transformResolveData, transformSearchData, transformWeatherData };

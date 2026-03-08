@@ -22,6 +22,20 @@ type Astro = {
 	sunset: string;
 };
 
+type HourForecastRaw = {
+	hour: number;
+	tempC: number;
+	feelsLike_tempC: number;
+	condition: Condition;
+};
+
+type HourForecast = {
+	hour: number;
+	temperature: number;
+	feelsLike: number;
+	condition: Condition;
+};
+
 type WeatherOverviewRaw = {
 	localTime: string;
 	temperature_tempC: number;
@@ -30,6 +44,7 @@ type WeatherOverviewRaw = {
 	condition: Condition;
 	dailyRange: DailyRangeRaw;
 	lastUpdated?: string;
+	dailyForecast: HourForecastRaw[];
 };
 
 type StreamedOverviewData = {
@@ -40,6 +55,7 @@ type StreamedOverviewData = {
 	condition: Condition;
 	dailyRange: DailyRange;
 	lastUpdated?: string;
+	dailyForecast: HourForecast[];
 };
 
 type WeatherOverview = {
@@ -57,4 +73,6 @@ export type {
 	Condition,
 	DailyRangeRaw,
 	DailyRange,
+	HourForecastRaw,
+	HourForecast,
 };

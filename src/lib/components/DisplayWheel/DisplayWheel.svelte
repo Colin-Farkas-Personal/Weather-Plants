@@ -19,6 +19,7 @@
 	const diffHours = $derived(getDiffHours(currentHour, forecastHour));
 
 	$effect(() => {
+		console.log('CONDITIONS', dailyConditionForecast);
 		syncWheelPast();
 		syncWheelFuture();
 	});
@@ -113,9 +114,9 @@
 			{#each dailyConditionForecast as hourCondition (hourCondition.hour)}
 				<div class="hour-condition" bind:this={itemElementsPast.add}>
 					<span class="hour">{hourCondition.hour}</span>
-					<span class="condition"
-						><WeatherConditionIcon conditionStatus={hourCondition.condition} /></span
-					>
+					<span class="condition">
+						<WeatherConditionIcon conditionStatus={hourCondition.condition} />
+					</span>
 				</div>
 			{/each}
 		</div>

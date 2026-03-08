@@ -16,6 +16,7 @@
 	import ScrollWheel from '$lib/components/ScrollWheel/ScrollWheel.svelte';
 	import { transitionValue } from '$lib/components/ScrollWheel/transition';
 	import getCurrentCondition, {
+		type ConditionStatus,
 		type CurrentCondition,
 	} from '$lib/globals/conditionStatusStore.svelte.js';
 	import { forecastDisplay } from '$lib/globals/forecastTimeLineStore.svelte';
@@ -26,7 +27,6 @@
 	import { easeOut } from '$lib/utilities/easing-function';
 	import { getHourFromTimeString } from '$lib/utilities/formatted-hours';
 	import { onDestroy, onMount } from 'svelte';
-	import { backOut, linear } from 'svelte/easing';
 	import ArrowLeftBoldIcon from '~icons/ph/arrow-left-bold';
 
 	const DATA_FETCH_INTERVAL_MINUTES = 30;
@@ -45,20 +45,32 @@
 	let forecastNumber = $derived<number>(currentHour);
 	let onValueCommitNumber = $state<number>(0);
 
-	let currentConditionStatus = $state<CurrentCondition>();
 	let astro = $state<{ sunriseHour: number; sunsetHour: number } | null>(null);
 	let currentSceneTheme = $state<SceneTheme>(defaultTheme);
 	let isNight = $state(false);
 	let isTimeScroll = $state(false);
 	let cancelTransition: (() => void) | null = null;
 
+	type MainOverviewData = {
+		temperature: number;
+		feelsLike: number;
+		condition: CurrentCondition;
+	};
+	let mainOverviewData = $state<MainOverviewData | null>(null);
+
+	type HourlyCondition = {
+		hour: number;
+		temperature: number;
+		feelsLike: number;
+		condition: CurrentCondition;
+	};
+	const forecastOverviewData = [] as HourlyCondition[];
+
 	onMount(() => {
 		fetchOverviewDataByInterval(DATA_FETCH_INTERVAL_MINUTES);
 	});
 
 	$effect(() => {
-		if (isTimeScroll) return;
-
 		initializeOverview();
 	});
 
@@ -70,7 +82,10 @@
 
 	$effect(() => {
 		if (isTimeScroll || $forecastDisplay) {
-			updateOverviewScene(forecastNumber);
+			const index = Math.round(forecastNumber);
+			const currentHourCondition = forecastOverviewData[index];
+			if (!currentHourCondition) return;
+			updateOverviewScene(forecastNumber, currentHourCondition.condition.status);
 		}
 	});
 
@@ -91,20 +106,20 @@
 		timer = setInterval(refresh, intervalMilliseconds);
 	}
 
-	function updateOverviewScene(hourValue: number) {
-		if (!astro || !currentConditionStatus) return;
+	function updateOverviewScene(hourValue: number, conditionStatus: ConditionStatus) {
+		if (!astro || !$temperatureRangeStore) return;
+
+		// Set night sky
+		isNight = hourValue < astro.sunriseHour || hourValue > astro.sunsetHour;
 
 		// Update scene theme
 		currentSceneTheme = getSceneTheme({
-			range: $temperatureRangeStore ?? 'Cold',
-			condition: currentConditionStatus.status,
+			range: $temperatureRangeStore,
+			condition: conditionStatus,
 			currentHour: hourValue,
 			sunriseHour: astro.sunriseHour,
 			sunsetHour: astro.sunsetHour,
 		});
-
-		// Set night sky
-		isNight = hourValue < astro.sunriseHour || hourValue > astro.sunsetHour;
 	}
 
 	async function initializeOverview() {
@@ -113,18 +128,46 @@
 		// 1. Set temperature range
 		temperatureRangeStore.setRange(streamedOverviewData.temperature);
 
-		// 2. Update condition
-		currentConditionStatus = getCurrentCondition(streamedOverviewData.condition.code, 'day');
-
-		// 3. Set times
+		// 2. Set times
 		currentHour = getHourFromTimeString(streamedOverviewData.localTime);
+
+		const sunriseHour = getHourFromTimeString(streamedOverviewData.astro.sunrise);
+		const sunsetHour = getHourFromTimeString(streamedOverviewData.astro.sunset);
 		astro = {
-			sunriseHour: getHourFromTimeString(streamedOverviewData.astro.sunrise),
-			sunsetHour: getHourFromTimeString(streamedOverviewData.astro.sunset),
+			sunriseHour: sunriseHour,
+			sunsetHour: sunsetHour,
 		};
 
-		// 4. Update main theme attribute
+		// 3. Update main theme attribute
 		updateMainTheme();
+
+		// 4. Set mainOverviewData and forecastOverviewData
+		const conditionCode = streamedOverviewData.condition.code;
+		const timeOfDay = currentHour < sunriseHour || currentHour > sunsetHour ? 'night' : 'day';
+
+		mainOverviewData = {
+			temperature: streamedOverviewData.temperature,
+			feelsLike: streamedOverviewData.feelsLike,
+			condition: getCurrentCondition(conditionCode, timeOfDay),
+		};
+
+		for (const hourData of streamedOverviewData.dailyForecast) {
+			const conditionCode = hourData.condition.code;
+			const timeOfDay =
+				hourData.hour < sunriseHour || hourData.hour > sunsetHour ? 'night' : 'day';
+
+			console.log('HOUR DATA', hourData, conditionCode, timeOfDay);
+
+			forecastOverviewData.push({
+				hour: hourData.hour,
+				temperature: hourData.temperature,
+				feelsLike: hourData.feelsLike,
+				condition: getCurrentCondition(conditionCode, timeOfDay),
+			});
+		}
+
+		// 5. Render the initial scene
+		updateOverviewScene(currentHour, mainOverviewData.condition.status);
 	}
 
 	function updateMainTheme() {
@@ -149,8 +192,10 @@
 
 	const TRANSITION_DURATION_MS = 450;
 	function transitionToCurrentHour() {
+		if (!mainOverviewData?.condition) return;
+		const conditionStatus = mainOverviewData.condition.status;
 		if (forecastNumber === currentHour) {
-			updateOverviewScene(currentHour);
+			updateOverviewScene(currentHour, conditionStatus);
 			return;
 		}
 
@@ -166,109 +211,18 @@
 			() => {
 				forecastNumber = currentHour;
 				isTimeScroll = false;
+				updateOverviewScene(currentHour, conditionStatus);
 			},
 			{ duration: TRANSITION_DURATION_MS, easingFunction: easeOut },
 		);
 	}
 
-	const array = [
-		{
-			hour: 0,
-			condition: 'CLEAR',
-		},
-		{
-			hour: 1,
-			condition: 'SUNNY',
-		},
-		{
-			hour: 2,
-			condition: 'SUNNY',
-		},
-		{
-			hour: 3,
-			condition: 'CLOUDY',
-		},
-		{
-			hour: 4,
-			condition: 'CLOUDY',
-		},
-		{
-			hour: 5,
-			condition: 'CLOUDY',
-		},
-		{
-			hour: 6,
-			condition: 'CLOUDY',
-		},
-		{
-			hour: 7,
-			condition: 'CLOUDY',
-		},
-		{
-			hour: 8,
-			condition: 'CLOUDY',
-		},
-		{
-			hour: 9,
-			condition: 'CLOUDY',
-		},
-		{
-			hour: 10,
-			condition: 'CLOUDY',
-		},
-		{
-			hour: 11,
-			condition: 'CLOUDY',
-		},
-		{
-			hour: 12,
-			condition: 'CLOUDY',
-		},
-		{
-			hour: 13,
-			condition: 'CLOUDY',
-		},
-		{
-			hour: 14,
-			condition: 'CLOUDY',
-		},
-		{
-			hour: 15,
-			condition: 'CLOUDY',
-		},
-		{
-			hour: 16,
-			condition: 'CLOUDY',
-		},
-		{
-			hour: 17,
-			condition: 'CLOUDY',
-		},
-		{
-			hour: 18,
-			condition: 'CLOUDY',
-		},
-		{
-			hour: 19,
-			condition: 'CLOUDY',
-		},
-		{
-			hour: 20,
-			condition: 'CLOUDY',
-		},
-		{
-			hour: 21,
-			condition: 'CLOUDY',
-		},
-		{
-			hour: 22,
-			condition: 'CLOUDY',
-		},
-		{
-			hour: 23,
-			condition: 'CLOUDY',
-		},
-	] as HourCondition[];
+	const array = $derived(
+		forecastOverviewData.map((item) => ({
+			hour: item.hour,
+			condition: item.condition.status,
+		})),
+	);
 </script>
 
 {#snippet TimeScroll()}
@@ -308,10 +262,10 @@
 			<p>Loading data</p>
 		{:then streamed}
 			<article class={`overview-page-data ${$orientation}`}>
-				{#if currentConditionStatus}
+				{#if mainOverviewData?.condition}
 					<OverviewCondition
-						label={currentConditionStatus.label}
-						status={currentConditionStatus.status}
+						label={mainOverviewData.condition.label}
+						status={mainOverviewData.condition.status}
 					/>
 				{/if}
 

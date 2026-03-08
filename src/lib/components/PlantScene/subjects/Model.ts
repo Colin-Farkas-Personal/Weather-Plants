@@ -16,6 +16,7 @@ export class Model implements SceneSubject {
 
 	// ---- PUBLIC METHODS ----
 	create(modelPath: string) {
+		this._modelPath = modelPath;
 		this.model = this.buildModel(modelPath);
 		this._scene.add(this.model);
 	}

@@ -235,7 +235,7 @@
 		onpointerup={handlePointerUp}
 		onpointercancel={handlePointerUp}
 	>
-		{#each lines as _, index (index)}
+		{#each lines as line, index (index)}
 			<span id={String(index)} class="line"></span>
 		{/each}
 	</div>

@@ -12,13 +12,17 @@ function toFormattedWeatherData<T extends GenericObject>(
 	const formattedData: GenericObject = {};
 
 	for (const [key, value] of Object.entries(dataObject)) {
-		if (value && typeof value === 'object') {
-			const newValueObject = toFormattedWeatherData(
-				value as GenericObject,
-				unit,
-				roundValues,
+		if (Array.isArray(value)) {
+			formattedData[key] = value.map((item) =>
+				item && typeof item === 'object'
+					? toFormattedWeatherData(item as GenericObject, unit, roundValues)
+					: item,
 			);
-			formattedData[key] = newValueObject;
+			continue;
+		}
+
+		if (value && typeof value === 'object') {
+			formattedData[key] = toFormattedWeatherData(value as GenericObject, unit, roundValues);
 			continue;
 		}
 
