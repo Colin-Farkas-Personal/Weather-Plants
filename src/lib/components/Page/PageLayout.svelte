@@ -106,8 +106,6 @@
 			display: flex;
 			flex-direction: column;
 			height: 100dvh;
-
-			transition: all 0.3s ease;
 		}
 
 		&.landscape {
@@ -121,9 +119,9 @@
 				inset: 0;
 
 				box-shadow:
-					0 0 0 100px black,
-					inset 0 0 0 14px black;
-				border-radius: 40px;
+					0 0 0 100px hsl(0, 0%, 0%),
+					inset 0 0 0 14px hsl(0, 0%, 0%);
+				border-radius: 60px;
 
 				pointer-events: none;
 

@@ -84,8 +84,6 @@
 		container-type: inline-size;
 		font-size: clamp(20px, 1.2cqi, 42px);
 
-		transition: 0.3s ease;
-
 		.primary-section-top-bar {
 			width: 100%;
 			padding: clamp(2rem, 1cqi, 3rem) clamp(2rem, 4cqi, 3rem) 0;

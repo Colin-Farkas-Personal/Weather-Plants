@@ -4,7 +4,6 @@
 	import DisplayWheel, {
 		type HourCondition,
 	} from '$lib/components/DisplayWheel/DisplayWheel.svelte';
-	import TestWheel from '$lib/components/DisplayWheel/TestWheel.svelte';
 	import OverviewCondition from '$lib/components/OverviewCondition/OverviewCondition.svelte';
 	import OverviewTemperature from '$lib/components/OverviewTemperature/OverviewTemperature.svelte';
 	import OverviewTemperatureRangeLinearGauge from '$lib/components/OverviewTemperatureRangeGauge/OverviewTemperatureRangeLinearGauge.svelte';
@@ -15,17 +14,20 @@
 	import { defaultTheme } from '$lib/components/PlantScene/themes/default';
 	import type { SceneTheme } from '$lib/components/PlantScene/themes/theme.types';
 	import ScrollWheel from '$lib/components/ScrollWheel/ScrollWheel.svelte';
+	import { transitionValue } from '$lib/components/ScrollWheel/transition';
 	import getCurrentCondition, {
 		type CurrentCondition,
 	} from '$lib/globals/conditionStatusStore.svelte.js';
+	import { forecastDisplay } from '$lib/globals/forecastTimeLineStore.svelte';
 	import temperatureRangeStore from '$lib/globals/temperatureRangeStore.svelte.js';
 	import { windowOrientation } from '$lib/globals/windowStore';
 	import type { TemperatureRange } from '$lib/types/temperature.js';
 	import type { WeatherOverview } from '$lib/types/weather.js';
+	import { easeOut } from '$lib/utilities/easing-function';
 	import { getHourFromTimeString } from '$lib/utilities/formatted-hours';
 	import { onDestroy, onMount } from 'svelte';
+	import { backOut, linear } from 'svelte/easing';
 	import ArrowLeftBoldIcon from '~icons/ph/arrow-left-bold';
-	import { forecastDisplay } from '$lib/globals/forecastTimeLineStore.svelte';
 
 	const DATA_FETCH_INTERVAL_MINUTES = 30;
 
@@ -48,6 +50,7 @@
 	let currentSceneTheme = $state<SceneTheme>(defaultTheme);
 	let isNight = $state(false);
 	let isTimeScroll = $state(false);
+	let cancelTransition: (() => void) | null = null;
 
 	onMount(() => {
 		fetchOverviewDataByInterval(DATA_FETCH_INTERVAL_MINUTES);
@@ -60,20 +63,21 @@
 	});
 
 	$effect(() => {
-		if (!$forecastDisplay && !isTimeScroll) {
-			forecastNumber = currentHour;
+		if (!isTimeScroll && !$forecastDisplay) {
+			transitionToCurrentHour();
 		}
 	});
 
 	$effect(() => {
 		if (isTimeScroll || $forecastDisplay) {
 			updateOverviewScene(forecastNumber);
-		} else {
-			updateOverviewScene(currentHour);
 		}
 	});
 
-	onDestroy(() => clearInterval(timer));
+	onDestroy(() => {
+		clearInterval(timer);
+		cancelTransition?.();
+	});
 
 	// Functions
 	function fetchOverviewDataByInterval(intervalMinutes: number) {
@@ -141,6 +145,30 @@
 	function handleOnValueCommitNumber(value: number) {
 		isTimeScroll = false;
 		onValueCommitNumber = value;
+	}
+
+	const TRANSITION_DURATION_MS = 450;
+	function transitionToCurrentHour() {
+		if (forecastNumber === currentHour) {
+			updateOverviewScene(currentHour);
+			return;
+		}
+
+		isTimeScroll = true;
+		cancelTransition?.();
+
+		cancelTransition = transitionValue(
+			forecastNumber,
+			currentHour,
+			(value) => {
+				forecastNumber = value;
+			},
+			() => {
+				forecastNumber = currentHour;
+				isTimeScroll = false;
+			},
+			{ duration: TRANSITION_DURATION_MS, easingFunction: easeOut },
+		);
 	}
 
 	const array = [
