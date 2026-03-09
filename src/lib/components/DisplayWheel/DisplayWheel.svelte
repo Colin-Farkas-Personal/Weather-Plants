@@ -2,10 +2,12 @@
 	import type { ConditionStatus } from '$lib/globals/conditionStatusStore.svelte';
 	import ClockBoldIcon from '~icons/ph/clock-bold';
 	import WeatherConditionIcon from '../Icon/WeatherConditionIcon.svelte';
+	import AstroConditionIcon from '../Icon/AstroConditionIcon.svelte';
 
 	export type HourCondition = {
 		hour: number;
 		condition: ConditionStatus;
+		astro: 'SUNRISE' | 'SUNSET' | undefined;
 	};
 	interface DisplayWheelProp {
 		currentHour: number;
@@ -19,7 +21,6 @@
 	const diffHours = $derived(getDiffHours(currentHour, forecastHour));
 
 	$effect(() => {
-		console.log('CONDITIONS', dailyConditionForecast);
 		syncWheelPast();
 		syncWheelFuture();
 	});
@@ -115,7 +116,11 @@
 				<div class="hour-condition" bind:this={itemElementsPast.add}>
 					<span class="hour">{hourCondition.hour}</span>
 					<span class="condition">
-						<WeatherConditionIcon conditionStatus={hourCondition.condition} />
+						{#if hourCondition.astro}
+							<AstroConditionIcon astroStatus={hourCondition.astro} />
+						{:else}
+							<WeatherConditionIcon conditionStatus={hourCondition.condition} />
+						{/if}
 					</span>
 				</div>
 			{/each}
@@ -125,9 +130,13 @@
 			{#each dailyConditionForecast as hourCondition (hourCondition.hour)}
 				<div class="hour-condition" bind:this={itemElementsFuture.add}>
 					<span class="hour">{hourCondition.hour}</span>
-					<span class="condition"
-						><WeatherConditionIcon conditionStatus={hourCondition.condition} /></span
-					>
+					<span class="condition">
+						{#if hourCondition.astro}
+							<AstroConditionIcon astroStatus={hourCondition.astro} />
+						{:else}
+							<WeatherConditionIcon conditionStatus={hourCondition.condition} />
+						{/if}
+					</span>
 				</div>
 			{/each}
 			<div class="spacer"></div>

@@ -68,7 +68,7 @@ function transformWeatherData(
 		dailyForecast: responseForecast.forecast.forecastday.flatMap((day) =>
 			day.hour.map((hourResponse, hour) => ({
 				hour,
-				tempC: hourResponse.temp_c,
+				temperature_tempC: hourResponse.temp_c,
 				feelsLike_tempC: hourResponse.feelslike_c,
 				condition: {
 					text: hourResponse.condition.text,

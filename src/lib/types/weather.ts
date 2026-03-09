@@ -24,7 +24,7 @@ type Astro = {
 
 type HourForecastRaw = {
 	hour: number;
-	tempC: number;
+	temperature_tempC: number;
 	feelsLike_tempC: number;
 	condition: Condition;
 };

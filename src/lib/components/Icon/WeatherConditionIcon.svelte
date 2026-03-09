@@ -10,7 +10,7 @@
 	let { conditionStatus }: WeatherConditionIconProps = $props();
 
 	// State
-	let Icon = parseWeatherIcon(conditionStatus);
+	let Icon = $derived(parseWeatherIcon(conditionStatus));
 </script>
 
 {#if Icon}<Icon />{/if}

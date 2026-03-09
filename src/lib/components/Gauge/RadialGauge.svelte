@@ -15,7 +15,7 @@
 
 	let { min, MaxContent, max, MinContent, value, ValueContent }: RadialGaugeProps = $props();
 
-	const indicatorAngle = calculateIndicatorAngle();
+	const indicatorAngle = $derived(calculateIndicatorAngle());
 
 	function calculateIndicatorAngle(): number {
 		const startDeg = MIN_DEG;
@@ -172,6 +172,7 @@
 			width: 100%;
 			height: 100%;
 			border-radius: 50%;
+			transition: transform 300ms ease-out;
 
 			&::after {
 				content: '';

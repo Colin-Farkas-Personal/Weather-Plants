@@ -88,6 +88,8 @@
 			background-color: var(--theme-text-primary);
 			border-radius: 50%;
 			box-shadow: 0 0 0 4px var(--theme-bg-primary);
+
+			transition: left 300ms ease-out;
 		}
 
 		&-label-min,

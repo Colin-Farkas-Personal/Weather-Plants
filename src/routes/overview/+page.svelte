@@ -1,9 +1,7 @@
 <script lang="ts">
 	import { goto, invalidateAll } from '$app/navigation';
 	import Button from '$lib/components/Button/Button.svelte';
-	import DisplayWheel, {
-		type HourCondition,
-	} from '$lib/components/DisplayWheel/DisplayWheel.svelte';
+	import DisplayWheel from '$lib/components/DisplayWheel/DisplayWheel.svelte';
 	import OverviewCondition from '$lib/components/OverviewCondition/OverviewCondition.svelte';
 	import OverviewTemperature from '$lib/components/OverviewTemperature/OverviewTemperature.svelte';
 	import OverviewTemperatureRangeLinearGauge from '$lib/components/OverviewTemperatureRangeGauge/OverviewTemperatureRangeLinearGauge.svelte';
@@ -24,6 +22,7 @@
 	import { windowOrientation } from '$lib/globals/windowStore';
 	import type { TemperatureRange } from '$lib/types/temperature.js';
 	import type { WeatherOverview } from '$lib/types/weather.js';
+	import { getCurrentAstro, type CurrentAstro } from '$lib/utilities/current-astro';
 	import { easeOut } from '$lib/utilities/easing-function';
 	import { getHourFromTimeString } from '$lib/utilities/formatted-hours';
 	import { onDestroy, onMount } from 'svelte';
@@ -43,7 +42,7 @@
 	const orientation = windowOrientation;
 	let currentHour = $derived<number>(0);
 	let forecastNumber = $derived<number>(currentHour);
-	let onValueCommitNumber = $state<number>(0);
+	// let onValueCommitNumber = $state<number>(0);
 
 	let astro = $state<{ sunriseHour: number; sunsetHour: number } | null>(null);
 	let currentSceneTheme = $state<SceneTheme>(defaultTheme);
@@ -55,6 +54,7 @@
 		temperature: number;
 		feelsLike: number;
 		condition: CurrentCondition;
+		astro: CurrentAstro | null;
 	};
 	let mainOverviewData = $state<MainOverviewData | null>(null);
 
@@ -63,6 +63,7 @@
 		temperature: number;
 		feelsLike: number;
 		condition: CurrentCondition;
+		astro: CurrentAstro | null;
 	};
 	const forecastOverviewData = [] as HourlyCondition[];
 
@@ -149,21 +150,30 @@
 			temperature: streamedOverviewData.temperature,
 			feelsLike: streamedOverviewData.feelsLike,
 			condition: getCurrentCondition(conditionCode, timeOfDay),
+			astro: getCurrentAstro(currentHour, sunriseHour, sunsetHour),
 		};
 
+		console.log(
+			'HOUR TEMPERATURES',
+			streamedOverviewData.dailyForecast.map((item) => ({
+				hour: item.hour,
+				temp: item.temperature,
+			})),
+		);
 		for (const hourData of streamedOverviewData.dailyForecast) {
 			const conditionCode = hourData.condition.code;
 			const timeOfDay =
 				hourData.hour < sunriseHour || hourData.hour > sunsetHour ? 'night' : 'day';
 
-			console.log('HOUR DATA', hourData, conditionCode, timeOfDay);
-
-			forecastOverviewData.push({
+			const currentObject = {
 				hour: hourData.hour,
 				temperature: hourData.temperature,
 				feelsLike: hourData.feelsLike,
 				condition: getCurrentCondition(conditionCode, timeOfDay),
-			});
+				astro: getCurrentAstro(hourData.hour, sunriseHour, sunsetHour),
+			};
+
+			forecastOverviewData.push(currentObject);
 		}
 
 		// 5. Render the initial scene
@@ -185,9 +195,9 @@
 		forecastNumber = value;
 	}
 
-	function handleOnValueCommitNumber(value: number) {
+	function handleOnValueCommitNumber() {
 		isTimeScroll = false;
-		onValueCommitNumber = value;
+		// onValueCommitNumber = value;
 	}
 
 	const TRANSITION_DURATION_MS = 450;
@@ -217,12 +227,21 @@
 		);
 	}
 
-	const array = $derived(
+	const forecastHours = $derived(
 		forecastOverviewData.map((item) => ({
 			hour: item.hour,
 			condition: item.condition.status,
+			astro: item.astro?.status,
 		})),
 	);
+
+	const activeOverviewData = $derived.by(() => {
+		if (isTimeScroll || $forecastDisplay) {
+			return forecastOverviewData[Math.round(forecastNumber)] || null;
+		} else {
+			return mainOverviewData;
+		}
+	});
 </script>
 
 {#snippet TimeScroll()}
@@ -239,7 +258,11 @@
 {/snippet}
 
 {#snippet DisplayWheelSnippet()}
-	<DisplayWheel {currentHour} forecastHour={forecastNumber} dailyConditionForecast={array} />
+	<DisplayWheel
+		{currentHour}
+		forecastHour={forecastNumber}
+		dailyConditionForecast={forecastHours}
+	/>
 {/snippet}
 
 <PageLayout
@@ -262,10 +285,12 @@
 			<p>Loading data</p>
 		{:then streamed}
 			<article class={`overview-page-data ${$orientation}`}>
-				{#if mainOverviewData?.condition}
+				{#if activeOverviewData}
 					<OverviewCondition
-						label={mainOverviewData.condition.label}
-						status={mainOverviewData.condition.status}
+						label={activeOverviewData?.astro?.label ??
+							activeOverviewData?.condition.label}
+						status={activeOverviewData?.astro?.status ??
+							activeOverviewData?.condition.status}
 					/>
 				{/if}
 
@@ -273,20 +298,22 @@
 					<OverviewTemperatureRangeGauge
 						min={streamed.dailyRange.min}
 						max={streamed.dailyRange.max}
-						value={streamed.temperature}
+						value={activeOverviewData?.temperature ?? streamed.temperature}
 					/>
 
-					<p class="feels-like">Feels like {streamed.feelsLike}°C</p>
+					<p class="feels-like">
+						Feels like {activeOverviewData?.feelsLike ?? streamed.feelsLike}°C
+					</p>
 				{:else if $orientation === 'portrait'}
 					<OverviewTemperature
-						temperature={streamed.temperature}
-						feelsLike={streamed.feelsLike}
+						temperature={activeOverviewData?.temperature ?? streamed.temperature}
+						feelsLike={activeOverviewData?.feelsLike ?? streamed.feelsLike}
 					/>
 
 					<OverviewTemperatureRangeLinearGauge
 						min={streamed.dailyRange.min}
 						max={streamed.dailyRange.max}
-						value={streamed.temperature}
+						value={activeOverviewData?.temperature ?? streamed.temperature}
 					/>
 				{/if}
 			</article>
