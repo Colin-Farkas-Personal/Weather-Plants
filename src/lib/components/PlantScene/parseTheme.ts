@@ -1,6 +1,6 @@
-import { browser } from '$app/environment';
 import type { ConditionStatus, CurrentCondition } from '$lib/globals/conditionStatusStore.svelte';
 import type { TemperatureRange } from '$lib/types/temperature';
+import { setScreenBackgroundColor } from '$lib/utilities/main-screen-background';
 import {
 	updateNightTimeStarOpacity,
 	updateNightTimeStarTransform,
@@ -154,20 +154,6 @@ function applyDayTimeModifier({
 	} as SceneTheme;
 
 	return modifiedSceneTheme;
-}
-
-function setScreenBackgroundColor(color: string): void {
-	if (!browser) return;
-
-	document.body.style.backgroundColor = color;
-
-	let themeMeta = document.querySelector('meta[name="theme-color"]') as HTMLMetaElement;
-	if (!themeMeta) {
-		themeMeta = document.createElement('meta');
-		themeMeta.name = 'theme-color';
-		document.head.appendChild(themeMeta);
-	}
-	themeMeta.content = color;
 }
 
 export { getSceneTheme };

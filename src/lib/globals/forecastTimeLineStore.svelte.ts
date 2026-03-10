@@ -1,3 +1,4 @@
+import { setScreenBackgroundColor } from '$lib/utilities/main-screen-background';
 import { writable } from 'svelte/store';
 
 function createForecastDisplayStore() {
@@ -6,6 +7,7 @@ function createForecastDisplayStore() {
 	function showDisplayStore() {
 		update(() => true);
 
+		setScreenBackgroundColor('#000000');
 		document.addEventListener('mousedown', hideDisplayStore);
 	}
 

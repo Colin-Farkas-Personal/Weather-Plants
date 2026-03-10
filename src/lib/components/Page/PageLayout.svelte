@@ -80,9 +80,11 @@
 			BottomContent={secondaryBottomContent}
 		/>
 		<PrimarySection Content={PrimarySectionContent} {isTimeScroll} />
-		<div class="time-scroll">
-			{@render ForecastScroll?.()}
-		</div>
+		{#if isTimeScroll}
+			<div class="time-scroll">
+				{@render ForecastScroll?.()}
+			</div>
+		{/if}
 	{:else if $orientation === 'landscape'}
 		<!-- Landscape: Primary first with page heading; secondary has only its content heading -->
 		<PrimarySection
