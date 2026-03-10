@@ -118,7 +118,7 @@
 
 			:last-child {
 				background-color: inherit;
-				padding-bottom: env(safe-area-inset-bottom, 0px);
+				padding-bottom: env(safe-area-inset-bottom, 1rem);
 			}
 
 			.time-scroll {
@@ -127,7 +127,8 @@
 				align-items: center;
 				justify-content: center;
 
-				padding: calc(16px + env(safe-area-inset-bottom, 0px));
+				padding: 1rem;
+				padding-bottom: calc(1rem + env(safe-area-inset-bottom, 1rem));
 
 				background-color: black;
 			}
