@@ -298,6 +298,8 @@
 <style lang="scss">
 	.scroll-wheel {
 		display: flex;
+		align-items: center;
+		justify-self: center;
 		background-color: black;
 
 		&.portrait {
@@ -306,6 +308,13 @@
 			border-radius: 30px;
 
 			button {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+
+				width: 38px;
+				aspect-ratio: 1;
+
 				padding: 0;
 				margin: 0;
 				border: none;
@@ -316,8 +325,8 @@
 				cursor: pointer;
 
 				:global(svg) {
-					width: 18px;
-					height: 18px;
+					width: 24px;
+					height: 24px;
 				}
 
 				&.disable-stepping {

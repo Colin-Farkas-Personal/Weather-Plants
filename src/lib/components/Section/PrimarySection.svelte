@@ -55,7 +55,7 @@
 			justify-content: center;
 			padding: clamp(1.25rem, 4.5cqi, 2.25rem) clamp(1.25rem, 2.25cqi, 3rem);
 			padding-bottom: calc(
-				clamp(1.25rem, 4.5cqi, 2.25rem) + env(safe-area-inset-bottom, 1rem)
+				clamp(1.25rem, 4.5cqi, 2.25rem) + env(safe-area-inset-bottom, 0.25rem)
 			);
 			box-sizing: border-box;
 
