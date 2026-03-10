@@ -23,6 +23,7 @@ interface GetSceneThemeParams {
 	currentHour: number;
 	sunriseHour: number;
 	sunsetHour: number;
+	isTimeScroll: boolean;
 }
 function getSceneTheme({
 	range,
@@ -30,6 +31,7 @@ function getSceneTheme({
 	currentHour,
 	sunriseHour,
 	sunsetHour,
+	isTimeScroll,
 }: GetSceneThemeParams): SceneTheme {
 	// #1 Get the theme for the temperature range and condition
 	const sceneTheme = temperatureSceneThemes[range][condition];
@@ -53,7 +55,11 @@ function getSceneTheme({
 	});
 
 	// #4 Set the main screen background (IOS) to match the scene background
-	setScreenBackgroundColor(dayTimeSceneTheme.background.color[0]);
+	if (isTimeScroll) {
+		setScreenBackgroundColor('black');
+	} else {
+		setScreenBackgroundColor(dayTimeSceneTheme.background.color[0]);
+	}
 
 	// #5 IF Night time, add stars with smooth transition
 	updateNightTimeStarOpacity({ hourOfDay: currentHour, sunriseHour, sunsetHour });
