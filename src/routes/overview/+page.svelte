@@ -120,7 +120,7 @@
 			currentHour: hourValue,
 			sunriseHour: astro.sunriseHour,
 			sunsetHour: astro.sunsetHour,
-			isTimeScroll,
+			isForecastDisplayActiveActive: $forecastDisplay,
 		});
 	}
 

@@ -23,7 +23,7 @@ interface GetSceneThemeParams {
 	currentHour: number;
 	sunriseHour: number;
 	sunsetHour: number;
-	isTimeScroll: boolean;
+	isForecastDisplayActive: boolean;
 }
 function getSceneTheme({
 	range,
@@ -31,7 +31,7 @@ function getSceneTheme({
 	currentHour,
 	sunriseHour,
 	sunsetHour,
-	isTimeScroll,
+	isForecastDisplayActive,
 }: GetSceneThemeParams): SceneTheme {
 	// #1 Get the theme for the temperature range and condition
 	const sceneTheme = temperatureSceneThemes[range][condition];
@@ -55,7 +55,7 @@ function getSceneTheme({
 	});
 
 	// #4 Set the main screen background (IOS) to match the scene background
-	if (isTimeScroll) {
+	if (isForecastDisplayActive) {
 		setScreenBackgroundColor('black');
 	} else {
 		setScreenBackgroundColor(dayTimeSceneTheme.background.color[0]);
