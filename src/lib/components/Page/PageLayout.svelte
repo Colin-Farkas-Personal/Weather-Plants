@@ -116,11 +116,6 @@
 			flex-direction: column;
 			height: 100dvh;
 
-			:last-child {
-				background-color: inherit;
-				padding-bottom: env(safe-area-inset-bottom, 1rem);
-			}
-
 			.time-scroll {
 				z-index: 5;
 				display: flex;

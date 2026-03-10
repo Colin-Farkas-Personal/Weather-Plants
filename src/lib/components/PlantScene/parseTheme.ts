@@ -23,7 +23,7 @@ interface GetSceneThemeParams {
 	currentHour: number;
 	sunriseHour: number;
 	sunsetHour: number;
-	isForecastDisplayActive: boolean;
+	isForecastDisplayActive?: boolean;
 }
 function getSceneTheme({
 	range,
@@ -31,7 +31,7 @@ function getSceneTheme({
 	currentHour,
 	sunriseHour,
 	sunsetHour,
-	isForecastDisplayActive,
+	isForecastDisplayActive = false,
 }: GetSceneThemeParams): SceneTheme {
 	// #1 Get the theme for the temperature range and condition
 	const sceneTheme = temperatureSceneThemes[range][condition];
