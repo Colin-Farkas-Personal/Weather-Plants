@@ -117,6 +117,7 @@
 			height: 100dvh;
 
 			:last-child {
+				background-color: inherit;
 				padding-bottom: env(safe-area-inset-bottom, 0px);
 			}
 
