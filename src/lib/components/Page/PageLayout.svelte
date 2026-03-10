@@ -24,6 +24,7 @@
 		sceneBackground?: BackgroundGradientColor;
 		blurScene?: boolean;
 		className?: string;
+		ForecastScroll?: Snippet<[]> | undefined;
 		ForecastDisplay?: Snippet<[]> | undefined;
 	}
 
@@ -38,6 +39,7 @@
 		sceneBackground,
 		blurScene,
 		className,
+		ForecastScroll,
 		ForecastDisplay,
 	}: PageLayoutProps = $props();
 
@@ -45,6 +47,7 @@
 	const SecondaryContentSnippet = $derived(secondarySectionProps?.Content);
 	const secondaryTopBar = $derived(secondarySectionProps?.TopBar);
 	const secondaryBottomContent = $derived(secondarySectionProps?.BottomContent);
+	const isTimeScroll = $derived(!!ForecastScroll);
 
 	let orientation = windowOrientation;
 
@@ -76,7 +79,10 @@
 			{blurScene}
 			BottomContent={secondaryBottomContent}
 		/>
-		<PrimarySection Content={PrimarySectionContent} />
+		<PrimarySection Content={PrimarySectionContent} {isTimeScroll} />
+		<div class="time-scroll">
+			{@render ForecastScroll?.()}
+		</div>
 	{:else if $orientation === 'landscape'}
 		<!-- Landscape: Primary first with page heading; secondary has only its content heading -->
 		<PrimarySection
@@ -84,6 +90,7 @@
 			{subHeading}
 			Content={PrimarySectionContent}
 			TopBar={MainTopBar}
+			{isTimeScroll}
 		/>
 		<SecondarySection
 			TopBar={secondaryTopBar}
@@ -93,7 +100,7 @@
 			{showNightStars}
 			{blurScene}
 			Content={SecondaryContentSnippet}
-			BottomContent={secondaryBottomContent}
+			BottomContent={ForecastScroll ?? secondaryBottomContent}
 			{ForecastDisplay}
 		/>
 	{/if}
@@ -106,6 +113,21 @@
 			display: flex;
 			flex-direction: column;
 			height: 100dvh;
+
+			:last-child {
+				padding-bottom: env(safe-area-inset-bottom, 0px);
+			}
+
+			.time-scroll {
+				z-index: 5;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+
+				padding: calc(16px + env(safe-area-inset-bottom, 0px));
+
+				background-color: black;
+			}
 		}
 
 		&.landscape {

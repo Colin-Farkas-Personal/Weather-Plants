@@ -271,7 +271,7 @@
 	sceneBackground={currentSceneTheme.background.color}
 	showNightStars={isNight}
 	className="overview-page"
-	secondarySectionProps={{ BottomContent: TimeScroll }}
+	ForecastScroll={TimeScroll}
 	ForecastDisplay={DisplayWheelSnippet}
 >
 	{#snippet MainTopBar()}

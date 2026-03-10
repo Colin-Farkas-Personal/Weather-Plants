@@ -9,9 +9,10 @@
 		heading?: string;
 		subHeading?: string;
 		Content?: Snippet;
+		isTimeScroll?: boolean;
 	}
 
-	let { TopBar, heading, subHeading, Content }: PrimarySectionProps = $props();
+	let { TopBar, heading, subHeading, Content, isTimeScroll }: PrimarySectionProps = $props();
 
 	// Logic
 	let orientation = windowOrientation;
@@ -23,7 +24,7 @@
 			{@render TopBar()}
 		</nav>
 	{/if}
-	<div class="primary-section-inner">
+	<div class={`primary-section-inner ${isTimeScroll && 'time-scroll-style'}`}>
 		<SectionHeading {heading} {subHeading} />
 		<div class="primary-section-body">
 			{@render Content?.()}
@@ -54,6 +55,11 @@
 			justify-content: center;
 			padding: clamp(1.25rem, 4.5cqi, 2.25rem) clamp(1.25rem, 2.25cqi, 3rem);
 			box-sizing: border-box;
+
+			&.time-scroll-style {
+				border-radius: 40px;
+				box-shadow: 0 30px 0 10px black;
+			}
 		}
 
 		.primary-section-body {
