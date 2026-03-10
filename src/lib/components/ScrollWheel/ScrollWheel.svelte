@@ -106,13 +106,29 @@
 		// User intends to take over (trackpad / wheel)
 		isActiveScrolling = true;
 		cancelSnap();
+
+		// Clear any pending scroll-end debounce so a slow trackpad gesture
+		// doesn't prematurely snap between wheel events.
+		if (scrollEndTimeoutRef) {
+			clearTimeout(scrollEndTimeoutRef);
+			scrollEndTimeoutRef = null;
+		}
 	}
 
 	function handleScroll() {
 		if (!knurlingRef) return;
 
 		// Ignore programmatic scroll unless the user has taken control.
-		if (!isActiveScrolling) return;
+		if (!isActiveScrolling) {
+			// If the user is still holding a pointer/touch, re-enable.
+			// This recovers from a premature handleScrollEnd during slow drags.
+			if (isPointerDown) {
+				isActiveScrolling = true;
+				cancelSnap();
+			} else {
+				return;
+			}
+		}
 
 		onChange(getVisualValue());
 
@@ -164,28 +180,28 @@
 	}
 
 	function handlePointerDown(e: PointerEvent) {
-		// Only enable grab-scroll for mouse to avoid touch conflicts.
 		isActiveScrolling = true;
-		// Cancel any active snap transition.
 		cancelSnap();
 
-		if (e.pointerType !== 'mouse') return;
-		if (!knurlingRef) return;
-
+		// Track pointer-down for all input types so the scroll-end
+		// debounce won't prematurely snap during slow drags.
 		isPointerDown = true;
 		activePointerId = e.pointerId;
 
-		pointerStartX = e.clientX;
-		pointerStartScrollLeft = knurlingRef.scrollLeft;
-
-		// Ensure we keep receiving move/up even if the pointer leaves the element.
-		knurlingRef.setPointerCapture(e.pointerId);
+		// Only enable manual grab-scroll for mouse; touch relies on
+		// native scroll via touch-action: pan-x.
+		if (e.pointerType === 'mouse' && knurlingRef) {
+			pointerStartX = e.clientX;
+			pointerStartScrollLeft = knurlingRef.scrollLeft;
+			knurlingRef.setPointerCapture(e.pointerId);
+		}
 	}
 
 	function handlePointerMove(e: PointerEvent) {
 		if (!knurlingRef) return;
 		if (!isPointerDown) return;
 		if (activePointerId !== e.pointerId) return;
+		if (e.pointerType !== 'mouse') return;
 
 		// 1:1 pixel drag: move scrollLeft by the same amount the mouse moved.
 		const dx = e.clientX - pointerStartX;
@@ -193,20 +209,48 @@
 	}
 
 	function handlePointerUp(e: PointerEvent) {
-		if (!knurlingRef) return;
 		if (!isPointerDown) return;
 		if (activePointerId !== e.pointerId) return;
 
 		isPointerDown = false;
 		activePointerId = null;
 
-		try {
-			knurlingRef.releasePointerCapture(e.pointerId);
-		} catch {
-			// ignore if capture is already released
+		if (e.pointerType === 'mouse' && knurlingRef) {
+			try {
+				knurlingRef.releasePointerCapture(e.pointerId);
+			} catch {
+				// ignore if capture is already released
+			}
 		}
 
-		// If there is no momentum, end immediately and snap.
+		handleScrollEnd();
+	}
+
+	function handlePointerCancel(e: PointerEvent) {
+		if (activePointerId !== e.pointerId) return;
+
+		if (e.pointerType === 'mouse') {
+			// For mouse, treat cancel the same as pointer-up.
+			isPointerDown = false;
+			activePointerId = null;
+			if (knurlingRef) {
+				try {
+					knurlingRef.releasePointerCapture(e.pointerId);
+				} catch {
+					// ignore
+				}
+			}
+			handleScrollEnd();
+		}
+		// For touch: the browser is taking over native scrolling after
+		// pointercancel. Keep isPointerDown true so the scroll-end debounce
+		// won't commit prematurely. touchend will handle final cleanup.
+	}
+
+	function handleTouchEnd() {
+		if (!isPointerDown) return;
+		isPointerDown = false;
+		activePointerId = null;
 		handleScrollEnd();
 	}
 </script>
@@ -233,7 +277,9 @@
 		onpointerdown={handlePointerDown}
 		onpointermove={handlePointerMove}
 		onpointerup={handlePointerUp}
-		onpointercancel={handlePointerUp}
+		onpointercancel={handlePointerCancel}
+		ontouchend={handleTouchEnd}
+		ontouchcancel={handleTouchEnd}
 	>
 		{#each lines as line, index (index)}
 			<span id={String(index)} class="line"></span>

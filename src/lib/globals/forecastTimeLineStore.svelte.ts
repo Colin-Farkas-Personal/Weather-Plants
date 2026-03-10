@@ -11,10 +11,12 @@ function createForecastDisplayStore() {
 
 	function hideDisplayStore(event: MouseEvent) {
 		const forecastDisplayElement = document.getElementById('forecast-display');
+		const timeScrollElement = document.getElementById('time-scroll');
 		const scrollWheelElement = document.getElementById('scroll-wheel');
 
 		if (
 			(forecastDisplayElement && forecastDisplayElement.contains(event.target as Node)) ||
+			(timeScrollElement && timeScrollElement.contains(event.target as Node)) ||
 			(scrollWheelElement && scrollWheelElement.contains(event.target as Node))
 		) {
 			return;

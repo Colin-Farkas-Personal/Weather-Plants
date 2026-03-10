@@ -91,6 +91,11 @@ function scrollWheelController({
 		// Stop the animation immediately.
 		cancelActiveTransition?.();
 		cancelActiveTransition = null;
+
+		// Reset interacting state since the cancelled transition's
+		// completion callback (which normally calls setInteracting(false))
+		// will never fire.
+		setInteracting(false);
 	}
 
 	return {

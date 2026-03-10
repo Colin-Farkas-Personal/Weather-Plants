@@ -54,7 +54,9 @@
 			align-items: center;
 			justify-content: center;
 			padding: clamp(1.25rem, 4.5cqi, 2.25rem) clamp(1.25rem, 2.25cqi, 3rem);
-			padding-bottom: calc(1rem + env(safe-area-inset-bottom, 1rem));
+			padding-bottom: calc(
+				clamp(1.25rem, 4.5cqi, 2.25rem) + env(safe-area-inset-bottom, 1rem)
+			);
 			box-sizing: border-box;
 
 			&.time-scroll-style {

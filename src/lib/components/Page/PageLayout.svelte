@@ -81,7 +81,7 @@
 		/>
 		<PrimarySection Content={PrimarySectionContent} {isTimeScroll} />
 		{#if isTimeScroll}
-			<div class="time-scroll">
+			<div id="time-scroll" class="time-scroll">
 				{@render ForecastScroll?.()}
 			</div>
 		{/if}
