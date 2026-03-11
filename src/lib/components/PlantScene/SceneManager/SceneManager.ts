@@ -186,7 +186,7 @@ export class SceneManager implements ISceneManager {
 		controls.minPolarAngle = Math.PI / 2.35;
 		controls.maxPolarAngle = Math.PI / 2.35;
 
-		controls.target.set(0, 0.25, 0);
+		controls.target.set(0, 0.35, 0);
 
 		controls.enableRotate = false;
 
