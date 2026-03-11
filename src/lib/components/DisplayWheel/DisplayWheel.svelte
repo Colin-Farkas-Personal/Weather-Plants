@@ -80,7 +80,7 @@
 		const minutesInDay = 24 * 60;
 		const normalized = ((totalMinutesRounded % minutesInDay) + minutesInDay) % minutesInDay;
 
-		const h = Math.round(normalized / 60);
+		const h = Math.floor(normalized / 60);
 		const m = normalized % 60;
 
 		return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}`;

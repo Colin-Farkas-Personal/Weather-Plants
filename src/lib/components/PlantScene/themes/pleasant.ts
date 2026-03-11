@@ -7,12 +7,12 @@ const backgroundGradientColor50: [HSLColor, HSLColor] = [
 	'hsla(203, 70%, 90%, 1.00)',
 ];
 const backgroundGradientColor100: [HSLColor, HSLColor] = [
-	'hsla(0, 100%, 70%, 1.00)',
-	'hsla(0, 100%, 90%, 1.00)',
+	'hsla(206, 40%, 65%, 1.00)',
+	'hsla(203, 30%, 75%, 1.00)',
 ];
 const backgroundGradientColor200: [HSLColor, HSLColor] = [
-	'hsla(0, 100%, 50%, 1.00)',
-	'hsla(0, 100%, 70%, 1.00)',
+	'hsla(210, 30%, 45%, 1.00)',
+	'hsla(210, 20%, 55%, 1.00)',
 ];
 
 const basePleasantTheme: SceneTheme = {
