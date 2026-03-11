@@ -84,6 +84,7 @@ export class Model implements SceneSubject {
 				const mat = child.material as THREE.MeshStandardMaterial;
 				mat.transparent = true;
 				mat.opacity = opacity;
+				mat.depthWrite = opacity >= 1;
 			}
 		});
 	}
