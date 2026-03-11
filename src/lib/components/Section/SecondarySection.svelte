@@ -55,9 +55,6 @@
 				priority: 'secondary',
 			}),
 	);
-	const forecastActiveClassName = $derived(
-		$forecastDisplay && $orientation === 'portrait' ? 'forecast-active' : '',
-	);
 
 	$effect(() => {
 		if (showNightStars) {
@@ -66,13 +63,10 @@
 	});
 </script>
 
-<section
-	id="secondary-section"
-	class={`secondary-section ${$orientation} ${forecastActiveClassName}`}
->
+<section id="secondary-section" class={`secondary-section ${$orientation}`}>
 	<div
 		id="secondary-section-inner"
-		class={`secondary-section-inner ${TopBar ? 'with-top-bar' : ''} ${forecastActiveClassName}`}
+		class={`secondary-section-inner ${TopBar ? 'with-top-bar' : ''}`}
 		style:background={sceneBackground &&
 			`linear-gradient(to bottom, ${sceneBackground[0]}, ${sceneBackground[1]})`}
 	>
@@ -269,29 +263,6 @@
 
 				padding: 0 4rem 1.5rem;
 			}
-
-			&.forecast-active {
-				overflow: hidden;
-				border-radius: 46px 46px 0 0;
-				transition: border-radius 640ms
-					linear(
-						0,
-						0.006 1.2%,
-						0.025 2.5%,
-						0.102 5.5%,
-						0.202 8.3%,
-						0.546 17.1%,
-						0.648 20.1%,
-						0.733 23%,
-						0.804 25.9%,
-						0.864 28.9%,
-						0.913 32%,
-						0.95 35.2%,
-						0.997 42%,
-						1.017 50.4%,
-						1
-					);
-			}
 		}
 
 		:global {
@@ -306,10 +277,6 @@
 					margin: 15px 15px 0;
 				}
 			}
-		}
-
-		&.forecast-active {
-			background-color: black;
 		}
 	}
 
