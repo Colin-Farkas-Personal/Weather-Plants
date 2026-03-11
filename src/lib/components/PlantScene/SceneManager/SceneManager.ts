@@ -36,6 +36,7 @@ export class SceneManager implements ISceneManager {
 	private controls: OrbitControls;
 	private sceneSubjects: SceneSubject[];
 	private models: Models = { pot: undefined, plant: undefined, cloud: undefined };
+	private _desiredCloudModel: string | undefined = undefined;
 
 	private get canvasDimensions(): CanvasDimensions {
 		return {
@@ -101,13 +102,8 @@ export class SceneManager implements ISceneManager {
 		}
 
 		// Cloud Model
-		const isDifferentCloudModel = cloudModel !== this.models.cloud?._modelPath;
-		if (cloudModel && isDifferentCloudModel) {
-			this.updateModel(cloudModel, 'cloud');
-		} else if (!cloudModel && this.models.cloud) {
-			this.models.cloud.dispose();
-			this.models.cloud = undefined;
-		}
+		this._desiredCloudModel = cloudModel;
+		this.applyDesiredCloudState();
 
 		// Meshes & Lights
 		for (const subject of this.sceneSubjects) {
@@ -227,5 +223,24 @@ export class SceneManager implements ISceneManager {
 		}
 
 		this.models[modelType] = new Model({ scene: this.scene, modelPath });
+	}
+
+	private applyDesiredCloudState() {
+		const desired = this._desiredCloudModel;
+		const current = this.models.cloud;
+
+		if (desired && desired !== current?._modelPath) {
+			// Cancel any in-progress fade and immediately swap
+			if (current) {
+				current.dispose();
+				this.models.cloud = undefined;
+			}
+			this.updateModel(desired, 'cloud');
+			this.models.cloud!.fadeIn();
+		} else if (!desired && current) {
+			// No cloud desired — immediately remove
+			current.dispose();
+			this.models.cloud = undefined;
+		}
 	}
 }
