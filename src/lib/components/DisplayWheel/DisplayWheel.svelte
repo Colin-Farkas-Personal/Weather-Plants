@@ -17,7 +17,25 @@
 
 	let { currentHour, forecastHour, dailyConditionForecast }: DisplayWheelProp = $props();
 
-	const forecastTime = $derived(toHourMinuteValue(forecastHour));
+	const displayHour = $derived.by(() => {
+		const index = Math.round(forecastHour);
+		const entry = dailyConditionForecast[index];
+		if (!entry) return forecastHour;
+		// Use the entry's actual hour-of-day (wraps 0-23) plus the fractional part for minutes
+		const floorIndex = Math.floor(forecastHour);
+		const floorEntry = dailyConditionForecast[floorIndex];
+		const ceilEntry = dailyConditionForecast[Math.ceil(forecastHour)];
+		if (!floorEntry) return entry.hour;
+		const frac = forecastHour - floorIndex;
+		// Handle wrap: if next hour < current hour, it wrapped past midnight
+		const nextHour = ceilEntry
+			? ceilEntry.hour < floorEntry.hour
+				? floorEntry.hour + 1
+				: ceilEntry.hour
+			: floorEntry.hour;
+		return floorEntry.hour + frac * (nextHour - floorEntry.hour);
+	});
+	const forecastTime = $derived(toHourMinuteValue(displayHour));
 	const diffHours = $derived(getDiffHours(currentHour, forecastHour));
 
 	$effect(() => {

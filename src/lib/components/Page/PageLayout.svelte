@@ -123,7 +123,7 @@
 				justify-content: center;
 
 				padding: 1rem;
-				padding-bottom: calc(1rem + env(safe-area-inset-bottom, 1rem));
+				padding-bottom: calc(1rem + env(safe-area-inset-bottom, 0.25rem));
 
 				background-color: black;
 			}

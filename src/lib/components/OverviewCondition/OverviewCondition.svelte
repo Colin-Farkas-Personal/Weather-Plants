@@ -32,7 +32,7 @@
 
 	.overview-condition {
 		display: inline-flex;
-		gap: var(--fluid-size-em-mini);
+		gap: var(--fluid-size-em-mini-minus);
 		align-items: center;
 		justify-content: center;
 		padding: var(--fluid-size-em-mini) var(--fluid-size-em-small);

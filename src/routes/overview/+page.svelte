@@ -40,8 +40,9 @@
 	// State
 	let timer: ReturnType<typeof setInterval>;
 	const orientation = windowOrientation;
-	let currentHour = $derived<number>(0);
-	let forecastNumber = $derived<number>(currentHour);
+	let currentHourIndex = $derived<number>(0);
+	let currentHourOfDay = $derived<number>(0);
+	let forecastNumber = $derived<number>(currentHourIndex);
 	// let onValueCommitNumber = $state<number>(0);
 
 	let astro = $state<{ sunriseHour: number; sunsetHour: number } | null>(null);
@@ -86,7 +87,22 @@
 			const index = Math.round(forecastNumber);
 			const currentHourCondition = forecastOverviewData[index];
 			if (!currentHourCondition) return;
-			updateOverviewScene(forecastNumber, currentHourCondition.condition.status);
+			// Derive a smooth continuous display hour from the fractional forecastNumber
+			const floorIdx = Math.floor(forecastNumber);
+			const ceilIdx = Math.min(Math.ceil(forecastNumber), forecastOverviewData.length - 1);
+			const floorEntry = forecastOverviewData[floorIdx];
+			const ceilEntry = forecastOverviewData[ceilIdx];
+			const frac = forecastNumber - floorIdx;
+			let smoothHour: number;
+			if (floorEntry && ceilEntry) {
+				const fromHour = floorEntry.hour;
+				// Handle midnight wrap: if next hour < current, it crossed midnight
+				const toHour = ceilEntry.hour < fromHour ? fromHour + 1 : ceilEntry.hour;
+				smoothHour = fromHour + frac * (toHour - fromHour);
+			} else {
+				smoothHour = currentHourCondition.hour;
+			}
+			updateOverviewScene(smoothHour, currentHourCondition.condition.status);
 		}
 	});
 
@@ -131,7 +147,8 @@
 		temperatureRangeStore.setRange(streamedOverviewData.temperature);
 
 		// 2. Set times
-		currentHour = getHourFromTimeString(streamedOverviewData.localTime);
+		currentHourOfDay = getHourFromTimeString(streamedOverviewData.localTime);
+		currentHourIndex = 0; // The array is pre-sliced to start at the current hour
 
 		const sunriseHour = getHourFromTimeString(streamedOverviewData.astro.sunrise);
 		const sunsetHour = getHourFromTimeString(streamedOverviewData.astro.sunset);
@@ -145,13 +162,14 @@
 
 		// 4. Set mainOverviewData and forecastOverviewData
 		const conditionCode = streamedOverviewData.condition.code;
-		const timeOfDay = currentHour < sunriseHour || currentHour > sunsetHour ? 'night' : 'day';
+		const timeOfDay =
+			currentHourOfDay < sunriseHour || currentHourOfDay > sunsetHour ? 'night' : 'day';
 
 		mainOverviewData = {
 			temperature: streamedOverviewData.temperature,
 			feelsLike: streamedOverviewData.feelsLike,
 			condition: getCurrentCondition(conditionCode, timeOfDay),
-			astro: getCurrentAstro(currentHour, sunriseHour, sunsetHour),
+			astro: getCurrentAstro(currentHourOfDay, sunriseHour, sunsetHour),
 		};
 
 		console.log(
@@ -178,7 +196,7 @@
 		}
 
 		// 5. Render the initial scene
-		updateOverviewScene(currentHour, mainOverviewData.condition.status);
+		updateOverviewScene(currentHourOfDay, mainOverviewData.condition.status);
 	}
 
 	function updateMainTheme() {
@@ -205,8 +223,8 @@
 	function transitionToCurrentHour() {
 		if (!mainOverviewData?.condition) return;
 		const conditionStatus = mainOverviewData.condition.status;
-		if (forecastNumber === currentHour) {
-			updateOverviewScene(currentHour, conditionStatus);
+		if (forecastNumber === currentHourIndex) {
+			updateOverviewScene(currentHourOfDay, conditionStatus);
 			return;
 		}
 
@@ -215,14 +233,14 @@
 
 		cancelTransition = transitionValue(
 			forecastNumber,
-			currentHour,
+			currentHourIndex,
 			(value) => {
 				forecastNumber = value;
 			},
 			() => {
-				forecastNumber = currentHour;
+				forecastNumber = currentHourIndex;
 				isTimeScroll = false;
-				updateOverviewScene(currentHour, conditionStatus);
+				updateOverviewScene(currentHourOfDay, conditionStatus);
 			},
 			{ duration: TRANSITION_DURATION_MS, easingFunction: easeOut },
 		);
@@ -260,7 +278,7 @@
 
 {#snippet DisplayWheelSnippet()}
 	<DisplayWheel
-		{currentHour}
+		currentHour={currentHourIndex}
 		forecastHour={forecastNumber}
 		dailyConditionForecast={forecastHours}
 	/>

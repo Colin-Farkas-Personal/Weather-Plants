@@ -65,9 +65,9 @@ function transformWeatherData(
 			max_tempC: responseForecast.forecast.forecastday[0].day.maxtemp_c,
 		},
 		lastUpdated: responseCurrent.current.last_updated,
-		dailyForecast: responseForecast.forecast.forecastday.flatMap((day) =>
+		dailyForecast: responseForecast.forecast.forecastday.flatMap((day, dayIndex) =>
 			day.hour.map((hourResponse, hour) => ({
-				hour,
+				hour: dayIndex * 24 + hour,
 				temperature_tempC: hourResponse.temp_c,
 				feelsLike_tempC: hourResponse.feelslike_c,
 				condition: {

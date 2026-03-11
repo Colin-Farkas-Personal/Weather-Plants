@@ -4,7 +4,7 @@ type Endpoint = 'search' | 'current' | 'forecast' | 'timezone';
 
 export const WEATHER_API_BASE_URL = 'https://api.weatherapi.com/v1/';
 export const WEATHER_API_KEY = import.meta.env.VITE_WEATHER_API_KEY;
-export const WEATHER_API_DAYS = 1; // Number of days to fetch in forecast endpoint (max 3 for free tier)
+export const WEATHER_API_DAYS = 2; // Number of days to fetch in forecast endpoint (max 3 for free tier)
 
 export function getFetchUrl(
 	endpoint: Endpoint,

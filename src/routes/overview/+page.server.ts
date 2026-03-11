@@ -8,7 +8,7 @@ import { fetchFromWeatherApi } from '$lib/adapters/weatherapi';
 import type { Fetch } from '$lib/types/fetch';
 import type { TemperatureUnit } from '$lib/types/temperature';
 import type { StreamedOverviewData } from '$lib/types/weather';
-import { formatTimeToDayTimeHours } from '$lib/utilities/formatted-hours';
+import { formatTimeToDayTimeHours, getHourFromTimeString } from '$lib/utilities/formatted-hours';
 import { toFormattedWeatherData } from '$lib/utilities/formatted-temperature';
 import { error } from '@sveltejs/kit';
 import type { PageServerLoad } from '../$types';
@@ -76,11 +76,22 @@ const formatOverview = (
 ): StreamedOverviewData => {
 	const raw = transformWeatherData(current, forecast, timeZone);
 	const formattedTime = formatTimeToDayTimeHours(raw);
-	return toFormattedWeatherData<StreamedOverviewData>(
+	const formatted = toFormattedWeatherData<StreamedOverviewData>(
 		formattedTime,
 		selectedTemperatureUnit,
 		selectedRoundValues,
 	);
+
+	// Slice the next 24 hours starting from the current local hour
+	const currentHour = getHourFromTimeString(formatted.localTime);
+	const next24 = formatted.dailyForecast
+		.slice(currentHour, currentHour + 24)
+		.map((entry, index) => ({
+			...entry,
+			hour: (currentHour + index) % 24,
+		}));
+
+	return { ...formatted, dailyForecast: next24 };
 };
 
 const getRequiredParam = (url: URL, key: string) => {
