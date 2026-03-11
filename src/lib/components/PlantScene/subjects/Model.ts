@@ -9,7 +9,7 @@ export class Model implements SceneSubject {
 
 	private _opacity: number = 1;
 	private _targetOpacity: number = 1;
-	private _fadeSpeedMs: number = 120;
+	private _fadeSpeedMs: number = 180;
 	private _fadeStartTime: number = 0;
 	private _fadeStartOpacity: number = 1;
 	private _onFadeOutComplete: (() => void) | null = null;

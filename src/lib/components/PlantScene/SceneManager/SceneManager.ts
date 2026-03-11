@@ -37,6 +37,7 @@ export class SceneManager implements ISceneManager {
 	private sceneSubjects: SceneSubject[];
 	private models: Models = { pot: undefined, plant: undefined, cloud: undefined };
 	private _desiredCloudModel: string | undefined = undefined;
+	private _fadingOutCloud: Model | undefined = undefined;
 
 	private get canvasDimensions(): CanvasDimensions {
 		return {
@@ -65,6 +66,7 @@ export class SceneManager implements ISceneManager {
 		this.models.pot?.update();
 		this.models.plant?.update();
 		this.models.cloud?.update();
+		this._fadingOutCloud?.update();
 
 		this.controls.update();
 		this.renderer.render(this.scene, this.camera);
@@ -230,17 +232,31 @@ export class SceneManager implements ISceneManager {
 		const current = this.models.cloud;
 
 		if (desired && desired !== current?._modelPath) {
-			// Cancel any in-progress fade and immediately swap
+			// Swap to a different cloud model
 			if (current) {
-				current.dispose();
+				this.retireCloud(current);
 				this.models.cloud = undefined;
 			}
 			this.updateModel(desired, 'cloud');
 			this.models.cloud!.fadeIn();
 		} else if (!desired && current) {
-			// No cloud desired — immediately remove
-			current.dispose();
+			// No cloud desired — fade out then remove
+			this.retireCloud(current);
 			this.models.cloud = undefined;
 		}
+	}
+
+	private retireCloud(cloud: Model) {
+		// If there's already a cloud fading out, dispose it immediately
+		if (this._fadingOutCloud) {
+			this._fadingOutCloud.dispose();
+		}
+		this._fadingOutCloud = cloud;
+		cloud.fadeOut(() => {
+			cloud.dispose();
+			if (this._fadingOutCloud === cloud) {
+				this._fadingOutCloud = undefined;
+			}
+		});
 	}
 }
