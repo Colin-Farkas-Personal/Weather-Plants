@@ -16,6 +16,7 @@
 	import { onMount } from 'svelte';
 	import GpsBoldIcon from '~icons/ph/gps-bold';
 	import type { SearchData } from './+page.server';
+	import SupportWidget from '$lib/components/SupportWidget/SupportWidget.svelte';
 
 	const SUNRISE_HOUR_DEFAULT = 6;
 	const SUNSET_HOUR_DEFAULT = 18;
@@ -140,11 +141,24 @@
 	{/if}
 {/snippet}
 
+{#snippet secondarySectionBottomContent()}
+	{#if $orientation == 'portrait' && !hasSearched}
+		<div class="support-widget-bottom-content compact">
+			<SupportWidget type="compact" />
+		</div>
+	{:else if $orientation == 'landscape' && !hasSearched}
+		<div class="support-widget-bottom-content full">
+			<SupportWidget type="full" />
+		</div>
+	{/if}
+{/snippet}
+
 <PageLayout
 	heading="What's the weather like in...?"
 	secondarySectionProps={{
 		Content: SecondarySectionContent,
 		heading: secondarySectionHeading(),
+		BottomContent: secondarySectionBottomContent,
 	}}
 	className="main-page"
 	sceneBackground={currentSceneTheme.background.color}
@@ -176,6 +190,21 @@
 
 		&.landscape {
 			margin-top: 60px;
+		}
+	}
+
+	.support-widget-bottom-content {
+		width: 100%;
+
+		&.compact {
+			display: flex;
+			justify-content: center;
+		}
+
+		&.full {
+			display: flex;
+			justify-content: flex-end;
+			padding-right: 2rem;
 		}
 	}
 </style>

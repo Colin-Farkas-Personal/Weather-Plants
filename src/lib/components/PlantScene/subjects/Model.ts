@@ -29,7 +29,7 @@ export class Model implements SceneSubject {
 	}
 
 	update(): void {
-		this.rotateModel();
+		// this.rotateModel();
 		this.updateFade();
 	}
 

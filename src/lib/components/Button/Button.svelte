@@ -9,6 +9,7 @@
 		size?: 'medium' | 'large';
 		onClick?: () => void;
 		children: Snippet;
+		className?: string;
 	}
 
 	let {
@@ -18,11 +19,12 @@
 		size = 'medium',
 		onClick,
 		children,
+		className = '',
 	}: ButtonProps = $props();
 </script>
 
 <Button.Root
-	class="button {variant} {size}"
+	class="button {variant} {size} {className}"
 	{type}
 	{disabled}
 	aria-disabled={disabled || undefined}
