@@ -5,6 +5,7 @@
 	import PrimarySection from '../Section/PrimarySection.svelte';
 	import type { BackgroundGradientColor } from '../PlantScene/themes/theme.types';
 	import { forecastDisplay } from '$lib/globals/forecastTimeLineStore.svelte';
+	import { fly } from 'svelte/transition';
 
 	interface SecondarySectionProps {
 		TopBar?: Snippet;
@@ -50,10 +51,6 @@
 	const isTimeScroll = $derived(!!ForecastScroll);
 
 	let orientation = windowOrientation;
-
-	$effect(() => {
-		console.log('FORECAST', $forecastDisplay);
-	});
 </script>
 
 <main
@@ -62,7 +59,11 @@
 >
 	{#if $orientation === 'portrait'}
 		{#if $forecastDisplay}
-			<div id="forecast-display" class="forecast-display">
+			<div
+				id="forecast-display"
+				class="forecast-display"
+				out:fly={{ y: -100, duration: 180, opacity: 1 }}
+			>
 				{@render ForecastDisplay?.()}
 			</div>
 		{/if}
@@ -120,22 +121,39 @@
 			.forecast-display {
 				z-index: 10;
 				position: absolute;
-				top: 0;
+				top: -4px; // Prevents a tiny gap between the forecast display and the top of the screen during the fly-in animation
 				left: 0;
 				width: 100%;
 				display: flex;
 				align-items: center;
 				justify-content: center;
 
-				padding: 1rem 24px; // default for desktop
+				padding: calc(1rem + 4px) 24px 1rem; // default for desktop
 
 				@media (hover: none) and (pointer: coarse) {
-					padding: 0 24px 1rem; // real mobile devices
+					padding: 4px 24px 1rem; // real mobile devices
 				}
 
 				background-color: black;
 
-				animation: slide-in-top 120ms ease-out;
+				animation: slide-in-top 420ms
+					linear(
+						0,
+						0.007 1.3%,
+						0.028 2.7%,
+						0.112 5.8%,
+						0.224 8.8%,
+						0.594 17.7%,
+						0.786 23.4%,
+						0.856 26.1%,
+						0.916 28.9%,
+						0.964 31.8%,
+						1 34.8%,
+						1.038 40.4%,
+						1.05 47%,
+						1.005 75.3%,
+						1
+					);
 			}
 
 			.time-scroll {
@@ -179,6 +197,15 @@
 		}
 		to {
 			transform: translateY(0);
+		}
+	}
+
+	@keyframes slide-out-top {
+		from {
+			transform: translateY(0);
+		}
+		to {
+			transform: translateY(-100%);
 		}
 	}
 
