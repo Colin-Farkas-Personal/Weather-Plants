@@ -261,7 +261,7 @@
 				align-items: center;
 				justify-content: center;
 
-				padding: 0 4rem 1.5rem;
+				padding: clamp(1rem, 20vmin, 2rem) 1rem;
 			}
 		}
 

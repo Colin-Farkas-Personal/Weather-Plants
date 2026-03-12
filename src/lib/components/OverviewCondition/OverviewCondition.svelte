@@ -75,7 +75,7 @@
 			font-weight: bold;
 			font-size: var(--fluid-size-em-small);
 
-			max-width: clamp(180px, 5cqi, 240px); // TODO: Update to EM
+			max-width: clamp(180px, 5cqi, 240px);
 			white-space: nowrap;
 			overflow: hidden;
 			text-overflow: ellipsis;
