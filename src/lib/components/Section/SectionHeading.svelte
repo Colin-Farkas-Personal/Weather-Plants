@@ -36,7 +36,7 @@
 	}
 
 	.portrait {
-		margin-bottom: 1rem;
+		margin: 1rem 0;
 
 		.heading {
 			color: var(--theme-text-primary);

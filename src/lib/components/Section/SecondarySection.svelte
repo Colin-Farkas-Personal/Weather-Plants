@@ -75,7 +75,7 @@
 		{/if}
 		{#if $orientation === 'portrait'}
 			<section class="secondary-section-inner-hidden">
-				{#if TopBar && !$forecastDisplay}
+				{#if TopBar}
 					<nav class="secondary-section-inner-display-top-bar">
 						{@render TopBar()}
 					</nav>
@@ -91,7 +91,7 @@
 				class="secondary-section-inner-display"
 				style:backdrop-filter={blurContent ? 'blur(80px)' : 'none'}
 			>
-				{#if TopBar && !$forecastDisplay}
+				{#if TopBar}
 					<nav
 						class="secondary-section-inner-display-top-bar"
 						style:color={foregroundColorSecondary}

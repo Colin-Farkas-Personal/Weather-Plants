@@ -111,10 +111,32 @@
 <style lang="scss">
 	.page-layout {
 		&.portrait {
+			position: relative;
 			overflow-x: hidden;
 			display: flex;
 			flex-direction: column;
 			height: 100dvh;
+
+			.forecast-display {
+				z-index: 10;
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+
+				padding: 1rem 24px; // default for desktop
+
+				@media (hover: none) and (pointer: coarse) {
+					padding: 0 24px 1rem; // real mobile devices
+				}
+
+				background-color: black;
+
+				animation: slide-in-top 120ms ease-out;
+			}
 
 			.time-scroll {
 				z-index: 5;
@@ -151,14 +173,13 @@
 		}
 	}
 
-	.forecast-display {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-
-		padding: 16px 24px;
-
-		background-color: black;
+	@keyframes slide-in-top {
+		from {
+			transform: translateY(-100%);
+		}
+		to {
+			transform: translateY(0);
+		}
 	}
 
 	@keyframes grow-shadow {
