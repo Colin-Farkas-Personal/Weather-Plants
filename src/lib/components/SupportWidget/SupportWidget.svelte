@@ -1,69 +1,87 @@
 <script lang="ts">
+	import { browser } from '$app/environment';
 	import Button from '../Button/Button.svelte';
 	import HandHeartIconBold from '~icons/ph/hand-heart-bold';
 	import HeartFill from '~icons/ph/heart-fill';
 	import CoffeeIconBold from '~icons/ph/coffee-bold';
 	import { onMount } from 'svelte';
 
-	interface SupportWidgetProps {
+	interface Props {
 		type: 'compact' | 'full';
 	}
 
-	let { type }: SupportWidgetProps = $props();
+	let { type }: Props = $props();
 
-	let likes = $state<number>(0);
-	let liked = $state(false);
+	const STORAGE_KEY = 'weather-plants:liked';
+	const BUYMEACOFFEE_URL = 'https://www.buymeacoffee.com/colinfarkas';
+
+	let likes = $state(0);
+	let liked = $state(browser && localStorage.getItem(STORAGE_KEY) === 'true');
 	let animating = $state(false);
 	let phase = $state<'idle' | 'pulse' | 'slide-out' | 'heart-in'>('idle');
 	let floatingHearts = $state<number[]>([]);
 
-	const STORAGE_KEY = 'weather-plants:liked';
-
-	onMount(() => {
-		// Load liked state from localStorage
-		const stored = localStorage.getItem(STORAGE_KEY);
-		if (stored === 'true') {
-			liked = true;
+	onMount(async () => {
+		try {
+			const res = await fetch('/api/likes');
+			if (res.ok) {
+				const data = await res.json();
+				likes = data.likes ?? 0;
+			}
+		} catch {
+			// Silently fail — likes count is non-critical
 		}
 	});
 
 	$effect(() => {
-		// Sync liked state to localStorage
-		localStorage.setItem(STORAGE_KEY, String(liked));
+		if (browser) {
+			localStorage.setItem(STORAGE_KEY, String(liked));
+		}
 	});
 
-	function addLike() {
+	async function postLike(): Promise<void> {
+		try {
+			const res = await fetch('/api/likes', { method: 'POST' });
+			if (res.ok) {
+				const data = await res.json();
+				likes = data.likes ?? likes + 1;
+			}
+		} catch {
+			// Optimistic update if POST fails
+			likes += 1;
+		}
+	}
+
+	function sleep(ms: number): Promise<void> {
+		return new Promise((resolve) => setTimeout(resolve, ms));
+	}
+
+	async function addLike() {
 		if (liked || animating) return;
 		animating = true;
-		console.log('Liked!');
 
-		// Phase 1: Button pulse
 		phase = 'pulse';
+		await sleep(300);
 
+		phase = 'slide-out';
+		await sleep(350);
+
+		liked = true;
+		phase = 'heart-in';
+		spawnFloatingHeart();
+		postLike();
+		await sleep(400);
+
+		phase = 'idle';
+		animating = false;
+	}
+
+	function spawnFloatingHeart() {
+		const id = Date.now();
+		floatingHearts = [...floatingHearts, id];
 		setTimeout(() => {
-			// Phase 2: Hand icon slides right and fades
-			phase = 'slide-out';
-
-			setTimeout(() => {
-				// Phase 3: Filled heart appears with pulse, count increases
-				liked = true;
-				likes += 1;
-				// localStorage is synced via $effect
-				phase = 'heart-in';
-
-				// Spawn floating heart
-				const id = Date.now();
-				floatingHearts = [...floatingHearts, id];
-				setTimeout(() => {
-					floatingHearts = floatingHearts.filter((h) => h !== id);
-				}, 1000);
-
-				setTimeout(() => {
-					phase = 'idle';
-					animating = false;
-				}, 400);
-			}, 350);
-		}, 300);
+			floatingHearts = floatingHearts.filter((h) => h !== id);
+		}, 1000);
 	}
 </script>
 
@@ -89,11 +107,11 @@
 					</span>
 				{/each}
 			</span>
-			{likes}
+			<span class="like-count">{likes}</span>
 		</Button>
 		<Button
 			className="buy-me-a-coffee"
-			onClick={() => window.open('https://www.buymeacoffee.com/colinfarkas', '_blank')}
+			onClick={() => window.open(BUYMEACOFFEE_URL, '_blank', 'noopener,noreferrer')}
 		>
 			<CoffeeIconBold />
 			BUY ME A COFFEE
