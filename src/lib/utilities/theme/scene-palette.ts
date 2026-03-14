@@ -78,6 +78,17 @@ function computeComponentBgColor(base: HSLComponents, targetL: number): HSLCompo
 	};
 }
 
+/**
+ * Compute a border color that is always darker than the component background.
+ * Lightness scales proportionally with the base so that light scenes produce
+ * medium-toned borders while dark scenes produce near-black borders.
+ */
+function computeBorderColor(base: HSLComponents): HSLComponents {
+	const borderL = Math.max(Math.round(base.l * 0.45), 8);
+	const borderS = Math.min(Math.round(base.s * 0.5), 40);
+	return { h: base.h, s: borderS, l: borderL };
+}
+
 /** Set --scene-* CSS custom properties on :root from a generated palette. */
 function applySceneCSSVariables(palette: ScenePalette, base: HSLComponents): void {
 	if (!browser) return;
@@ -99,6 +110,10 @@ function applySceneCSSVariables(palette: ScenePalette, base: HSLComponents): voi
 	const componentBgSecondary = computeComponentBgColor(base, 85);
 	style.setProperty('--scene-bg-primary', toHSLString(componentBgPrimary));
 	style.setProperty('--scene-bg-secondary', toHSLString(componentBgSecondary));
+
+	// Dynamic border color — always darker than the component background
+	const borderColor = computeBorderColor(base);
+	style.setProperty('--scene-border-primary', toHSLString(borderColor));
 }
 
 export { generateScenePalette, applySceneCSSVariables, parseHSL };
