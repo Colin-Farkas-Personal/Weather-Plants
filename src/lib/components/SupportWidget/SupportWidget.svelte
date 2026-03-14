@@ -156,7 +156,7 @@
 				flex: 1;
 				display: flex;
 				width: 100%;
-				gap: 6px;
+				gap: 4px;
 
 				border: none;
 				border-radius: 100vw;
