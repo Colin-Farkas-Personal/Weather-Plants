@@ -80,7 +80,7 @@
 			{blurScene}
 			BottomContent={secondaryBottomContent}
 		/>
-		<PrimarySection Content={PrimarySectionContent} {isTimeScroll} />
+		<PrimarySection Content={PrimarySectionContent} {isTimeScroll} {sceneBackground} />
 		{#if isTimeScroll}
 			<div id="time-scroll" class="time-scroll">
 				{@render ForecastScroll?.()}
@@ -94,6 +94,7 @@
 			Content={PrimarySectionContent}
 			TopBar={MainTopBar}
 			{isTimeScroll}
+			{sceneBackground}
 		/>
 		<SecondarySection
 			TopBar={secondaryTopBar}

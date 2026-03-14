@@ -359,7 +359,7 @@
 					text-align: center;
 
 					&-heading {
-						font-size: var(--fluid-size-em-small-plus);
+						font-size: clamp(24px, var(--fluid-size-em-small-plus), 32px);
 						font-weight: bold;
 						color: var(--warm-white-900);
 					}

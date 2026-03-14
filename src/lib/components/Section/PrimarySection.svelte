@@ -3,6 +3,9 @@
 	import { windowOrientation } from '$lib/globals/windowStore';
 	import SectionHeading from './SectionHeading.svelte';
 	import { forecastDisplay } from '$lib/globals/forecastTimeLineStore.svelte';
+	import { calculateForegroundColor } from '$lib/utilities/theme/foreground-color';
+	import temperatureRangeStore from '$lib/globals/temperatureRangeStore.svelte';
+	import type { BackgroundGradientColor } from '../PlantScene/themes/theme.types';
 
 	interface PrimarySectionProps {
 		TopBar?: Snippet;
@@ -10,12 +13,30 @@
 		subHeading?: string;
 		Content?: Snippet;
 		isTimeScroll?: boolean;
+		sceneBackground?: BackgroundGradientColor;
 	}
 
-	let { TopBar, heading, subHeading, Content, isTimeScroll }: PrimarySectionProps = $props();
+	let {
+		TopBar,
+		heading,
+		subHeading,
+		Content,
+		isTimeScroll,
+		sceneBackground,
+	}: PrimarySectionProps = $props();
 
-	// Logic
+	// State
 	let orientation = windowOrientation;
+	let currentTemperatureRange = temperatureRangeStore;
+
+	const foregroundColorPrimary = $derived(
+		sceneBackground &&
+			calculateForegroundColor({
+				temperatureRange: $currentTemperatureRange,
+				backgroundColor: sceneBackground[0],
+				priority: 'primary',
+			}),
+	);
 </script>
 
 <section class={`primary-section ${$orientation}`}>
@@ -25,7 +46,7 @@
 		</nav>
 	{/if}
 	<div class={`primary-section-inner ${isTimeScroll && 'time-scroll-style'}`}>
-		<SectionHeading {heading} {subHeading} />
+		<SectionHeading {heading} {subHeading} headingColor={foregroundColorPrimary} />
 		<div class="primary-section-body">
 			{@render Content?.()}
 		</div>
