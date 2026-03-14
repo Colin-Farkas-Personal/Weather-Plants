@@ -6,7 +6,7 @@
 	<input
 		id="location"
 		name="input"
-		placeholder="Location name or lat & lon"
+		placeholder="Location or lat & lon"
 		required
 		aria-label="Enter a location"
 	/>

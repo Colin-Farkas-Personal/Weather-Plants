@@ -7,6 +7,11 @@
 	import { forecastDisplay } from '$lib/globals/forecastTimeLineStore.svelte';
 	import { fly } from 'svelte/transition';
 
+	interface PrimarySectionProps {
+		Content: Snippet;
+		isBackgroundDynamic?: boolean;
+	}
+
 	interface SecondarySectionProps {
 		TopBar?: Snippet;
 		Content?: Snippet;
@@ -18,7 +23,7 @@
 		MainTopBar?: Snippet;
 		heading: string;
 		subHeading?: string;
-		PrimarySectionContent: Snippet;
+		PrimarySectionProps: PrimarySectionProps;
 		secondarySectionProps?: SecondarySectionProps;
 		Scene?: Snippet;
 		showNightStars: boolean;
@@ -33,7 +38,7 @@
 		MainTopBar,
 		heading,
 		subHeading,
-		PrimarySectionContent,
+		PrimarySectionProps,
 		secondarySectionProps,
 		Scene,
 		showNightStars,
@@ -44,6 +49,12 @@
 		ForecastDisplay,
 	}: PageLayoutProps = $props();
 
+	const primarySectionSceneBackground = $derived.by(() => {
+		if (PrimarySectionProps.isBackgroundDynamic) {
+			return sceneBackground;
+		}
+		return undefined;
+	});
 	const secondaryContentHeading = $derived(secondarySectionProps?.heading);
 	const SecondaryContentSnippet = $derived(secondarySectionProps?.Content);
 	const secondaryTopBar = $derived(secondarySectionProps?.TopBar);
@@ -80,7 +91,7 @@
 			{blurScene}
 			BottomContent={secondaryBottomContent}
 		/>
-		<PrimarySection Content={PrimarySectionContent} {isTimeScroll} {sceneBackground} />
+		<PrimarySection Content={PrimarySectionProps.Content} {isTimeScroll} />
 		{#if isTimeScroll}
 			<div id="time-scroll" class="time-scroll">
 				{@render ForecastScroll?.()}
@@ -91,10 +102,10 @@
 		<PrimarySection
 			{heading}
 			{subHeading}
-			Content={PrimarySectionContent}
+			Content={PrimarySectionProps.Content}
 			TopBar={MainTopBar}
 			{isTimeScroll}
-			{sceneBackground}
+			sceneBackground={primarySectionSceneBackground}
 		/>
 		<SecondarySection
 			TopBar={secondaryTopBar}

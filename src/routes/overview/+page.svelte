@@ -263,6 +263,45 @@
 	});
 </script>
 
+{#snippet PrimarySectionContent()}
+	{#await data.streamed.overview}
+		<p>Loading data</p>
+	{:then streamed}
+		<article class={`overview-page-data ${$orientation}`}>
+			{#if activeOverviewData}
+				<OverviewCondition
+					label={activeOverviewData?.astro?.label ?? activeOverviewData?.condition.label}
+					status={activeOverviewData?.astro?.status ??
+						activeOverviewData?.condition.status}
+				/>
+			{/if}
+
+			{#if $orientation === 'landscape'}
+				<OverviewTemperatureRangeGauge
+					min={streamed.dailyRange.min}
+					max={streamed.dailyRange.max}
+					value={activeOverviewData?.temperature ?? streamed.temperature}
+				/>
+
+				<p class="feels-like">
+					Feels like {activeOverviewData?.feelsLike ?? streamed.feelsLike}°C
+				</p>
+			{:else if $orientation === 'portrait'}
+				<OverviewTemperature
+					temperature={activeOverviewData?.temperature ?? streamed.temperature}
+					feelsLike={activeOverviewData?.feelsLike ?? streamed.feelsLike}
+				/>
+
+				<OverviewTemperatureRangeLinearGauge
+					min={streamed.dailyRange.min}
+					max={streamed.dailyRange.max}
+					value={activeOverviewData?.temperature ?? streamed.temperature}
+				/>
+			{/if}
+		</article>
+	{/await}
+{/snippet}
+
 {#snippet TimeScroll()}
 	<div class="time-scroll">
 		<ScrollWheel
@@ -286,6 +325,9 @@
 
 <PageLayout
 	heading={data.location.name}
+	PrimarySectionProps={{
+		Content: PrimarySectionContent,
+	}}
 	subHeading={data.location.country}
 	sceneBackground={currentSceneTheme.background.color}
 	showNightStars={isNight}
@@ -299,45 +341,7 @@
 			Back
 		</Button>
 	{/snippet}
-	{#snippet PrimarySectionContent()}
-		{#await data.streamed.overview}
-			<p>Loading data</p>
-		{:then streamed}
-			<article class={`overview-page-data ${$orientation}`}>
-				{#if activeOverviewData}
-					<OverviewCondition
-						label={activeOverviewData?.astro?.label ??
-							activeOverviewData?.condition.label}
-						status={activeOverviewData?.astro?.status ??
-							activeOverviewData?.condition.status}
-					/>
-				{/if}
 
-				{#if $orientation === 'landscape'}
-					<OverviewTemperatureRangeGauge
-						min={streamed.dailyRange.min}
-						max={streamed.dailyRange.max}
-						value={activeOverviewData?.temperature ?? streamed.temperature}
-					/>
-
-					<p class="feels-like">
-						Feels like {activeOverviewData?.feelsLike ?? streamed.feelsLike}°C
-					</p>
-				{:else if $orientation === 'portrait'}
-					<OverviewTemperature
-						temperature={activeOverviewData?.temperature ?? streamed.temperature}
-						feelsLike={activeOverviewData?.feelsLike ?? streamed.feelsLike}
-					/>
-
-					<OverviewTemperatureRangeLinearGauge
-						min={streamed.dailyRange.min}
-						max={streamed.dailyRange.max}
-						value={activeOverviewData?.temperature ?? streamed.temperature}
-					/>
-				{/if}
-			</article>
-		{/await}
-	{/snippet}
 	{#snippet Scene()}
 		<PlantScene sceneTheme={currentSceneTheme} />
 	{/snippet}

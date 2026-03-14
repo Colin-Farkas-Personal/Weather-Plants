@@ -99,6 +99,17 @@
 	}
 </script>
 
+{#snippet PrimarySectionContent()}
+	<div class={`main-page-selection ${$orientation}`}>
+		<form method="GET">
+			<LocationTextInput />
+		</form>
+		<form method="GET">
+			<LocateMeButton />
+		</form>
+	</div>
+{/snippet}
+
 {#snippet SecondarySectionContent()}
 	{#if currentSearchType === 'input'}
 		{#await data.streamed.searchResults}
@@ -155,6 +166,10 @@
 
 <PageLayout
 	heading="What's the weather like in...?"
+	PrimarySectionProps={{
+		Content: PrimarySectionContent,
+		isBackgroundDynamic: true,
+	}}
 	secondarySectionProps={{
 		Content: SecondarySectionContent,
 		heading: secondarySectionHeading(),
@@ -165,16 +180,6 @@
 	showNightStars={isNight}
 	blurScene={hasSearched}
 >
-	{#snippet PrimarySectionContent()}
-		<div class={`main-page-selection ${$orientation}`}>
-			<form method="GET">
-				<LocationTextInput />
-			</form>
-			<form method="GET">
-				<LocateMeButton />
-			</form>
-		</div>
-	{/snippet}
 	{#snippet Scene()}
 		<PlantScene sceneTheme={currentSceneTheme} />
 	{/snippet}
