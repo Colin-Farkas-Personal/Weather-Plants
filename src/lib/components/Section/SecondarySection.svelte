@@ -175,9 +175,12 @@
 		width: 130%;
 
 		border-radius: 0 0 var(--display-border-radius) var(--display-border-radius);
-		border-left: var(--display-border-width) solid var(--theme-border-primary);
-		border-bottom: var(--display-border-width) solid var(--theme-border-primary);
-		border-right: var(--display-border-width) solid var(--theme-border-primary);
+		border-left: var(--display-border-width) solid
+			var(--section-border-color, var(--theme-border-primary));
+		border-bottom: var(--display-border-width) solid
+			var(--section-border-color, var(--theme-border-primary));
+		border-right: var(--display-border-width) solid
+			var(--section-border-color, var(--theme-border-primary));
 
 		background-color: var(--warm-white-bg-tertiary);
 
@@ -298,9 +301,12 @@
 		height: 110%;
 
 		border-radius: var(--display-border-radius) 0 0 var(--display-border-radius);
-		border-top: var(--display-border-width) solid var(--theme-border-primary);
-		border-left: var(--display-border-width) solid var(--theme-border-primary);
-		border-bottom: var(--display-border-width) solid var(--theme-border-primary);
+		border-top: var(--display-border-width) solid
+			var(--section-border-color, var(--theme-border-primary));
+		border-left: var(--display-border-width) solid
+			var(--section-border-color, var(--theme-border-primary));
+		border-bottom: var(--display-border-width) solid
+			var(--section-border-color, var(--theme-border-primary));
 
 		background-color: var(--warm-white-300);
 

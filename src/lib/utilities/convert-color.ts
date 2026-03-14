@@ -60,4 +60,13 @@ function sRgbCalculationFromHSL(hslColor: HSLColor): number[] {
 	return [parseInt(f(0), 16), parseInt(f(8), 16), parseInt(f(4), 16)];
 }
 
-export { convertHexToRGB, convertHSLToRGB };
+interface HSLComponents {
+	h: number;
+	s: number;
+	l: number;
+}
+function toHSLString(color: HSLComponents): string {
+	return `hsl(${Math.round(color.h)}, ${Math.round(color.s)}%, ${Math.round(color.l)}%)`;
+}
+
+export { convertHexToRGB, convertHSLToRGB, toHSLString };

@@ -26,18 +26,18 @@
 		padding: 8px;
 		padding-left: 40px;
 
-		border: 2px solid var(--warm-white-border-primary);
+		border: 2px solid var(--scene-border-primary, var(--warm-white-border-primary));
 		border-radius: 60px;
-		background-color: var(--warm-white-bg-primary);
+		background-color: var(--scene-bg-primary, var(--warm-white-bg-primary));
 
 		cursor: text;
 
 		&:hover {
-			border-color: var(--warm-white-800);
+			border-color: var(--scene-border-hover, var(--warm-white-800));
 		}
 
 		&:focus-within {
-			border-color: var(--warm-white-900);
+			border-color: var(--scene-border-focus, var(--warm-white-900));
 		}
 
 		input {
@@ -49,10 +49,10 @@
 
 			font-size: 18px;
 			font-weight: 500;
-			color: var(--warm-white-text-primary);
+			color: var(--scene-text-primary, var(--warm-white-text-primary));
 
 			&::placeholder {
-				color: var(--warm-white-text-secondary);
+				color: var(--scene-text-secondary, var(--warm-white-text-secondary));
 			}
 		}
 
@@ -69,11 +69,14 @@
 			border-radius: 50%;
 
 			border: none;
-			background-color: var(--warm-white-text-primary-inversed);
-			color: var(--warm-white-text-tertiary);
+			background-color: var(
+				--scene-text-primary-inversed,
+				var(--warm-white-text-primary-inversed)
+			);
+			color: var(--scene-bg-primary, var(--warm-white-text-tertiary));
 			cursor: pointer;
 
-			@include accessibility.focus-visible(var(--warm-white-900));
+			@include accessibility.focus-visible(var(--scene-border-focus, var(--warm-white-900)));
 		}
 	}
 </style>

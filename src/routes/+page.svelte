@@ -181,6 +181,10 @@
 </PageLayout>
 
 <style lang="scss">
+	:global(.main-page .secondary-section) {
+		--section-border-color: var(--scene-border-primary);
+	}
+
 	.main-page-selection {
 		display: flex;
 		flex-direction: column;

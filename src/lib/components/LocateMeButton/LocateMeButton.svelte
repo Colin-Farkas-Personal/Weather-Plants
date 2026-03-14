@@ -45,14 +45,14 @@
 			padding-left: 20px;
 
 			outline: none;
-			border: 2px solid var(--warm-white-700);
+			border: 2px solid var(--scene-border-primary, var(--warm-white-700));
 			border-radius: 60px;
-			background-color: var(--warm-white-500);
+			background-color: var(--scene-bg-primary, var(--warm-white-500));
 
 			text-align: left;
 			font-size: 18px;
 			font-weight: bold;
-			color: var(--warm-white-900);
+			color: var(--scene-text-primary, var(--warm-white-900));
 
 			cursor: pointer;
 
@@ -61,11 +61,11 @@
 			}
 
 			&:hover {
-				border-color: var(--warm-white-800);
+				border-color: var(--scene-border-hover, var(--warm-white-800));
 			}
 			&:active,
 			&:focus-visible {
-				border-color: var(--warm-white-900);
+				border-color: var(--scene-border-focus, var(--warm-white-900));
 			}
 		}
 	}
