@@ -141,6 +141,8 @@
 		background-color: #0a0a0a;
 		text-align: center;
 
+		box-shadow: 0 2px 20px 0px rgba(0, 0, 0, 0.35);
+
 		p {
 			color: #a1a1a1;
 			font-size: 1rem;

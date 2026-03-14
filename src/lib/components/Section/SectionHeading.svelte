@@ -38,7 +38,8 @@
 	.portrait {
 		margin: 1rem 0;
 
-		.heading {
+		.heading,
+		&.heading {
 			color: var(--theme-text-primary);
 			font-size: var(--fluid-size-em-medium-plus);
 		}
@@ -51,7 +52,8 @@
 	}
 
 	.landscape {
-		.heading {
+		.heading,
+		&.heading {
 			color: var(--theme-text-primary);
 			font-size: var(--fluid-size-em-medium-plus);
 		}

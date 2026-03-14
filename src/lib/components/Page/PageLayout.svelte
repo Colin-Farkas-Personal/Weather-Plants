@@ -130,10 +130,6 @@
 
 				padding: calc(1rem + 4px) 24px 1rem; // default for desktop
 
-				@media (hover: none) and (pointer: coarse) {
-					padding: 4px 24px 1rem; // real mobile devices
-				}
-
 				background-color: black;
 
 				animation: slide-in-top 420ms
@@ -188,6 +184,12 @@
 
 				animation: grow-shadow 180ms ease-out;
 			}
+		}
+	}
+
+	@media (hover: none) and (pointer: coarse) {
+		.page-layout.portrait .forecast-display {
+			padding: 4px 24px 1rem; // real mobile devices
 		}
 	}
 
