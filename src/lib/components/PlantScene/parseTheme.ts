@@ -21,6 +21,10 @@ const RAIN_CONFIG = {
 	enabled: true,
 };
 
+const SNOW_CONFIG = {
+	enabled: true,
+};
+
 interface GetSceneThemeParams {
 	range: TemperatureRange;
 	condition: CurrentCondition['status'];
@@ -49,7 +53,10 @@ function getSceneTheme({
 
 	// #2 Add cloud model for cloudy conditions
 	sceneTheme.cloudModel = getCloudModelPath(condition);
-	sceneTheme.rain = condition === 'RAINY' || condition === 'THUNDER' ? RAIN_CONFIG : undefined;
+	const isSnowCondition = condition === 'SNOWY';
+	const isRainCondition = condition === 'RAINY' || condition === 'THUNDER';
+	sceneTheme.snow = isSnowCondition ? SNOW_CONFIG : undefined;
+	sceneTheme.rain = isSnowCondition ? undefined : isRainCondition ? RAIN_CONFIG : undefined;
 
 	// #3 Calculate the current day time scene theme from hour of day
 	const dayTimeSceneTheme = applyDayTimeModifier({

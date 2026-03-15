@@ -10,6 +10,7 @@ interface SceneTheme {
 	readonly model: Partial<Record<ModelType, ModelAttributes>>;
 	cloudModel?: string;
 	rain?: RainOptions;
+	snow?: SnowOptions;
 	readonly shadow: ShadowAttributes;
 	readonly fog: FogAttributes;
 	readonly background: BackgroundAttributes;
@@ -17,6 +18,7 @@ interface SceneTheme {
 }
 
 type RainState = 'idle' | 'running' | 'stopping';
+type SnowState = 'idle' | 'running' | 'stopping';
 
 interface RainDebugOptions {
 	showCloudBounds?: boolean;
@@ -35,6 +37,27 @@ interface RainOptions {
 	despawnY?: number;
 	canopyPenetration?: number;
 	debug?: RainDebugOptions;
+}
+
+interface SnowDebugOptions {
+	showCloudBounds?: boolean;
+	showSpawnFootprint?: boolean;
+	showCanopyBounds?: boolean;
+}
+
+interface SnowOptions {
+	enabled?: boolean;
+	maxActiveFlakes?: number;
+	fallSpeed?: number;
+	flakeScale?: number;
+	spawnInsetX?: number;
+	spawnInsetZ?: number;
+	spawnTopOffset?: number;
+	despawnY?: number;
+	canopyPenetration?: number;
+	driftStrength?: number;
+	rotationSpeed?: number;
+	debug?: SnowDebugOptions;
 }
 
 export type DefaultAttributes = {
@@ -66,8 +89,11 @@ export type {
 	ThemeMap,
 	SceneTheme,
 	RainState,
+	SnowState,
 	RainOptions,
 	RainDebugOptions,
+	SnowOptions,
+	SnowDebugOptions,
 	HSLColor,
 	HexColor,
 	RGBColor,

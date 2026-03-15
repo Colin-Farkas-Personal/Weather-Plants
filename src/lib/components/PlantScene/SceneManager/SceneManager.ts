@@ -6,8 +6,9 @@ import { GeneralLights } from '../subjects/GeneralLights';
 import { Ground } from '../subjects/Ground';
 import { Model } from '../subjects/Model';
 import { RainParticleSystem } from '../subjects/RainParticleSystem';
+import { SnowParticleSystem } from '../subjects/SnowParticleSystem';
 import type { SceneSubject } from '../subjects/subject.types';
-import type { RainOptions, SceneTheme } from '../themes/theme.types';
+import type { RainOptions, SceneTheme, SnowOptions } from '../themes/theme.types';
 import { getScreenOrientation } from './aspect-ration';
 
 interface ISceneManager {
@@ -15,6 +16,7 @@ interface ISceneManager {
 	dispose: () => void;
 	updateTheme: (theme: SceneTheme) => void;
 	setRainOptions: (options: RainOptions) => void;
+	setSnowOptions: (options: SnowOptions) => void;
 	onWindowResize: () => void;
 }
 
@@ -41,6 +43,7 @@ export class SceneManager implements ISceneManager {
 	private _desiredCloudModel: string | undefined = undefined;
 	private _fadingOutCloud: Model | undefined = undefined;
 	private rain: RainParticleSystem;
+	private snow: SnowParticleSystem;
 	private _clock = new THREE.Clock();
 	private _cloudBounds = new THREE.Box3();
 	private _plantBounds = new THREE.Box3();
@@ -69,6 +72,12 @@ export class SceneManager implements ISceneManager {
 			getPlantBounds: () => this.models.plant?.getWorldBounds(this._plantBounds),
 			options: this._theme.rain,
 		});
+		this.snow = new SnowParticleSystem({
+			scene: this.scene,
+			getCloudBounds: () => this.models.cloud?.getWorldBounds(this._cloudBounds),
+			getPlantBounds: () => this.models.plant?.getWorldBounds(this._plantBounds),
+			options: this._theme.snow,
+		});
 		this.onWindowResize();
 	}
 
@@ -82,6 +91,7 @@ export class SceneManager implements ISceneManager {
 		this.models.cloud?.update();
 		this._fadingOutCloud?.update();
 		this.rain.update(delta);
+		this.snow.update(delta);
 
 		this.controls.update();
 		this.renderer.render(this.scene, this.camera);
@@ -90,6 +100,7 @@ export class SceneManager implements ISceneManager {
 	dispose() {
 		this.controls.dispose();
 		this.rain.dispose();
+		this.snow.dispose();
 		this.renderer.dispose();
 		this.renderer.forceContextLoss();
 	}
@@ -106,7 +117,7 @@ export class SceneManager implements ISceneManager {
 	}
 
 	updateTheme(theme: SceneTheme) {
-		const { model, cloudModel, fog, lights, shadow, rain } = theme;
+		const { model, cloudModel, fog, lights, shadow, rain, snow } = theme;
 
 		// Model
 		const isDifferentPlantModel = model.plant?.path !== this.models.plant?._modelPath;
@@ -123,11 +134,17 @@ export class SceneManager implements ISceneManager {
 		this._desiredCloudModel = cloudModel;
 		this.applyDesiredCloudState();
 
-		if (rain?.enabled) {
+		if (snow?.enabled) {
+			this.snow.setOptions(snow);
+			this.snow.start();
+			this.rain.stop();
+		} else if (rain?.enabled) {
 			this.rain.setOptions(rain);
 			this.rain.start();
+			this.snow.stop();
 		} else {
 			this.rain.stop();
+			this.snow.stop();
 		}
 
 		// Meshes & Lights
@@ -148,6 +165,10 @@ export class SceneManager implements ISceneManager {
 
 	setRainOptions(options: RainOptions) {
 		this.rain.setOptions(options);
+	}
+
+	setSnowOptions(options: SnowOptions) {
+		this.snow.setOptions(options);
 	}
 
 	// ---- PRIVATE METHODS ----
