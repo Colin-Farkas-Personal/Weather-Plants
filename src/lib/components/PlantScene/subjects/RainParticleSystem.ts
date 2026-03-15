@@ -3,8 +3,8 @@ import type { RainDebugOptions, RainOptions, RainState } from '../themes/theme.t
 import type { RainDrop, RainParticleSystemParams } from './rain.types';
 
 const MAX_POOL_SIZE = 100;
-const MOBILE_DROP_CAP = 40;
-const DESKTOP_DROP_CAP = 40;
+const MOBILE_DROP_CAP = 24;
+const DESKTOP_DROP_CAP = 24;
 const DEBUG_UPDATE_INTERVAL_SECONDS = 0.2;
 const MOBILE_SIMULATION_STEP = 1 / 24;
 const DESKTOP_SIMULATION_STEP = 1 / 36;
@@ -14,9 +14,9 @@ const defaultRainOptions: Required<Omit<RainOptions, 'debug'>> = {
 	enabled: true,
 	maxActiveDrops: 80,
 	fallSpeed: 0.5,
-	dropScale: 0.08,
+	dropScale: 0.15,
 	spawnInsetX: 0.2,
-	spawnInsetZ: 0.13,
+	spawnInsetZ: 0.16,
 	spawnTopOffset: 0.9,
 	despawnY: 0,
 	canopyPenetration: 0.08,
