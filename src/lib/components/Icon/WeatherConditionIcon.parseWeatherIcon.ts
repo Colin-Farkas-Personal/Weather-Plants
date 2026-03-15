@@ -2,7 +2,7 @@ import CloudBold from '~icons/ph/cloud-bold';
 import CloudFogBold from '~icons/ph/cloud-fog-bold';
 import CloudLightningBold from '~icons/ph/cloud-lightning-bold';
 import CloudRainBold from '~icons/ph/cloud-rain-bold';
-import CloudSnowBold from '~icons/ph/cloud-snow-bold';
+// import CloudSnowBold from '~icons/ph/cloud-snow-bold';
 import CloudSunBold from '~icons/ph/cloud-sun-bold';
 import SnowflakeBold from '~icons/ph/snowflake-bold';
 import SunBold from '~icons/ph/sun-bold';
@@ -21,7 +21,7 @@ const weatherConditionIcons: Record<ConditionStatus, Component> = {
 	FOGGY: CloudFogBold,
 	RAINY: CloudRainBold,
 	THUNDER: CloudLightningBold,
-	SNOWY: CloudSnowBold,
+	SNOWY: SnowflakeBold,
 	FREEZING: SnowflakeBold,
 	TORNADO: TornadoBold,
 };
