@@ -5,6 +5,7 @@ import * as THREE from 'three';
 export class Model implements SceneSubject {
 	private _scene: THREE.Scene;
 	private model: THREE.Group | null = null;
+	private _collisionMeshes: THREE.Mesh[] = [];
 	public _modelPath: string;
 	private _isLoaded: boolean = false;
 
@@ -26,6 +27,7 @@ export class Model implements SceneSubject {
 	create(modelPath: string) {
 		this._modelPath = modelPath;
 		this._isLoaded = false;
+		this._collisionMeshes = [];
 		this.model = this.buildModel(modelPath);
 		this._scene.add(this.model);
 	}
@@ -40,6 +42,7 @@ export class Model implements SceneSubject {
 			this._scene.remove(this.model);
 		}
 		this._isLoaded = false;
+		this._collisionMeshes = [];
 	}
 
 	isLoaded(): boolean {
@@ -53,6 +56,14 @@ export class Model implements SceneSubject {
 
 		target.setFromObject(this.model);
 		return target;
+	}
+
+	getCollisionMeshes(): THREE.Mesh[] {
+		if (!this._isLoaded) {
+			return [];
+		}
+
+		return this._collisionMeshes;
 	}
 
 	fadeIn() {
@@ -113,6 +124,7 @@ export class Model implements SceneSubject {
 			(gltf: GLTF) => {
 				buildModelOptions(gltf);
 				model.add(gltf.scene);
+				this._collisionMeshes = this.collectCollisionMeshes(model);
 				this._isLoaded = true;
 			},
 			undefined,
@@ -136,6 +148,16 @@ export class Model implements SceneSubject {
 				}
 			});
 		}
+	}
+
+	private collectCollisionMeshes(root: THREE.Object3D): THREE.Mesh[] {
+		const meshes: THREE.Mesh[] = [];
+		root.traverse((child) => {
+			if (child instanceof THREE.Mesh) {
+				meshes.push(child);
+			}
+		});
+		return meshes;
 	}
 
 	private rotateModel() {

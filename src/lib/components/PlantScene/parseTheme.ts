@@ -15,18 +15,10 @@ import { coldTheme } from './themes/cold';
 import { defaultTheme } from './themes/default';
 import { hotTheme } from './themes/hot';
 import { pleasantTheme } from './themes/pleasant';
-import type { RainOptions, SceneTheme, TemperatureThemeMap } from './themes/theme.types';
+import type { SceneTheme, TemperatureThemeMap } from './themes/theme.types';
 
-const RAIN_CONFIG: RainOptions = {
+const RAIN_CONFIG = {
 	enabled: true,
-	maxActiveDrops: 80,
-	fallSpeed: 2.2,
-	dropScale: 0.08,
-	spawnInsetX: 0.15,
-	spawnInsetZ: 0.15,
-	spawnTopOffset: 0.12,
-	despawnY: -0.22,
-	canopyPenetration: 0.08,
 };
 
 interface GetSceneThemeParams {

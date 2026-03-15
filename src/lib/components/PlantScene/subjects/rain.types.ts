@@ -15,4 +15,5 @@ export type RainDrop = {
 	position: THREE.Vector3;
 	speed: number;
 	scale: number;
+	canopyDespawnY: number;
 };

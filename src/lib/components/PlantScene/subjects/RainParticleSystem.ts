@@ -3,23 +3,29 @@ import type { RainDebugOptions, RainOptions, RainState } from '../themes/theme.t
 import type { RainDrop, RainParticleSystemParams } from './rain.types';
 
 const MAX_POOL_SIZE = 100;
+const MOBILE_DROP_CAP = 40;
+const DESKTOP_DROP_CAP = 40;
+const DEBUG_UPDATE_INTERVAL_SECONDS = 0.2;
+const MOBILE_SIMULATION_STEP = 1 / 24;
+const DESKTOP_SIMULATION_STEP = 1 / 36;
+const MAX_SIMULATION_DELTA = 1 / 20;
 
 const defaultRainOptions: Required<Omit<RainOptions, 'debug'>> = {
 	enabled: true,
-	maxActiveDrops: 1000,
-	fallSpeed: 0.1,
-	dropScale: 8,
-	spawnInsetX: 0.15,
-	spawnInsetZ: 0.15,
-	spawnTopOffset: 0.12,
+	maxActiveDrops: 80,
+	fallSpeed: 0.5,
+	dropScale: 0.08,
+	spawnInsetX: 0.2,
+	spawnInsetZ: 0.13,
+	spawnTopOffset: 0.9,
 	despawnY: 0,
 	canopyPenetration: 0.08,
 };
 
 const defaultDebugOptions: Required<RainDebugOptions> = {
-	showCloudBounds: true,
+	showCloudBounds: false,
 	showSpawnFootprint: false,
-	showCanopyBounds: true,
+	showCanopyBounds: false,
 };
 
 export class RainParticleSystem {
@@ -27,6 +33,9 @@ export class RainParticleSystem {
 	private _state: RainState = 'idle';
 	private _options: Required<Omit<RainOptions, 'debug'>> = { ...defaultRainOptions };
 	private _debugOptions: Required<RainDebugOptions> = { ...defaultDebugOptions };
+	private readonly _isMobile: boolean;
+	private readonly _maxDeviceDrops: number;
+	private readonly _simulationStep: number;
 
 	private readonly getCloudBounds: () => THREE.Box3 | undefined;
 	private readonly getPlantBounds: () => THREE.Box3 | undefined;
@@ -36,11 +45,13 @@ export class RainParticleSystem {
 	private readonly dummy = new THREE.Object3D();
 	private activeDrops = 0;
 	private spawnAccumulator = 0;
+	private simulationAccumulator = 0;
 
 	private readonly cloudBounds = new THREE.Box3();
 	private readonly plantBounds = new THREE.Box3();
 	private readonly canopyBounds = new THREE.Box3();
 	private readonly spawnBounds = new THREE.Box3();
+	private debugUpdateAccumulator = 0;
 
 	private cloudBoundsHelper?: THREE.Box3Helper;
 	private canopyBoundsHelper?: THREE.Box3Helper;
@@ -48,17 +59,18 @@ export class RainParticleSystem {
 
 	constructor({ scene, getCloudBounds, getPlantBounds, options }: RainParticleSystemParams) {
 		this._scene = scene;
+		this._isMobile = this.detectMobileDevice();
+		this._maxDeviceDrops = this._isMobile ? MOBILE_DROP_CAP : DESKTOP_DROP_CAP;
+		this._simulationStep = this._isMobile ? MOBILE_SIMULATION_STEP : DESKTOP_SIMULATION_STEP;
 		this.getCloudBounds = getCloudBounds;
 		this.getPlantBounds = getPlantBounds;
 		this.setOptions(options ?? {});
 
 		const dropGeometry = this.createDropGeometry();
-		const dropMaterial = new THREE.MeshStandardMaterial({
+		const dropMaterial = new THREE.MeshBasicMaterial({
 			color: new THREE.Color('#9dc8ff'),
-			roughness: 0.3,
-			metalness: 0,
 			transparent: true,
-			opacity: 0.9,
+			opacity: 0.85,
 		});
 
 		this.instancedMesh = new THREE.InstancedMesh(dropGeometry, dropMaterial, MAX_POOL_SIZE);
@@ -73,6 +85,7 @@ export class RainParticleSystem {
 			position: new THREE.Vector3(),
 			speed: 0,
 			scale: 0,
+			canopyDespawnY: Number.NEGATIVE_INFINITY,
 		}));
 		this.hideAllInstances();
 	}
@@ -97,14 +110,30 @@ export class RainParticleSystem {
 			return;
 		}
 
-		this.updateDebugHelpers();
+		const clampedDelta = Math.min(delta, MAX_SIMULATION_DELTA);
+
+		if (this.hasEnabledDebugHelpers()) {
+			this.debugUpdateAccumulator += clampedDelta;
+			if (this.debugUpdateAccumulator >= DEBUG_UPDATE_INTERVAL_SECONDS) {
+				this.debugUpdateAccumulator = 0;
+				this.updateDebugHelpers();
+			}
+		}
+
+		this.simulationAccumulator += clampedDelta;
+		if (this.simulationAccumulator < this._simulationStep) {
+			return;
+		}
+
+		const simulationDelta = this.simulationAccumulator;
+		this.simulationAccumulator = 0;
 
 		if (this._state === 'running') {
-			this.spawnDrops(delta);
+			this.spawnDrops(simulationDelta);
 		}
 
 		const canopyBounds = this.getCanopyBounds();
-		this.updateDrops(delta, canopyBounds);
+		this.updateDrops(simulationDelta, canopyBounds);
 
 		if (this._state === 'stopping' && this.activeDrops === 0) {
 			this._state = 'idle';
@@ -113,10 +142,11 @@ export class RainParticleSystem {
 	}
 
 	setOptions(options: RainOptions) {
+		const maxAllowedDrops = Math.min(MAX_POOL_SIZE, this._maxDeviceDrops);
 		const maxActiveDrops = this.clampInt(
 			options.maxActiveDrops ?? this._options.maxActiveDrops,
 			1,
-			MAX_POOL_SIZE,
+			maxAllowedDrops,
 		);
 		this._options = {
 			enabled: options.enabled ?? this._options.enabled,
@@ -172,13 +202,13 @@ export class RainParticleSystem {
 	private createDropGeometry(): THREE.LatheGeometry {
 		const profile = [
 			new THREE.Vector2(0.0, 0.0),
-			new THREE.Vector2(0.018, 0.015),
-			new THREE.Vector2(0.028, 0.055),
-			new THREE.Vector2(0.024, 0.11),
-			new THREE.Vector2(0.0, 0.16),
+			new THREE.Vector2(0.03, 0.02),
+			new THREE.Vector2(0.048, 0.075),
+			new THREE.Vector2(0.042, 0.145),
+			new THREE.Vector2(0.0, 0.2),
 		];
 
-		const geometry = new THREE.LatheGeometry(profile, 12);
+		const geometry = new THREE.LatheGeometry(profile, 8);
 		geometry.computeVertexNormals();
 		return geometry;
 	}
@@ -195,7 +225,10 @@ export class RainParticleSystem {
 			return;
 		}
 
-		const spawnRatePerSecond = Math.max(8, this._options.maxActiveDrops * 2.5);
+		const spawnRatePerSecond = Math.max(
+			6,
+			this._options.maxActiveDrops * (this._isMobile ? 1.1 : 1.8),
+		);
 		this.spawnAccumulator += delta * spawnRatePerSecond;
 		let spawnCount = Math.min(availableSlots, Math.floor(this.spawnAccumulator));
 
@@ -239,21 +272,21 @@ export class RainParticleSystem {
 	}
 
 	private shouldDespawn(position: THREE.Vector3, canopyBounds: THREE.Box3 | undefined): boolean {
-		if (position.y <= this._options.despawnY) {
-			return true;
+		if (canopyBounds) {
+			const insideX = position.x >= canopyBounds.min.x && position.x <= canopyBounds.max.x;
+			const insideZ = position.z >= canopyBounds.min.z && position.z <= canopyBounds.max.z;
+			if (insideX && insideZ) {
+				const collisionY = this.getDropCanopyDespawnY(position);
+				if (
+					collisionY !== undefined &&
+					position.y <= collisionY - this._options.canopyPenetration
+				) {
+					return true;
+				}
+			}
 		}
 
-		if (!canopyBounds) {
-			return false;
-		}
-
-		const insideX = position.x >= canopyBounds.min.x && position.x <= canopyBounds.max.x;
-		const insideZ = position.z >= canopyBounds.min.z && position.z <= canopyBounds.max.z;
-		if (!insideX || !insideZ) {
-			return false;
-		}
-
-		return position.y <= canopyBounds.max.y - this._options.canopyPenetration;
+		return position.y <= this._options.despawnY;
 	}
 
 	private activateDrop(index: number) {
@@ -262,6 +295,7 @@ export class RainParticleSystem {
 		drop.position.copy(this.randomSpawnPosition());
 		drop.speed = this._options.fallSpeed * this.randomRange(0.85, 1.2);
 		drop.scale = this._options.dropScale * this.randomRange(0.8, 1.25);
+		drop.canopyDespawnY = this.calculateDropCanopyDespawnY(drop.position);
 
 		this.activeDrops += 1;
 		this.writeDropMatrix(index, drop.position, drop.scale);
@@ -272,6 +306,7 @@ export class RainParticleSystem {
 		drop.position.copy(this.randomSpawnPosition());
 		drop.speed = this._options.fallSpeed * this.randomRange(0.85, 1.2);
 		drop.scale = this._options.dropScale * this.randomRange(0.8, 1.25);
+		drop.canopyDespawnY = this.calculateDropCanopyDespawnY(drop.position);
 		this.writeDropMatrix(index, drop.position, drop.scale);
 	}
 
@@ -358,10 +393,46 @@ export class RainParticleSystem {
 
 	private writeDropMatrix(index: number, position: THREE.Vector3, scale: number) {
 		this.dummy.position.copy(position);
-		this.dummy.scale.set(scale * 0.8, scale * 1.35, scale * 0.8);
+		this.dummy.scale.set(scale * 1.15, scale * 1.55, scale * 1.15);
 		this.dummy.rotation.set(0, 0, 0);
 		this.dummy.updateMatrix();
 		this.instancedMesh.setMatrixAt(index, this.dummy.matrix);
+	}
+
+	private calculateDropCanopyDespawnY(position: THREE.Vector3): number {
+		const canopyBounds = this.getCanopyBounds();
+		if (!canopyBounds) {
+			return this._options.despawnY;
+		}
+
+		const width = Math.max(0.0001, canopyBounds.max.x - canopyBounds.min.x);
+		const depth = Math.max(0.0001, canopyBounds.max.z - canopyBounds.min.z);
+		const u = THREE.MathUtils.clamp((position.x - canopyBounds.min.x) / width, 0, 1);
+		const v = THREE.MathUtils.clamp((position.z - canopyBounds.min.z) / depth, 0, 1);
+		const nx = u * 2 - 1;
+		const nz = v * 2 - 1;
+		const radial = Math.min(1, Math.sqrt(nx * nx + nz * nz));
+		const crown = Math.pow(1 - radial, 0.7);
+		const canopyProfile = 0.72 + crown * 0.28;
+		const baseHeight = THREE.MathUtils.lerp(
+			canopyBounds.min.y,
+			canopyBounds.max.y,
+			canopyProfile,
+		);
+		const variation = this.randomRange(-0.025, 0.025);
+
+		return Math.max(this._options.despawnY, baseHeight + variation);
+	}
+
+	private getDropCanopyDespawnY(position: THREE.Vector3): number | undefined {
+		for (let i = 0; i < this.drops.length; i += 1) {
+			const drop = this.drops[i];
+			if (drop.active && drop.position === position) {
+				return drop.canopyDespawnY;
+			}
+		}
+
+		return undefined;
 	}
 
 	private hideInstance(index: number) {
@@ -395,6 +466,23 @@ export class RainParticleSystem {
 		this.updateCloudBoundsHelper(cloudBounds);
 		this.updateCanopyBoundsHelper(canopyBounds);
 		this.updateSpawnFootprintHelper(cloudBounds);
+	}
+
+	private hasEnabledDebugHelpers(): boolean {
+		return (
+			this._debugOptions.showCloudBounds ||
+			this._debugOptions.showSpawnFootprint ||
+			this._debugOptions.showCanopyBounds
+		);
+	}
+
+	private detectMobileDevice(): boolean {
+		if (typeof window === 'undefined') {
+			return false;
+		}
+
+		const coarsePointer = window.matchMedia?.('(pointer: coarse)').matches ?? false;
+		return coarsePointer || window.innerWidth <= 768;
 	}
 
 	private updateCloudBoundsHelper(cloudBounds: THREE.Box3 | undefined) {
