@@ -6,6 +6,7 @@ export class Model implements SceneSubject {
 	private _scene: THREE.Scene;
 	private model: THREE.Group | null = null;
 	public _modelPath: string;
+	private _isLoaded: boolean = false;
 
 	private _opacity: number = 1;
 	private _targetOpacity: number = 1;
@@ -24,6 +25,7 @@ export class Model implements SceneSubject {
 	// ---- PUBLIC METHODS ----
 	create(modelPath: string) {
 		this._modelPath = modelPath;
+		this._isLoaded = false;
 		this.model = this.buildModel(modelPath);
 		this._scene.add(this.model);
 	}
@@ -37,6 +39,20 @@ export class Model implements SceneSubject {
 		if (this.model) {
 			this._scene.remove(this.model);
 		}
+		this._isLoaded = false;
+	}
+
+	isLoaded(): boolean {
+		return this._isLoaded;
+	}
+
+	getWorldBounds(target: THREE.Box3 = new THREE.Box3()): THREE.Box3 | undefined {
+		if (!this.model || !this._isLoaded) {
+			return undefined;
+		}
+
+		target.setFromObject(this.model);
+		return target;
 	}
 
 	fadeIn() {
@@ -94,9 +110,10 @@ export class Model implements SceneSubject {
 
 		loader.load(
 			path,
-			function (gltf: GLTF) {
+			(gltf: GLTF) => {
 				buildModelOptions(gltf);
 				model.add(gltf.scene);
+				this._isLoaded = true;
 			},
 			undefined,
 			function (error: unknown) {

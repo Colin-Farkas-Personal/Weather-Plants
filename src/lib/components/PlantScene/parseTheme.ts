@@ -15,7 +15,19 @@ import { coldTheme } from './themes/cold';
 import { defaultTheme } from './themes/default';
 import { hotTheme } from './themes/hot';
 import { pleasantTheme } from './themes/pleasant';
-import type { SceneTheme, TemperatureThemeMap } from './themes/theme.types';
+import type { RainOptions, SceneTheme, TemperatureThemeMap } from './themes/theme.types';
+
+const RAIN_CONFIG: RainOptions = {
+	enabled: true,
+	maxActiveDrops: 80,
+	fallSpeed: 2.2,
+	dropScale: 0.08,
+	spawnInsetX: 0.15,
+	spawnInsetZ: 0.15,
+	spawnTopOffset: 0.12,
+	despawnY: -0.22,
+	canopyPenetration: 0.08,
+};
 
 interface GetSceneThemeParams {
 	range: TemperatureRange;
@@ -45,6 +57,7 @@ function getSceneTheme({
 
 	// #2 Add cloud model for cloudy conditions
 	sceneTheme.cloudModel = getCloudModelPath(condition);
+	sceneTheme.rain = condition === 'RAINY' || condition === 'THUNDER' ? RAIN_CONFIG : undefined;
 
 	// #3 Calculate the current day time scene theme from hour of day
 	const dayTimeSceneTheme = applyDayTimeModifier({

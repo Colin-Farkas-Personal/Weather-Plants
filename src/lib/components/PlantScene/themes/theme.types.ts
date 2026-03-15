@@ -9,10 +9,32 @@ type ThemeMap = Record<ConditionStatus, SceneTheme>;
 interface SceneTheme {
 	readonly model: Partial<Record<ModelType, ModelAttributes>>;
 	cloudModel?: string;
+	rain?: RainOptions;
 	readonly shadow: ShadowAttributes;
 	readonly fog: FogAttributes;
 	readonly background: BackgroundAttributes;
 	readonly lights: Record<LightNames, LightSourceAttributes>;
+}
+
+type RainState = 'idle' | 'running' | 'stopping';
+
+interface RainDebugOptions {
+	showCloudBounds?: boolean;
+	showSpawnFootprint?: boolean;
+	showCanopyBounds?: boolean;
+}
+
+interface RainOptions {
+	enabled?: boolean;
+	maxActiveDrops?: number;
+	fallSpeed?: number;
+	dropScale?: number;
+	spawnInsetX?: number;
+	spawnInsetZ?: number;
+	spawnTopOffset?: number;
+	despawnY?: number;
+	canopyPenetration?: number;
+	debug?: RainDebugOptions;
 }
 
 export type DefaultAttributes = {
@@ -43,6 +65,9 @@ export type {
 	TemperatureThemeMap,
 	ThemeMap,
 	SceneTheme,
+	RainState,
+	RainOptions,
+	RainDebugOptions,
 	HSLColor,
 	HexColor,
 	RGBColor,

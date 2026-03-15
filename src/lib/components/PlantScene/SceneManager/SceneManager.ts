@@ -5,14 +5,16 @@ import { Fog } from '../subjects/Fog';
 import { GeneralLights } from '../subjects/GeneralLights';
 import { Ground } from '../subjects/Ground';
 import { Model } from '../subjects/Model';
+import { RainParticleSystem } from '../subjects/RainParticleSystem';
 import type { SceneSubject } from '../subjects/subject.types';
-import type { SceneTheme } from '../themes/theme.types';
+import type { RainOptions, SceneTheme } from '../themes/theme.types';
 import { getScreenOrientation } from './aspect-ration';
 
 interface ISceneManager {
 	update: () => void;
 	dispose: () => void;
 	updateTheme: (theme: SceneTheme) => void;
+	setRainOptions: (options: RainOptions) => void;
 	onWindowResize: () => void;
 }
 
@@ -38,6 +40,10 @@ export class SceneManager implements ISceneManager {
 	private models: Models = { pot: undefined, plant: undefined, cloud: undefined };
 	private _desiredCloudModel: string | undefined = undefined;
 	private _fadingOutCloud: Model | undefined = undefined;
+	private rain: RainParticleSystem;
+	private _clock = new THREE.Clock();
+	private _cloudBounds = new THREE.Box3();
+	private _plantBounds = new THREE.Box3();
 
 	private get canvasDimensions(): CanvasDimensions {
 		return {
@@ -57,16 +63,25 @@ export class SceneManager implements ISceneManager {
 		this.camera = this.buildCamera(canvasdimensions);
 		this.controls = this.buildOrbitControls();
 		this.sceneSubjects = this.createSceneSubjects(this.scene, this._theme);
+		this.rain = new RainParticleSystem({
+			scene: this.scene,
+			getCloudBounds: () => this.models.cloud?.getWorldBounds(this._cloudBounds),
+			getPlantBounds: () => this.models.plant?.getWorldBounds(this._plantBounds),
+			options: this._theme.rain,
+		});
 		this.onWindowResize();
 	}
 
 	// ---- PUBLIC METHODS ----
 
 	update() {
+		const delta = this._clock.getDelta();
+
 		this.models.pot?.update();
 		this.models.plant?.update();
 		this.models.cloud?.update();
 		this._fadingOutCloud?.update();
+		this.rain.update(delta);
 
 		this.controls.update();
 		this.renderer.render(this.scene, this.camera);
@@ -74,6 +89,7 @@ export class SceneManager implements ISceneManager {
 
 	dispose() {
 		this.controls.dispose();
+		this.rain.dispose();
 		this.renderer.dispose();
 		this.renderer.forceContextLoss();
 	}
@@ -90,7 +106,7 @@ export class SceneManager implements ISceneManager {
 	}
 
 	updateTheme(theme: SceneTheme) {
-		const { model, cloudModel, fog, lights, shadow } = theme;
+		const { model, cloudModel, fog, lights, shadow, rain } = theme;
 
 		// Model
 		const isDifferentPlantModel = model.plant?.path !== this.models.plant?._modelPath;
@@ -107,6 +123,13 @@ export class SceneManager implements ISceneManager {
 		this._desiredCloudModel = cloudModel;
 		this.applyDesiredCloudState();
 
+		if (rain?.enabled) {
+			this.rain.setOptions(rain);
+			this.rain.start();
+		} else {
+			this.rain.stop();
+		}
+
 		// Meshes & Lights
 		for (const subject of this.sceneSubjects) {
 			if (subject instanceof GeneralLights) {
@@ -121,6 +144,10 @@ export class SceneManager implements ISceneManager {
 				subject.update({ opacity: shadow?.opacity });
 			}
 		}
+	}
+
+	setRainOptions(options: RainOptions) {
+		this.rain.setOptions(options);
 	}
 
 	// ---- PRIVATE METHODS ----
