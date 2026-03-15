@@ -107,12 +107,15 @@
 		isActiveScrolling = true;
 		cancelSnap();
 
-		// Clear any pending scroll-end debounce so a slow trackpad gesture
-		// doesn't prematurely snap between wheel events.
+		// Re-arm the scroll-end debounce. At scroll boundaries the scroll
+		// position can't change so handleScroll won't fire, but we still
+		// need handleScrollEnd to trigger once wheel events stop.
 		if (scrollEndTimeoutRef) {
 			clearTimeout(scrollEndTimeoutRef);
-			scrollEndTimeoutRef = null;
 		}
+		scrollEndTimeoutRef = setTimeout(() => {
+			handleScrollEnd();
+		}, 140);
 	}
 
 	function handleScroll() {
@@ -281,7 +284,7 @@
 		ontouchend={handleTouchEnd}
 		ontouchcancel={handleTouchEnd}
 	>
-		{#each lines as line, index (index)}
+		{#each lines, index (index)}
 			<span id={String(index)} class="line"></span>
 		{/each}
 	</div>

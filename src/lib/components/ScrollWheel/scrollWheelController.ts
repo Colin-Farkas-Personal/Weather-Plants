@@ -53,8 +53,15 @@ function scrollWheelController({
 		const clamped = clamp(target, min, max);
 		const nextValueRounded = roundToStep(clamped);
 
-		// If the computed target equals the current logical value, nothing to do.
-		if (nextValueRounded === valueNow) return;
+		// If already at the snapped target (e.g. user scrolls against a boundary),
+		// still emit commit so parent state can exit "active scrolling" mode.
+		if (nextValueRounded === valueNow) {
+			onChange(nextValueRounded);
+			setVisualValue(nextValueRounded);
+			setInteracting(false);
+			requestCommit(nextValueRounded);
+			return;
+		}
 
 		setInteracting(true);
 
