@@ -1,38 +1,32 @@
-# sv
+![Weather Pot preview](./static/readMe/Banner.png)
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+# Weather Pot
 
-## Creating a project
+`Weather, embodied.`
 
-If you're seeing this, you've probably already done this step. Congrats!
+What if your weather app didn’t just tell you the forecast, but showed it through a living, changing
+plant? 🪴
 
-```bash
-# create a new project in the current directory
-npx sv create
+Instead of just numbers and icons, a plant embodies real-world weather conditions in a playful way -
+changing and adapting to the current temperature and condition.
 
-# create a new project in my-app
-npx sv create my-app
-```
+> ### Try it out now!
+>
+> You can explore the project here: 🌱 https://weatherpot.app
 
-## Developing
+## Design
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+All design and components are handmade by me in Figma. My goal has been to create a unique style
+that combines modern user interfaces with a tactile, earthy feel and strong colors that embody the
+feeling of weather.
 
-```bash
-npm run dev
+## Tech Stack
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
+I used this project as a playground and an opportunity to learn Svelte – the frontend framework
+everyone seems to be in love with. And what can I say, have I fallen for it? Maybe a little. It’s
+fast, reliable, and easy.
 
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+- Language: JS + Typescript
+- Framework: Svelte + SvelteKit
+- Styling: CSS + Sass
+- DataBase: Neon (Postgres on Vercel)
