@@ -10,9 +10,19 @@ plant? 🪴
 Instead of just numbers and icons, a plant embodies real-world weather conditions in a playful way -
 changing and adapting to the current temperature and condition.
 
-> ### Try it out now!
+> ---
 >
-> You can explore the project here: 🌱 https://weather-pot.vercel.app/
+> ### Live Demo
+>
+> **The project is available here**
+>
+> 🌱 https://weather-pot.vercel.app/ 🌱
+>
+> ---
+
+### Like the project?
+
+If you enjoyed exploring the project, feel free to leave a star ⭐️
 
 ## Design
 
