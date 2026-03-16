@@ -303,16 +303,14 @@
 {/snippet}
 
 {#snippet TimeScroll()}
-	<div class="time-scroll">
-		<ScrollWheel
-			min={0}
-			max={23}
-			step={1}
-			value={forecastNumber}
-			onValueChange={handleOnValueChageNumber}
-			onValueCommit={handleOnValueCommitNumber}
-		/>
-	</div>
+	<ScrollWheel
+		min={0}
+		max={23}
+		step={1}
+		value={forecastNumber}
+		onValueChange={handleOnValueChageNumber}
+		onValueCommit={handleOnValueCommitNumber}
+	/>
 {/snippet}
 
 {#snippet DisplayWheelSnippet()}

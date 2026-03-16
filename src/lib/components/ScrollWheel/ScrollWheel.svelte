@@ -256,41 +256,56 @@
 		activePointerId = null;
 		handleScrollEnd();
 	}
+
+	function handleKeyDown(e: KeyboardEvent) {
+		if (e.key === 'ArrowLeft') {
+			e.preventDefault();
+			decrement();
+		} else if (e.key === 'ArrowRight') {
+			e.preventDefault();
+			increment();
+		}
+	}
 </script>
 
 <div id="scroll-wheel" class="scroll-wheel {$orientation}">
 	<button
 		type="button"
 		aria-label="backwards"
+		class="backwards"
 		class:disable-stepping={!canDecrement}
 		onclick={decrement}
 	>
 		<ClockCounterClockwiseBold />
 	</button>
-	<div
-		role="slider"
-		aria-valuemin={min}
-		aria-valuemax={max}
-		aria-valuenow={value}
-		tabindex="0"
-		class="knurling"
-		bind:this={knurlingRef}
-		onwheel={handleWheel}
-		onscroll={handleScroll}
-		onpointerdown={handlePointerDown}
-		onpointermove={handlePointerMove}
-		onpointerup={handlePointerUp}
-		onpointercancel={handlePointerCancel}
-		ontouchend={handleTouchEnd}
-		ontouchcancel={handleTouchEnd}
-	>
-		{#each lines, index (index)}
-			<span id={String(index)} class="line"></span>
-		{/each}
+	<div class="knurling-container">
+		<div
+			role="slider"
+			aria-valuemin={min}
+			aria-valuemax={max}
+			aria-valuenow={value}
+			tabindex="0"
+			class="knurling"
+			bind:this={knurlingRef}
+			onwheel={handleWheel}
+			onscroll={handleScroll}
+			onpointerdown={handlePointerDown}
+			onpointermove={handlePointerMove}
+			onpointerup={handlePointerUp}
+			onpointercancel={handlePointerCancel}
+			ontouchend={handleTouchEnd}
+			ontouchcancel={handleTouchEnd}
+			onkeydown={handleKeyDown}
+		>
+			{#each lines, index (index)}
+				<span id={String(index)} class="line"></span>
+			{/each}
+		</div>
 	</div>
 	<button
 		type="button"
 		aria-label="forwards"
+		class="forwards"
 		class:disable-stepping={!canIncrement}
 		onclick={increment}
 	>
@@ -303,29 +318,49 @@
 		display: flex;
 		align-items: center;
 		justify-self: center;
+
 		background-color: black;
 
 		&.portrait {
+			width: 100%;
+			max-width: 480px;
+			height: 48px;
 			gap: 6px;
-			padding: 8px 12px;
-			border-radius: 30px;
+			align-items: stretch;
+			background-color: transparent;
 
 			button {
+				flex: 1;
 				display: flex;
 				align-items: center;
 				justify-content: center;
 
-				width: 38px;
-				aspect-ratio: 1;
-
-				padding: 0;
+				padding: 12px;
 				margin: 0;
 				border: none;
 				background: none;
 
 				color: rgb(99, 99, 99);
+				background-color: #1b1b1b;
+
+				&:active {
+					background-color: rgb(17, 17, 17);
+				}
+
+				&:focus-visible {
+					outline: 2px solid -webkit-focus-ring-color;
+					outline-offset: 2px;
+				}
 
 				cursor: pointer;
+
+				&.backwards {
+					border-radius: 8px 8px 8px 20px;
+				}
+
+				&.forwards {
+					border-radius: 8px 8px 20px 8px;
+				}
 
 				:global(svg) {
 					width: 24px;
@@ -333,18 +368,34 @@
 				}
 
 				&.disable-stepping {
-					color: rgb(45, 45, 45);
+					color: rgb(42, 42, 42);
+				}
+			}
+
+			.knurling-container {
+				flex: 4 0 0;
+				align-self: stretch;
+				min-width: 0;
+
+				border-radius: 8px;
+				overflow: hidden;
+
+				&:focus-within {
+					outline: 2px solid -webkit-focus-ring-color;
+					outline-offset: 2px;
 				}
 			}
 
 			.knurling {
-				position: relative;
 				display: flex;
 				align-items: flex-end;
 				gap: 10px;
 
-				width: 160px;
-				height: 26px;
+				width: 100%;
+				height: 100%;
+				padding: 12px;
+
+				outline: none;
 
 				overflow-x: scroll;
 				overflow-y: hidden;
@@ -357,17 +408,24 @@
 				-webkit-mask-image: linear-gradient(
 					to right,
 					transparent 0%,
-					black 50%,
+					black 30%,
+					black 70%,
 					transparent 100%
 				);
-				mask-image: linear-gradient(from left, black, transparent);
+				mask-image: linear-gradient(
+					to right,
+					transparent 0%,
+					black 30%,
+					black 70%,
+					transparent 100%
+				);
 				-webkit-mask-repeat: no-repeat;
 				mask-repeat: no-repeat;
 				-webkit-mask-size: 100% 100%;
 				mask-size: 100% 100%;
 
 				.line {
-					width: 4px;
+					width: 3.5px;
 					height: 70%;
 					border-radius: 12px;
 					background-color: rgb(75, 75, 75);
@@ -382,19 +440,46 @@
 		}
 
 		&.landscape {
-			gap: 12px;
-			padding: 12px 18px;
+			width: 100%;
+			max-width: 420px;
+			height: 64px;
+			gap: 6px;
+			padding: 8px;
 			border-radius: 60px;
+			align-items: stretch;
 
 			button {
-				padding: 0;
+				flex: 1;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+
+				padding: 0 14px;
 				margin: 0;
 				border: none;
 				background: none;
 
-				color: rgb(99, 99, 99);
+				color: #777d82;
+				background-color: #1b1b1b;
+
+				&:active {
+					background-color: rgb(17, 17, 17);
+				}
+
+				&:focus-visible {
+					outline: 2px solid -webkit-focus-ring-color;
+					outline-offset: -2px;
+				}
 
 				cursor: pointer;
+
+				&.backwards {
+					border-radius: 50px 16px 16px 50px;
+				}
+
+				&.forwards {
+					border-radius: 16px 50px 50px 16px;
+				}
 
 				:global(svg) {
 					width: 24px;
@@ -406,14 +491,29 @@
 				}
 			}
 
+			.knurling-container {
+				flex: 4 0 0;
+				align-self: stretch;
+				min-width: 0;
+
+				border-radius: 8px;
+				overflow: hidden;
+
+				&:focus-within {
+					outline: 2px solid -webkit-focus-ring-color;
+					outline-offset: -2px;
+				}
+			}
+
 			.knurling {
-				position: relative;
 				display: flex;
 				align-items: flex-end;
 				gap: 10px;
 
-				width: 240px;
-				height: 32px;
+				height: 100%;
+				padding: 12px;
+
+				outline: none;
 
 				overflow-x: scroll;
 				overflow-y: hidden;
@@ -426,17 +526,24 @@
 				-webkit-mask-image: linear-gradient(
 					to right,
 					transparent 0%,
-					black 50%,
+					black 30%,
+					black 70%,
 					transparent 100%
 				);
-				mask-image: linear-gradient(from left, black, transparent);
+				mask-image: linear-gradient(
+					to right,
+					transparent 0%,
+					black 30%,
+					black 70%,
+					transparent 100%
+				);
 				-webkit-mask-repeat: no-repeat;
 				mask-repeat: no-repeat;
 				-webkit-mask-size: 100% 100%;
 				mask-size: 100% 100%;
 
 				.line {
-					width: 5px;
+					width: 3.5px;
 					height: 70%;
 					border-radius: 12px;
 					background-color: rgb(75, 75, 75);
