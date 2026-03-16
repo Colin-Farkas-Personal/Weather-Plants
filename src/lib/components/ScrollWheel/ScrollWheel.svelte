@@ -380,7 +380,7 @@
 				border-radius: 8px;
 				overflow: hidden;
 
-				&:focus-within {
+				&:has(:focus-visible) {
 					outline: 2px solid -webkit-focus-ring-color;
 					outline-offset: 2px;
 				}
@@ -499,7 +499,7 @@
 				border-radius: 8px;
 				overflow: hidden;
 
-				&:focus-within {
+				&:has(:focus-visible) {
 					outline: 2px solid -webkit-focus-ring-color;
 					outline-offset: -2px;
 				}
