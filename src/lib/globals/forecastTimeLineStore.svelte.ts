@@ -6,10 +6,18 @@ function createForecastDisplayStore() {
 	function showDisplayStore() {
 		update(() => true);
 
-		document.addEventListener('mousedown', hideDisplayStore);
+		document.addEventListener('mousedown', hideOnClickOutside);
+		document.addEventListener('keydown', hideOnEscape);
 	}
 
-	function hideDisplayStore(event: MouseEvent) {
+	function dismiss() {
+		update(() => false);
+
+		document.removeEventListener('mousedown', hideOnClickOutside);
+		document.removeEventListener('keydown', hideOnEscape);
+	}
+
+	function hideOnClickOutside(event: MouseEvent) {
 		const forecastDisplayElement = document.getElementById('forecast-display');
 		const timeScrollElement = document.getElementById('time-scroll');
 		const scrollWheelElement = document.getElementById('scroll-wheel');
@@ -22,15 +30,19 @@ function createForecastDisplayStore() {
 			return;
 		}
 
-		update(() => false);
+		dismiss();
+	}
 
-		document.removeEventListener('mousedown', hideDisplayStore);
+	function hideOnEscape(event: KeyboardEvent) {
+		if (event.key === 'Escape') {
+			dismiss();
+		}
 	}
 
 	return {
 		subscribe,
 		show: showDisplayStore,
-		hide: hideDisplayStore,
+		dismiss,
 	};
 }
 

@@ -338,7 +338,7 @@
 						display: flex;
 						justify-content: center;
 						align-items: center;
-						color: #906657;
+						color: var(--theme-bg-primary);
 						width: 24px;
 						height: 24px;
 					}

@@ -62,6 +62,14 @@
 	const isTimeScroll = $derived(!!ForecastScroll);
 
 	let orientation = windowOrientation;
+
+	function handleLayoutKeyDown(event: KeyboardEvent) {
+		if (event.target !== event.currentTarget) return;
+		if (event.key === 'Enter' || event.key === ' ') {
+			event.preventDefault();
+			forecastDisplay.dismiss();
+		}
+	}
 </script>
 
 <main
@@ -93,6 +101,15 @@
 		/>
 		<PrimarySection Content={PrimarySectionProps.Content} {isTimeScroll} />
 		{#if isTimeScroll}
+			{#if $forecastDisplay}
+				<div
+					class="forecast-exit-anchor"
+					role="button"
+					aria-label="Exit forecast mode"
+					tabindex="0"
+					onkeydown={handleLayoutKeyDown}
+				></div>
+			{/if}
 			<div id="time-scroll" class="time-scroll">
 				{@render ForecastScroll?.()}
 			</div>
@@ -107,6 +124,15 @@
 			{isTimeScroll}
 			sceneBackground={primarySectionSceneBackground}
 		/>
+		{#if $forecastDisplay}
+			<div
+				class="forecast-exit-anchor"
+				role="button"
+				aria-label="Exit forecast mode"
+				tabindex="0"
+				onkeydown={handleLayoutKeyDown}
+			></div>
+		{/if}
 		<SecondarySection
 			TopBar={secondaryTopBar}
 			contentHeading={secondaryContentHeading}
@@ -123,6 +149,22 @@
 
 <style lang="scss">
 	.page-layout {
+		outline: none;
+
+		.forecast-exit-anchor {
+			position: absolute;
+			inset: 0;
+			z-index: 20;
+			pointer-events: none;
+			outline: none;
+
+			&:focus-visible {
+				outline: 2px solid -webkit-focus-ring-color;
+				outline-offset: -2px;
+				pointer-events: auto;
+			}
+		}
+
 		&.portrait {
 			position: relative;
 			overflow-x: hidden;
@@ -183,6 +225,12 @@
 			overflow: hidden;
 			display: flex;
 			height: 100dvh;
+
+			.forecast-exit-anchor {
+				inset: 14px;
+				z-index: 1;
+				border-radius: 46px;
+			}
 
 			&.forecast-display-active::after {
 				content: '';
