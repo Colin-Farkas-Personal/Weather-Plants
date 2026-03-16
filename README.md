@@ -12,7 +12,7 @@ changing and adapting to the current temperature and condition.
 
 > ### Try it out now!
 >
-> You can explore the project here: 🌱 https://weatherpot.app
+> You can explore the project here: 🌱 https://weather-pot.vercel.app/
 
 ## Design
 
