@@ -22,7 +22,8 @@ changing and adapting to the current temperature and condition.
 
 ### Like the project?
 
-If you enjoyed exploring the project, feel free to leave a star ⭐️
+If you enjoyed it, feel free to leave a star ⭐️ — and maybe check in on your plant from time to
+time 🌱
 
 ![Weather Pot preview](./static/readMe/StarButton.png)
 
