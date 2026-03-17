@@ -115,9 +115,29 @@ function applySceneCSSVariables(palette: ScenePalette, base: HSLComponents): voi
 	const borderColor = computeBorderColor(base);
 	style.setProperty('--scene-border-primary', toHSLString(borderColor));
 
-	// Skeleton loader colors — muted tints of the scene hue
-	const skeletonBase = computeComponentBgColor(base, 82);
-	const skeletonShimmer = computeComponentBgColor(base, 90);
+	// Skeleton loader colors — tints of the scene hue
+	const skeletonCardBg = {
+		h: base.h,
+		s: Math.min(Math.round(base.s * 0.5), 35),
+		l: Math.min(base.l + 15, 92),
+	};
+	const skeletonCardBorder = {
+		h: base.h,
+		s: Math.min(Math.round(base.s * 0.45), 30),
+		l: Math.max(Math.round(base.l * 0.6), 20),
+	};
+	const skeletonBase = {
+		h: base.h,
+		s: Math.min(Math.round(base.s * 0.4), 25),
+		l: Math.min(base.l + 8, 82),
+	};
+	const skeletonShimmer = {
+		h: base.h,
+		s: Math.min(Math.round(base.s * 0.35), 20),
+		l: Math.min(base.l + 18, 95),
+	};
+	style.setProperty('--scene-skeleton-card-bg', toHSLString(skeletonCardBg));
+	style.setProperty('--scene-skeleton-card-border', toHSLString(skeletonCardBorder));
 	style.setProperty('--scene-skeleton-base', toHSLString(skeletonBase));
 	style.setProperty('--scene-skeleton-shimmer', toHSLString(skeletonShimmer));
 }

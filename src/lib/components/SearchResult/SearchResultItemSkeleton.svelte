@@ -48,7 +48,8 @@
 		width: 100%;
 		padding: 20px;
 
-		border: 2px solid var(--scene-skeleton-base, hsl(0, 0%, 82%));
+		background-color: var(--scene-skeleton-card-bg, var(--warm-white-300));
+		border: 2px solid var(--scene-skeleton-card-border, var(--warm-white-700));
 		border-radius: 24px;
 
 		&.no-icon {
