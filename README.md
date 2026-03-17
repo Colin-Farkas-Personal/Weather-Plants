@@ -4,6 +4,8 @@
 
 # Weather Pot
 
+<br>
+
 `Weather, embodied.`
 
 What if your weather app didn’t just tell you the forecast, but showed it through a living, changing
@@ -12,13 +14,19 @@ plant? 🪴
 Instead of just numbers and icons, a plant embodies real-world weather conditions in a playful way -
 changing and adapting to the current temperature and condition.
 
-### Live Demo
+<br>
 
 [![Live Demo](https://img.shields.io/badge/🌱%20Live%20Demo%20🌱-https%3A%2F%2Fweather--pot.vercel.app%2F-brightgreen?style=for-the-badge)](https://weather-pot.vercel.app/)
+
+<br>
 
 ### Like the project?
 
 If you enjoyed exploring the project, feel free to leave a star ⭐️
+
+![Weather Pot preview](./static/readMe/StarButton.png)
+
+<br>
 
 </div>
 
