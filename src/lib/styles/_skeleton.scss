@@ -1,0 +1,28 @@
+@keyframes skeleton-shimmer {
+	0% {
+		background-position-x: 200%;
+	}
+	100% {
+		background-position-x: 0%;
+	}
+}
+
+.skeleton {
+	display: contents;
+
+	:not(.wrapper) {
+		animation: skeleton-shimmer 2s ease-out infinite;
+
+		background: linear-gradient(
+			100deg,
+			var(--scene-skeleton-base, hsl(0, 0%, 82%)),
+			var(--scene-skeleton-base, hsl(0, 0%, 82%)) 50%,
+			var(--scene-skeleton-shimmer, hsl(0, 0%, 90%)) 60%,
+			var(--scene-skeleton-base, hsl(0, 0%, 82%)) 70%
+		);
+		background-size: 200% 100%;
+		background-attachment: fixed;
+
+		border-radius: 0.5rem;
+	}
+}

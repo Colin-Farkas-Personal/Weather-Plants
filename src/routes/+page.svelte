@@ -5,7 +5,9 @@
 	import { getSceneTheme } from '$lib/components/PlantScene/parseTheme';
 	import PlantScene from '$lib/components/PlantScene/PlantScene.svelte';
 	import SearchResultItem from '$lib/components/SearchResult/SearchResultItem.svelte';
+	import SearchResultItemSkeleton from '$lib/components/SearchResult/SearchResultItemSkeleton.svelte';
 	import SearchResultList from '$lib/components/SearchResult/SearchResultList.svelte';
+	import Loading from '$lib/components/Loading/Loading.svelte';
 	import LocationTextInput from '$lib/components/TextInput/LocationTextInput.svelte';
 	import {
 		statusToConditionLabel,
@@ -112,43 +114,55 @@
 
 {#snippet SecondarySectionContent()}
 	{#if currentSearchType === 'input'}
-		{#await data.streamed.searchResults}
-			<p>Loading...</p>
-		{:then searchResults}
-			{#if searchResults}
+		<Loading data={data.streamed.searchResults}>
+			{#snippet skeleton()}
 				<SearchResultList>
-					{#each searchResults as result (result.id)}
-						<SearchResultItem
-							lon={result.lon}
-							lat={result.lat}
-							country={result.country}
-							region={result.county}
-							city={result.city}
-						/>
+					{#each Array(3), i (i)}
+						<SearchResultItemSkeleton type="input" />
 					{/each}
 				</SearchResultList>
-			{/if}
-		{/await}
+			{/snippet}
+			{#snippet loaded(searchResults)}
+				{#if searchResults}
+					<SearchResultList>
+						{#each searchResults as result (result.id)}
+							<SearchResultItem
+								lon={result.lon}
+								lat={result.lat}
+								country={result.country}
+								region={result.county}
+								city={result.city}
+							/>
+						{/each}
+					</SearchResultList>
+				{/if}
+			{/snippet}
+		</Loading>
 	{:else if currentSearchType === 'current'}
-		{#await data.streamed.currentLocation}
-			<p>Loading...</p>
-		{:then currentLocation}
-			{#if currentLocation}
+		<Loading data={data.streamed.currentLocation}>
+			{#snippet skeleton()}
 				<SearchResultList>
-					<SearchResultItem
-						lon={currentLocation.lon}
-						lat={currentLocation.lat}
-						country={currentLocation.country}
-						region={currentLocation.county}
-						city={currentLocation.city}
-					>
-						{#snippet Icon()}
-							<GpsBoldIcon class="icon-large" />
-						{/snippet}
-					</SearchResultItem>
+					<SearchResultItemSkeleton type="with-icon" />
 				</SearchResultList>
-			{/if}
-		{/await}
+			{/snippet}
+			{#snippet loaded(currentLocation)}
+				{#if currentLocation}
+					<SearchResultList>
+						<SearchResultItem
+							lon={currentLocation.lon}
+							lat={currentLocation.lat}
+							country={currentLocation.country}
+							region={currentLocation.county}
+							city={currentLocation.city}
+						>
+							{#snippet Icon()}
+								<GpsBoldIcon class="icon-large" />
+							{/snippet}
+						</SearchResultItem>
+					</SearchResultList>
+				{/if}
+			{/snippet}
+		</Loading>
 	{/if}
 {/snippet}
 

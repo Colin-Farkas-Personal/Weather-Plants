@@ -114,6 +114,12 @@ function applySceneCSSVariables(palette: ScenePalette, base: HSLComponents): voi
 	// Dynamic border color — always darker than the component background
 	const borderColor = computeBorderColor(base);
 	style.setProperty('--scene-border-primary', toHSLString(borderColor));
+
+	// Skeleton loader colors — muted tints of the scene hue
+	const skeletonBase = computeComponentBgColor(base, 82);
+	const skeletonShimmer = computeComponentBgColor(base, 90);
+	style.setProperty('--scene-skeleton-base', toHSLString(skeletonBase));
+	style.setProperty('--scene-skeleton-shimmer', toHSLString(skeletonShimmer));
 }
 
 export { generateScenePalette, applySceneCSSVariables, parseHSL };
