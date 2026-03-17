@@ -1,5 +1,7 @@
 ![Weather Pot preview](./static/readMe/Banner.png)
 
+<div align="center">
+
 # Weather Pot
 
 `Weather, embodied.`
@@ -10,25 +12,26 @@ plant? 🪴
 Instead of just numbers and icons, a plant embodies real-world weather conditions in a playful way -
 changing and adapting to the current temperature and condition.
 
-> ---
->
-> ### Live Demo
->
-> **The project is available here**
->
-> 🌱 https://weather-pot.vercel.app/ 🌱
->
-> ---
+### Live Demo
+
+[![Live Demo](https://img.shields.io/badge/🌱%20Live%20Demo%20🌱-https%3A%2F%2Fweather--pot.vercel.app%2F-brightgreen?style=for-the-badge)](https://weather-pot.vercel.app/)
 
 ### Like the project?
 
 If you enjoyed exploring the project, feel free to leave a star ⭐️
+
+</div>
 
 ## Design
 
 All design and components are handmade by me in Figma. My goal has been to create a unique style
 that combines modern user interfaces with a tactile, earthy feel and strong colors that embody the
 feeling of weather.
+
+## 3D Models
+
+The models were sketched on paper and then brought to life in Blender. This was a new area for me,
+so I spent time learning the tools and exploring the art of 3D.
 
 ## Tech Stack
 
