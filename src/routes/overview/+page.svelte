@@ -286,18 +286,7 @@
 		{/snippet}
 
 		{#snippet loaded(streamed)}
-			<article class={`overview-page-data ${$orientation} skeleton-theme`}>
-				<OverviewConditionSkeleton />
-
-				{#if $orientation === 'landscape'}
-					<OverviewRadialGaugeSkeleton />
-					<OverviewFeelsLikeSkeleton />
-				{:else if $orientation === 'portrait'}
-					<OverviewTemperatureSkeleton />
-					<OverviewLinearGaugeSkeleton />
-				{/if}
-			</article>
-			<!-- <article class={`overview-page-data ${$orientation}`}>
+			<article class={`overview-page-data ${$orientation}`}>
 				{#if activeOverviewData}
 					<OverviewCondition
 						label={activeOverviewData?.astro?.label ??
@@ -329,7 +318,7 @@
 						value={activeOverviewData?.temperature ?? streamed.temperature}
 					/>
 				{/if}
-			</article> -->
+			</article>
 		{/snippet}
 	</Loading>
 {/snippet}
