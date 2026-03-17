@@ -15,18 +15,26 @@
 	const STORAGE_KEY = 'weather-plants:liked';
 	const BUYMEACOFFEE_URL = 'https://www.buymeacoffee.com/colinfarkas';
 
-	let likes = $state(0);
+	let cachedLikes: number | null = null;
+
+	let likes = $state(cachedLikes ?? 0);
 	let liked = $state(browser && localStorage.getItem(STORAGE_KEY) === 'true');
 	let animating = $state(false);
 	let phase = $state<'idle' | 'pulse' | 'slide-out' | 'heart-in'>('idle');
 	let floatingHearts = $state<number[]>([]);
 
 	onMount(async () => {
+		if (cachedLikes !== null) {
+			likes = cachedLikes;
+			return;
+		}
+
 		try {
 			const res = await fetch('/api/likes');
 			if (res.ok) {
 				const data = await res.json();
 				likes = data.likes ?? 0;
+				cachedLikes = likes;
 			}
 		} catch {
 			// Silently fail — likes count is non-critical
@@ -50,6 +58,7 @@
 			// Optimistic update if POST fails
 			likes += 1;
 		}
+		cachedLikes = likes;
 	}
 
 	function sleep(ms: number): Promise<void> {

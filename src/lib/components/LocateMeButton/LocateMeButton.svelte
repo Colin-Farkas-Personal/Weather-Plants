@@ -2,21 +2,34 @@
 	import GpsBoldIcon from '~icons/ph/gps-bold';
 	import { Button } from 'bits-ui';
 	import { goto } from '$app/navigation';
+	import { page } from '$app/state';
+
+	let isLocating = $state(false);
+
+	let alreadyHasLocation = $derived(
+		page.url.searchParams.has('lat') && page.url.searchParams.has('lon'),
+	);
 
 	// Logic
 	function setGeolocationCoordinates() {
+		if (isLocating || alreadyHasLocation) return;
+
 		if (!navigator.geolocation) {
 			throw new Error('Geolocation is not supported by your browser');
 		}
+
+		isLocating = true;
 
 		navigator.geolocation.getCurrentPosition(
 			(position) => {
 				const { latitude, longitude } = position.coords;
 				goto(`/?lat=${latitude}&lon=${longitude}`);
+				isLocating = false;
 			},
 			(error) => {
 				console.error('Error getting geolocation:', error);
 				alert('Unable to retrieve your location. Please try again later.');
+				isLocating = false;
 			},
 		);
 	}
@@ -26,6 +39,7 @@
 	type="submit"
 	data-action="current"
 	class="locate-me-button"
+	disabled={isLocating || alreadyHasLocation}
 	onclick={setGeolocationCoordinates}
 >
 	<GpsBoldIcon class="icon icon-medium" aria-hidden="true" />

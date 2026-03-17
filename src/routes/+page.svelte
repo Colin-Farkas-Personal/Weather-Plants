@@ -142,7 +142,7 @@
 		<Loading data={data.streamed.currentLocation}>
 			{#snippet skeleton()}
 				<SearchResultList>
-					<SearchResultItemSkeleton type="with-icon" />
+					<SearchResultItemSkeleton type="current" />
 				</SearchResultList>
 			{/snippet}
 			{#snippet loaded(currentLocation)}
