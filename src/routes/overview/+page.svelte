@@ -2,8 +2,14 @@
 	import { goto, invalidateAll } from '$app/navigation';
 	import Button from '$lib/components/Button/Button.svelte';
 	import DisplayWheel from '$lib/components/DisplayWheel/DisplayWheel.svelte';
+	import Loading from '$lib/components/Loading/Loading.svelte';
 	import OverviewCondition from '$lib/components/OverviewCondition/OverviewCondition.svelte';
+	import OverviewConditionSkeleton from '$lib/components/OverviewCondition/OverviewConditionSkeleton.svelte';
 	import OverviewTemperature from '$lib/components/OverviewTemperature/OverviewTemperature.svelte';
+	import OverviewTemperatureSkeleton from '$lib/components/OverviewTemperature/OverviewTemperatureSkeleton.svelte';
+	import OverviewFeelsLikeSkeleton from '$lib/components/OverviewTemperatureRangeGauge/OverviewFeelsLikeSkeleton.svelte';
+	import OverviewLinearGaugeSkeleton from '$lib/components/OverviewTemperatureRangeGauge/OverviewLinearGaugeSkeleton.svelte';
+	import OverviewRadialGaugeSkeleton from '$lib/components/OverviewTemperatureRangeGauge/OverviewRadialGaugeSkeleton.svelte';
 	import OverviewTemperatureRangeLinearGauge from '$lib/components/OverviewTemperatureRangeGauge/OverviewTemperatureRangeLinearGauge.svelte';
 	import OverviewTemperatureRangeGauge from '$lib/components/OverviewTemperatureRangeGauge/OverviewTemperatureRangeRadialGauge.svelte';
 	import PageLayout from '$lib/components/Page/PageLayout.svelte';
@@ -264,42 +270,68 @@
 </script>
 
 {#snippet PrimarySectionContent()}
-	{#await data.streamed.overview}
-		<p>Loading data</p>
-	{:then streamed}
-		<article class={`overview-page-data ${$orientation}`}>
-			{#if activeOverviewData}
-				<OverviewCondition
-					label={activeOverviewData?.astro?.label ?? activeOverviewData?.condition.label}
-					status={activeOverviewData?.astro?.status ??
-						activeOverviewData?.condition.status}
-				/>
-			{/if}
+	<Loading data={data.streamed.overview}>
+		{#snippet skeleton()}
+			<article class={`overview-page-data ${$orientation} skeleton-theme`}>
+				<OverviewConditionSkeleton />
 
-			{#if $orientation === 'landscape'}
-				<OverviewTemperatureRangeGauge
-					min={streamed.dailyRange.min}
-					max={streamed.dailyRange.max}
-					value={activeOverviewData?.temperature ?? streamed.temperature}
-				/>
+				{#if $orientation === 'landscape'}
+					<OverviewRadialGaugeSkeleton />
+					<OverviewFeelsLikeSkeleton />
+				{:else if $orientation === 'portrait'}
+					<OverviewTemperatureSkeleton />
+					<OverviewLinearGaugeSkeleton />
+				{/if}
+			</article>
+		{/snippet}
 
-				<p class="feels-like">
-					Feels like {activeOverviewData?.feelsLike ?? streamed.feelsLike}°C
-				</p>
-			{:else if $orientation === 'portrait'}
-				<OverviewTemperature
-					temperature={activeOverviewData?.temperature ?? streamed.temperature}
-					feelsLike={activeOverviewData?.feelsLike ?? streamed.feelsLike}
-				/>
+		{#snippet loaded(streamed)}
+			<article class={`overview-page-data ${$orientation} skeleton-theme`}>
+				<OverviewConditionSkeleton />
 
-				<OverviewTemperatureRangeLinearGauge
-					min={streamed.dailyRange.min}
-					max={streamed.dailyRange.max}
-					value={activeOverviewData?.temperature ?? streamed.temperature}
-				/>
-			{/if}
-		</article>
-	{/await}
+				{#if $orientation === 'landscape'}
+					<OverviewRadialGaugeSkeleton />
+					<OverviewFeelsLikeSkeleton />
+				{:else if $orientation === 'portrait'}
+					<OverviewTemperatureSkeleton />
+					<OverviewLinearGaugeSkeleton />
+				{/if}
+			</article>
+			<!-- <article class={`overview-page-data ${$orientation}`}>
+				{#if activeOverviewData}
+					<OverviewCondition
+						label={activeOverviewData?.astro?.label ??
+							activeOverviewData?.condition.label}
+						status={activeOverviewData?.astro?.status ??
+							activeOverviewData?.condition.status}
+					/>
+				{/if}
+
+				{#if $orientation === 'landscape'}
+					<OverviewTemperatureRangeGauge
+						min={streamed.dailyRange.min}
+						max={streamed.dailyRange.max}
+						value={activeOverviewData?.temperature ?? streamed.temperature}
+					/>
+
+					<p class="feels-like">
+						Feels like {activeOverviewData?.feelsLike ?? streamed.feelsLike}°C
+					</p>
+				{:else if $orientation === 'portrait'}
+					<OverviewTemperature
+						temperature={activeOverviewData?.temperature ?? streamed.temperature}
+						feelsLike={activeOverviewData?.feelsLike ?? streamed.feelsLike}
+					/>
+
+					<OverviewTemperatureRangeLinearGauge
+						min={streamed.dailyRange.min}
+						max={streamed.dailyRange.max}
+						value={activeOverviewData?.temperature ?? streamed.temperature}
+					/>
+				{/if}
+			</article> -->
+		{/snippet}
+	</Loading>
 {/snippet}
 
 {#snippet TimeScroll()}

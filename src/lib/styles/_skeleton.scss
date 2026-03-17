@@ -26,3 +26,10 @@
 		border-radius: 0.5rem;
 	}
 }
+
+// Theme-aware skeleton variant — inherits colors from --theme-* CSS variables
+// instead of the dynamically computed --scene-skeleton-* variables.
+.skeleton-theme {
+	--scene-skeleton-base: var(--theme-bg-secondary);
+	--scene-skeleton-shimmer: var(--theme-bg-tertiary);
+}
